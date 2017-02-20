@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'jacoco'
+
+
+jar {
+    baseName = 'SymbIoTeLibraries'
+    version =  '0.0.1'
+}
+
+repositories {
+    mavenCentral()
+    maven { 
+        url "https://jitpack.io" 
+    }
+    maven {
+        url 'https://repo.spring.io/libs-snapshot'
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile('org.apache.commons:commons-lang3:3.5')
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.0.0.M1'
+
+
+    // Use JUnit4
+    testCompile 'junit:junit:4.12'
+}
+
+
+jacoco {
+    toolVersion = "0.7.7.201606060606"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
+
+task generateJavaDocs(type: Javadoc) {
+  source = sourceSets.main.allJava
+  destinationDir = reporting.file("javadocs")
+}
