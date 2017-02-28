@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
 }
 
@@ -8,6 +9,9 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+
+
 
 
 jar {
@@ -27,6 +31,19 @@ repositories {
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'eu.h2020.symbiote'
+            artifactId 'SymbIoTeLibraries'
+            version '0.0.1'
+
+            from components.java
+        }
+    }
+}
 
 dependencies {
     compile('org.apache.commons:commons-lang3:3.5')
