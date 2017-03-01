@@ -1,11 +1,11 @@
 package eu.h2020.symbiote.cloud.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
 import eu.h2020.symbiote.core.model.Location;
-
-public class CloudResource {
+public class CloudResource  implements Cloneable{
     @Id
     private String internalId;
     private String id;
@@ -20,6 +20,7 @@ public class CloudResource {
 
     public CloudResource() {
     }
+
 
     public String getInternalId() {
         return internalId;
@@ -100,4 +101,8 @@ public class CloudResource {
     public void setPlatformId(String platformId) {
         this.platformId = platformId;
     }
+    
+    public CloudResource clone()throws CloneNotSupportedException{  
+    	return (CloudResource)super.clone();  
+    }  
 }
