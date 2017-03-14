@@ -1,8 +1,15 @@
 buildscript {
+    ext {
+        springBootVersion = '1.4.5.RELEASE'
+    }
     repositories {
         mavenCentral()
         mavenLocal()
     }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+	
 }
 
 apply plugin: 'java'
@@ -10,7 +17,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
-
+apply plugin: 'spring-boot'
 
 
 jar {
@@ -47,12 +54,12 @@ publishing {
 dependencies {
     compile('org.apache.commons:commons-lang3:3.5')
  	compile 'io.jsonwebtoken:jjwt:0.7.0'
-	compile('org.springframework:spring-core')
-    compile('com.netflix.feign:feign-gson:8.18.0')
-	compile group:'commons-logging', name: 'commons-logging', version: '1.2'
-	compile group:'com.rabbitmq', name: 'amqp-client', version: '4.1.0'
-	compile group:'org.springframework', name: 'spring-beans', version: '5.0.0.M5'
-	compile group: 'org.springframework', name: 'spring-context', version: '5.0.0.M5'
+	compile group: 'org.springframework.boot', name: 'spring-boot', version: '1.4.5.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '1.4.5.RELEASE'
+	compile group: 'org.springframework.amqp', name: 'spring-amqp', version: '2.0.0.M2'
+    compile group: 'com.netflix.feign',  name: 'feign-gson', version: '8.18.0'
+	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+	compile group: 'com.rabbitmq', name: 'amqp-client', version: '4.1.0'
 	compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.0.0.M2'
     // Use JUnit4
     testCompile 'junit:junit:4.12'

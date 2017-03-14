@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.messaging.core;
+package eu.h2020.symbiote.messaging.platform;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,11 +10,11 @@ import eu.h2020.symbiote.messaging.bean.Credential;
 import eu.h2020.symbiote.messaging.bean.Token;
 
 @Component
-public class CoreMessageHandler {
-	private static Log logger = LogFactory.getLog(CoreMessageHandler.class);
-    private static final String EXCHANGE_NAME = "symbIoTe.CoreAAM";
-    private static final String COREAAM_LOGIN_TOKEN_ROUTING_KEY = "COREAAM_LOGIN_TOKEN";
-    private static final String COREAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY = "HANDLER_LOGIN_TOKEN";
+public class PlatformAAMMessageHandler {
+	private static Log logger = LogFactory.getLog(PlatformAAMMessageHandler.class);
+    private static final String EXCHANGE_NAME = "HOME_LOGIN";
+    private static final String COREAAM_LOGIN_TOKEN_ROUTING_KEY = "PLATOFRMAAM_LOGIN_TOKEN";
+    private static final String COREAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY = "PLATOFRMAAM_LOGIN_TOKEN_REPLY";
 
     
 	@Autowired

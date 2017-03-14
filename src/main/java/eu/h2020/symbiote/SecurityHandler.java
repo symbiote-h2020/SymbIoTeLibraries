@@ -1,11 +1,16 @@
 package eu.h2020.symbiote;
 
+import java.security.KeyStore;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 import eu.h2020.symbiote.certificate.CertificateValidator;
+import eu.h2020.symbiote.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.messaging.bean.Credential;
 import eu.h2020.symbiote.messaging.bean.Token;
-import eu.h2020.symbiote.messaging.core.CoreMessageHandler;
+import eu.h2020.symbiote.messaging.platform.PlatformAAMMessageHandler;
 import eu.h2020.symbiote.session.SessionInformation;
 
 /**
@@ -18,13 +23,14 @@ import eu.h2020.symbiote.session.SessionInformation;
 /**! \class SecurityHandler
  * \brief This class implement the methods to be used by the component in order to integrate with the security from symbIoTe
  **/
+@Component
 public class SecurityHandler {
-	@Autowired CoreMessageHandler coreMessageHandler;
+	@Autowired PlatformAAMMessageHandler coreMessageHandler;
 	@Autowired SessionInformation sessionInformation;
 	@Autowired CertificateValidator certificateValidator;
 	
 	
-	boolean login(String userName, String password){
+	public boolean login(String userName, String password){
 		Credential credentials = new Credential();
 		credentials.setPasswd(userName);
 		credentials.setPasswd(password);
@@ -33,12 +39,12 @@ public class SecurityHandler {
 		return token!=null;
 	}
 	
-	void logout(){
+	public void logout(){
 		sessionInformation.setCoreToken(null);
 	}
 	
-	boolean certificateValidation(byte []certificate){
-		return certificateValidator.validate(certificate);
+	public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException{
+		return certificateValidator.validate(p12Certificate);
 	}
 	
 }

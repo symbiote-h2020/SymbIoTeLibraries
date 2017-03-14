@@ -31,19 +31,10 @@ public class IIFDummyServer {
     private static final String HANDLER_LOGIN_TOKEN_ROUTING_KEY_REPLY = HANDLER_LOGIN_TOKEN_ROUTING_KEY+".reply";
 
     private static Log logger = LogFactory.getLog(IIFDummyServer.class);
-
+/*
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-	   /**
-	   * Spring AMQP Listener for resource registration requests. This method is invoked when Registration
-	   * Handler sends a resource registration request and it is responsible for forwarding the message
-	   * to the symbIoTe core. As soon as it receives a reply, it manually sends back the response
-	   * to the Registration Handler via the appropriate message queue by the use of the RestAPICallback.
-	   * 
-	   * @param jsonObject A jsonObject containing the resource description
-	   * @param headers The AMQP headers
-	   */
 	    @RabbitListener(bindings = @QueueBinding(
 	        value = @Queue(value = COREAAM_LOGIN_TOKEN_ROUTING_KEY, durable = "true", autoDelete = "false", exclusive = "false"),
 	        exchange = @Exchange(value = EXCHANGE_NAME, ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
@@ -61,11 +52,11 @@ public class IIFDummyServer {
 	        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), response.getBytes(),
                m -> {
                 		Object a = headers.get("amqp_correlationId");
-                        m.getMessageProperties().setCorrelationId(new String((byte[])a));
+                        m.getMessageProperties().setCorrelationId((byte[])a);
                         return m;
                });
 	    }
 	    
-	    
+	*/    
 }
 

@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.messaging.core;
+package eu.h2020.symbiote.messaging.platform;
 
 import eu.h2020.symbiote.messaging.bean.Credential;
 import eu.h2020.symbiote.messaging.bean.Token;
