@@ -61,6 +61,7 @@ dependencies {
 	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
 	compile group: 'com.rabbitmq', name: 'amqp-client', version: '4.1.0'
 	compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.0.0.M2'
+	compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.56'
     // Use JUnit4
     testCompile 'junit:junit:4.12'
 }
