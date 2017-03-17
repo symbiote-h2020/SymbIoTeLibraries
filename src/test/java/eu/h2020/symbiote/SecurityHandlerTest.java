@@ -2,7 +2,6 @@ package eu.h2020.symbiote;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -16,17 +15,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.StandardEnvironment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.context.WebApplicationContext;
 
 import eu.h2020.symbiote.certificate.CertificateVerificationException;
 
@@ -68,8 +63,13 @@ public class SecurityHandlerTest {
 	        assert(securityHandler.certificateValidation(p12));
 		} catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | CertificateVerificationException e) {
 			logger.error(e);
+	        assert(false);
 		}
   }
 
+  @Test
+  public void testLogin() {
+        assert(securityHandler.login("user", "password"));
+  }
 
 }

@@ -13,8 +13,8 @@ import eu.h2020.symbiote.messaging.bean.Token;
 public class PlatformAAMMessageHandler {
 	private static Log logger = LogFactory.getLog(PlatformAAMMessageHandler.class);
     private static final String EXCHANGE_NAME = "HOME_LOGIN";
-    private static final String COREAAM_LOGIN_TOKEN_ROUTING_KEY = "PLATOFRMAAM_LOGIN_TOKEN";
-    private static final String COREAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY = "PLATOFRMAAM_LOGIN_TOKEN_REPLY";
+    private static final String PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY = "PLATOFRMAAM_LOGIN_TOKEN";
+    private static final String PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY = "PLATOFRMAAM_LOGIN_TOKEN_REPLY";
 
     
 	@Autowired
@@ -23,14 +23,14 @@ public class PlatformAAMMessageHandler {
     public Token login(Credential credential) {
         try {
             logger.info("Sending request of login for "+credential.getUser());
-            RabbitMQRPCMessageHandlerCredentialToken rabbitMQMessageHandler = new RabbitMQRPCMessageHandlerCredentialToken(EXCHANGE_NAME, COREAAM_LOGIN_TOKEN_ROUTING_KEY, COREAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY);
+            RabbitMQRPCMessageHandlerCredentialToken rabbitMQMessageHandler = new RabbitMQRPCMessageHandlerCredentialToken(EXCHANGE_NAME, PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY, PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY);
         	applicationContext.getAutowireCapableBeanFactory().autowireBean(rabbitMQMessageHandler);
         	rabbitMQMessageHandler.connect();
      	    Token result = rabbitMQMessageHandler.sendMessage(credential);
       	   	rabbitMQMessageHandler.close();
       	   	return result;
         } catch (Exception e) {
-            logger.error("Fatal error sending data to EXCHANGE_NAME: "+EXCHANGE_NAME+", COREAAM_LOGIN_TOKEN_ROUTING_KEY:"+COREAAM_LOGIN_TOKEN_ROUTING_KEY+", COREAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY:"+COREAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY, e);
+            logger.error("Fatal error sending data to EXCHANGE_NAME: "+EXCHANGE_NAME+", PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY:"+PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY+", PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY:"+PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY, e);
         }
         return null;
     }
