@@ -3,7 +3,6 @@ package eu.h2020.symbiote;
 import java.security.KeyStore;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import eu.h2020.symbiote.certificate.CertificateValidator;
@@ -25,7 +24,7 @@ import eu.h2020.symbiote.session.SessionInformation;
  **/
 @Component
 public class SecurityHandler {
-	@Autowired PlatformAAMMessageHandler coreMessageHandler;
+	@Autowired PlatformAAMMessageHandler platformMessageHandler;
 	@Autowired SessionInformation sessionInformation;
 	@Autowired CertificateValidator certificateValidator;
 	
@@ -34,7 +33,7 @@ public class SecurityHandler {
 		Credential credentials = new Credential();
 		credentials.setPasswd(userName);
 		credentials.setPasswd(password);
-		Token token = coreMessageHandler.login(credentials);
+		Token token = platformMessageHandler.login(credentials);
 		sessionInformation.setCoreToken(token);
 		return token!=null;
 	}
@@ -42,7 +41,11 @@ public class SecurityHandler {
 	public void logout(){
 		sessionInformation.setCoreToken(null);
 	}
-	
+
+	public void getPlatformToken(){
+		sessionInformation.getPlatformToken();
+	}
+
 	public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException{
 		return certificateValidator.validate(p12Certificate);
 	}
