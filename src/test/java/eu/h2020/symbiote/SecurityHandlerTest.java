@@ -2,17 +2,18 @@ package eu.h2020.symbiote;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -86,40 +87,33 @@ public class SecurityHandlerTest {
 
   @Test
   public void testTokenValidation(){
+	  final String ALIAS = "mytest";
 	  try{
 		  
-/*		  KeyStore p12 = KeyStore.getInstance("pkcs12");
-	      p12.load(new FileInputStream("./certificates/dianne.p12"), "password".toCharArray());
-	      Enumeration<String> e = p12.aliases();
-	      String alias = null;
+		  KeyStore ks = KeyStore.getInstance("JKS");
+		  InputStream readStream = new FileInputStream("./certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
+		  ks.load(readStream, "password".toCharArray());
+	      Enumeration<String> e = ks.aliases();
 	      while (e.hasMoreElements()) {
-	          alias = e.nextElement();
+	          String alias = e.nextElement();
+	          System.out.println(alias);
 	      }
-	      Key key = p12.getKey(alias, "password".toCharArray());
-	      Certificate certificate = p12.getCertificate(alias);*/
-	      SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();
-	   // get base64 encoded version of the key
-	      String encodedKey = Base64.getEncoder().encodeToString(secretKey.getEncoded());
-	      System.out.println(encodedKey);
-	      
+		  Key key = ks.getKey(ALIAS, "password".toCharArray());
+		  readStream.close();
+	      Certificate certificate = ks.getCertificate(ALIAS);
+
 		  String token=  Jwts.builder()
 				  .setSubject("test1")
 				  .setExpiration( DateUtil.addDays(new Date(), 1))
 				  .claim("name", "test2")
 				  .claim("scope", "test3")
-				  //.signWith(SignatureAlgorithm.HS256,"secret".getBytes())
-				  .signWith(SignatureAlgorithm.HS256, secretKey)
+				  .signWith(SignatureAlgorithm.RS512, key)
 				  .compact();
 			System.out.println(token);
 			
-			byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
-			// rebuild key using SecretKeySpec
-			SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");			
-			/*byte[] converter = "secret".getBytes();*/
 			JwtParser dp = Jwts.parser();
 			Jws<Claims> jws = dp.
-					//setSigningKey(converter).
-					setSigningKey(originalKey).
+					setSigningKey(certificate.getPublicKey()).
 					parseClaimsJws(token);
 			Claims claims = jws.getBody();
 			System.out.println(claims.getSubject());

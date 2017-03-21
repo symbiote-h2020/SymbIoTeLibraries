@@ -12,13 +12,15 @@ import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import eu.h2020.symbiote.messaging.core.CoreAAMMessageHandler;
 @Component
 public class CertificateValidator {
 	private static final Log logger = LogFactory.getLog(CertificateValidator.class);
-	X509Certificate coreAAMX509Certificate; 
+	X509Certificate coreAAMX509Certificate;
+	@Autowired CoreAAMMessageHandler coreAAM;
 	
 	public CertificateValidator(){
 	}
@@ -58,7 +60,6 @@ public class CertificateValidator {
 	
     private X509Certificate getCA() throws CertificateException  {
 		if (coreAAMX509Certificate==null){
-				CoreAAMMessageHandler coreAAM = new CoreAAMMessageHandler();
 				coreAAMX509Certificate = coreAAM.getCoreAAMRootCertificate();
 		}
     	  return coreAAMX509Certificate;

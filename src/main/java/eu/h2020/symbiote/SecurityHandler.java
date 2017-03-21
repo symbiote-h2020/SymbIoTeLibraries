@@ -12,6 +12,7 @@ import eu.h2020.symbiote.messaging.bean.Token;
 import eu.h2020.symbiote.messaging.platform.PlatformAAMMessageHandler;
 import eu.h2020.symbiote.session.SessionInformation;
 import eu.h2020.symbiote.token.TokenHandler;
+import eu.h2020.symbiote.token.TokenVerificationException;
 
 /**
  * Class exposing the library from security handler
@@ -27,8 +28,8 @@ import eu.h2020.symbiote.token.TokenHandler;
 public class SecurityHandler {
 	@Autowired PlatformAAMMessageHandler platformMessageHandler;
 	@Autowired SessionInformation sessionInformation;
-	@Autowired CertificateValidator certificateValidator;
 	@Autowired TokenHandler tokenValidator;
+	@Autowired CertificateValidator certificateValidator; 
 	
 	public boolean login(String userName, String password){
 		Credential credentials = new Credential();
@@ -51,9 +52,8 @@ public class SecurityHandler {
 		return certificateValidator.validate(p12Certificate);
 	}
 	
-	public void verifyToken(String token){
-		Token coreToken = new Token(token);
-		tokenValidator.validate(coreToken);	
+	public Token verifyCoreToken(String token) throws TokenVerificationException{
+		return tokenValidator.validateCoreToken(token);	
 	}
 	
 }

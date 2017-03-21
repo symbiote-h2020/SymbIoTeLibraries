@@ -1,10 +1,10 @@
-package eu.h2020.symbiote.messaging.core;
+package eu.h2020.symbiote.messaging.restAAM;
 
 import feign.Headers;
 import feign.RequestLine;
 
 	
-public interface CoreAAMRestService {
+public interface AAMRestService {
 	@RequestLine("GET /rootCertificate")
 	@Headers("Acceted: multipart/form-data")
     public byte[] getRootCertificate(); 
