@@ -7,16 +7,16 @@ import eu.h2020.symbiote.messaging.bean.Token;
 
 @Component
 public class SessionInformation {
-	Token platformToken;
+	Token homeToken;
 	Token coreToken;
 	Credential usedLoginCredentials;
 
-	public Token getPlatformToken() {
-		return platformToken;
+	public Token getHomeToken() {
+		return homeToken;
 	}
 
-	public void setPlatformToken(Token platformToken) {
-		this.platformToken = platformToken;
+	public void setHomeToken(Token homeToken) {
+		this.homeToken = homeToken;
 	}
 
 	public Credential getUsedLoginCredentials() {

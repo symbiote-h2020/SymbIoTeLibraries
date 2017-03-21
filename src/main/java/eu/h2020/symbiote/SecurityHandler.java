@@ -11,6 +11,7 @@ import eu.h2020.symbiote.messaging.bean.Credential;
 import eu.h2020.symbiote.messaging.bean.Token;
 import eu.h2020.symbiote.messaging.platform.PlatformAAMMessageHandler;
 import eu.h2020.symbiote.session.SessionInformation;
+import eu.h2020.symbiote.token.TokenHandler;
 
 /**
  * Class exposing the library from security handler
@@ -27,27 +28,32 @@ public class SecurityHandler {
 	@Autowired PlatformAAMMessageHandler platformMessageHandler;
 	@Autowired SessionInformation sessionInformation;
 	@Autowired CertificateValidator certificateValidator;
-	
+	@Autowired TokenHandler tokenValidator;
 	
 	public boolean login(String userName, String password){
 		Credential credentials = new Credential();
 		credentials.setPasswd(userName);
 		credentials.setPasswd(password);
-		Token token = platformMessageHandler.login(credentials);
-		sessionInformation.setCoreToken(token);
-		return token!=null;
+		Token homeToken = platformMessageHandler.login(credentials);
+		sessionInformation.setHomeToken(homeToken);
+		return homeToken!=null;
 	}
 	
 	public void logout(){
-		sessionInformation.setCoreToken(null);
+		sessionInformation.setHomeToken(null);
 	}
 
-	public void getPlatformToken(){
-		sessionInformation.getPlatformToken();
+	public Token getHomeToken(){
+		return sessionInformation.getHomeToken();
 	}
 
 	public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException{
 		return certificateValidator.validate(p12Certificate);
+	}
+	
+	public void verifyToken(String token){
+		Token coreToken = new Token(token);
+		tokenValidator.validate(coreToken);	
 	}
 	
 }

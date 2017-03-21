@@ -51,8 +51,7 @@ public class PlatformAAMDummyServer {
             logger.info("User trying to login "+credential.getUser()+ " - "+credential.getPasswd());
 
             
-            Token token = new Token();
-            token.setToken("mytoken");
+            Token token = new Token("mytoken");
             String response = gson.toJson(token);
              
 	        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), response.getBytes(),
