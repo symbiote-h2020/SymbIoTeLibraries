@@ -1,0 +1,30 @@
+language: java
+env:
+  global:
+    secure: "BaZmL0J2IdqYsqtW8vjem7SANqpXKhZp1Q5i2hb6iN3OqzjzSU0QrLSguMxFpwOMmqBOWu/+JwuiUqH4eqC1qCXXqLlv52LpRTueRc3yeNCafIMZWudEEaNqJCelywQL9JeiWG5J14DzfNqQEswaN1Z3XgxfzLjgtwaK82wkF+zbZY/RJzWfiGyEasWO7PRHa5EIbKoiLLsWoKmrMg0O/Mj5g5ynHLxG5RJ66LPqTW/yR+2SxXCJ3CQ0G5fwSJVlVxn4gu/on8ucre2DXookvpsPEMvySHJ4+YgkjX6wBxtiWJjUv2ZkJ+3FURhKzlEnY6WddG94hMwmEdA+5dpFHaHheJ/LNM8yXcGz9mB5IcNkV89PiSMMpGrjKaMenYmYmP6aEvttT2EA1tzN4nlmaVpmZ01n+JIbGLEtI+ORviDkVO1rWD25RpawPf8n2/tFJIMFwwFdjs4+9zVVGQ9QmT2uzFue5UFW65xerbauEWr5hufmByz4cMGPmd/lwrkR61ef1OXQOqojhnjQsTGtC39GeKLbQJr3rYmev9OFO6qLXpkRehPOBXRlJiZ1xnWdWP3Xyhovb+8teZsrj3TyOKX0ODNoR/a+NoHJPOgF1nh0HPukrUwJZgbmPFwlwSdqnD36K3MdfY0VV7QU8bb5QXcC4gVGEzY7W+eT1m3+N4Q="
+jdk:
+- oraclejdk8
+services:
+- mongodb
+- rabbitmq
+- mysql
+sudo: required
+branches:
+  only:
+  - staging
+  - travis_test
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+before_script:
+  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS resources_db;'
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+after_success:
+- chmod a+x merge_script.sh
+- BRANCHES_TO_MERGE_REGEX='staging' BRANCH_TO_MERGE_INTO=develop GITHUB_REPO=symbiote-h2020/SecurityHandler
+  ./merge_script.sh
+- bash <(curl -s https://codecov.io/bash)
