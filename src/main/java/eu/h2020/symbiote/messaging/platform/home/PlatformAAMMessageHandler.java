@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.messaging.platform;
+package eu.h2020.symbiote.messaging.platform.home;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

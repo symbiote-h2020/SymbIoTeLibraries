@@ -1,0 +1,1 @@
+keytool -genkeypair -alias mytest -keyalg RSA -keypass password -keystore mytest.jks -storepass passwordkeytool -importkeystore -srckeystore mytest.jks -destkeystore mytest.p12 -srcstoretype JKS -deststoretype PKCS12 -srcstorepass password -deststorepass password -srcalias mytest -destalias mytest -srckeypass password -destkeypass password -noprompt
