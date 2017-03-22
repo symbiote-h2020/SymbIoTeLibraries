@@ -1,1 +1,0 @@
-keytool -list -rfc --keystore mytest.jks | openssl x509 -inform pem -pubkey
