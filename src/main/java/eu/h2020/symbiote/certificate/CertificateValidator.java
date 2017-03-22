@@ -60,7 +60,7 @@ public class CertificateValidator {
 	
     private X509Certificate getCA() throws CertificateException  {
 		if (coreAAMX509Certificate==null){
-				coreAAMX509Certificate = coreAAM.getCoreAAMRootCertificate();
+				coreAAMX509Certificate = coreAAM.getAAMRootCertificate();
 		}
     	  return coreAAMX509Certificate;
    	}

@@ -59,7 +59,7 @@ public class SecurityHandlerTest {
   }
 
 
-  @Test
+  //@Test
   public void testValidation() {
 		try {
 			KeyStore p12 = KeyStore.getInstance("pkcs12");
@@ -78,10 +78,17 @@ public class SecurityHandlerTest {
   }
 
   @Test
-  public void testLogin() {
-        assert(securityHandler.login("user", "password"));
+  public void testPlatformLogin() {
+        assert(securityHandler.homeLogin("user", "password"));
   }
 
+  @Test
+  public void testCoreLogin() {
+	  securityHandler.coreLogin("user", "password");
+        assert(securityHandler.coreLogin("user", "password"));
+  }
+  
+  
   @Test
   public void testTokenValidation(){
 	  final String ALIAS = "mytest";
@@ -98,7 +105,6 @@ public class SecurityHandlerTest {
 				  .claim("name", "test2")
 				  .signWith(SignatureAlgorithm.RS512, key)
 				  .compact();
-
 		  Token token = securityHandler.verifyCoreToken(tokenString);
 		  boolean result =  "test1".equals(token.getClaim(Token.JWT_CLAIMS_SUBJECT));
 		  result  &=  "test2".equals(token.getClaim("name"));

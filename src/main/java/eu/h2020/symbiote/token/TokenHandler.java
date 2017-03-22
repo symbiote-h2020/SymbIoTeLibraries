@@ -18,27 +18,16 @@ public class TokenHandler {
 
 	X509Certificate coreAAMX509Certificate;
 
-	public Token validateCoreToken(String tokenString) throws TokenVerificationException {
+	public void validateCoreToken(Token token) throws TokenVerificationException {
 		try{
-			Token token = new Token(tokenString);
 			validateToken(token, getCA());
-			return token;
 		}catch(CertificateException ex){
 			throw new TokenVerificationException("Error validating token", ex);
 		}
 	}
 
-
-	public Token validateForeignPlatformToken(String tokenString) {
-		//String signature = "?????????????";
-		//validate(token, signature);
-		return null;
-	}
-
-	public Token validateHomePlatformToken(String tokenString) {
-		//String signature = "?????????????";
-		//validate(token, signature);
-		return null;
+	public void validateForeignPlatformToken(String aamURL, Token token) throws TokenVerificationException {
+		throw new TokenVerificationException("TO BE IMPLEMENTED");
 	}
 
 	private void validateToken(Token token, Certificate certificate) {
@@ -49,9 +38,10 @@ public class TokenHandler {
 	}
 	
     private X509Certificate getCA() throws CertificateException  {
-		if (coreAAMX509Certificate==null){
-				coreAAMX509Certificate = coreAAM.getCoreAAMRootCertificate();
-		}
-    	  return coreAAMX509Certificate;
+		if (coreAAMX509Certificate==null)
+				coreAAMX509Certificate = coreAAM.getAAMRootCertificate();
+		return coreAAMX509Certificate;
    	}
+
+
 }

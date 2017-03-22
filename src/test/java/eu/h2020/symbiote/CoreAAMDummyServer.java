@@ -4,9 +4,16 @@ package eu.h2020.symbiote;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+
+import eu.h2020.symbiote.constants.SHConstants;
+import eu.h2020.symbiote.messaging.bean.Credential;
+import eu.h2020.symbiote.messaging.bean.Token;
 
 
 /*
@@ -18,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoreAAMDummyServer {
   private static final Log logger = LogFactory.getLog(CoreAAMDummyServer.class);
   
-  @RequestMapping(method = RequestMethod.GET, path = "/rootCertificate")
+  @RequestMapping(method = RequestMethod.GET, path = SHConstants.GET_CORE_AAM_CA_CERTIFICATE)
   public byte[] getRootCertificate() {
 	  logger.debug("invoked get token public");
 	  String pemFile =
@@ -47,6 +54,12 @@ public class CoreAAMDummyServer {
 		return pemFile.getBytes();
   }
   
+  @RequestMapping(method = RequestMethod.POST, path = SHConstants.DO_CORE_AAM_LOGIN)
+  public Token doLogin(@RequestBody Credential credential) {
+	  logger.info("User trying to login "+credential.getUser()+ " - "+credential.getPasswd());
+	  Token token = new Token("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
+	  return token;
+  }
   
 
 }
