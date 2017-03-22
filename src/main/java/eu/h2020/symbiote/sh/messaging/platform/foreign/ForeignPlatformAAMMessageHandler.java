@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.messaging.platform.foreign;
+package eu.h2020.symbiote.sh.messaging.platform.foreign;
 
 import javax.annotation.PostConstruct;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Component;
 
-import eu.h2020.symbiote.messaging.restAAM.AAMMessageHandler;
+import eu.h2020.symbiote.sh.messaging.restAAM.AAMMessageHandler;
 
 @Component
 @EnableAutoConfiguration

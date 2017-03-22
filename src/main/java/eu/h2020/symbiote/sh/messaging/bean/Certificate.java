@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.messaging.bean;
+package eu.h2020.symbiote.sh.messaging.bean;
 
 public class Certificate {
 	byte[] certificate;

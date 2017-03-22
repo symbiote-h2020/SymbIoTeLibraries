@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.certificate;
+package eu.h2020.symbiote.sh.token;
 
 /**
  * This class wraps an exception that could be thrown during
@@ -6,14 +6,14 @@ package eu.h2020.symbiote.certificate;
  * 
  * @author Svetlin Nakov
  */
-public class CertificateVerificationException extends Exception {
+public class TokenVerificationException extends Exception {
     private static final long serialVersionUID = 1L;
  
-    public CertificateVerificationException(String message, Throwable cause) {
+    public TokenVerificationException(String message, Throwable cause) {
         super(message, cause);
     }
  
-    public CertificateVerificationException(String message) {
+    public TokenVerificationException(String message) {
         super(message);
     }
 }

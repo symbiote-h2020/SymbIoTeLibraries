@@ -1,8 +1,9 @@
-package eu.h2020.symbiote.messaging.bean;
+package eu.h2020.symbiote.sh;
 
+import eu.h2020.symbiote.sh.messaging.bean.Token;
 import io.jsonwebtoken.Claims;
 
-public class Token {
+public class SHToken {
 	String token; //encrypted
 	Claims claims;
 	public final static String JWT_CLAIMS_AUDIENCE = Claims.AUDIENCE;
@@ -12,12 +13,16 @@ public class Token {
 	public final static String JWT_CLAIMS_ISSUER = Claims.ISSUER;
 	public final static String JWT_CLAIMS_NOT_BEFORE = Claims.NOT_BEFORE;
 	public final static String JWT_CLAIMS_SUBJECT = Claims.SUBJECT;
-	
-	public Token(String token){
+
+	public SHToken(Token token){
+		this.token = token.getToken();
+	}
+
+	public SHToken(String token){
 		this.token = token;
 	}
 	
-	public Token(){
+	public SHToken(){
 	}
 	
 	public String getToken() {

@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.certificate;
+package eu.h2020.symbiote.sh.certificate;
 
 import java.security.InvalidKeyException;
 import java.security.KeyStore;
@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import eu.h2020.symbiote.messaging.core.CoreAAMMessageHandler;
+import eu.h2020.symbiote.sh.messaging.core.CoreAAMMessageHandler;
 @Component
 public class CertificateValidator {
 	private static final Log logger = LogFactory.getLog(CertificateValidator.class);

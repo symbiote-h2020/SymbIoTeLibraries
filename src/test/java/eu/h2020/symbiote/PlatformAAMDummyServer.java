@@ -16,16 +16,12 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 
-import eu.h2020.symbiote.constants.SHConstants;
-import eu.h2020.symbiote.messaging.bean.Credential;
-import eu.h2020.symbiote.messaging.bean.Token;
+import eu.h2020.symbiote.sh.constants.SHConstants;
+import eu.h2020.symbiote.sh.messaging.bean.Credential;
+import eu.h2020.symbiote.sh.messaging.bean.Token;
 
 @Service
 public class PlatformAAMDummyServer {
-    private static final String EXCHANGE_NAME = "HOME_LOGIN";
-    private static final String PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY = "PLATOFRMAAM_LOGIN_TOKEN";
-    private static final String PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY = "PLATOFRMAAM_LOGIN_TOKEN_REPLY";
-
     private static Log logger = LogFactory.getLog(PlatformAAMDummyServer.class);
 
     @Autowired
@@ -41,9 +37,9 @@ public class PlatformAAMDummyServer {
 	   * @param headers The AMQP headers
 	   */
 	    @RabbitListener(bindings = @QueueBinding(
-	        value = @Queue(value = SHConstants.PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY, durable = "true", autoDelete = "false", exclusive = "false"),
+	        value = @Queue(value = SHConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY, durable = "true", autoDelete = "false", exclusive = "false"),
 	        exchange = @Exchange(value = SHConstants.EXCHANGE_NAME, ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
-	        key = SHConstants.PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY)
+	        key = SHConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY)
 	    )
 	    public void resourceRegistration(Message message, @Headers() Map<String, String> headers) {
 	    	logger.info("resourceRegistration"+new String(message.getBody()));
@@ -52,7 +48,8 @@ public class PlatformAAMDummyServer {
             logger.info("User trying to login "+credential.getUser()+ " - "+credential.getPasswd());
 
             
-            Token token = new Token("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
+      	  Token token = new Token();
+    	  token.setToken("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
             String response = gson.toJson(token);
              
 	        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), response.getBytes(),

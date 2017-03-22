@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.messaging.rabbitmq;
+package eu.h2020.symbiote.sh.messaging.rabbitmq;
 
 import java.lang.reflect.Type;
 

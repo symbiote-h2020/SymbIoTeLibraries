@@ -25,8 +25,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import eu.h2020.symbiote.certificate.CertificateVerificationException;
-import eu.h2020.symbiote.messaging.bean.Token;
+import eu.h2020.symbiote.sh.SHToken;
+import eu.h2020.symbiote.sh.SecurityHandler;
+import eu.h2020.symbiote.sh.certificate.CertificateVerificationException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -59,7 +60,7 @@ public class SecurityHandlerTest {
   }
 
 
-  //@Test
+  @Test
   public void testValidation() {
 		try {
 			KeyStore p12 = KeyStore.getInstance("pkcs12");
@@ -84,7 +85,6 @@ public class SecurityHandlerTest {
 
   @Test
   public void testCoreLogin() {
-	  securityHandler.coreLogin("user", "password");
         assert(securityHandler.coreLogin("user", "password"));
   }
   
@@ -105,8 +105,8 @@ public class SecurityHandlerTest {
 				  .claim("name", "test2")
 				  .signWith(SignatureAlgorithm.RS512, key)
 				  .compact();
-		  Token token = securityHandler.verifyCoreToken(tokenString);
-		  boolean result =  "test1".equals(token.getClaim(Token.JWT_CLAIMS_SUBJECT));
+		  SHToken token = securityHandler.verifyCoreToken(tokenString);
+		  boolean result =  "test1".equals(token.getClaim(SHToken.JWT_CLAIMS_SUBJECT));
 		  result  &=  "test2".equals(token.getClaim("name"));
 		  assert(result);
 	  }catch(Throwable t){

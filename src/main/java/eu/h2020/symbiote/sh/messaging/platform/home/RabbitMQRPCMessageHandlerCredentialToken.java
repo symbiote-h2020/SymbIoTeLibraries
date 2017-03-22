@@ -1,8 +1,8 @@
-package eu.h2020.symbiote.messaging.platform.home;
+package eu.h2020.symbiote.sh.messaging.platform.home;
 
-import eu.h2020.symbiote.messaging.bean.Credential;
-import eu.h2020.symbiote.messaging.bean.Token;
-import eu.h2020.symbiote.messaging.rabbitmq.GenericRabbitMQRPCMessageHandler;
+import eu.h2020.symbiote.sh.messaging.rabbitmq.GenericRabbitMQRPCMessageHandler;
+import eu.h2020.symbiote.sh.messaging.bean.Credential;
+import eu.h2020.symbiote.sh.messaging.bean.Token;
 
 
 /**

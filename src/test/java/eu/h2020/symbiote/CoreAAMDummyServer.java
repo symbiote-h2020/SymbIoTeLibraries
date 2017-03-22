@@ -7,13 +7,13 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-
-import eu.h2020.symbiote.constants.SHConstants;
-import eu.h2020.symbiote.messaging.bean.Credential;
-import eu.h2020.symbiote.messaging.bean.Token;
+import eu.h2020.symbiote.sh.constants.SHConstants;
+import eu.h2020.symbiote.sh.messaging.bean.Credential;
+import eu.h2020.symbiote.sh.messaging.bean.Status;
+import eu.h2020.symbiote.sh.messaging.bean.Token;
 
 
 /*
@@ -54,12 +54,23 @@ public class CoreAAMDummyServer {
 		return pemFile.getBytes();
   }
   
-  @RequestMapping(method = RequestMethod.POST, path = SHConstants.DO_CORE_AAM_LOGIN)
-  public Token doLogin(@RequestBody Credential credential) {
+  @RequestMapping(method = RequestMethod.POST, path = SHConstants.DO_CORE_AAM_LOGIN,  produces = "application/json", consumes = "application/json")
+  public @ResponseBody Token doLogin(@RequestBody Credential credential) {
 	  logger.info("User trying to login "+credential.getUser()+ " - "+credential.getPasswd());
-	  Token token = new Token("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
+	  Token token = new Token();
+	  token.setToken("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
 	  return token;
   }
+  
+
+  @RequestMapping(method = RequestMethod.POST, path = SHConstants.DO_CORE_AAM_CHECK_TOKEN_REVOCATION, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+  public @ResponseBody Status checkTokenRevocation(@RequestBody Token token) {
+	  logger.info("Checking token revocation "+token);
+	  Status status = new Status();
+	  status.setStatus(Status.SUCCESS);
+	  return status;
+  }       
+
   
 
 }

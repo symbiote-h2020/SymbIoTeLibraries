@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.messaging.restAAM;
+package eu.h2020.symbiote.sh.messaging.restAAM;
 
 import java.io.ByteArrayInputStream;
 import java.security.cert.CertificateException;
@@ -8,10 +8,9 @@ import java.security.cert.X509Certificate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.google.gson.Gson;
-
-import eu.h2020.symbiote.messaging.bean.Credential;
-import eu.h2020.symbiote.messaging.bean.Token;
+import eu.h2020.symbiote.sh.messaging.bean.Credential;
+import eu.h2020.symbiote.sh.messaging.bean.Status;
+import eu.h2020.symbiote.sh.messaging.bean.Token;
 import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
@@ -46,11 +45,22 @@ public class AAMMessageHandler {
 		return null;
 	 }
 	
-	public  Token login(Credential credential)  {
+	public Token login(Credential credential)  {
 		Token result = null;
 		try{
             logger.info("User trying to login "+credential.getUser()+ " - "+credential.getPasswd());
 			result = jsonclient.login(credential);
+		}catch(Throwable t){
+			logger.error("Error accessing to AAM server at "+url, t);
+		}
+		return result;
+	}
+
+	public Status checkTokenRevocation(Token token)  {
+		Status result = null;
+		try{
+            logger.info("User trying to checkTokenRevocation");
+			result = jsonclient.checkTokenRevocation(token);
 		}catch(Throwable t){
 			logger.error("Error accessing to AAM server at "+url, t);
 		}

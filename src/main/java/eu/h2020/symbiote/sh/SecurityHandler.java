@@ -1,19 +1,18 @@
-package eu.h2020.symbiote;
+package eu.h2020.symbiote.sh;
 
 import java.security.KeyStore;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import eu.h2020.symbiote.certificate.CertificateValidator;
-import eu.h2020.symbiote.certificate.CertificateVerificationException;
-import eu.h2020.symbiote.messaging.bean.Credential;
-import eu.h2020.symbiote.messaging.bean.Token;
-import eu.h2020.symbiote.messaging.core.CoreAAMMessageHandler;
-import eu.h2020.symbiote.messaging.platform.home.PlatformAAMMessageHandler;
-import eu.h2020.symbiote.session.SessionInformation;
-import eu.h2020.symbiote.token.TokenHandler;
-import eu.h2020.symbiote.token.TokenVerificationException;
+import eu.h2020.symbiote.sh.certificate.CertificateValidator;
+import eu.h2020.symbiote.sh.certificate.CertificateVerificationException;
+import eu.h2020.symbiote.sh.messaging.bean.Credential;
+import eu.h2020.symbiote.sh.messaging.core.CoreAAMMessageHandler;
+import eu.h2020.symbiote.sh.messaging.platform.home.PlatformAAMMessageHandler;
+import eu.h2020.symbiote.sh.session.SessionInformation;
+import eu.h2020.symbiote.sh.token.TokenHandler;
+import eu.h2020.symbiote.sh.token.TokenVerificationException;
 
 /**
  * Class exposing the library from security handler
@@ -37,7 +36,7 @@ public class SecurityHandler {
 		Credential credentials = new Credential();
 		credentials.setUser(userName);
 		credentials.setPasswd(password);
-		Token homeToken = platformMessageHandler.login(credentials);
+		SHToken homeToken= new SHToken(platformMessageHandler.login(credentials));
 		sessionInformation.setHomeToken(homeToken);
 		return homeToken!=null;
 	}
@@ -46,7 +45,7 @@ public class SecurityHandler {
 		Credential credentials = new Credential();
 		credentials.setUser(userName);
 		credentials.setPasswd(password);
-		Token coreToken = coreMessageHandler.login(credentials);
+		SHToken coreToken= new SHToken(coreMessageHandler.login(credentials));
 		sessionInformation.setCoreToken(coreToken);
 		return coreToken!=null;		
 	}
@@ -56,11 +55,11 @@ public class SecurityHandler {
 		sessionInformation.setCoreToken(null);		
 	}
 	
-	public Token getHomeToken(){
+	public SHToken getHomeToken(){
 		return sessionInformation.getHomeToken();
 	}
 
-	public Token getCoreToken(){
+	public SHToken getCoreToken(){
 		return sessionInformation.getCoreToken();
 	}
 
@@ -69,23 +68,23 @@ public class SecurityHandler {
 	}
 
 
-	public Token verifyCoreToken(String encodedTokenString) throws TokenVerificationException{
-		Token token = new Token(encodedTokenString);
-		tokenValidator.validateCoreToken(token);
+	public SHToken verifyCoreToken(String encodedTokenString) throws TokenVerificationException{
+		SHToken token = new SHToken(encodedTokenString);
+		verifyCoreToken(token);
 		return token;
 	}
 
-	public void verifyCoreToken(Token token) throws TokenVerificationException{
+	public void verifyCoreToken(SHToken token) throws TokenVerificationException{
 		tokenValidator.validateCoreToken(token);
 	}
 
-	public Token verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenVerificationException{
-		Token token = new Token(encodedTokenString);
-		tokenValidator.validateForeignPlatformToken(aamURL ,token);
+	public SHToken verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenVerificationException{
+		SHToken token = new SHToken(encodedTokenString);
+		verifyForeignPlatformToken(aamURL, token);
 		return token;
 	}
 
-	public void verifyForeignPlatformToken(String aamURL, Token token) throws TokenVerificationException{
+	public void verifyForeignPlatformToken(String aamURL, SHToken token) throws TokenVerificationException{
 		tokenValidator.validateForeignPlatformToken(aamURL, token);
 	}
 
