@@ -63,11 +63,11 @@ public class SecurityHandlerTest {
   public void testValidation() {
 		try {
 			KeyStore p12 = KeyStore.getInstance("pkcs12");
-	        p12.load(new FileInputStream("./certificates/mytest.p12"), "password".toCharArray());
+	        p12.load(new FileInputStream("./src/test/resources/certificates/mytest.p12"), "password".toCharArray());
 	        boolean bolTrue = securityHandler.certificateValidation(p12);
 	        
 			p12 = KeyStore.getInstance("pkcs12");
-	        p12.load(new FileInputStream("./certificates/dianne.p12"), "password".toCharArray());
+	        p12.load(new FileInputStream("./src/test/resources/certificates/dianne.p12"), "password".toCharArray());
 	        boolean bolFalse = securityHandler.certificateValidation(p12);
 
 	        assert(bolTrue && (bolFalse==false));
@@ -87,7 +87,7 @@ public class SecurityHandlerTest {
 	  final String ALIAS = "mytest";
 	  try{
 		  KeyStore ks = KeyStore.getInstance("JKS");
-		  InputStream readStream = new FileInputStream("./certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
+		  InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
 		  ks.load(readStream, "password".toCharArray());
 		  Key key = ks.getKey(ALIAS, "password".toCharArray());
 		  readStream.close();
