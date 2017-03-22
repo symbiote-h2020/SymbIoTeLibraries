@@ -1,0 +1,1 @@
+keytool -genkeypair -alias mytest -keyalg RSA -keypass password -keystore mytest.jks -storepass password

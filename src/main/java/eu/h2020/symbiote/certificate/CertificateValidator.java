@@ -26,23 +26,20 @@ public class CertificateValidator {
 	}
 	
 	public boolean validate(KeyStore p12Certificate) throws CertificateVerificationException {
+		boolean result = false;
 		try {
 			Enumeration<String> e = p12Certificate.aliases();
-		
-	        while (e.hasMoreElements()) {
+	        if (e.hasMoreElements()) {
 	            String alias = e.nextElement();
 	            X509Certificate x509Certificate = (X509Certificate) p12Certificate.getCertificate(alias);
-	            verifyCertificate(x509Certificate);
+	            result = verifyCertificate(x509Certificate);
 	        }
-	        if (e.hasMoreElements()){
-	        	logger.error("The p12 store is containing more than 1 certificate, only one should be contained.");
-	        	return false;
-	        }else{
-	        	return true;
-	        }
+	        if (e.hasMoreElements())
+				throw new CertificateVerificationException("The p12 store is containing more than 1 certificate, only one should be contained.");
 		} catch (KeyStoreException ex) {
 			throw new CertificateVerificationException("Error validating ceriticate", ex);
 		}
+		return result;
 	}
 
 
@@ -51,8 +48,11 @@ public class CertificateValidator {
         	X509Certificate rootCertificate = getCA();
 			x509Certificate.verify(rootCertificate.getPublicKey());
 			return true;
-		} catch (InvalidKeyException | CertificateException | NoSuchAlgorithmException | NoSuchProviderException | SignatureException e) {
+		} catch (InvalidKeyException | CertificateException | NoSuchAlgorithmException | NoSuchProviderException e) {
 			logger.error("Could not verify certificate", e);
+			return false;
+		} catch (SignatureException e) {
+			logger.error("The certificate has not been signed by the public key");
 			return false;
 		}
     }
@@ -64,6 +64,4 @@ public class CertificateValidator {
 		}
     	  return coreAAMX509Certificate;
    	}
-    
-    
 }

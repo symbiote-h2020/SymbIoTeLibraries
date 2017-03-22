@@ -7,21 +7,15 @@ import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
-
-
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,9 +26,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import eu.h2020.symbiote.certificate.CertificateVerificationException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtParser;
+import eu.h2020.symbiote.messaging.bean.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -50,8 +42,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
  */
 @RunWith(SpringRunner.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = "symbiote.coreaam.uri=http://localhost:8033")
+@SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = "symbiote.coreaam.url=http://localhost:8033")
 @ContextConfiguration(locations = {"classpath:test-properties.xml" })
 @Configuration
 @ComponentScan
@@ -68,19 +59,25 @@ public class SecurityHandlerTest {
   }
 
 
-//  @Test
+  @Test
   public void testValidation() {
 		try {
 			KeyStore p12 = KeyStore.getInstance("pkcs12");
+	        p12.load(new FileInputStream("./certificates/mytest.p12"), "password".toCharArray());
+	        boolean bolTrue = securityHandler.certificateValidation(p12);
+	        
+			p12 = KeyStore.getInstance("pkcs12");
 	        p12.load(new FileInputStream("./certificates/dianne.p12"), "password".toCharArray());
-	        assert(securityHandler.certificateValidation(p12));
+	        boolean bolFalse = securityHandler.certificateValidation(p12);
+
+	        assert(bolTrue && (bolFalse==false));
 		} catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | CertificateVerificationException e) {
 			logger.error(e);
 	        assert(false);
 		}
   }
 
-//  @Test
+  @Test
   public void testLogin() {
         assert(securityHandler.login("user", "password"));
   }
@@ -89,37 +86,25 @@ public class SecurityHandlerTest {
   public void testTokenValidation(){
 	  final String ALIAS = "mytest";
 	  try{
-		  
 		  KeyStore ks = KeyStore.getInstance("JKS");
 		  InputStream readStream = new FileInputStream("./certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
 		  ks.load(readStream, "password".toCharArray());
-	      Enumeration<String> e = ks.aliases();
-	      while (e.hasMoreElements()) {
-	          String alias = e.nextElement();
-	          System.out.println(alias);
-	      }
 		  Key key = ks.getKey(ALIAS, "password".toCharArray());
 		  readStream.close();
-	      Certificate certificate = ks.getCertificate(ALIAS);
 
-		  String token=  Jwts.builder()
+		  String tokenString=  Jwts.builder()
 				  .setSubject("test1")
 				  .setExpiration( DateUtil.addDays(new Date(), 1))
 				  .claim("name", "test2")
-				  .claim("scope", "test3")
 				  .signWith(SignatureAlgorithm.RS512, key)
 				  .compact();
-			System.out.println(token);
-			
-			JwtParser dp = Jwts.parser();
-			Jws<Claims> jws = dp.
-					setSigningKey(certificate.getPublicKey()).
-					parseClaimsJws(token);
-			Claims claims = jws.getBody();
-			System.out.println(claims.getSubject());
-			System.out.println(claims.get("name"));
+
+		  Token token = securityHandler.verifyCoreToken(tokenString);
+		  boolean result =  "test1".equals(token.getClaim(Token.JWT_CLAIMS_SUBJECT));
+		  result  &=  "test2".equals(token.getClaim("name"));
+		  assert(result);
 	  }catch(Throwable t){
-		  t.printStackTrace();
+		  logger.error(t);
 		  assert(false);
 	  }
 			

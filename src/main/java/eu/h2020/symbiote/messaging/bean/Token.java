@@ -18,7 +18,6 @@ public class Token {
 	}
 	
 	public Token(){
-		this.token = token;
 	}
 	
 	public String getToken() {
@@ -33,7 +32,7 @@ public class Token {
 		this.claims = claims;
 	}
 	
-	Object getClaim(String claimName){
+	public Object getClaim(String claimName){
 		return claims.get(claimName);
 	}
 }

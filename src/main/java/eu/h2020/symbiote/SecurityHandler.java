@@ -9,7 +9,7 @@ import eu.h2020.symbiote.certificate.CertificateValidator;
 import eu.h2020.symbiote.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.messaging.bean.Credential;
 import eu.h2020.symbiote.messaging.bean.Token;
-import eu.h2020.symbiote.messaging.platform.PlatformAAMMessageHandler;
+import eu.h2020.symbiote.messaging.platform.home.PlatformAAMMessageHandler;
 import eu.h2020.symbiote.session.SessionInformation;
 import eu.h2020.symbiote.token.TokenHandler;
 import eu.h2020.symbiote.token.TokenVerificationException;
@@ -51,7 +51,8 @@ public class SecurityHandler {
 	public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException{
 		return certificateValidator.validate(p12Certificate);
 	}
-	
+
+
 	public Token verifyCoreToken(String token) throws TokenVerificationException{
 		return tokenValidator.validateCoreToken(token);	
 	}
