@@ -36,8 +36,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 @RestController
 @WebAppConfiguration
-public class CoreAAMDummyServer {
-  private static final Log logger = LogFactory.getLog(CoreAAMDummyServer.class);
+public class CoreAndPlatformAAMDummyServer {
+  private static final Log logger = LogFactory.getLog(CoreAndPlatformAAMDummyServer.class);
   
   @RequestMapping(method = RequestMethod.GET, path = SHConstants.GET_CORE_AAM_CA_CERTIFICATE)
   public byte[] getRootCertificate() {

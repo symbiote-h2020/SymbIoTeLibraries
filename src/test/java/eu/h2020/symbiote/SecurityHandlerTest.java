@@ -46,7 +46,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = "symbiote.coreaam.url=http://localhost:8033")
+@SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = {"symbiote.testaam.url=http://localhost:8033", "symbiote.coreaam.url=http://localhost:8033"})
 @ContextConfiguration(locations = {"classpath:test-properties.xml" })
 @Configuration
 @ComponentScan
@@ -57,8 +57,8 @@ public class SecurityHandlerTest {
   private static final Log logger = LogFactory.getLog(SecurityHandlerTest.class);
 
   @Autowired SecurityHandler securityHandler;
-  @Value("${symbiote.coreaam.url}")
-  String coreAAMUrl;
+  @Value("${symbiote.testaam.url}")
+  String aamUrl;
 
   @Before
   public void setUp() throws Exception {
@@ -94,7 +94,7 @@ public class SecurityHandlerTest {
   public void testRequestForeignToken() {
 	  securityHandler.requestCoreToken("user", "password");
 	  ArrayList<String> urllist = new ArrayList<String>();
-	  urllist.add(coreAAMUrl);
+	  urllist.add(aamUrl);
 	  HashMap<String, SHToken>tokens = securityHandler.requestForeignTokens(urllist);
       assert(tokens!=null);
   }
@@ -149,8 +149,7 @@ public class SecurityHandlerTest {
 				  .claim("name", "test2")
 				  .signWith(SignatureAlgorithm.RS512, key)
 				  .compact();
-		  //right now we're testing aswell agains the coreAAM. We have to check how to create for testing 2 different rest services with different ports.
-		  SHToken token = securityHandler.verifyForeignPlatformToken(coreAAMUrl, tokenString);
+		  SHToken token = securityHandler.verifyForeignPlatformToken(aamUrl, tokenString);
 		  boolean result =  "test1".equals(token.getClaim(SHToken.JWT_CLAIMS_SUBJECT));
 		  result  &=  "test2".equals(token.getClaim("name"));
 		  assert(result);
