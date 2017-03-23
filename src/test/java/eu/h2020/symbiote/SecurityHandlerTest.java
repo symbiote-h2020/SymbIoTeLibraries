@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -54,6 +55,8 @@ public class SecurityHandlerTest {
   private static final Log logger = LogFactory.getLog(SecurityHandlerTest.class);
 
   @Autowired SecurityHandler securityHandler;
+  @Value("${symbiote.coreaam.url}")
+  String coreAAMUrl;
 
   @Before
   public void setUp() throws Exception {
@@ -90,7 +93,7 @@ public class SecurityHandlerTest {
   
   
   @Test
-  public void testTokenValidation(){
+  public void testCoreTokenValidation(){
 	  final String ALIAS = "mytest";
 	  try{
 		  KeyStore ks = KeyStore.getInstance("JKS");
@@ -115,7 +118,35 @@ public class SecurityHandlerTest {
 	  }
 			
 	}
-		
+
+  @Test
+  public void testForeignPlatformTokenValidation(){
+	  final String ALIAS = "mytest";
+	  try{
+		  KeyStore ks = KeyStore.getInstance("JKS");
+		  InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
+		  ks.load(readStream, "password".toCharArray());
+		  Key key = ks.getKey(ALIAS, "password".toCharArray());
+		  readStream.close();
+
+		  String tokenString=  Jwts.builder()
+				  .setSubject("test1")
+				  .setExpiration( DateUtil.addDays(new Date(), 1))
+				  .claim("name", "test2")
+				  .signWith(SignatureAlgorithm.RS512, key)
+				  .compact();
+		  //right now we're testing aswell agains the coreAAM. We have to check how to create for testing 2 different rest services with different ports.
+		  SHToken token = securityHandler.verifyForeignPlatformToken(coreAAMUrl, tokenString);
+		  boolean result =  "test1".equals(token.getClaim(SHToken.JWT_CLAIMS_SUBJECT));
+		  result  &=  "test2".equals(token.getClaim("name"));
+		  assert(result);
+	  }catch(Throwable t){
+		  logger.error(t);
+		  assert(false);
+	  }
+			
+	}
+
 	static public class DateUtil
 	{
 	    public static Date addDays(Date date, int days)

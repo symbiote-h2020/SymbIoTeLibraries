@@ -15,16 +15,22 @@ import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 
-public class AAMMessageHandler {
+public abstract class AAMMessageHandler {
 	private static final Log logger = LogFactory.getLog(AAMMessageHandler.class);
-	AAMRestService simpleclient;
-	AAMRestService jsonclient;
-	String url;
+	private AAMRestService simpleclient;
+	private AAMRestService jsonclient;
+	private String url;
 
+	
+	
 	public void createClient(String url) {
 		this.url = url;
 		simpleclient = Feign.builder().target(AAMRestService.class, url);
 		jsonclient = Feign.builder().decoder(new GsonDecoder()).encoder(new GsonEncoder()).target(AAMRestService.class, url);
+	}
+
+	public String getURL(){
+		return url;
 	}
 
 	private byte[] getAAMRootCertificateAsByteArray(){

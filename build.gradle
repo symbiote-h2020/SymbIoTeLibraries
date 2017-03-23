@@ -40,11 +40,8 @@ dependencies {
     compile('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
     compile('com.netflix.feign:feign-gson:8.18.0')
 	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
-	//compile('com.github.symbiote-h2020:SymbIoTeLibraries:master')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-	}
-
-
+}
 
 dependencyManagement {
     imports {
