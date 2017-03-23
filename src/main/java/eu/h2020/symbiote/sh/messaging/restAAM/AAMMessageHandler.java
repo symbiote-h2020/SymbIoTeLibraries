@@ -15,7 +15,7 @@ import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 
-public class AAMMessageHandler {
+public abstract class AAMMessageHandler {
 	private static final Log logger = LogFactory.getLog(AAMMessageHandler.class);
 	private AAMRestService simpleclient;
 	private AAMRestService jsonclient;
@@ -23,11 +23,16 @@ public class AAMMessageHandler {
 
     public AAMMessageHandler() {
     }
-
+	
+	
 	public void createClient(String url) {
 		this.url = url;
 		simpleclient = Feign.builder().target(AAMRestService.class, url);
 		jsonclient = Feign.builder().decoder(new GsonDecoder()).encoder(new GsonEncoder()).target(AAMRestService.class, url);
+	}
+
+	public String getURL(){
+		return url;
 	}
 
 	private byte[] getAAMRootCertificateAsByteArray(){
@@ -64,6 +69,28 @@ public class AAMMessageHandler {
 		try{
             logger.info("User trying to checkTokenRevocation");
 			result = jsonclient.checkTokenRevocation(token);
+		}catch(Throwable t){
+			logger.error("Error accessing to AAM server at "+url, t);
+		}
+		return result;
+	}
+
+	public Token requestCoreToken(Token token)  {
+		Token result = null;
+		try{
+            logger.info("User trying to requestCoreToken");
+			result = jsonclient.requestCoreToken(token);
+		}catch(Throwable t){
+			logger.error("Error accessing to AAM server at "+url, t);
+		}
+		return result;
+	}
+
+	public Token requestForeignToken(Token token)  {
+		Token result = null;
+		try{
+            logger.info("User trying to requestForeignToken");
+			result = jsonclient.requestForeignToken(token);
 		}catch(Throwable t){
 			logger.error("Error accessing to AAM server at "+url, t);
 		}

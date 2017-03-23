@@ -24,9 +24,7 @@ public class GenericRabbitMQRPCMessageHandler <T,O> {
     private static Log logger = LogFactory.getLog( GenericRabbitMQRPCMessageHandler.class );
 
     private String rabbitMQHostIP;
-
     private String exchangeName = "";
-
     private Connection connection;
     private Channel channel;
     private QueueingConsumer consumer;

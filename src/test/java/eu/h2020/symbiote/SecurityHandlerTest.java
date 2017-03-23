@@ -8,8 +8,10 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -42,7 +45,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * @version: 06/10/2016
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = "symbiote.coreaam.url=http://localhost:8033")
+@SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = {"symbiote.testaam.url=http://localhost:8033", "symbiote.coreaam.url=http://localhost:8033"})
 @ContextConfiguration(locations = {"classpath:test-properties.xml" })
 @Configuration
 @ComponentScan
@@ -52,8 +55,11 @@ public class SecurityHandlerTest {
 	    
   private static final Log logger = LogFactory.getLog(SecurityHandlerTest.class);
 
-  SecurityHandler securityHandler;
+  private SecurityHandler securityHandler;
 
+  @Value("${symbiote.testaam.url}")
+  private String aamUrl;
+  
   @Before
   public void setUp() throws Exception {
   	String coreAAMUrl = "http://localhost:8033";
@@ -80,19 +86,31 @@ public class SecurityHandlerTest {
 		}
   }
 
+
   @Test
-  public void testPlatformLogin() {
-        assert(securityHandler.homeLogin("user", "password"));
+  public void testRequestCoreToken() {
+	  	SHToken token = securityHandler.requestCoreToken("user", "password");
+        assert(token!=null);
   }
 
   @Test
-  public void testCoreLogin() {
-        assert(securityHandler.coreLogin("user", "password"));
+  public void testRequestForeignToken() {
+	  securityHandler.requestCoreToken("user", "password");
+	  ArrayList<String> urllist = new ArrayList<String>();
+	  urllist.add(aamUrl);
+	  HashMap<String, SHToken>tokens = securityHandler.requestForeignTokens(urllist);
+      assert(tokens!=null);
+  }
+
+  @Test
+  public void testRequestCoreTokenFromApplication() {
+	  	SHToken token = securityHandler.appRequestCoreToken("user", "password");
+        assert(token!=null);
   }
   
   
   @Test
-  public void testTokenValidation(){
+  public void testCoreTokenValidation(){
 	  final String ALIAS = "mytest";
 	  try{
 		  KeyStore ks = KeyStore.getInstance("JKS");
@@ -117,7 +135,34 @@ public class SecurityHandlerTest {
 	  }
 			
 	}
-		
+
+  @Test
+  public void testForeignPlatformTokenValidation(){
+	  final String ALIAS = "mytest";
+	  try{
+		  KeyStore ks = KeyStore.getInstance("JKS");
+		  InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
+		  ks.load(readStream, "password".toCharArray());
+		  Key key = ks.getKey(ALIAS, "password".toCharArray());
+		  readStream.close();
+
+		  String tokenString=  Jwts.builder()
+				  .setSubject("test1")
+				  .setExpiration( DateUtil.addDays(new Date(), 1))
+				  .claim("name", "test2")
+				  .signWith(SignatureAlgorithm.RS512, key)
+				  .compact();
+		  SHToken token = securityHandler.verifyForeignPlatformToken(aamUrl, tokenString);
+		  boolean result =  "test1".equals(token.getClaim(SHToken.JWT_CLAIMS_SUBJECT));
+		  result  &=  "test2".equals(token.getClaim("name"));
+		  assert(result);
+	  }catch(Throwable t){
+		  logger.error(t);
+		  assert(false);
+	  }
+			
+	}
+
 	static public class DateUtil
 	{
 	    public static Date addDays(Date date, int days)

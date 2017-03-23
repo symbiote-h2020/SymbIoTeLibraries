@@ -18,5 +18,14 @@ public interface AAMRestService {
 	
 	@RequestLine("POST "+SHConstants.DO_CORE_AAM_CHECK_TOKEN_REVOCATION)
 	@Headers({"Content-Type: application/json", "Accept: application/json"})
-    public Status checkTokenRevocation(Token token); 
+    public Status checkTokenRevocation(Token token);
+	
+	@RequestLine("POST "+SHConstants.DO_REQUEST_CORE_TOKEN)
+	@Headers({"Content-Type: application/json", "Accept: application/json"})
+    public Token requestCoreToken(Token token);
+
+	@RequestLine("POST "+SHConstants.DO_REQUEST_FOREIGN_TOKEN)
+	@Headers({"Content-Type: application/json", "Accept: application/json"})
+    public Token requestForeignToken(Token token);
+
 }

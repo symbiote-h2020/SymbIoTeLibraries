@@ -20,8 +20,9 @@ import eu.h2020.symbiote.sh.messaging.core.CoreAAMMessageHandler;
 
 public class CertificateValidator {
 	private static final Log logger = LogFactory.getLog(CertificateValidator.class);
-	X509Certificate coreAAMX509Certificate;
-	CoreAAMMessageHandler coreAAM;
+	
+	private X509Certificate coreAAMX509Certificate;
+	private CoreAAMMessageHandler coreAAM;
 	
 	public CertificateValidator(CoreAAMMessageHandler coreAAM){
 		this.coreAAM = coreAAM;

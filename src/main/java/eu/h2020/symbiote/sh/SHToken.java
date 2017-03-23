@@ -4,8 +4,8 @@ import eu.h2020.symbiote.sh.messaging.bean.Token;
 import io.jsonwebtoken.Claims;
 
 public class SHToken {
-	String token; //encrypted
-	Claims claims;
+	private String token; //encrypted
+	private Claims claims;
 	public final static String JWT_CLAIMS_AUDIENCE = Claims.AUDIENCE;
 	public final static String JWT_CLAIMS_ID = Claims.ID;
 	public final static String JWT_CLAIMS_EXPIRATION = Claims.EXPIRATION;
@@ -39,5 +39,9 @@ public class SHToken {
 	
 	public Object getClaim(String claimName){
 		return claims.get(claimName);
+	}
+
+	public Claims getAllClaims() {
+		return this.claims;
 	}
 }
