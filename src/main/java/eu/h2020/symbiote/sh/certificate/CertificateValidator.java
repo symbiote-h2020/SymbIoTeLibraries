@@ -16,13 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import eu.h2020.symbiote.sh.messaging.core.CoreAAMMessageHandler;
-@Component
+
+
 public class CertificateValidator {
 	private static final Log logger = LogFactory.getLog(CertificateValidator.class);
 	X509Certificate coreAAMX509Certificate;
-	@Autowired CoreAAMMessageHandler coreAAM;
+	CoreAAMMessageHandler coreAAM;
 	
-	public CertificateValidator(){
+	public CertificateValidator(CoreAAMMessageHandler coreAAM){
+		this.coreAAM = coreAAM;
 	}
 	
 	public boolean validate(KeyStore p12Certificate) throws CertificateVerificationException {

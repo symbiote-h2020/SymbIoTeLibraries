@@ -40,7 +40,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
  *
  * @author: Elena Garrido
  * @version: 06/10/2016
-
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = "symbiote.coreaam.url=http://localhost:8033")
@@ -53,10 +52,13 @@ public class SecurityHandlerTest {
 	    
   private static final Log logger = LogFactory.getLog(SecurityHandlerTest.class);
 
-  @Autowired SecurityHandler securityHandler;
+  SecurityHandler securityHandler;
 
   @Before
   public void setUp() throws Exception {
+  	String coreAAMUrl = "http://localhost:8033";
+  	String rabbitMQHostIP = "localhost";
+    securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP);
   }
 
 

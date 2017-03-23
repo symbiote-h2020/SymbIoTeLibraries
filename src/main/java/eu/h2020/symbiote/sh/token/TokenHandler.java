@@ -14,12 +14,16 @@ import eu.h2020.symbiote.sh.messaging.bean.Token;
 import eu.h2020.symbiote.sh.messaging.core.CoreAAMMessageHandler;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-@Component
+
 public class TokenHandler {
-	@Autowired CoreAAMMessageHandler coreAAM;
+	CoreAAMMessageHandler coreAAM;
 
 	X509Certificate coreAAMX509Certificate;
 
+    public TokenHandler(CoreAAMMessageHandler coreAAM) {
+    	this.coreAAM = coreAAM;
+    }
+    
 	public void validateCoreToken(SHToken token) throws TokenVerificationException {
 		try{
 			//TODO checkChallengeResponse()

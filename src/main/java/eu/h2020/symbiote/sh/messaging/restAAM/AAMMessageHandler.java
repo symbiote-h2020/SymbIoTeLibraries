@@ -17,9 +17,12 @@ import feign.gson.GsonEncoder;
 
 public class AAMMessageHandler {
 	private static final Log logger = LogFactory.getLog(AAMMessageHandler.class);
-	AAMRestService simpleclient;
-	AAMRestService jsonclient;
-	String url;
+	private AAMRestService simpleclient;
+	private AAMRestService jsonclient;
+	private String url;
+
+    public AAMMessageHandler() {
+    }
 
 	public void createClient(String url) {
 		this.url = url;

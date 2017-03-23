@@ -10,7 +10,6 @@ import eu.h2020.symbiote.sh.messaging.bean.Token;
  *
  * @author: Elena Garrido
  * @version: 06/03/2017
-
  */
 /**! \class RabbitMQRPCMessageHandlerCredentialToken
  * \brief This class extends from the \class GenericRabbitMQRPCMessageHandler and will be able to write and read a \class Credential
@@ -18,7 +17,7 @@ import eu.h2020.symbiote.sh.messaging.bean.Token;
  **/
 class RabbitMQRPCMessageHandlerCredentialToken extends GenericRabbitMQRPCMessageHandler<Credential,Token> {
 
-    public RabbitMQRPCMessageHandlerCredentialToken(String excchangeName, String requestQueueName, String replyQueueName) {
-		super(excchangeName, requestQueueName, replyQueueName, Token.class);
+    public RabbitMQRPCMessageHandlerCredentialToken(String rabbitMQHostIP, String exchangeName, String requestQueueName, String replyQueueName) {
+		super(rabbitMQHostIP, exchangeName, requestQueueName, replyQueueName, Token.class);
 	}
 }

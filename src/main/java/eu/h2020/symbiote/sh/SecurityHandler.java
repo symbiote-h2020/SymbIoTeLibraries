@@ -14,24 +14,35 @@ import eu.h2020.symbiote.sh.session.SessionInformation;
 import eu.h2020.symbiote.sh.token.TokenHandler;
 import eu.h2020.symbiote.sh.token.TokenVerificationException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Class exposing the library from security handler
  *
  * @author: Elena Garrido
  * @version: 08/03/2017
-
  */
 /**! \class SecurityHandler
  * \brief This class implement the methods to be used by the component in order to integrate with the security from symbIoTe
  **/
-@Component
+
 public class SecurityHandler {
-	@Autowired PlatformAAMMessageHandler platformMessageHandler;
-	@Autowired CoreAAMMessageHandler coreMessageHandler;
-	@Autowired SessionInformation sessionInformation;
-	@Autowired TokenHandler tokenValidator;
-	@Autowired CertificateValidator certificateValidator; 
+	private static final Log logger = LogFactory.getLog(SecurityHandler .class);
+	PlatformAAMMessageHandler platformMessageHandler;
+	CoreAAMMessageHandler coreMessageHandler;
+	SessionInformation sessionInformation;
+	TokenHandler tokenHandler;
+	CertificateValidator certificateValidator; 
 	
+    public  SecurityHandler(String coreAAMUrl, String rabbitMQHostIP) {
+    	this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP);
+    	this.coreMessageHandler = new CoreAAMMessageHandler(coreAAMUrl);
+    	this.sessionInformation = new SessionInformation();
+    	this.tokenHandler = new TokenHandler(this.coreMessageHandler);
+    	this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
+    }
+
 	public boolean homeLogin(String userName, String password){
 		Credential credentials = new Credential();
 		credentials.setUser(userName);
@@ -75,7 +86,7 @@ public class SecurityHandler {
 	}
 
 	public void verifyCoreToken(SHToken token) throws TokenVerificationException{
-		tokenValidator.validateCoreToken(token);
+		tokenHandler.validateCoreToken(token);
 	}
 
 	public SHToken verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenVerificationException{
@@ -85,7 +96,7 @@ public class SecurityHandler {
 	}
 
 	public void verifyForeignPlatformToken(String aamURL, SHToken token) throws TokenVerificationException{
-		tokenValidator.validateForeignPlatformToken(aamURL, token);
+		tokenHandler.validateForeignPlatformToken(aamURL, token);
 	}
 
 }

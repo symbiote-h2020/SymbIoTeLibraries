@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.google.gson.Gson;
 import com.rabbitmq.client.AMQP.BasicProperties;
@@ -19,30 +18,30 @@ import com.rabbitmq.client.QueueingConsumer;
  *
  * @author: Elena Garrido
  * @version: 18/01/2017
-
  */
 public class GenericRabbitMQRPCMessageHandler <T,O> {
 
     private static Log logger = LogFactory.getLog( GenericRabbitMQRPCMessageHandler.class );
 
-    @Value("${symbiote.rabbitmq.host.ip}")
-    String rabbitMQHostIP;
+    private String rabbitMQHostIP;
 
-    String exchangeName = "";
+    private String exchangeName = "";
 
     private Connection connection;
     private Channel channel;
     private QueueingConsumer consumer;
-    String replyQueueName;
-    String requestQueueName;
-    Type type;
+    private String replyQueueName;
+    private String requestQueueName;
+    private Type type;
     
-    public GenericRabbitMQRPCMessageHandler(String exchangeName, String requestQueueName, String replyQueueName, Type type) {
+    public GenericRabbitMQRPCMessageHandler(String rabbitMQHostIP, String exchangeName, String requestQueueName, String replyQueueName, Type type) {
     	logger.info("Creating with requestQueueName:"+requestQueueName+" and replyQueueName:" +replyQueueName);
-    	this.replyQueueName = replyQueueName;
+        this.replyQueueName = replyQueueName;
     	this.requestQueueName = requestQueueName;
     	this.type= type;
     	this.exchangeName = exchangeName;
+        this.rabbitMQHostIP = rabbitMQHostIP;
+
     }
     
     public void connect() throws Exception{

@@ -6,7 +6,6 @@ import eu.h2020.symbiote.sh.SHToken;
 import eu.h2020.symbiote.sh.messaging.bean.Credential;
 
 
-@Component
 public class SessionInformation {
 	SHToken homeToken;
 	SHToken coreToken;

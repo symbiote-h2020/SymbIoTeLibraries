@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 
 import eu.h2020.symbiote.sh.messaging.restAAM.AAMMessageHandler;
 
-@Component
-@EnableAutoConfiguration
 public class ForeignPlatformAAMMessageHandler  extends AAMMessageHandler {
 	private static final Log logger = LogFactory.getLog(ForeignPlatformAAMMessageHandler .class);
 	@Value("${symbiote.coreaam.url}")
