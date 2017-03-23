@@ -1,6 +1,17 @@
 package eu.h2020.symbiote;
 
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -10,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.h2020.symbiote.SecurityHandlerTest.DateUtil;
 import eu.h2020.symbiote.sh.constants.SHConstants;
 import eu.h2020.symbiote.sh.messaging.bean.Credential;
 import eu.h2020.symbiote.sh.messaging.bean.Status;
 import eu.h2020.symbiote.sh.messaging.bean.Token;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 
 /*
@@ -71,7 +85,60 @@ public class CoreAAMDummyServer {
 	  return status;
   }       
 
-  
+  @RequestMapping(method = RequestMethod.POST, path = SHConstants.DO_REQUEST_CORE_TOKEN, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+  public @ResponseBody Token requestCoreToken(@RequestBody Token homeToken) {
+	  final String ALIAS = "mytest";
+	  logger.info("Requesting core token, received home token "+homeToken.getToken());
+	  try {
+		  KeyStore  ks = KeyStore.getInstance("JKS");
+		  InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
+		  ks.load(readStream, "password".toCharArray());
+		  Key key = ks.getKey(ALIAS, "password".toCharArray());
+		  readStream.close();
+		  String tokenString=  Jwts.builder()
+				  .setSubject("coreAAM")
+				  .setExpiration( DateUtil.addDays(new Date(), 1))
+				  .claim("name1", "value1")
+				  .claim("name2", "value2")
+				  .claim("name3", "value3")
+				  .signWith(SignatureAlgorithm.RS512, key)
+				  .compact();
+		  Token coreToken = new Token();
+		  coreToken.setToken(tokenString);
+		  return coreToken;
+	  } catch (KeyStoreException |  NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableKeyException e) {
+		  logger.error(e);
+	  }
+	  return null;
+  }       
+
+  @RequestMapping(method = RequestMethod.POST, path = SHConstants.DO_REQUEST_FOREIGN_TOKEN, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
+  public @ResponseBody Token requestForeignToken(@RequestBody Token homeToken) {
+	  final String ALIAS = "mytest";
+	  logger.info("Requesting foreign token, received home token "+homeToken.getToken());
+	  try {
+		  KeyStore  ks = KeyStore.getInstance("JKS");
+		  InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
+		  ks.load(readStream, "password".toCharArray());
+		  Key key = ks.getKey(ALIAS, "password".toCharArray());
+		  readStream.close();
+		  String tokenString=  Jwts.builder()
+				  .setSubject("foreign")
+				  .setExpiration( DateUtil.addDays(new Date(), 1))
+				  .claim("fname1", "fvalue1")
+				  .claim("fname2", "fvalue2")
+				  .claim("fname3", "fvalue3")
+				  .signWith(SignatureAlgorithm.RS512, key)
+				  .compact();
+		  Token coreToken = new Token();
+		  coreToken.setToken(tokenString);
+		  return coreToken;
+	  } catch (KeyStoreException |  NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableKeyException e) {
+		  logger.error(e);
+	  }
+	  return null;
+  }       
+
 
 }
 

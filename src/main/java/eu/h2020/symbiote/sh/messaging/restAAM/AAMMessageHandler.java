@@ -73,4 +73,26 @@ public abstract class AAMMessageHandler {
 		return result;
 	}
 
+	public Token requestCoreToken(Token token)  {
+		Token result = null;
+		try{
+            logger.info("User trying to requestCoreToken");
+			result = jsonclient.requestCoreToken(token);
+		}catch(Throwable t){
+			logger.error("Error accessing to AAM server at "+url, t);
+		}
+		return result;
+	}
+
+	public Token requestForeignToken(Token token)  {
+		Token result = null;
+		try{
+            logger.info("User trying to requestForeignToken");
+			result = jsonclient.requestForeignToken(token);
+		}catch(Throwable t){
+			logger.error("Error accessing to AAM server at "+url, t);
+		}
+		return result;
+	}
+
 }

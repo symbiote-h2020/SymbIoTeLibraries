@@ -22,6 +22,16 @@ public class TokenHandler {
 	@Autowired CoreAAMMessageHandler coreAAM;
 	HashMap<String, X509Certificate> publicCertificates = new HashMap<String, X509Certificate>();
 
+	public SHToken requestCoreToken(SHToken homeToken)  {
+		return new SHToken(coreAAM.requestCoreToken(new Token(homeToken.getToken())));
+	}
+	
+	public SHToken requestForeignToken(String aamURL, SHToken coreToken)  {
+		ForeignPlatformAAMMessageHandler platformAAM = new ForeignPlatformAAMMessageHandler();
+		platformAAM.createClient(aamURL);
+		return new SHToken(platformAAM.requestForeignToken(new Token(coreToken.getToken())));
+	}
+
 
 	public void validateCoreToken(SHToken token) throws TokenVerificationException {
 		try{
@@ -65,11 +75,11 @@ public class TokenHandler {
 	}
 
 
-    private X509Certificate getCA(AAMMessageHandler platformAAM) throws CertificateException  {
-    	String url = platformAAM.getURL();
+    private X509Certificate getCA(AAMMessageHandler aamMessagHandler) throws CertificateException  {
+    	String url = aamMessagHandler.getURL();
     	X509Certificate aamX509Certificate = publicCertificates.get(url); 	
     	if (aamX509Certificate==null){
-    		aamX509Certificate = platformAAM.getAAMRootCertificate();
+    		aamX509Certificate = aamMessagHandler.getAAMRootCertificate();
     		publicCertificates.put(url, aamX509Certificate);
     	}
 		return aamX509Certificate;

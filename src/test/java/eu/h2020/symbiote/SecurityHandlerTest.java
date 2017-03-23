@@ -8,8 +8,10 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,14 +83,26 @@ public class SecurityHandlerTest {
 		}
   }
 
+
   @Test
-  public void testPlatformLogin() {
-        assert(securityHandler.homeLogin("user", "password"));
+  public void testRequestCoreToken() {
+	  	SHToken token = securityHandler.requestCoreToken("user", "password");
+        assert(token!=null);
   }
 
   @Test
-  public void testCoreLogin() {
-        assert(securityHandler.coreLogin("user", "password"));
+  public void testRequestForeignToken() {
+	  securityHandler.requestCoreToken("user", "password");
+	  ArrayList<String> urllist = new ArrayList<String>();
+	  urllist.add(coreAAMUrl);
+	  HashMap<String, SHToken>tokens = securityHandler.requestForeignTokens(urllist);
+      assert(tokens!=null);
+  }
+
+  @Test
+  public void testRequestCoreTokenFromApplication() {
+	  	SHToken token = securityHandler.appRequestCoreToken("user", "password");
+        assert(token!=null);
   }
   
   

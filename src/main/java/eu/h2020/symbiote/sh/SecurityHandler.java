@@ -1,6 +1,8 @@
 package eu.h2020.symbiote.sh;
 
 import java.security.KeyStore;
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,25 +31,57 @@ public class SecurityHandler {
 	@Autowired PlatformAAMMessageHandler platformMessageHandler;
 	@Autowired CoreAAMMessageHandler coreMessageHandler;
 	@Autowired SessionInformation sessionInformation;
-	@Autowired TokenHandler tokenValidator;
+	@Autowired TokenHandler tokenHandler;
 	@Autowired CertificateValidator certificateValidator; 
 	
-	public boolean homeLogin(String userName, String password){
-		Credential credentials = new Credential();
-		credentials.setUser(userName);
-		credentials.setPasswd(password);
-		SHToken homeToken= new SHToken(platformMessageHandler.login(credentials));
-		sessionInformation.setHomeToken(homeToken);
-		return homeToken!=null;
+
+	public SHToken appRequestCoreToken(String userName, String password){
+		SHToken coreToken = sessionInformation.getCoreToken(); 
+		if (coreToken==null){
+			//not logged in
+			Credential credentials = new Credential();
+			credentials.setUser(userName);
+			credentials.setPasswd(password);
+			coreToken= new SHToken(coreMessageHandler.login(credentials));
+			sessionInformation.setCoreToken(coreToken);
+		}
+		return coreToken;		
 	}
 
-	public boolean coreLogin(String userName, String password){
-		Credential credentials = new Credential();
-		credentials.setUser(userName);
-		credentials.setPasswd(password);
-		SHToken coreToken= new SHToken(coreMessageHandler.login(credentials));
-		sessionInformation.setCoreToken(coreToken);
-		return coreToken!=null;		
+	public SHToken requestCoreToken(String userName, String password){
+		SHToken coreToken = sessionInformation.getCoreToken(); 
+		if (coreToken==null){
+			//not logged in
+			Credential credentials = new Credential();
+			credentials.setUser(userName);
+			credentials.setPasswd(password);
+			SHToken homeToken= new SHToken(platformMessageHandler.login(credentials));
+			//TODO challenge response procedure??
+			coreToken = tokenHandler.requestCoreToken(homeToken);
+			sessionInformation.setHomeToken(homeToken);
+			sessionInformation.setCoreToken(coreToken);
+		}
+		return coreToken;		
+	}
+
+	
+	
+	public HashMap<String, SHToken> requestForeignTokens(List<String> aamUrls){
+		HashMap<String, SHToken> foreignTokens = null;
+		SHToken coreToken = sessionInformation.getCoreToken(); 
+		if (coreToken!=null){
+			//logged in
+			foreignTokens = new HashMap<String, SHToken>(); 
+			for (String url : aamUrls){
+				SHToken foreignToken = sessionInformation.getForeignToken(url);
+				if (foreignToken==null){
+					foreignToken = tokenHandler.requestForeignToken(url, coreToken);
+					sessionInformation.setForeignToken(url, foreignToken);
+				}
+				foreignTokens.put(url, foreignToken);
+			}
+		}
+		return foreignTokens;		
 	}
 
 	public void logout(){
@@ -75,7 +109,7 @@ public class SecurityHandler {
 	}
 
 	public void verifyCoreToken(SHToken token) throws TokenVerificationException{
-		tokenValidator.validateCoreToken(token);
+		tokenHandler.validateCoreToken(token);
 	}
 
 	public SHToken verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenVerificationException{
@@ -85,7 +119,7 @@ public class SecurityHandler {
 	}
 
 	public void verifyForeignPlatformToken(String aamURL, SHToken token) throws TokenVerificationException{
-		tokenValidator.validateForeignPlatformToken(aamURL, token);
+		tokenHandler.validateForeignPlatformToken(aamURL, token);
 	}
 
 }
