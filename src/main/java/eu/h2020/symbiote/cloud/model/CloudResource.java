@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 
 import eu.h2020.symbiote.core.model.Location;
 public class CloudResource  implements Cloneable{
+
     @Id
     private String internalId;
     private String id;
@@ -18,9 +19,9 @@ public class CloudResource  implements Cloneable{
     private String featureOfInterest = null;
     private String platformId;
 
+
     public CloudResource() {
     }
-
 
     public String getInternalId() {
         return internalId;
