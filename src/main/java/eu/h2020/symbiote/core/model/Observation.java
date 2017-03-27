@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.h2020.symbiote.model.data;
+package eu.h2020.symbiote.core.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -44,7 +44,7 @@ public class Observation {
         return resourceId;
     }
 
-    public Location getLocation() {
+    public WGS84Location getLocation() {
         return location;
     }
 

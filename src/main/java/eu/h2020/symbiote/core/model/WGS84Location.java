@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.h2020.symbiote.model.data;
+package eu.h2020.symbiote.core.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
  */
-public class WGS84Location extends Location {
+public class WGS84Location extends AbstractLocation {
     
     @JsonProperty("longitude")
     private final double longitude;

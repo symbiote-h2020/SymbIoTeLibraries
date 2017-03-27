@@ -5,26 +5,30 @@
  */
 package eu.h2020.symbiote.core.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  *
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
  */
-public class Property {
-    
-    @JsonProperty("label")
-    private final String label;
-    @JsonProperty("comment")
-    private final String comment;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = WGS84Location.class,   name = "WGS84Location")
+})
+abstract public class AbstractLocation {
+    @JsonProperty("name")
+    String label;
+    @JsonProperty("description")
+    String comment;
 
-    @JsonCreator
-    public Property(@JsonProperty("label") String label, 
-                    @JsonProperty("comment") String comment) {
+    /*
+    public Location(String label, String comment) {
         this.label = label;
         this.comment = comment;
-    }
+    }*/
 
     public String getLabel() {
         return label;
@@ -33,5 +37,4 @@ public class Property {
     public String getComment() {
         return comment;
     }
-    
 }
