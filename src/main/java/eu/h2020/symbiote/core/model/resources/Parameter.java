@@ -1,16 +1,16 @@
 package eu.h2020.symbiote.core.model.resources;
 
 /**
- * Represents CIM-defined Output class (named Parameter in CIM v0.5).
+ * Represents CIM-defined Parameter class (named Parameter in CIM v0.5).
  *
  * Created by Mael on 28/03/2017.
  */
-public class Output {
+public class Parameter {
 
     private boolean isArray;
     private String datatype;
 
-    public Output() {
+    public Parameter() {
     }
 
     public boolean isArray() {

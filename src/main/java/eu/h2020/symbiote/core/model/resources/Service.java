@@ -10,8 +10,8 @@ import java.util.List;
 public class Service extends Resource {
 
     private String name;
-    private Output hasOutputParamter;
-    private List<Input> hasInputParameter;
+    private Parameter hasOutputParameter;
+    private List<InputParameter> hasInputParameter;
 
     public Service() {
     }
@@ -24,19 +24,19 @@ public class Service extends Resource {
         this.name = name;
     }
 
-    public Output getHasOutputParamter() {
-        return hasOutputParamter;
+    public Parameter getHasOutputParameter() {
+        return hasOutputParameter;
     }
 
-    public void setHasOutputParamter(Output hasOutputParamter) {
-        this.hasOutputParamter = hasOutputParamter;
+    public void setHasOutputParameter(Parameter hasOutputParameter) {
+        this.hasOutputParameter = hasOutputParameter;
     }
 
-    public List<Input> getHasInputParameter() {
+    public List<InputParameter> getHasInputParameter() {
         return hasInputParameter;
     }
 
-    public void setHasInputParameter(List<Input> hasInputParameter) {
+    public void setHasInputParameter(List<InputParameter> hasInputParameter) {
         this.hasInputParameter = hasInputParameter;
     }
 }
