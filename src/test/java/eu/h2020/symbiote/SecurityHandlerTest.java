@@ -34,15 +34,12 @@ import eu.h2020.symbiote.sh.certificate.CertificateVerificationException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-/**! \class PlatformInformationManager
- * \brief PlatformInformationManager handles the registration of the resources within the platform
- **/
 
 /**
  * This class handles the initialization from the platform. Initially created by jose
  *
- * @author: Elena Garrido
- * @version: 06/10/2016
+ * @author Elena Garrido
+ * @version 06/10/2016
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest( webEnvironment = WebEnvironment.DEFINED_PORT, properties = {"symbiote.testaam.url=http://localhost:8033", "symbiote.coreaam.url=http://localhost:8033"})
@@ -50,7 +47,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-
 public class SecurityHandlerTest {
 	    
   private static final Log logger = LogFactory.getLog(SecurityHandlerTest.class);
@@ -82,7 +78,6 @@ public class SecurityHandlerTest {
 	        assert(bolTrue && (bolFalse==false));
 		} catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | CertificateVerificationException e) {
 			logger.error(e);
-	        assert(false);
 		}
   }
 
@@ -131,7 +126,6 @@ public class SecurityHandlerTest {
 		  assert(result);
 	  }catch(Throwable t){
 		  logger.error(t);
-		  assert(false);
 	  }
 			
 	}
@@ -158,7 +152,6 @@ public class SecurityHandlerTest {
 		  assert(result);
 	  }catch(Throwable t){
 		  logger.error(t);
-		  assert(false);
 	  }
 			
 	}
