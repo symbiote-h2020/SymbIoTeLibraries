@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 
-import eu.h2020.symbiote.sh.constants.SHConstants;
-import eu.h2020.symbiote.sh.messaging.bean.Credential;
-import eu.h2020.symbiote.sh.messaging.bean.Token;
+import eu.h2020.symbiote.commons.security.constants.SHConstants;
+import eu.h2020.symbiote.commons.security.messaging.bean.Credential;
+import eu.h2020.symbiote.commons.security.messaging.bean.Token;
 
 @Service
 public class PlatformAAMDummyServer {
@@ -33,7 +33,6 @@ public class PlatformAAMDummyServer {
 	   * to the symbIoTe core. As soon as it receives a reply, it manually sends back the response
 	   * to the Registration Handler via the appropriate message queue by the use of the RestAPICallback.
 	   * 
-	   * @param jsonObject A jsonObject containing the resource description
 	   * @param headers The AMQP headers
 	   */
 	    @RabbitListener(bindings = @QueueBinding(

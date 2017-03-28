@@ -18,7 +18,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,9 +27,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import eu.h2020.symbiote.sh.SHToken;
-import eu.h2020.symbiote.sh.SecurityHandler;
-import eu.h2020.symbiote.sh.certificate.CertificateVerificationException;
+import eu.h2020.symbiote.commons.security.token.SymbIoTeToken;
+import eu.h2020.symbiote.commons.security.SecurityHandler;
+import eu.h2020.symbiote.commons.security.certificate.CertificateVerificationException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -84,7 +83,7 @@ public class SecurityHandlerTest {
 
   @Test
   public void testRequestCoreToken() {
-	  	SHToken token = securityHandler.requestCoreToken("user", "password");
+	  	SymbIoTeToken token = securityHandler.requestCoreToken("user", "password");
         assert(token!=null);
   }
 
@@ -93,13 +92,13 @@ public class SecurityHandlerTest {
 	  securityHandler.requestCoreToken("user", "password");
 	  ArrayList<String> urllist = new ArrayList<String>();
 	  urllist.add(aamUrl);
-	  HashMap<String, SHToken>tokens = securityHandler.requestForeignTokens(urllist);
+	  HashMap<String, SymbIoTeToken>tokens = securityHandler.requestForeignTokens(urllist);
       assert(tokens!=null);
   }
 
   @Test
   public void testRequestCoreTokenFromApplication() {
-	  	SHToken token = securityHandler.appRequestCoreToken("user", "password");
+	  	SymbIoTeToken token = securityHandler.appRequestCoreToken("user", "password");
         assert(token!=null);
   }
   
@@ -120,8 +119,8 @@ public class SecurityHandlerTest {
 				  .claim("name", "test2")
 				  .signWith(SignatureAlgorithm.RS512, key)
 				  .compact();
-		  SHToken token = securityHandler.verifyCoreToken(tokenString);
-		  boolean result =  "test1".equals(token.getClaim(SHToken.JWT_CLAIMS_SUBJECT));
+		  SymbIoTeToken token = securityHandler.verifyCoreToken(tokenString);
+		  boolean result =  "test1".equals(token.getClaim(SymbIoTeToken.JWT_CLAIMS_SUBJECT));
 		  result  &=  "test2".equals(token.getClaim("name"));
 		  assert(result);
 	  }catch(Throwable t){
@@ -146,8 +145,8 @@ public class SecurityHandlerTest {
 				  .claim("name", "test2")
 				  .signWith(SignatureAlgorithm.RS512, key)
 				  .compact();
-		  SHToken token = securityHandler.verifyForeignPlatformToken(aamUrl, tokenString);
-		  boolean result =  "test1".equals(token.getClaim(SHToken.JWT_CLAIMS_SUBJECT));
+		  SymbIoTeToken token = securityHandler.verifyForeignPlatformToken(aamUrl, tokenString);
+		  boolean result =  "test1".equals(token.getClaim(SymbIoTeToken.JWT_CLAIMS_SUBJECT));
 		  result  &=  "test2".equals(token.getClaim("name"));
 		  assert(result);
 	  }catch(Throwable t){

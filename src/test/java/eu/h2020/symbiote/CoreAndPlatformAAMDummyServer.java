@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import eu.h2020.symbiote.SecurityHandlerTest.DateUtil;
-import eu.h2020.symbiote.sh.constants.SHConstants;
-import eu.h2020.symbiote.sh.messaging.bean.Credential;
-import eu.h2020.symbiote.sh.messaging.bean.Status;
-import eu.h2020.symbiote.sh.messaging.bean.Token;
+import eu.h2020.symbiote.commons.security.constants.SHConstants;
+import eu.h2020.symbiote.commons.security.messaging.bean.Credential;
+import eu.h2020.symbiote.commons.security.messaging.bean.Status;
+import eu.h2020.symbiote.commons.security.messaging.bean.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
