@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import java.util.List;
 
 
-public class Resource {
+public class Old_Resource {
     @Id
     private String id;
     private String name;
@@ -17,7 +17,7 @@ public class Resource {
     private String featureOfInterest = null;
     private String platformId;
 
-    public Resource() {
+    public Old_Resource() {
     }
 
     public String getId() {
