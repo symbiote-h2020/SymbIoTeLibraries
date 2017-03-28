@@ -1,7 +1,5 @@
 package eu.h2020.symbiote.core.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springframework.data.annotation.Id;
 
 
@@ -58,14 +56,30 @@ public class Platform {
         this.informationModelId = informationModelId;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Platform platform = (Platform) o;
+
+        if (platformId != null ? !platformId.equals(platform.platformId) : platform.platformId != null) return false;
+        if (name != null ? !name.equals(platform.name) : platform.name != null) return false;
+        if (description != null ? !description.equals(platform.description) : platform.description != null)
+            return false;
+        if (url != null ? !url.equals(platform.url) : platform.url != null) return false;
+        return informationModelId != null ? informationModelId.equals(platform.informationModelId) : platform
+                .informationModelId == null;
+    }
+
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        int result = platformId != null ? platformId.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (informationModelId != null ? informationModelId.hashCode() : 0);
+        return result;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
 }

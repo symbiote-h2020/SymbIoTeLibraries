@@ -16,16 +16,13 @@ apply plugin: 'maven-publish'
 
 jar {
     baseName = 'SymbIoTeLibraries'
-    version =  '0.0.1'
+    version =  '0.0.2'
 }
 
 repositories {
     mavenCentral()
     maven { 
         url "https://jitpack.io" 
-    }
-    maven {
-        url 'https://repo.spring.io/libs-snapshot'
     }
 }
 
@@ -38,7 +35,7 @@ publishing {
         maven(MavenPublication) {
             groupId 'eu.h2020.symbiote'
             artifactId 'SymbIoTeLibraries'
-            version '0.0.1'
+            version '0.0.2'
 
             from components.java
         }
@@ -46,13 +43,9 @@ publishing {
 }
 
 dependencies {
-    compile('org.apache.commons:commons-lang3:3.5')
-    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.0.0.M1'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0.pr2'
-    // Use JUnit4
-    testCompile 'junit:junit:4.12'
+    compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7')
+    compile('org.springframework.data:spring-data-commons:1.13.1.RELEASE')
 }
-
 
 jacoco {
     toolVersion = "0.7.7.201606060606"
