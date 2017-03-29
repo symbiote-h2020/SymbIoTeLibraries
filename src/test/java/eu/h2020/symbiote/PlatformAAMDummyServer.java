@@ -37,7 +37,7 @@ public class PlatformAAMDummyServer {
 	   */
 	    @RabbitListener(bindings = @QueueBinding(
 	        value = @Queue(value = SHConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY, durable = "true", autoDelete = "false", exclusive = "false"),
-	        exchange = @Exchange(value = SHConstants.EXCHANGE_NAME, ignoreDeclarationExceptions = "true", type = ExchangeTypes.DIRECT),
+	        exchange = @Exchange(value = SHConstants.EXCHANGE_NAME, ignoreDeclarationExceptions = "true"),
 	        key = SHConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY)
 	    )
 	    public void resourceRegistration(Message message, @Headers() Map<String, String> headers) {
@@ -54,6 +54,7 @@ public class PlatformAAMDummyServer {
 	        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), response.getBytes(),
                m -> {
                 		Object a = headers.get("amqp_correlationId");
+                        // XXX not sure why the correlationIdString is empty and forces us to use deprecated API
                         m.getMessageProperties().setCorrelationId((byte[])a);
                         return m;
                });

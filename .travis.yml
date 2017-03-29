@@ -5,7 +5,7 @@ env:
 jdk:
 - oraclejdk8
 services:
-- rabbitmq // TODO rework rabbitmq tests for mocked service
+- rabbitmq
 sudo: required
 branches:
   only:
