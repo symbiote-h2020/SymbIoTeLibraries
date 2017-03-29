@@ -29,3 +29,4 @@ public interface AAMRestService {
     public Token requestForeignToken(Token token);
 
 }
+

@@ -8,10 +8,10 @@ import eu.h2020.symbiote.commons.security.token.SymbIoTeToken;
 public class SessionInformation {
 	private SymbIoTeToken homeToken;
 	private SymbIoTeToken coreToken;
-	private HashMap<String, SymbIoTeToken> foreignTokens;
+	private HashMap<String, SymbIoTeToken> foreignTokens; 
 
     public SessionInformation() {
-    	this.foreignTokens = new HashMap<String, SymbIoTeToken>() ;
+    	this.foreignTokens = new HashMap<String, SymbIoTeToken>() ; 
 
     }
 

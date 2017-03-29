@@ -46,7 +46,7 @@ public class SecurityHandler {
 	
 
 	public SymbIoTeToken appRequestCoreToken(String userName, String password){
-		SymbIoTeToken coreToken = sessionInformation.getCoreToken();
+		SymbIoTeToken coreToken = sessionInformation.getCoreToken(); 
 		if (coreToken==null){
 			//not logged in
 			Credential credentials = new Credential();
@@ -59,7 +59,7 @@ public class SecurityHandler {
 	}
 
 	public SymbIoTeToken requestCoreToken(String userName, String password){
-		SymbIoTeToken coreToken = sessionInformation.getCoreToken();
+		SymbIoTeToken coreToken = sessionInformation.getCoreToken(); 
 		if (coreToken==null){
 			//not logged in
 			Credential credentials = new Credential();
@@ -78,10 +78,10 @@ public class SecurityHandler {
 	
 	public HashMap<String, SymbIoTeToken> requestForeignTokens(List<String> aamUrls){
 		HashMap<String, SymbIoTeToken> foreignTokens = null;
-		SymbIoTeToken coreToken = sessionInformation.getCoreToken();
+		SymbIoTeToken coreToken = sessionInformation.getCoreToken(); 
 		if (coreToken!=null){
 			//logged in
-			foreignTokens = new HashMap<String, SymbIoTeToken>();
+			foreignTokens = new HashMap<String, SymbIoTeToken>(); 
 			for (String url : aamUrls){
 				SymbIoTeToken foreignToken = sessionInformation.getForeignToken(url);
 				if (foreignToken==null){
@@ -112,7 +112,7 @@ public class SecurityHandler {
 	}
 
 
-	public SymbIoTeToken verifyCoreToken(String encodedTokenString) throws TokenVerificationException {
+	public SymbIoTeToken verifyCoreToken(String encodedTokenString) throws TokenVerificationException{
 		SymbIoTeToken token = new SymbIoTeToken(encodedTokenString);
 		verifyCoreToken(token);
 		return token;

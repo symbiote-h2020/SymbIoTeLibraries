@@ -21,7 +21,6 @@ public class PlatformAAMMessageHandler {
         try {
             logger.info("Sending request of login for "+credential.getUser());
             RabbitMQRPCMessageHandlerCredentialToken rabbitMQMessageHandler = new RabbitMQRPCMessageHandlerCredentialToken(rabbitMQHostIP, SHConstants.EXCHANGE_NAME, SHConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY, SHConstants.HOME_PLATOFRM_AAM_LOGIN_TOKEN_ROUTING_KEY_REPLY);
-        	// applicationContext.getAutowireCapableBeanFactory().autowireBean(rabbitMQMessageHandler);
         	rabbitMQMessageHandler.connect();
      	    Token result = rabbitMQMessageHandler.sendMessage(credential);
       	   	rabbitMQMessageHandler.close();
@@ -32,3 +31,4 @@ public class PlatformAAMMessageHandler {
         return null;
     }
 }
+

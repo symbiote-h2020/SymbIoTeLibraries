@@ -11,3 +11,4 @@ public class Certificate {
 		this.certificate = certificate;
 	}
 }
+

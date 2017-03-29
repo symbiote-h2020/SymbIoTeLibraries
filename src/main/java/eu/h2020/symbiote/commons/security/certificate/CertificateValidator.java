@@ -65,3 +65,4 @@ public class CertificateValidator {
     	  return coreAAMX509Certificate;
    	}
 }
+

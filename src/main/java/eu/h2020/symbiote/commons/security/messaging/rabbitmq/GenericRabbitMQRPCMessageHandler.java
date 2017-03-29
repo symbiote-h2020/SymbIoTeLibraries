@@ -55,6 +55,7 @@ public class GenericRabbitMQRPCMessageHandler <T,O> {
     /**
      * Method for sending a message to specified 'queue' on RabbitMQ server. Object is converted to Json.
      *
+     * @param queueName
      * @param object
      * @throws Exception
      */
@@ -95,3 +96,4 @@ public class GenericRabbitMQRPCMessageHandler <T,O> {
      }
     
 }
+

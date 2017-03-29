@@ -11,3 +11,4 @@ public class SHConstants {
     public static final String DO_REQUEST_CORE_TOKEN="/request_core_token";
 	public static final String DO_REQUEST_FOREIGN_TOKEN = "/request_foreign_token";
 }
+

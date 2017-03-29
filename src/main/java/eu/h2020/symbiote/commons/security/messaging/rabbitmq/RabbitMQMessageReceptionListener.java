@@ -6,3 +6,4 @@ package eu.h2020.symbiote.commons.security.messaging.rabbitmq;
 public interface RabbitMQMessageReceptionListener<T> {
     void onReceivedMessage(T object);
 }
+

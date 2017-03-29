@@ -20,3 +20,4 @@ public class CoreAAMMessageHandler  extends AAMMessageHandler {
 		createClient(coreAAMUrl);
 	}
 }
+

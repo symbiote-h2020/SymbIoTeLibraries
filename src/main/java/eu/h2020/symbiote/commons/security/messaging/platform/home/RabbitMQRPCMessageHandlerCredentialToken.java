@@ -21,3 +21,4 @@ class RabbitMQRPCMessageHandlerCredentialToken extends GenericRabbitMQRPCMessage
 		super(rabbitMQHostIP, exchangeName, requestQueueName, replyQueueName, Token.class);
 	}
 }
+
