@@ -45,6 +45,8 @@ public class GenericRabbitMQRPCMessageHandler <T,O> {
     public void connect() throws Exception{
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(rabbitMQHostIP);
+        factory.setUsername("guest");
+        factory.setPassword("guest");
         connection = factory.newConnection();
         channel = connection.createChannel();
         replyQueueName = channel.queueDeclare().getQueue();
