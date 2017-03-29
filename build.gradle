@@ -85,3 +85,5 @@ task generateJavaDocs(type: Javadoc) {
   source = sourceSets.main.allJava
   destinationDir = reporting.file("javadocs")
 }
+
+bootRepackage.enabled = false
