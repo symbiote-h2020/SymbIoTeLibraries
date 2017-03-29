@@ -6,6 +6,7 @@ jdk:
 - oraclejdk8
 services:
 - rabbitmq // TODO rework rabbitmq tests for mocked service
+sudo: required
 branches:
   only:
   - staging
