@@ -1,3 +1,4 @@
+// initial extensions to gradle
 buildscript {
     ext {
         springBootVersion = '1.5.2.RELEASE'
@@ -7,63 +8,82 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.2.1'
+        classpath 'org.owasp:dependency-check-gradle:1.4.5.1'
     }
 }
 
+// code
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'jacoco'
-apply plugin: 'maven-publish'
 apply plugin: 'org.springframework.boot'
 
+// code quality
+apply plugin: 'jacoco'
+apply plugin: 'org.owasp.dependencycheck'
 
-jar {
-    baseName = 'SymbIoTeLibraries'
-    version =  '0.1.0'
-}
+// IDEs
+apply plugin: 'eclipse'
+apply plugin: 'idea'
 
-repositories {
-    mavenCentral()
-    maven { 
-        url "https://jitpack.io" 
-    }
-}
+// publishing
+apply plugin: 'com.cinnober.gradle.semver-git'
+apply plugin: 'maven-publish'
+
+// XXX please change with your commits according to http://semver.org/
+project.version = '0.1.1'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId 'eu.h2020.symbiote'
-            artifactId 'SymbIoTeLibraries'
-            version '0.0.2'
-
+            groupId = 'eu.h2020.symbiote'
+            version = project.version
             from components.java
         }
     }
 }
 
+// dependencies section
+repositories {
+    mavenCentral()
+}
+
+// Spring related configs
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR6"
+    }
+}
+// this is a library, not a runnable spring-boot jar, therefore
+bootRepackage.enabled = false
+
 dependencies {
     //from SH
-    compile('org.springframework.cloud:spring-cloud-starter-feign')
-    compile('org.springframework.boot:spring-boot-starter-amqp')
     compile('com.netflix.feign:feign-gson:8.18.0')
+    compile('org.springframework.amqp:spring-amqp:1.7.1.RELEASE')
+    compile('org.springframework.amqp:spring-rabbit:1.7.1.RELEASE')
     compile('io.jsonwebtoken:jjwt:0.7.0')
 
-
     //from symbioteLibs
-    compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7')
+    compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7+')
     compile('org.springframework.data:spring-data-commons:1.13.1.RELEASE')
 
+    // common testing
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testRuntime('org.springframework.boot:spring-boot-starter-web')
 }
 
+// code quality below
+task generateJavaDocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+    destinationDir = reporting.file("javadocs")
+}
+
+// jacoco configuration section
 jacoco {
-    toolVersion = "0.7.7.201606060606"
+    toolVersion = "0.7.9"
 }
 
 jacocoTestReport {
@@ -73,17 +93,10 @@ jacocoTestReport {
     }
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.RELEASE"
-    }
+// owasp config
+dependencyCheck {
+    outputDirectory = "build/reports/security"
 }
 
-check.dependsOn jacocoTestReport
-
-task generateJavaDocs(type: Javadoc) {
-  source = sourceSets.main.allJava
-  destinationDir = reporting.file("javadocs")
-}
-
-bootRepackage.enabled = false
+// including code quality extensions into the build
+check.dependsOn(jacocoTestReport, 'dependencyCheck')
