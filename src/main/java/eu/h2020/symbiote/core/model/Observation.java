@@ -7,8 +7,6 @@ package eu.h2020.symbiote.core.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -61,17 +59,4 @@ public class Observation {
     }
     
     
-    public static Observation observationExampleValue () {
-        Logger log = LoggerFactory.getLogger(Observation.class);
-        
-        String sensorId = "symbIoTeID1";
-        WGS84Location loc = new WGS84Location(15.9, 45.8, 145, "Spansko", "City of Zagreb");
-        long timestamp = System.currentTimeMillis();
-        ObservationValue obsval = new ObservationValue((double)7, new Property("Temperature", "Air temperature"), new UnitOfMeasurement("C", "degree Celsius", ""));
-        Observation obs = new Observation(sensorId, loc, timestamp, timestamp-1000 , obsval);
-        
-        log.debug("Observation: \n" + obs.toString());
-        
-        return obs;
-    }
 }
