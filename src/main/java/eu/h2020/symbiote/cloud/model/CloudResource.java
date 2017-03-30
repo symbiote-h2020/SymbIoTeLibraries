@@ -18,6 +18,7 @@ public class CloudResource  implements Cloneable{
     private Location location;
     private String featureOfInterest = null;
     private String platformId;
+    private String host;
 
 
     public CloudResource() {
@@ -105,5 +106,15 @@ public class CloudResource  implements Cloneable{
     
     public CloudResource clone()throws CloneNotSupportedException{  
     	return (CloudResource)super.clone();  
-    }  
+    }
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}  
+    
+    
 }
