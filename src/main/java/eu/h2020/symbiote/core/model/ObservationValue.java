@@ -14,14 +14,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ObservationValue {
     @JsonProperty("value")
-    private final Object value;
+    private final String value;
     @JsonProperty("obsProperty")
     private final Property obsProperty;
     @JsonProperty("uom")
     private final UnitOfMeasurement uom;
 
     @JsonCreator
-    public ObservationValue(@JsonProperty("value") Object value, 
+    public ObservationValue(@JsonProperty("value") String value, 
                             @JsonProperty("obsProperty") Property obsProperty, 
                             @JsonProperty("uom") UnitOfMeasurement uom) {
         this.value = value;
@@ -29,7 +29,7 @@ public class ObservationValue {
         this.uom = uom;
     }
 
-    public Object getValue() {
+    public String getValue() {
         return value;
     }
 
