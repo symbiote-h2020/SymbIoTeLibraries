@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents CIM-defined Range Restriction class.
  *
@@ -7,7 +9,9 @@ package eu.h2020.symbiote.core.model.resources;
  */
 public class RangeRestriction extends Restriction {
 
+    @JsonProperty("min")
     private Double min;
+    @JsonProperty("max")
     private Double max;
 
     public RangeRestriction() {

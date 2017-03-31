@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -9,8 +11,10 @@ import java.util.List;
  */
 public class Actuator extends Resource {
 
+    @JsonProperty("locatedAt")
     private String locatedAt;
-    private List<ActuatingService> hasCapability;
+    @JsonProperty("capabilites")
+    private List<ActuatingService> capabilities;
 
     public Actuator() {
     }
@@ -23,11 +27,11 @@ public class Actuator extends Resource {
         this.locatedAt = locatedAt;
     }
 
-    public List<ActuatingService> getHasCapability() {
-        return hasCapability;
+    public List<ActuatingService> getCapabilities() {
+        return capabilities;
     }
 
-    public void setHasCapability(List<ActuatingService> hasCapability) {
-        this.hasCapability = hasCapability;
+    public void setCapabilities(List<ActuatingService> capabilities) {
+        this.capabilities = capabilities;
     }
 }

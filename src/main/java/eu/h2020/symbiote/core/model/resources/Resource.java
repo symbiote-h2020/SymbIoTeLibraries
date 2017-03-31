@@ -1,5 +1,9 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.util.List;
 
 /**
@@ -9,12 +13,23 @@ import java.util.List;
  *
  * Created by Mael on 28/03/2017.
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Actuator.class, name = "Actuator"),
+        @JsonSubTypes.Type(value = Service.class, name = "Service"),
+        @JsonSubTypes.Type(value = ActuatingService.class, name = "ActuatingService"),
+        @JsonSubTypes.Type(value = StationarySensor.class, name = "StationarySensor"),
+        @JsonSubTypes.Type(value = MobileSensor.class, name = "MobileSensor")
+})
 public class Resource {
-
+    @JsonProperty("id")
     private String id;
+    @JsonProperty("labels")
     private List<String> labels;
+    @JsonProperty("comments")
     private List<String> comments;
-    private String hasInterworkingServiceURL;
+    @JsonProperty("interworkingServiceURL")
+    private String interworkingServiceURL;
 
     public Resource() {
     }
@@ -43,11 +58,11 @@ public class Resource {
         this.comments = comments;
     }
 
-    public String getHasInterworkingServiceURL() {
-        return hasInterworkingServiceURL;
+    public String getInterworkingServiceURL() {
+        return interworkingServiceURL;
     }
 
-    public void setHasInterworkingServiceURL(String hasInterworkingServiceURL) {
-        this.hasInterworkingServiceURL = hasInterworkingServiceURL;
+    public void setInterworkingServiceURL(String interworkingServiceURL) {
+        this.interworkingServiceURL = interworkingServiceURL;
     }
 }
