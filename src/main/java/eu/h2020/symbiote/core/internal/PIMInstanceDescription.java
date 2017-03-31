@@ -2,7 +2,6 @@ package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.core.model.InterworkingService;
 import eu.h2020.symbiote.core.model.RDFInfo;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +55,6 @@ public class PIMInstanceDescription extends RDFInfo {
 
     public void setInterworkingServices(List<InterworkingService> interworkingServices) {
         this.interworkingServices = interworkingServices;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
     }
 
 }

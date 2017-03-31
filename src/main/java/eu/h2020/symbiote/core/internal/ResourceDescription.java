@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.core.model.RDFInfo;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +45,5 @@ public class ResourceDescription extends RDFInfo {
 
     public void setInterworkingServiceURL(String interworkingServiceURL) {
         this.interworkingServiceURL = interworkingServiceURL;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
     }
 }

@@ -1,7 +1,5 @@
 package eu.h2020.symbiote.core.model;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 /**
  * Representation of the Information Model from the CIM.
  *
@@ -36,11 +34,6 @@ public class InformationModel extends RDFInfo {
 
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
     }
 
 }

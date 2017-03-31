@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.core.model.RDFInfo;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * Class storing the Meta Information Model information about the model.
@@ -25,11 +24,6 @@ public class PIMMetaModelDescription extends RDFInfo {
 
     public void setUri(String uri) {
         this.uri = uri;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
     }
 
 }

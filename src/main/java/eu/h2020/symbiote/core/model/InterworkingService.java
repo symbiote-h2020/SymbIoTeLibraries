@@ -1,8 +1,6 @@
 package eu.h2020.symbiote.core.model;
 
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 /**
  * Represents the Interworking Service of the platform.
  *
@@ -51,11 +49,6 @@ public class InterworkingService {
 
     public void setInformationModelId(String informationModelId) {
         this.informationModelId = informationModelId;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this);
     }
 
 }
