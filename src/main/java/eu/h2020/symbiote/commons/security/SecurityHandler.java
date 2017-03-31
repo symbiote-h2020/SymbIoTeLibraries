@@ -4,19 +4,15 @@ import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.List;
 
-import eu.h2020.symbiote.commons.security.messaging.core.CoreAAMMessageHandler;
-import eu.h2020.symbiote.commons.security.token.SymbIoTeToken;
-import eu.h2020.symbiote.commons.security.token.TokenVerificationException;
-
 import eu.h2020.symbiote.commons.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.commons.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.commons.security.messaging.bean.Credential;
+import eu.h2020.symbiote.commons.security.messaging.core.CoreAAMMessageHandler;
 import eu.h2020.symbiote.commons.security.messaging.platform.home.PlatformAAMMessageHandler;
 import eu.h2020.symbiote.commons.security.session.SessionInformation;
+import eu.h2020.symbiote.commons.security.token.SymbIoTeToken;
 import eu.h2020.symbiote.commons.security.token.TokenHandler;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import eu.h2020.symbiote.commons.security.token.TokenVerificationException;
 
 /**
  * Class exposing the library from security handler
@@ -29,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
  **/
 
 public class SecurityHandler {
-	private static final Log logger = LogFactory.getLog(SecurityHandler .class);
 	private PlatformAAMMessageHandler platformMessageHandler;
 	private CoreAAMMessageHandler coreMessageHandler;
 	private SessionInformation sessionInformation;
@@ -45,7 +40,7 @@ public class SecurityHandler {
     }
 	
 
-	public SymbIoTeToken appRequestCoreToken(String userName, String password){
+	public SymbIoTeToken appRequestCoreToken(String userName, String password) throws SecurityException{
 		SymbIoTeToken coreToken = sessionInformation.getCoreToken(); 
 		if (coreToken==null){
 			//not logged in
@@ -54,11 +49,14 @@ public class SecurityHandler {
 			credentials.setPasswd(password);
 			coreToken= new SymbIoTeToken(coreMessageHandler.login(credentials));
 			sessionInformation.setCoreToken(coreToken);
+			if (sessionInformation.getCoreToken()==null){ 
+				throw new SecurityException("It was not possible to vaildate you with the give credentials. Please check them");
+			}
 		}
 		return coreToken;		
 	}
 
-	public SymbIoTeToken requestCoreToken(String userName, String password){
+	public SymbIoTeToken requestCoreToken(String userName, String password) throws SecurityException{
 		SymbIoTeToken coreToken = sessionInformation.getCoreToken(); 
 		if (coreToken==null){
 			//not logged in
@@ -70,6 +68,10 @@ public class SecurityHandler {
 			coreToken = tokenHandler.requestCoreToken(homeToken);
 			sessionInformation.setHomeToken(homeToken);
 			sessionInformation.setCoreToken(coreToken);
+			if (sessionInformation.getHomeToken()==null){ 
+				throw new SecurityException("It was not possible to vaildate you with the give credentials. Please check them");
+			}
+
 		}
 		return coreToken;		
 	}
