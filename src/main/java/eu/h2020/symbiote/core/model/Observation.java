@@ -17,7 +17,7 @@ public class Observation {
     @JsonProperty("resourceId")
     private final String resourceId;
     @JsonProperty("location")
-    private final WGS84Location location;
+    private final Location location;
     @JsonProperty("resultTime")
     private final long resultTime;
     @JsonProperty("samplingTime")
@@ -27,7 +27,7 @@ public class Observation {
 
     @JsonCreator
     public Observation(@JsonProperty("resourceId")String resourceId, 
-                       @JsonProperty("location")WGS84Location location, 
+                       @JsonProperty("location")Location location, 
                        @JsonProperty("resultTime")long resultTime, 
                        @JsonProperty("samplingTime")long samplingTime, 
                        @JsonProperty("obsValue")ObservationValue obsValue) {
@@ -42,7 +42,7 @@ public class Observation {
         return resourceId;
     }
 
-    public WGS84Location getLocation() {
+    public Location getLocation() {
         return location;
     }
 
