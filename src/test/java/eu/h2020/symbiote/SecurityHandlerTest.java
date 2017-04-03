@@ -136,6 +136,19 @@ public class SecurityHandlerTest {
 	}
 
   @Test
+  public void testCoreTokenValidationWithError(){
+	  try{
+		  String tokenString = "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
+		  securityHandler.verifyCoreToken(tokenString);
+		  assert(false);
+	  }catch(Throwable t){
+		  logger.debug("Exception correctly thrown form the sofware", t);
+		  assert(true);
+	  }
+			
+	}
+
+  @Test
   public void testForeignPlatformTokenValidation(){
 	  final String ALIAS = "mytest";
 	  try{
