@@ -6,6 +6,7 @@
 package eu.h2020.symbiote.cloud.model;
 
 import eu.h2020.symbiote.core.model.Observation;
+import eu.h2020.symbiote.core.model.resources.Resource;
 import java.util.List;
 
 /**
