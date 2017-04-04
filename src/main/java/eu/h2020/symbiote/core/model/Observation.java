@@ -19,17 +19,17 @@ public class Observation {
     @JsonProperty("location")
     private final Location location;
     @JsonProperty("resultTime")
-    private final long resultTime;
+    private final String resultTime;
     @JsonProperty("samplingTime")
-    private final long samplingTime;
+    private final String samplingTime;
     @JsonProperty("obsValue")
     private final ObservationValue obsValue;    
 
     @JsonCreator
     public Observation(@JsonProperty("resourceId")String resourceId, 
                        @JsonProperty("location")Location location, 
-                       @JsonProperty("resultTime")long resultTime, 
-                       @JsonProperty("samplingTime")long samplingTime, 
+                       @JsonProperty("resultTime")String resultTime, 
+                       @JsonProperty("samplingTime")String samplingTime, 
                        @JsonProperty("obsValue")ObservationValue obsValue) {
         this.resourceId = resourceId;
         this.location = location;
@@ -46,11 +46,11 @@ public class Observation {
         return location;
     }
 
-    public long getResultTime() {
+    public String getResultTime() {
         return resultTime;
     }
 
-    public long getSamplingTime() {
+    public String getSamplingTime() {
         return samplingTime;
     }
 
