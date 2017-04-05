@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * Represents CIM-defined Actuator class.
+ * Represents CIM-defined Actuator class. Actuator specifies location it is located at (using unique location identifier
+ * defined by platform the actuator belongs to) as well as a list of actuating services it is using (by specifying list
+ * of symbIoTe Ids of the services).
  *
  * Created by Mael on 28/03/2017.
  */
@@ -13,8 +15,9 @@ public class Actuator extends Resource {
 
     @JsonProperty("locatedAt")
     private String locatedAt;
+
     @JsonProperty("capabilites")
-    private List<ActuatingService> capabilities;
+    private List<String> capabilities;
 
     public Actuator() {
     }
@@ -27,11 +30,11 @@ public class Actuator extends Resource {
         this.locatedAt = locatedAt;
     }
 
-    public List<ActuatingService> getCapabilities() {
+    public List<String> getCapabilities() {
         return capabilities;
     }
 
-    public void setCapabilities(List<ActuatingService> capabilities) {
+    public void setCapabilities(List<String> capabilities) {
         this.capabilities = capabilities;
     }
 }
