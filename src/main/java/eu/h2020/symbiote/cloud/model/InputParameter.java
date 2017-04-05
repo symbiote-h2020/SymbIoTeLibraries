@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.cloud.model;
 
-import eu.h2020.symbiote.core.model.resources.*;
+import eu.h2020.symbiote.core.model.resources.Parameter;
+import eu.h2020.symbiote.core.model.resources.Restriction;
 import java.util.List;
 
 /**
