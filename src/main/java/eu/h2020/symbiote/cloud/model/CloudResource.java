@@ -2,13 +2,18 @@ package eu.h2020.symbiote.cloud.model;
 
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import eu.h2020.symbiote.core.model.resources.Resource;
 public class CloudResource  {
 
     @Id
+    @JsonProperty("internalId")
     private String internalId;
+    @JsonProperty("hoost")
     private String host;
     
+    @JsonProperty("resource")
     Resource resource;
 
 
