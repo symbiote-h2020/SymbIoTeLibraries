@@ -1,5 +1,6 @@
-package eu.h2020.symbiote.cloud.model;
+package eu.h2020.symbiote.cloud.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 /**
@@ -9,7 +10,9 @@ import java.util.List;
  */
 public class ActuatingService extends Service {
 
+    @JsonIgnore
     private String actsOn;
+    @JsonIgnore
     private List<String> affects;
 
     public ActuatingService() {

@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.cloud.model;
+package eu.h2020.symbiote.cloud.model.resources;
 
 import eu.h2020.symbiote.core.model.resources.*;
 import java.util.List;
