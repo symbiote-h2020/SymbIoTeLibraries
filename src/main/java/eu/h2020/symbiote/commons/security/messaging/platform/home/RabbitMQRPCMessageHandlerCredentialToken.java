@@ -1,8 +1,8 @@
 package eu.h2020.symbiote.commons.security.messaging.platform.home;
 
-import eu.h2020.symbiote.commons.security.messaging.rabbitmq.GenericRabbitMQRPCMessageHandler;
 import eu.h2020.symbiote.commons.security.messaging.bean.Credential;
 import eu.h2020.symbiote.commons.security.messaging.bean.Token;
+import eu.h2020.symbiote.commons.security.messaging.rabbitmq.GenericRabbitMQRPCMessageHandler;
 
 
 /**

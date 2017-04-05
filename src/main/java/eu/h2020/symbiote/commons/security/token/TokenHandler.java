@@ -73,9 +73,9 @@ public class TokenHandler {
 	}
 
 	private void checkRevocation(AAMMessageHandler aamMessagHandler, SymbIoTeToken token) throws TokenVerificationException{
-		Token tokeForRevocation = new Token();
-		tokeForRevocation.setToken(token.getToken());
-		Status status = aamMessagHandler.checkTokenRevocation(tokeForRevocation);
+		Token tokenForRevocation = new Token();
+		tokenForRevocation.setToken(token.getToken());
+		Status status = aamMessagHandler.checkTokenRevocation(tokenForRevocation);
 		if (status==null){
 			throw new TokenVerificationException("Error retrieving the status revocation of the token");
 		}

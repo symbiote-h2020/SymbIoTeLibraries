@@ -5,15 +5,15 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-import eu.h2020.symbiote.commons.security.messaging.bean.Credential;
-import eu.h2020.symbiote.commons.security.messaging.bean.Status;
-import eu.h2020.symbiote.commons.security.messaging.bean.Token;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import eu.h2020.symbiote.commons.security.messaging.bean.Credential;
+import eu.h2020.symbiote.commons.security.messaging.bean.Status;
+import eu.h2020.symbiote.commons.security.messaging.bean.Token;
 import feign.Feign;
-import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
 
 public abstract class AAMMessageHandler {
 	private static final Log logger = LogFactory.getLog(AAMMessageHandler.class);
@@ -28,7 +28,7 @@ public abstract class AAMMessageHandler {
 	public void createClient(String url) {
 		this.url = url;
 		simpleclient = Feign.builder().target(AAMRestService.class, url);
-		jsonclient = Feign.builder().decoder(new GsonDecoder()).encoder(new GsonEncoder()).target(AAMRestService.class, url);
+		jsonclient = Feign.builder().decoder(new JacksonDecoder()).encoder(new JacksonEncoder()).target(AAMRestService.class, url);
 	}
 
 	public String getURL(){

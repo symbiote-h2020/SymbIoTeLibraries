@@ -12,7 +12,7 @@ public class CloudResource  {
     @Id
     @JsonProperty("internalId")
     private String internalId;
-    @JsonProperty("hoost")
+    @JsonProperty("host")
     private String host;
     
     @JsonProperty("resource")

@@ -1,9 +1,9 @@
 package eu.h2020.symbiote;
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eu.h2020.symbiote.commons.security.constants.SHConstants;
 import eu.h2020.symbiote.commons.security.messaging.bean.Credential;
@@ -42,22 +42,27 @@ public class PlatformAAMDummyServer {
 	    )
 	    public void resourceRegistration(Message message, @Headers() Map<String, String> headers) {
 	    	logger.info("resourceRegistration"+new String(message.getBody()));
-            Gson gson = new Gson();
-            Credential credential = gson.fromJson(new String(message.getBody()),  Credential.class);
-            logger.info("User trying to login "+credential.getUser()+ " - "+credential.getPasswd());
-
-            
-      	  Token token = new Token();
-    	  token.setToken("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
-            String response = gson.toJson(token);
-             
-	        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), response.getBytes(),
-               m -> {
-                		Object a = headers.get("amqp_correlationId");
-                        // XXX not sure why the correlationIdString is empty and forces us to use deprecated API
-                        m.getMessageProperties().setCorrelationId((byte[])a);
-                        return m;
-               });
+    		ObjectMapper mapper = new ObjectMapper();
+			try {
+				Credential credential = mapper.readValue(new String(message.getBody()),  Credential.class);
+	            logger.info("User trying to login "+credential.getUser()+ " - "+credential.getPasswd());
+	
+	            
+		      	  Token token = new Token();
+		    	  token.setToken("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
+		          String response = mapper.writeValueAsString(token);
+		             
+			        rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), response.getBytes(),
+		               m -> {
+		                		Object a = headers.get("amqp_correlationId");
+		                        // XXX not sure why the correlationIdString is empty and forces us to use deprecated API
+		                        m.getMessageProperties().setCorrelationId((byte[])a);
+		                        return m;
+		               });
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	    
 	    
