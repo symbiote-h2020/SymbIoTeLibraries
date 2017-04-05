@@ -13,7 +13,7 @@ import java.util.List;
  *
  * Created by Mael on 28/03/2017.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Actuator.class, name = "Actuator"),
         @JsonSubTypes.Type(value = Service.class, name = "Service"),

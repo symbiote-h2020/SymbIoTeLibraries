@@ -3,8 +3,10 @@ package eu.h2020.symbiote.cloud.model;
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import eu.h2020.symbiote.core.model.resources.Resource;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class CloudResource  {
 
     @Id
