@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -9,9 +11,12 @@ import java.util.List;
  */
 public class InputParameter extends Parameter {
 
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("mandatory")
     private boolean mandatory;
-    private List<Restriction> hasRestriction;
+    @JsonProperty("restrictions")
+    private List<Restriction> restrictions;
 
     public InputParameter() {
     }
@@ -32,11 +37,11 @@ public class InputParameter extends Parameter {
         this.mandatory = mandatory;
     }
 
-    public List<Restriction> getHasRestriction() {
-        return hasRestriction;
+    public List<Restriction> getRestrictions() {
+        return restrictions;
     }
 
-    public void setHasRestriction(List<Restriction> hasRestriction) {
-        this.hasRestriction = hasRestriction;
+    public void setRestrictions(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
     }
 }

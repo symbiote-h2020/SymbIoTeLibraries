@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,7 @@ import java.util.List;
  */
 public class EnumRestriction extends Restriction {
 
+    @JsonProperty("values")
     private List<String> values;
 
     public EnumRestriction() {
