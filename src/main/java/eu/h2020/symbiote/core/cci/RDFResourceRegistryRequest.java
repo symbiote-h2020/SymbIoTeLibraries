@@ -8,9 +8,11 @@ import eu.h2020.symbiote.core.model.RDFInfo;
  *
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class RDFResourceRegistryRequest extends RDFInfo {
+public class RDFResourceRegistryRequest {
 
     private String token;
+
+    private RDFInfo rdfInfo;
 
     public RDFResourceRegistryRequest() {
     }
@@ -21,5 +23,13 @@ public class RDFResourceRegistryRequest extends RDFInfo {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public RDFInfo getRdfInfo() {
+        return rdfInfo;
+    }
+
+    public void setRdfInfo(RDFInfo rdfInfo) {
+        this.rdfInfo = rdfInfo;
     }
 }
