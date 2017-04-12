@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.cci;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.model.resources.Resource;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ResourceRegistryResponse {
     private String message;
 
     @JsonProperty("resources")
-    private List<ResourceResponse> resources;
+    private List<Resource> resources;
 
     public ResourceRegistryResponse() {
     }
@@ -29,11 +30,11 @@ public class ResourceRegistryResponse {
         this.message = message;
     }
 
-    public List<ResourceResponse> getResources() {
+    public List<Resource> getResources() {
         return resources;
     }
 
-    public void setResources(List<ResourceResponse> resources) {
+    public void setResources(List<Resource> resources) {
         this.resources = resources;
     }
 }
