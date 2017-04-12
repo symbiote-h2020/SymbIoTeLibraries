@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  *
  * Created by Mael on 28/03/2017.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = EnumRestriction.class, name = "EnumRestriction"),
         @JsonSubTypes.Type(value = LengthRestriction.class, name = "LengthRestriction"),
