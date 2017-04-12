@@ -45,7 +45,7 @@ public class InputParameter extends Parameter {
         this.restrictions = restrictions;
     }
     
-    public void setParamValue(String paramValue) {
+    public void setValue(String value) {
         this.value = value;
     }
 
