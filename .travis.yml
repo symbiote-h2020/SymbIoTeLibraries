@@ -1,18 +1,15 @@
 language: java
 env:
   global:
-  // todo update for SymbIoTeLibraries
-    secure: "BaZmL0J2IdqYsqtW8vjem7SANqpXKhZp1Q5i2hb6iN3OqzjzSU0QrLSguMxFpwOMmqBOWu/+JwuiUqH4eqC1qCXXqLlv52LpRTueRc3yeNCafIMZWudEEaNqJCelywQL9JeiWG5J14DzfNqQEswaN1Z3XgxfzLjgtwaK82wkF+zbZY/RJzWfiGyEasWO7PRHa5EIbKoiLLsWoKmrMg0O/Mj5g5ynHLxG5RJ66LPqTW/yR+2SxXCJ3CQ0G5fwSJVlVxn4gu/on8ucre2DXookvpsPEMvySHJ4+YgkjX6wBxtiWJjUv2ZkJ+3FURhKzlEnY6WddG94hMwmEdA+5dpFHaHheJ/LNM8yXcGz9mB5IcNkV89PiSMMpGrjKaMenYmYmP6aEvttT2EA1tzN4nlmaVpmZ01n+JIbGLEtI+ORviDkVO1rWD25RpawPf8n2/tFJIMFwwFdjs4+9zVVGQ9QmT2uzFue5UFW65xerbauEWr5hufmByz4cMGPmd/lwrkR61ef1OXQOqojhnjQsTGtC39GeKLbQJr3rYmev9OFO6qLXpkRehPOBXRlJiZ1xnWdWP3Xyhovb+8teZsrj3TyOKX0ODNoR/a+NoHJPOgF1nh0HPukrUwJZgbmPFwlwSdqnD36K3MdfY0VV7QU8bb5QXcC4gVGEzY7W+eT1m3+N4Q="
+    secure: "AawzwOpYCdWi8KOo5wY9pvoIaD3YFF9QXbU3yJfz8AwUKWoLUjQMklr1xltKMF101bdDlSLmBlE8OoFhPIgGdItiM813pONpkXsN6H5rZtIhaJCJKhtpNSCXmEtk/egxMYM4oNetJjJFTMABt/N+w7pA7i/OnwuWxuqaIDKlNiCKnpUP6AY94V58IUgqphZdN53UlAeFt3dcS++szbloIRfZrikCr15EIuW5isG9/y5K9llfeeyzL0YUDWJRda0ZP8MjEgooZvLUly+1ODUPxj+Pcuqunoim2843SHoeo8BFwqt2SztHatj5hzWIfy1alcDaB2tA8vVuBWmzLxKxw+OxfwiRtrUtk9hcMIgiLKzte9dYSQBVeSr/BPNj6Yba2uUfeCklBVWmXPtkekKy++Xl1IeJEQJVkBE/fIdwGuSgPBJbhgTqTZ0HmP3I4PY404yUHvAnZodA7F5U5EJiI+IPBpMoIGYxzG9WnHKfACRS+9vfuDLsqJ7yZMVXd7usuSvp9NZqrCH3KdXOwdyM5yW+4Ag/yckc2S/IF6f+g4uYK1hKFdE/GNM5p3CbJXp7II2qziLWXW0GuG2aALg9CmN0nzl2IBQeztzrDyEWcw/TH/dxIR7UXvDVnz4smtExWGG0KHe0ErVDjM+KJ9nxMUvm7EGXd7iinaxdvJbXIpI="
 jdk:
 - oraclejdk8
 services:
-- mongodb
 - rabbitmq
 sudo: required
 branches:
   only:
   - staging
-  - travis_test
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
