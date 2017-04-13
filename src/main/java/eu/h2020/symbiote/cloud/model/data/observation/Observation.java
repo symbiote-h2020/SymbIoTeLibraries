@@ -7,6 +7,7 @@ package eu.h2020.symbiote.cloud.model.data.observation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  *
@@ -22,20 +23,20 @@ public class Observation {
     private final String resultTime;
     @JsonProperty("samplingTime")
     private final String samplingTime;
-    @JsonProperty("obsValue")
-    private final ObservationValue obsValue;    
+    @JsonProperty("obsValues")
+    private final List<ObservationValue> obsValues;
 
     @JsonCreator
     public Observation(@JsonProperty("resourceId")String resourceId, 
                        @JsonProperty("location")Location location, 
                        @JsonProperty("resultTime")String resultTime, 
                        @JsonProperty("samplingTime")String samplingTime, 
-                       @JsonProperty("obsValue")ObservationValue obsValue) {
+                       @JsonProperty("obsValues")List<ObservationValue> obsValues) {
         this.resourceId = resourceId;
         this.location = location;
         this.resultTime = resultTime;
         this.samplingTime = samplingTime;
-        this.obsValue = obsValue;
+        this.obsValues = obsValues;
     }
 
     public String getResourceId() {
@@ -54,8 +55,8 @@ public class Observation {
         return samplingTime;
     }
 
-    public ObservationValue getObsValue() {
-        return obsValue;
+    public List<ObservationValue> getObsValues() {
+        return obsValues;
     }
     
     
