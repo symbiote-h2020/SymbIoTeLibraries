@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -9,9 +11,12 @@ import java.util.List;
  */
 public class Service extends Resource {
 
+    @JsonProperty("name")
     private String name;
-    private Parameter hasOutputParameter;
-    private List<InputParameter> hasInputParameter;
+    @JsonProperty("outputParameter")
+    private Parameter outputParameter;
+    @JsonProperty("inputParameter")
+    private List<InputParameter> inputParameter;
 
     public Service() {
     }
@@ -24,19 +29,19 @@ public class Service extends Resource {
         this.name = name;
     }
 
-    public Parameter getHasOutputParameter() {
-        return hasOutputParameter;
+    public Parameter getOutputParameter() {
+        return outputParameter;
     }
 
-    public void setHasOutputParameter(Parameter hasOutputParameter) {
-        this.hasOutputParameter = hasOutputParameter;
+    public void setOutputParameter(Parameter outputParameter) {
+        this.outputParameter = outputParameter;
     }
 
-    public List<InputParameter> getHasInputParameter() {
-        return hasInputParameter;
+    public List<InputParameter> getInputParameter() {
+        return inputParameter;
     }
 
-    public void setHasInputParameter(List<InputParameter> hasInputParameter) {
-        this.hasInputParameter = hasInputParameter;
+    public void setInputParameter(List<InputParameter> inputParameter) {
+        this.inputParameter = inputParameter;
     }
 }

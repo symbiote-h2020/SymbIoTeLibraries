@@ -61,7 +61,7 @@ bootRepackage.enabled = false
 
 dependencies {
     //from SH
-    compile('com.netflix.feign:feign-gson:8.18.0')
+    compile group: 'com.netflix.feign', name: 'feign-jackson', version: '8.18.0'
     compile('org.springframework.amqp:spring-amqp:1.7.1.RELEASE')
     compile('org.springframework.amqp:spring-rabbit:1.7.1.RELEASE')
     compile('io.jsonwebtoken:jjwt:0.7.0')

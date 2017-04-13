@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents CIM-defined Length Restriction class.
  *
@@ -7,7 +9,9 @@ package eu.h2020.symbiote.core.model.resources;
  */
 public class LengthRestriction extends Restriction {
 
+    @JsonProperty("min")
     private Integer min;
+    @JsonProperty("max")
     private Integer max;
 
     public LengthRestriction() {

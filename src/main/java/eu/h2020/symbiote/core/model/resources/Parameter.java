@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents CIM-defined Parameter class (named Parameter in CIM v0.5).
  *
@@ -7,7 +9,9 @@ package eu.h2020.symbiote.core.model.resources;
  */
 public class Parameter {
 
+    @JsonProperty("isArray")
     private boolean isArray;
+    @JsonProperty("datatype")
     private String datatype;
 
     public Parameter() {

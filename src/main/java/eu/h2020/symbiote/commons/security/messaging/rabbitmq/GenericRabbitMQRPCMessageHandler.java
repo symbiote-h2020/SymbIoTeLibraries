@@ -1,15 +1,21 @@
 package eu.h2020.symbiote.commons.security.messaging.rabbitmq;
 
-import com.google.gson.Gson;
-import com.rabbitmq.client.AMQP.BasicProperties;
-import com.rabbitmq.client.*;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.AMQP.BasicProperties;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DefaultConsumer;
+import com.rabbitmq.client.Envelope;
 
 
 /**
@@ -30,14 +36,15 @@ public class GenericRabbitMQRPCMessageHandler<T, O> {
     private String requestQueueName;
     private Type type;
 
+
     public GenericRabbitMQRPCMessageHandler(String rabbitMQHostIP, String exchangeName, String requestQueueName,
                                             String replyQueueName, Type type) {
         logger.info("Creating with requestQueueName:" + requestQueueName + " and replyQueueName:" + replyQueueName);
         this.replyQueueName = replyQueueName;
         this.requestQueueName = requestQueueName;
-        this.type = type;
         this.exchangeName = exchangeName;
         this.rabbitMQHostIP = rabbitMQHostIP;
+        this.type = type;
 
     }
 
@@ -55,11 +62,13 @@ public class GenericRabbitMQRPCMessageHandler<T, O> {
      * @param object
      * @throws Exception
      */
-    public O sendMessage(T object) throws Exception {
+	public O sendMessage(T object) throws Exception {
         O result = null;
+        
         String corrId = java.util.UUID.randomUUID().toString();
-        Gson gson = new Gson();
-        String objectInJson = gson.toJson(object);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String objectInJson = mapper.writeValueAsString(object);
 
         BasicProperties props = new BasicProperties
                 .Builder()
@@ -81,9 +90,12 @@ public class GenericRabbitMQRPCMessageHandler<T, O> {
                 }
             }
         });
-
-        logger.info("Received reply: " + response);
-        result = gson.fromJson(response.take(), type);
+        String answer = response.take();
+        logger.info("Received reply: " + answer);
+        JavaType javaType = mapper.getTypeFactory().constructType(type);
+        result = mapper.readValue(answer, javaType);
+        
+        
         logger.info("Result " + result);
         return result;
 

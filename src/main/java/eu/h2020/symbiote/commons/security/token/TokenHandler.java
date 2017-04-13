@@ -9,11 +9,14 @@ import java.util.HashMap;
 import eu.h2020.symbiote.commons.security.messaging.bean.Status;
 import eu.h2020.symbiote.commons.security.messaging.bean.Token;
 import eu.h2020.symbiote.commons.security.messaging.core.CoreAAMMessageHandler;
-import eu.h2020.symbiote.commons.security.messaging.restAAM.AAMMessageHandler;
-
 import eu.h2020.symbiote.commons.security.messaging.platform.foreign.ForeignPlatformAAMMessageHandler;
+import eu.h2020.symbiote.commons.security.messaging.restAAM.AAMMessageHandler;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 public class TokenHandler {
 	private CoreAAMMessageHandler coreAAM;
@@ -57,17 +60,22 @@ public class TokenHandler {
 		}
 	}
 
-	private void validateToken(SymbIoTeToken token, Certificate certificate) {
-	    Claims claims = Jwts.parser()         
-	       .setSigningKey(certificate.getPublicKey())
-	       .parseClaimsJws(token.getToken()).getBody();
-	    token.setClaims(claims);
+	private void validateToken(SymbIoTeToken token, Certificate certificate) throws TokenVerificationException 
+	{
+		try {
+		    Claims claims = Jwts.parser()         
+		       .setSigningKey(certificate.getPublicKey())
+		       .parseClaimsJws(token.getToken()).getBody();
+		    token.setClaims(claims);
+		}catch(ExpiredJwtException| UnsupportedJwtException| MalformedJwtException| SignatureException| IllegalArgumentException e){
+			throw new TokenVerificationException("Token could not be validated", e);						
+		}
 	}
 
 	private void checkRevocation(AAMMessageHandler aamMessagHandler, SymbIoTeToken token) throws TokenVerificationException{
-		Token tokeForRevocation = new Token();
-		tokeForRevocation.setToken(token.getToken());
-		Status status = aamMessagHandler.checkTokenRevocation(tokeForRevocation);
+		Token tokenForRevocation = new Token();
+		tokenForRevocation.setToken(token.getToken());
+		Status status = aamMessagHandler.checkTokenRevocation(tokenForRevocation);
 		if (status==null){
 			throw new TokenVerificationException("Error retrieving the status revocation of the token");
 		}
