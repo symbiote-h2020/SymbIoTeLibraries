@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.model.Property;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class StationarySensor extends Resource {
     @JsonProperty("featureOfInterest")
     private String featureOfInterest;
     @JsonProperty("observesProperty")
-    private List<String> observesProperty;
+    private List<Property> observesProperty;
 
     public StationarySensor() {
     }
@@ -37,11 +38,11 @@ public class StationarySensor extends Resource {
         this.featureOfInterest = featureOfInterest;
     }
 
-    public List<String> getObservesProperty() {
+    public List<Property> getObservesProperty() {
         return observesProperty;
     }
 
-    public void setObservesProperty(List<String> observesProperty) {
+    public void setObservesProperty(List<Property> observesProperty) {
         this.observesProperty = observesProperty;
     }
 }
