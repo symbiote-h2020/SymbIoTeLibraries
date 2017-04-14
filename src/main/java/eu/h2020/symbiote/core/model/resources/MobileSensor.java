@@ -15,7 +15,7 @@ public class MobileSensor extends Resource {
     @JsonProperty("locatedAt")
     private String locatedAt;
     @JsonProperty("observesProperty")
-    private List<Property> observesProperty;
+    private List<String> observesProperty;
 
     public MobileSensor() {
     }
@@ -28,11 +28,11 @@ public class MobileSensor extends Resource {
         this.locatedAt = locatedAt;
     }
 
-    public List<Property> getObservesProperty() {
+    public List<String> getObservesProperty() {
         return observesProperty;
     }
 
-    public void setObservesProperty(List<Property> observesProperty) {
+    public void setObservesProperty(List<String> observesProperty) {
         this.observesProperty = observesProperty;
     }
 }
