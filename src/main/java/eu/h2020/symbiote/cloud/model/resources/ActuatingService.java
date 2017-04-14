@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.cloud.model.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import eu.h2020.symbiote.cloud.model.data.observation.Property;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class ActuatingService extends Service {
     @JsonIgnore
     private String actsOn;
     @JsonIgnore
-    private List<String> affects;
+    private List<Property> affects;
 
     public ActuatingService() {
     }
@@ -26,11 +27,11 @@ public class ActuatingService extends Service {
         this.actsOn = actsOn;
     }
 
-    public List<String> getAffects() {
+    public List<Property> getAffects() {
         return affects;
     }
 
-    public void setAffects(List<String> affects) {
+    public void setAffects(List<Property> affects) {
         this.affects = affects;
     }
 }

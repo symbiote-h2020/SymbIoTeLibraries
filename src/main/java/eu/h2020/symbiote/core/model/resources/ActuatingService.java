@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.model.Property;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class ActuatingService extends Service {
     @JsonProperty("actsOn")
     private String actsOn;
     @JsonProperty("affects")
-    private List<String> affects;
+    private List<Property> affects;
 
     public ActuatingService() {
     }
@@ -27,11 +28,11 @@ public class ActuatingService extends Service {
         this.actsOn = actsOn;
     }
 
-    public List<String> getAffects() {
+    public List<Property> getAffects() {
         return affects;
     }
 
-    public void setAffects(List<String> affects) {
+    public void setAffects(List<Property> affects) {
         this.affects = affects;
     }
 }
