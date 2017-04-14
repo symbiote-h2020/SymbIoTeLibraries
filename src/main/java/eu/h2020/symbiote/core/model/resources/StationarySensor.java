@@ -17,7 +17,7 @@ public class StationarySensor extends Resource {
     @JsonProperty("featureOfInterest")
     private String featureOfInterest;
     @JsonProperty("observesProperty")
-    private List<Property> observesProperty;
+    private List<String> observesProperty;
 
     public StationarySensor() {
     }
@@ -38,11 +38,11 @@ public class StationarySensor extends Resource {
         this.featureOfInterest = featureOfInterest;
     }
 
-    public List<Property> getObservesProperty() {
+    public List<String> getObservesProperty() {
         return observesProperty;
     }
 
-    public void setObservesProperty(List<Property> observesProperty) {
+    public void setObservesProperty(List<String> observesProperty) {
         this.observesProperty = observesProperty;
     }
 }

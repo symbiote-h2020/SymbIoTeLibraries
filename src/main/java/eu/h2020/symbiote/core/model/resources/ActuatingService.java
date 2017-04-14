@@ -15,7 +15,7 @@ public class ActuatingService extends Service {
     @JsonProperty("actsOn")
     private String actsOn;
     @JsonProperty("affects")
-    private List<Property> affects;
+    private List<String> affects;
 
     public ActuatingService() {
     }
@@ -28,11 +28,11 @@ public class ActuatingService extends Service {
         this.actsOn = actsOn;
     }
 
-    public List<Property> getAffects() {
+    public List<String> getAffects() {
         return affects;
     }
 
-    public void setAffects(List<Property> affects) {
+    public void setAffects(List<String> affects) {
         this.affects = affects;
     }
 }
