@@ -7,6 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE"
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.2.1'
         classpath 'org.owasp:dependency-check-gradle:1.4.5.1'
@@ -14,6 +15,7 @@ buildscript {
 }
 
 // code
+apply plugin: "io.spring.dependency-management"
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
@@ -30,7 +32,7 @@ apply plugin: 'com.cinnober.gradle.semver-git'
 apply plugin: 'maven-publish'
 
 // XXX please change with your commits according to http://semver.org/
-project.version = '0.1.2'
+project.version = '1.0.0'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -53,7 +55,7 @@ repositories {
 // Spring related configs
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR6"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Dalston.RELEASE"
     }
 }
 // this is a library, not a runnable spring-boot jar, therefore

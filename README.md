@@ -2,7 +2,7 @@
 [![](https://jitpack.io/v/symbiote-h2020/SymbIoTeLibraries.svg)](https://jitpack.io/#symbiote-h2020/SymbIoTeLibraries)
 [![codecov.io](https://codecov.io/github/symbiote-h2020/SymbIoTeLibraries/branch/staging/graph/badge.svg)](https://codecov.io/github/symbiote-h2020/SymbIoTeLibraries)
 # SymbIoTe Libraries
-This repository contains common SymbIoTe libraries used throughout different components and different layers. Its main use is to standardize classes which will be used for communication among components. Furthermore, it also contains security packages to facilitate secure access to resources (e.g. *eu.h2020.symbiote.commons.security.SecurityHandler*).
+This repository contains common SymbIoTe libraries used throughout different components and different layers. Its main use is to standardize classes which will be used for communication among components. Furthermore, it also contains security packages to facilitate secure access to resources (e.g. *SecurityHandler*).
 ## How to include them in your code
 [Jitpack](https://jitpack.io/) can be used to easily import SymbIoTe Libraries in your code. In Jitpack's website you can find guidelines about how to include repositories for different build automation systems. In the symbIoTe project which utilizes [gradle](https://gradle.org/), developers have to add the following in the *build.gradle*:
 
