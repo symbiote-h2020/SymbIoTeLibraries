@@ -7,7 +7,7 @@ import eu.h2020.symbiote.core.model.RDFFormat;
  *
  * Created by Szymon Mueller on 15/03/2017.
  */
-public abstract class RDFInfo {
+public class RDFInfo {
 
     /**
      * String representing RDF description.

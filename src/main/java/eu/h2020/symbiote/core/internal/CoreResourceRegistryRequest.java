@@ -14,6 +14,8 @@ public class CoreResourceRegistryRequest {
 
     private String body;
 
+    private String platformId;
+
     public CoreResourceRegistryRequest() {
     }
 
@@ -39,5 +41,13 @@ public class CoreResourceRegistryRequest {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getPlatformId() {
+        return platformId;
+    }
+
+    public void setPlatformId(String platformId) {
+        this.platformId = platformId;
     }
 }
