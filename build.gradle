@@ -64,13 +64,13 @@ bootRepackage.enabled = false
 dependencies {
     //from SH
     compile group: 'com.netflix.feign', name: 'feign-jackson', version: '8.18.0'
-    compile('org.springframework.amqp:spring-amqp:1.7.1.RELEASE')
-    compile('org.springframework.amqp:spring-rabbit:1.7.1.RELEASE')
+    compile('org.springframework.amqp:spring-amqp')
+    compile('org.springframework.amqp:spring-rabbit')
     compile('io.jsonwebtoken:jjwt:0.7.0')
 
     //from symbioteLibs
     compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7+')
-    compile('org.springframework.data:spring-data-commons:1.13.1.RELEASE')
+    compile('org.springframework.data:spring-data-commons')
 
     // common testing
     testCompile('org.springframework.boot:spring-boot-starter-test')
