@@ -17,6 +17,8 @@ public class Service extends Resource {
 
     @Id
     @JsonProperty("id")
+    private String id;
+    @JsonProperty("name")
     private String name;
     @JsonIgnore
     private Parameter outputParameter;
