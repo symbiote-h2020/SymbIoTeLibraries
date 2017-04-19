@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.commons.security;
+package eu.h2020.symbiote.commons.security.exception;
 
 
 public class SecurityHandlerException extends Exception {
