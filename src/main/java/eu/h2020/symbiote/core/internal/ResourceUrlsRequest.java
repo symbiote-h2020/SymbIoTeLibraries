@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class ResourceUrlsRequest {
     private List<String> idList;
-
+    private String token;
     /**
      * Default empty constructor.
      */
@@ -20,5 +20,13 @@ public class ResourceUrlsRequest {
 
     public void setIdList(List<String> idList) {
         this.idList = idList;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
