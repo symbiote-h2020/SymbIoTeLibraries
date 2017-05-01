@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
  */
-public class WGS84Location extends AbstractLocation {
+public class WGS84Location extends Location {
     
     @JsonProperty("longitude")
     private final double longitude;

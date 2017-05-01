@@ -6,13 +6,11 @@ import eu.h2020.symbiote.core.model.Location;
 import java.util.List;
 
 /**
- * Represents CIM-defined Actuator class. Actuator specifies location it is located at (using unique location identifier
- * defined by platform the actuator belongs to) as well as a list of actuating services it is using (by specifying list
- * of symbIoTe Ids of the services).
+ * Class to represent a resource which is both an Actuator and a Stationary Service.
  *
- * Created by Mael on 28/03/2017.
+ * Created by Szymon Mueller on 01/05/2017.
  */
-public class Actuator extends Resource {
+public class StationaryDevice extends Resource {
 
     @JsonProperty("locatedAt")
     private Location locatedAt;
@@ -20,15 +18,13 @@ public class Actuator extends Resource {
     @JsonProperty("capabilites")
     private List<ActuatingService> capabilities;
 
-    public Actuator() {
-    }
+    @JsonProperty("featureOfInterest")
+    private FeatureOfInterest featureOfInterest;
 
-    public Location getLocatedAt() {
-        return locatedAt;
-    }
+    @JsonProperty("observesProperty")
+    private List<String> observesProperty;
 
-    public void setLocatedAt(Location locatedAt) {
-        this.locatedAt = locatedAt;
+    public StationaryDevice() {
     }
 
     public List<ActuatingService> getCapabilities() {

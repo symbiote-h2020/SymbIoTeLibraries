@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.model.Location;
 
 import java.util.List;
 
@@ -12,18 +13,18 @@ import java.util.List;
 public class MobileSensor extends Resource {
 
     @JsonProperty("locatedAt")
-    private String locatedAt;
+    private Location locatedAt;
     @JsonProperty("observesProperty")
     private List<String> observesProperty;
 
     public MobileSensor() {
     }
 
-    public String getLocatedAt() {
+    public Location getLocatedAt() {
         return locatedAt;
     }
 
-    public void setLocatedAt(String locatedAt) {
+    public void setLocatedAt(Location locatedAt) {
         this.locatedAt = locatedAt;
     }
 
