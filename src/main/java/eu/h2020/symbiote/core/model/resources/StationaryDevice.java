@@ -27,11 +27,35 @@ public class StationaryDevice extends Resource {
     public StationaryDevice() {
     }
 
+    public Location getLocatedAt() {
+        return locatedAt;
+    }
+
+    public void setLocatedAt(Location locatedAt) {
+        this.locatedAt = locatedAt;
+    }
+
     public List<ActuatingService> getCapabilities() {
         return capabilities;
     }
 
     public void setCapabilities(List<ActuatingService> capabilities) {
         this.capabilities = capabilities;
+    }
+
+    public FeatureOfInterest getFeatureOfInterest() {
+        return featureOfInterest;
+    }
+
+    public void setFeatureOfInterest(FeatureOfInterest featureOfInterest) {
+        this.featureOfInterest = featureOfInterest;
+    }
+
+    public List<String> getObservesProperty() {
+        return observesProperty;
+    }
+
+    public void setObservesProperty(List<String> observesProperty) {
+        this.observesProperty = observesProperty;
     }
 }
