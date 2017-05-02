@@ -9,11 +9,6 @@ package eu.h2020.symbiote.core.model;
 public class InterworkingService {
 
     /**
-     * Symbiote id of the interworking service.
-     */
-    private String id;
-
-    /**
      * URL where Interworking Service (Interworking Interface or other component on platform side that will answer
      * calls from the Core).
      */
@@ -25,14 +20,6 @@ public class InterworkingService {
     private String informationModelId;
 
     public InterworkingService() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUrl() {

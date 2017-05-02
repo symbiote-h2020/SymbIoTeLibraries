@@ -13,18 +13,18 @@ import java.util.List;
 public class ActuatingService extends Service {
 
     @JsonProperty("actsOn")
-    private String actsOn;
+    private FeatureOfInterest actsOn;
     @JsonProperty("affects")
-    private List<String> affects;
+    private List<String> affects; //Links to BIM properties - short name of the property is used
 
     public ActuatingService() {
     }
 
-    public String getActsOn() {
+    public FeatureOfInterest getActsOn() {
         return actsOn;
     }
 
-    public void setActsOn(String actsOn) {
+    public void setActsOn(FeatureOfInterest actsOn) {
         this.actsOn = actsOn;
     }
 

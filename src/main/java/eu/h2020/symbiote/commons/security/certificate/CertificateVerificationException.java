@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.commons.security.certificate;
 
-import eu.h2020.symbiote.commons.security.SecurityHandlerException;
+import eu.h2020.symbiote.commons.security.exception.SecurityHandlerException;
 
 public class CertificateVerificationException extends SecurityHandlerException {
     private static final long serialVersionUID = 1L;
