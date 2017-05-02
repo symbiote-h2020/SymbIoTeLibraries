@@ -28,7 +28,7 @@ abstract public class Location {
     public String getLabel() {
         return label;
     }
-
+    
     public String getComment() {
         return comment;
     }
