@@ -19,7 +19,9 @@ import java.util.List;
         @JsonSubTypes.Type(value = Service.class, name = "Service"),
         @JsonSubTypes.Type(value = ActuatingService.class, name = "ActuatingService"),
         @JsonSubTypes.Type(value = StationarySensor.class, name = "StationarySensor"),
-        @JsonSubTypes.Type(value = MobileSensor.class, name = "MobileSensor")
+        @JsonSubTypes.Type(value = MobileSensor.class, name = "MobileSensor"),
+        @JsonSubTypes.Type(value = MobileDevice.class, name = "MobileDevice"),
+        @JsonSubTypes.Type(value = StationaryDevice.class, name = "StationaryDevice")
 })
 public class Resource {
     @JsonProperty("id")

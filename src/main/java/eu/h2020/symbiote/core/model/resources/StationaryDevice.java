@@ -6,20 +6,25 @@ import eu.h2020.symbiote.core.model.Location;
 import java.util.List;
 
 /**
- * Represents CIM-defined Stationary Sensor class.
+ * Class to represent a resource which is both an Actuator and a Stationary Service.
  *
- * Created by Mael on 28/03/2017.
+ * Created by Szymon Mueller on 01/05/2017.
  */
-public class StationarySensor extends Resource {
+public class StationaryDevice extends Resource {
 
     @JsonProperty("locatedAt")
     private Location locatedAt;
+
+    @JsonProperty("capabilites")
+    private List<ActuatingService> capabilities;
+
     @JsonProperty("featureOfInterest")
     private FeatureOfInterest featureOfInterest;
+
     @JsonProperty("observesProperty")
     private List<String> observesProperty;
 
-    public StationarySensor() {
+    public StationaryDevice() {
     }
 
     public Location getLocatedAt() {
@@ -28,6 +33,14 @@ public class StationarySensor extends Resource {
 
     public void setLocatedAt(Location locatedAt) {
         this.locatedAt = locatedAt;
+    }
+
+    public List<ActuatingService> getCapabilities() {
+        return capabilities;
+    }
+
+    public void setCapabilities(List<ActuatingService> capabilities) {
+        this.capabilities = capabilities;
     }
 
     public FeatureOfInterest getFeatureOfInterest() {

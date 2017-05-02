@@ -1,76 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package eu.h2020.symbiote.core.model;
 
-import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+/**
+ * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = WGS84Location.class, name = "WGS84Location"),
+        @JsonSubTypes.Type(value = WKTLocation.class, name = "WKTLocation"),
+        @JsonSubTypes.Type(value = SymbolicLocation.class, name = "SymbolicLocation")
+})
+abstract public class Location {
+    @JsonProperty("name")
+    String label;
+    @JsonProperty("description")
+    String comment;
 
 
-public class Location {
-
-    @Id
-    private String id;
-    private String name;
-    private String description;
-    private double latitude;
-    private double longitude;
-    private double altitude;
-
-    public Location() {
-
-    }
-    
-    public Location(double longitude, double latitude, 
-                    double altitude, String name, String description) {
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.altitude = altitude;
-        this.name = name;
-        this.description = description;
+    public String getLabel() {
+        return label;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getAltitude() {
-        return altitude;
-    }
-
-    public void setAltitude(double altitude) {
-        this.altitude = altitude;
+    public String getComment() {
+        return comment;
     }
 }

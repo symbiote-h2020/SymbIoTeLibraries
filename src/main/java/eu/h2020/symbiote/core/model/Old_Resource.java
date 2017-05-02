@@ -13,7 +13,7 @@ public class Old_Resource {
     private String description;
     private List<String> observedProperties;
     private String resourceURL;
-    private Location location;
+    private Old_Location oldLocation;
     private String featureOfInterest = null;
     private String platformId;
 
@@ -68,12 +68,12 @@ public class Old_Resource {
         this.resourceURL = resourceURL;
     }
 
-    public Location getLocation() {
-        return location;
+    public Old_Location getOldLocation() {
+        return oldLocation;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setOldLocation(Old_Location oldLocation) {
+        this.oldLocation = oldLocation;
     }
 
     public String getFeatureOfInterest() {
