@@ -1,0 +1,36 @@
+package eu.h2020.symbiote.security.exceptions;
+
+import eu.h2020.symbiote.security.constants.AAMConstants;
+import eu.h2020.symbiote.security.exceptions.aam.MissingArgumentsException;
+import eu.h2020.symbiote.security.exceptions.aam.WrongCredentialsException;
+import org.springframework.http.HttpStatus;
+
+/**
+ * Abstract class implemented by custom exceptions in AAM.
+ *
+ * @author Daniele Caldarola (CNIT)
+ * @author Nemanja Ignjatov (UNIVIE)
+ * @see MissingArgumentsException
+ * @see WrongCredentialsException
+ */
+public abstract class AAMException extends Exception {
+
+    public static final long serialVersionUID = AAMConstants.serialVersionUID;
+
+    public AAMException(String message) {
+        super(message);
+    }
+
+    public AAMException(Throwable cause) {
+        super(cause);
+    }
+
+    public AAMException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public abstract HttpStatus getStatusCode();
+
+    public abstract String getErrorMessage();
+
+}

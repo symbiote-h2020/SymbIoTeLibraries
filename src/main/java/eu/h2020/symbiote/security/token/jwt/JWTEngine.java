@@ -2,11 +2,11 @@ package eu.h2020.symbiote.security.token.jwt;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.h2020.symbiote.security.commons.Constants;
-import eu.h2020.symbiote.security.commons.enums.IssuingAuthorityType;
-import eu.h2020.symbiote.security.commons.exceptions.JWTCreationException;
-import eu.h2020.symbiote.security.commons.exceptions.MalformedJWTException;
-import eu.h2020.symbiote.security.commons.exceptions.TokenValidationException;
+import eu.h2020.symbiote.security.constants.AAMConstants;
+import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
+import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
+import eu.h2020.symbiote.security.exceptions.aam.MalformedJWTException;
+import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.token.SymbIoTeToken;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureException;
@@ -19,7 +19,10 @@ import java.io.IOException;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Set of functions for generating JWT tokens.
@@ -50,7 +53,7 @@ public class JWTEngine {
 
         HashMap<String, Object> retMap = new HashMap<String, Object>();
         String[] jwtParts = jwtToken.split("\\.");
-        if (jwtParts.length < Constants.JWTPartsCount) {
+        if (jwtParts.length < AAMConstants.JWTPartsCount) {
             throw new MalformedJWTException();
         }
         //Get second part of the JWT
@@ -70,8 +73,8 @@ public class JWTEngine {
             Set<String> jwtKeys = claimsMap.keySet();
             for (String key : jwtKeys) {
                 Object value = claimsMap.get(key);
-                if (key.startsWith(Constants.SYMBIOTE_ATTRIBUTES_PREFIX))
-                    attributes.put(key.substring(Constants.SYMBIOTE_ATTRIBUTES_PREFIX.length()), (String) value);
+                if (key.startsWith(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX))
+                    attributes.put(key.substring(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX.length()), (String) value);
                 else
                     retMap.put(key, value);
             }
@@ -113,17 +116,17 @@ public class JWTEngine {
             //Add symbIoTe related attributes to token
             if (attributes != null && !attributes.isEmpty()) {
                 for (Map.Entry<String, String> entry : attributes.entrySet()) {
-                    claimsMap.put(Constants.SYMBIOTE_ATTRIBUTES_PREFIX + entry.getKey(), entry.getValue());
+                    claimsMap.put(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + entry.getKey(), entry.getValue());
                 }
             }
 
             //Insert token type based on AAM deployment type (Core or Platform)
             switch (deploymentType) {
                 case CORE:
-                    claimsMap.put(Constants.CLAIM_NAME_TOKEN_TYPE, IssuingAuthorityType.CORE);
+                    claimsMap.put(AAMConstants.CLAIM_NAME_TOKEN_TYPE, IssuingAuthorityType.CORE);
                     break;
                 case PLATFORM:
-                    claimsMap.put(Constants.CLAIM_NAME_TOKEN_TYPE, IssuingAuthorityType.PLATFORM);
+                    claimsMap.put(AAMConstants.CLAIM_NAME_TOKEN_TYPE, IssuingAuthorityType.PLATFORM);
                     break;
                 case NULL:
                     throw new JWTCreationException("uninitialized deployment type, must be CORE or PLATFORM");

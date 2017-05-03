@@ -3,48 +3,47 @@ package eu.h2020.symbiote.security.session;
 import eu.h2020.symbiote.security.token.SymbIoTeToken;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class SessionInformation {
-	private SymbIoTeToken homeToken;
-	private SymbIoTeToken coreToken;
-	private HashMap<String, SymbIoTeToken> foreignTokens; 
+    private SymbIoTeToken homeToken;
+    private SymbIoTeToken coreToken;
+    private Map<String, SymbIoTeToken> foreignTokens = new HashMap<String, SymbIoTeToken>();
 
     public SessionInformation() {
-    	this.foreignTokens = new HashMap<String, SymbIoTeToken>() ; 
-
     }
 
-	public SymbIoTeToken getHomeToken() {
-		return homeToken;
-	}
+    public SymbIoTeToken getHomeToken() {
+        return homeToken;
+    }
 
-	public void setHomeToken(SymbIoTeToken homeToken) {
-		this.homeToken = homeToken;
-	}
+    public void setHomeToken(SymbIoTeToken homeToken) {
+        this.homeToken = homeToken;
+    }
 
-	public SymbIoTeToken getCoreToken() {
-		return coreToken;
-	}
+    public SymbIoTeToken getCoreToken() {
+        return coreToken;
+    }
 
-	public void setCoreToken(SymbIoTeToken coreToken) {
-		this.coreToken = coreToken;
-	}
+    public void setCoreToken(SymbIoTeToken coreToken) {
+        this.coreToken = coreToken;
+    }
 
-	public HashMap<String, SymbIoTeToken> getForeignTokens() {
-		return foreignTokens;
-	}
+    public Map<String, SymbIoTeToken> getForeignTokens() {
+        return foreignTokens;
+    }
 
-	public void setForeignTokens(HashMap<String, SymbIoTeToken> foreignTokens) {
-		this.foreignTokens = foreignTokens;
-	}
-	
-	public SymbIoTeToken getForeignToken(String url){
-		return foreignTokens.get(url);
-	}
+    public void setForeignTokens(Map<String, SymbIoTeToken> foreignTokens) {
+        this.foreignTokens = foreignTokens;
+    }
 
-	public void setForeignToken(String url, SymbIoTeToken token){
-		foreignTokens.put(url, token);
-	}
-	
+    public SymbIoTeToken getForeignToken(String url) {
+        return foreignTokens.get(url);
+    }
+
+    public void setForeignToken(String url, SymbIoTeToken token) {
+        foreignTokens.put(url, token);
+    }
+
 }
