@@ -33,8 +33,10 @@ public class JWTClaims {
         this.alg = (String) alg;
         this.iss = (String) iss;
         this.sub = (String) sub;
-        this.iat = new Long((Integer) iat) * 1000;
-        this.exp = new Long((Integer) exp) * 1000;
+        String stringToConvert = String.valueOf(iat);
+        this.iat = Long.parseLong(stringToConvert) * 1000;
+        stringToConvert = String.valueOf(exp);
+        this.exp = Long.parseLong(stringToConvert) * 1000;
         this.ipk = (String) ipk;
         this.spk = (String) spk;
         this.att = att;

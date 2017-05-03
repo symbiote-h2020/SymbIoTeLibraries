@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.security.token;
 
+import eu.h2020.symbiote.security.commons.Constants;
 import eu.h2020.symbiote.security.messaging.bean.Token;
 import io.jsonwebtoken.Claims;
 
@@ -11,6 +12,8 @@ public class SymbIoTeToken {
 	public final static String JWT_CLAIMS_ISSUER = Claims.ISSUER;
 	public final static String JWT_CLAIMS_NOT_BEFORE = Claims.NOT_BEFORE;
 	public final static String JWT_CLAIMS_SUBJECT = Claims.SUBJECT;
+	public final static String JWT_CLAIMS_TTYPE = Constants.CLAIM_NAME_TOKEN_TYPE;
+
     private String token; //encrypted
     private Claims claims;
 

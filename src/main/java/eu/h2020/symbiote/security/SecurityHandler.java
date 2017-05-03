@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.security;
 
+import eu.h2020.symbiote.security.commons.exceptions.TokenValidationException;
 import eu.h2020.symbiote.security.exception.DisabledException;
 import eu.h2020.symbiote.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
@@ -9,7 +10,6 @@ import eu.h2020.symbiote.security.messaging.platform.home.PlatformAAMMessageHand
 import eu.h2020.symbiote.security.session.SessionInformation;
 import eu.h2020.symbiote.security.token.SymbIoTeToken;
 import eu.h2020.symbiote.security.token.TokenHandler;
-import eu.h2020.symbiote.security.token.TokenVerificationException;
 
 import java.security.KeyStore;
 import java.util.HashMap;
@@ -137,7 +137,7 @@ public class SecurityHandler {
 	}
 
 
-	public SymbIoTeToken verifyCoreToken(String encodedTokenString) throws TokenVerificationException, DisabledException {
+	public SymbIoTeToken verifyCoreToken(String encodedTokenString) throws TokenValidationException, DisabledException {
 		if (!enabled)
 			throw new DisabledException("Security Handler is disabled!");
 
@@ -146,14 +146,14 @@ public class SecurityHandler {
 		return token;
 	}
 
-	public void verifyCoreToken(SymbIoTeToken token) throws TokenVerificationException, DisabledException {
+	public void verifyCoreToken(SymbIoTeToken token) throws TokenValidationException, DisabledException {
 		if (!enabled)
 			throw new DisabledException("Security Handler is disabled!");
 
 		tokenHandler.validateCoreToken(token);
 	}
 
-	public SymbIoTeToken verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenVerificationException, DisabledException {
+	public SymbIoTeToken verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenValidationException, DisabledException {
 		if (!enabled)
 			throw new DisabledException("Security Handler is disabled!");
 
@@ -162,7 +162,7 @@ public class SecurityHandler {
 		return token;
 	}
 
-	public void verifyForeignPlatformToken(String aamURL, SymbIoTeToken token) throws TokenVerificationException, DisabledException {
+	public void verifyForeignPlatformToken(String aamURL, SymbIoTeToken token) throws TokenValidationException, DisabledException {
 		if (!enabled)
 			throw new DisabledException("Security Handler is disabled!");
 

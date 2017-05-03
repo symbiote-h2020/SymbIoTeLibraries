@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.security.token.jwt;
+package eu.h2020.symbiote.security.token.jwt.attributes;
 
 /**
  * contains collection of symbIoTe related JWT attributes which might appear in core tokens.

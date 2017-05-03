@@ -18,4 +18,8 @@ public class Constants {
 
     public static final String ERR_TOKEN_EXPIRED = "TOKEN_EXPIRED";
     public static final String ERR_TOKEN_WRONG_ISSUER = "TOKEN_WRONG_ISSUER";
+
+    public static final String SYMBIOTE_ATTRIBUTES_PREFIX = "SYMBIOTE_";
+
+    public static final String CLAIM_NAME_TOKEN_TYPE = "ttyp";
 }
