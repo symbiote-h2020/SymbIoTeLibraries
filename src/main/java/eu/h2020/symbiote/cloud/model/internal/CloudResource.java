@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.cloud.model.internal;
 
+import eu.h2020.symbiote.cloud.model.CloudResourceParams;
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +22,7 @@ public class CloudResource  {
 
     //Needed by Monitoring component
     @JsonProperty("params")
-    CloudResourceParams params;  
+    CloudResourceParams params;
 
     public CloudResource() {
     }
