@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.cloud.model;
+package eu.h2020.symbiote.cloud.model.internal;
 
 import org.springframework.data.annotation.Id;
 

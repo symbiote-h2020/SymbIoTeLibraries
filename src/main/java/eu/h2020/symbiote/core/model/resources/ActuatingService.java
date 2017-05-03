@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.model.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.model.Property;
 
 import java.util.List;
 
