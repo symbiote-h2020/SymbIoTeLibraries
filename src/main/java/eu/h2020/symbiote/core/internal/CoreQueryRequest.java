@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * POJO describing a query for resources.
  */
-public class QueryRequest {
+public class CoreQueryRequest {
 
     private String platform_id;
     private String platform_name;
@@ -23,7 +23,7 @@ public class QueryRequest {
     /**
      * Default empty constructor.
      */
-    public QueryRequest() {
+    public CoreQueryRequest() {
         // Needed for Jackson serialization
     }
 

@@ -3,14 +3,14 @@ package eu.h2020.symbiote.core.internal;
 /**
  * POJO describing a sparql query for resources.
  */
-public class SparqlQueryRequest {
+public class CoreSparqlQueryRequest {
     private String query;
     private String token;
 
     /**
      * Default constructor.
      */
-    public SparqlQueryRequest() {
+    public CoreSparqlQueryRequest() {
         // Needed for Jackson serialization
     }
 
