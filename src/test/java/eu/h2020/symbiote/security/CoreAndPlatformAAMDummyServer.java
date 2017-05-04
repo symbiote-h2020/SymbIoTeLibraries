@@ -3,8 +3,8 @@ package eu.h2020.symbiote.security;
 
 import eu.h2020.symbiote.security.SecurityHandlerTest.DateUtil;
 import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
+import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.payloads.Credentials;
-import eu.h2020.symbiote.security.payloads.Status;
 import eu.h2020.symbiote.security.token.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -69,11 +69,10 @@ public class CoreAndPlatformAAMDummyServer {
 
     @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_CORE_AAM_CHECK_TOKEN_REVOCATION, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public @ResponseBody
-    Status checkTokenRevocation(@RequestBody Token token) {
+    TokenValidationStatus checkTokenRevocation(@RequestBody Token token) {
         logger.info("Checking token revocation " + token);
-        Status status = new Status();
-        status.setStatus(Status.SUCCESS);
-        return status;
+        // todo implement... for the moment returns valid
+        return TokenValidationStatus.VALID;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_REQUEST_CORE_TOKEN, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")

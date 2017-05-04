@@ -2,7 +2,7 @@ package eu.h2020.symbiote.security.payloads;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.h2020.symbiote.security.enums.Status;
+import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -23,7 +23,7 @@ public class CheckTokenRevocationResponse {
         this.status = null;
     }
 
-    public CheckTokenRevocationResponse(Status token) {
+    public CheckTokenRevocationResponse(TokenValidationStatus token) {
         this.status = token.toString();
     }
 
@@ -35,8 +35,8 @@ public class CheckTokenRevocationResponse {
         this.status = status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status.toString();
+    public void setStatus(TokenValidationStatus tokenValidationStatus) {
+        this.status = tokenValidationStatus.toString();
     }
 
     public String toJson() {

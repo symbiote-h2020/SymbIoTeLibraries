@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.security.rest;
 
+import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.payloads.Credentials;
-import eu.h2020.symbiote.security.payloads.Status;
 import eu.h2020.symbiote.security.token.Token;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
@@ -65,8 +65,8 @@ public abstract class AAMMessageHandler {
         return result;
     }
 
-    public Status checkTokenRevocation(Token token) {
-        Status result = null;
+    public TokenValidationStatus checkTokenRevocation(Token token) {
+        TokenValidationStatus result = null;
         try {
             logger.info("User trying to checkTokenRevocation");
             result = jsonclient.checkTokenRevocation(token);

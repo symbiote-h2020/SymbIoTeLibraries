@@ -3,8 +3,8 @@ package eu.h2020.symbiote.security.token;
 
 import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
 import eu.h2020.symbiote.security.amqp.platform.foreign.ForeignPlatformAAMMessageHandler;
+import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
-import eu.h2020.symbiote.security.payloads.Status;
 import eu.h2020.symbiote.security.rest.AAMMessageHandler;
 import io.jsonwebtoken.*;
 
@@ -67,11 +67,11 @@ public class TokenHandler {
     }
 
     private void checkRevocation(AAMMessageHandler aamMessagHandler, Token tokenForRevocation) throws TokenValidationException {
-        Status status = aamMessagHandler.checkTokenRevocation(tokenForRevocation);
+        TokenValidationStatus status = aamMessagHandler.checkTokenRevocation(tokenForRevocation);
         if (status == null) {
             throw new TokenValidationException("Error retrieving the status revocation of the token");
         }
-        if (!Status.SUCCESS.equals(status.getStatus())) {
+        if (status == TokenValidationStatus.REVOKED) {
             throw new TokenValidationException("Token has been revoked");
         }
     }
