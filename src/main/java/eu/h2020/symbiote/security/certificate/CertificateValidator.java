@@ -3,6 +3,7 @@ package eu.h2020.symbiote.security.certificate;
 import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.security.*;
 import java.security.cert.CertificateException;
@@ -41,7 +42,8 @@ public class CertificateValidator {
     public boolean verifyCertificate(X509Certificate x509Certificate) {
         try {
             X509Certificate rootCertificate = getCA();
-            x509Certificate.verify(rootCertificate.getPublicKey());
+            Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+            x509Certificate.verify(rootCertificate.getPublicKey(), BouncyCastleProvider.PROVIDER_NAME);
             return true;
         } catch (InvalidKeyException | CertificateException | NoSuchAlgorithmException | NoSuchProviderException e) {
             logger.error("Could not verify certificate", e);

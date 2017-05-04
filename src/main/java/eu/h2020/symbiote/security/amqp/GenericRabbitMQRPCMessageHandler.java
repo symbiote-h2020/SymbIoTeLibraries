@@ -93,7 +93,7 @@ public class GenericRabbitMQRPCMessageHandler<T, O> {
         
         
         logger.info("Result " + result);
-        return new Token((String) result);
+        return (Token) result;
 
     }
 

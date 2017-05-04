@@ -33,10 +33,9 @@ import java.util.Set;
  */
 public class JWTEngine {
 
-
     private static Log log = LogFactory.getLog(JWTEngine.class);
 
-    private SecureRandom random = new SecureRandom();
+    private static SecureRandom random = new SecureRandom();
 
     private static void validateToken(Token token, PublicKey publicKey) throws TokenValidationException {
         try {
@@ -99,7 +98,7 @@ public class JWTEngine {
         }
     }
 
-    public String generateJWTToken(String userId, Map<String, String> attributes, byte[] userPublicKey, IssuingAuthorityType deploymentType, Long tokenValidity, String deploymentID, PublicKey aamPublicKey, PrivateKey aamPrivateKey) throws JWTCreationException {
+    public static String generateJWTToken(String userId, Map<String, String> attributes, byte[] userPublicKey, IssuingAuthorityType deploymentType, Long tokenValidity, String deploymentID, PublicKey aamPublicKey, PrivateKey aamPrivateKey) throws JWTCreationException {
 
         String jti = String.valueOf(random.nextInt());
         Map<String, Object> claimsMap = new HashMap<String, Object>();

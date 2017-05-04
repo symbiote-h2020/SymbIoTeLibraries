@@ -1,14 +1,16 @@
 package eu.h2020.symbiote.security;
 
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
+import eu.h2020.symbiote.security.constants.AAMConstants;
+import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
 import eu.h2020.symbiote.security.token.Token;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +25,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
@@ -45,37 +46,44 @@ import java.util.HashMap;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-
 public class SecurityHandlerTest {
 
     private static final Log logger = LogFactory.getLog(SecurityHandlerTest.class);
 
     private SecurityHandler securityHandler;
+    private String tokenString;
 
     @Value("${symbiote.testaam.url}")
     private String aamUrl;
 
     @Before
     public void setUp() throws Exception {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
         String coreAAMUrl = "http://localhost:18033";
         String rabbitMQHostIP = "localhost";
         securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, true);
+
+        final String ALIAS = "test aam keystore";
+        KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+        ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+        Key key = ks.getKey(ALIAS, "1234567".toCharArray());
+
+        HashMap<String, String> attributes = new HashMap<>();
+        attributes.put("name", "test2");
+        tokenString = JWTEngine.generateJWTToken("test1", attributes, ks.getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.CORE, DateUtil.addDays(new Date(), 1).getTime(), "securityHandlerTestAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
     }
 
 
     @Test
     public void testValidation() {
         try {
-            KeyStore p12 = KeyStore.getInstance("pkcs12");
-            p12.load(new FileInputStream("./src/test/resources/certificates/mytest.p12"), "password".toCharArray());
-            boolean bolTrue = securityHandler.certificateValidation(p12);
+            final String ALIAS = "test aam keystore";
+            KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+            ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+            Assert.assertTrue(securityHandler.certificateValidation(ks));
 
-            p12 = KeyStore.getInstance("pkcs12");
-            p12.load(new FileInputStream("./src/test/resources/certificates/dianne.p12"), "password".toCharArray());
-            boolean bolFalse = securityHandler.certificateValidation(p12);
-
-            assert (bolTrue && (bolFalse == false));
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | CertificateVerificationException | SecurityHandlerDisabledException e) {
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | CertificateVerificationException | SecurityHandlerDisabledException | NoSuchProviderException e) {
             logger.error(e);
         }
     }
@@ -117,25 +125,11 @@ public class SecurityHandlerTest {
 
     @Test
     public void testCoreTokenValidation() {
-        final String ALIAS = "mytest";
         try {
-            KeyStore ks = KeyStore.getInstance("JKS");
-            InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
-            ks.load(readStream, "password".toCharArray());
-            Key key = ks.getKey(ALIAS, "password".toCharArray());
-            readStream.close();
-
-            String tokenString = Jwts.builder()
-                    .setSubject("test1")
-                    .setExpiration(DateUtil.addDays(new Date(), 1))
-                    .claim("name", "test2")
-                    .signWith(SignatureAlgorithm.RS512, key)
-                    .compact();
             Token token = securityHandler.verifyCoreToken(tokenString);
-            boolean result = "test1".equals(token.getClaims().getSubject());
-            result &= "test2".equals(token.getClaims().get("name"));
-            assert (result);
-        } catch (IOException | CertificateException | UnrecoverableKeyException | TokenValidationException | NoSuchAlgorithmException | KeyStoreException | SecurityHandlerDisabledException e) {
+            Assert.assertEquals("test1", token.getClaims().getSubject());
+            Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
+        } catch (TokenValidationException | SecurityHandlerDisabledException e) {
             logger.error(e);
         }
 
@@ -158,29 +152,12 @@ public class SecurityHandlerTest {
 
     @Test
     public void testForeignPlatformTokenValidation() {
-        final String ALIAS = "mytest";
         try {
-            KeyStore ks = KeyStore.getInstance("JKS");
-            InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
-            ks.load(readStream, "password".toCharArray());
-            Key key = ks.getKey(ALIAS, "password".toCharArray());
-            readStream.close();
-
-            String tokenString = Jwts.builder()
-                    .setSubject("test1")
-                    .setExpiration(DateUtil.addDays(new Date(), 1))
-                    .claim("name", "test2")
-                    .signWith(SignatureAlgorithm.RS512, key)
-                    .compact();
             Token token = securityHandler.verifyForeignPlatformToken(aamUrl, tokenString);
-            boolean result = "test1".equals(token.getClaims().getSubject());
-            result &= "test2".equals(token.getClaims().get("name"));
-            assert (result);
-        } catch (SecurityHandlerDisabledException e) {
+            Assert.assertEquals("test1", token.getClaims().getSubject());
+            Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
+        } catch (SecurityHandlerDisabledException | TokenValidationException e) {
             logger.error(e);
-        } catch (Throwable t) {
-            logger.error(t);
-            assert (false);
         }
 
     }

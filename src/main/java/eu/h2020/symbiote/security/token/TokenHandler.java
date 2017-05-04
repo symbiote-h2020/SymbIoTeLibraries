@@ -66,8 +66,8 @@ public class TokenHandler {
         }
     }
 
-    private void checkRevocation(AAMMessageHandler aamMessagHandler, Token tokenForRevocation) throws TokenValidationException {
-        TokenValidationStatus status = aamMessagHandler.checkTokenRevocation(tokenForRevocation);
+    private void checkRevocation(AAMMessageHandler aamMessageHandler, Token tokenForRevocation) throws TokenValidationException {
+        TokenValidationStatus status = aamMessageHandler.checkTokenRevocation(tokenForRevocation);
         if (status == null) {
             throw new TokenValidationException("Error retrieving the status revocation of the token");
         }

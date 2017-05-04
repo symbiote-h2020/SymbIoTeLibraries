@@ -3,11 +3,12 @@ package eu.h2020.symbiote.security;
 
 import eu.h2020.symbiote.security.SecurityHandlerTest.DateUtil;
 import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
+import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
+import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Date;
+import java.util.HashMap;
 
 
 /*
@@ -30,31 +31,22 @@ import java.util.Date;
 public class CoreAndPlatformAAMDummyServer {
     private static final Log logger = LogFactory.getLog(CoreAndPlatformAAMDummyServer.class);
 
+    public CoreAndPlatformAAMDummyServer() {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = SecurityHandlerConstants.GET_CORE_AAM_CA_CERTIFICATE)
     public byte[] getRootCertificate() {
         logger.debug("invoked get token public");
-        String pemFile =
-                "-----BEGIN CERTIFICATE-----\n" +
-                        "MIIDczCCAlugAwIBAgIEXPARpzANBgkqhkiG9w0BAQsFADBqMQswCQYDVQQGEwJF\n" +
-                        "UzESMBAGA1UECBMJQmFyY2Vsb25hMRIwEAYDVQQHEwlCYXJjZWxvbmExDTALBgNV\n" +
-                        "BAoTBEF0b3MxDDAKBgNVBAsTA0FSSTEWMBQGA1UEAxMNVGVzdCBTeW1iaW90ZTAe\n" +
-                        "Fw0xNzAzMjExMzU4NTVaFw0xNzA2MTkxMzU4NTVaMGoxCzAJBgNVBAYTAkVTMRIw\n" +
-                        "EAYDVQQIEwlCYXJjZWxvbmExEjAQBgNVBAcTCUJhcmNlbG9uYTENMAsGA1UEChME\n" +
-                        "QXRvczEMMAoGA1UECxMDQVJJMRYwFAYDVQQDEw1UZXN0IFN5bWJpb3RlMIIBIjAN\n" +
-                        "BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtuPjU1Qrw9sZWYztUTiCpsqU8lZp\n" +
-                        "Ig414LzGXbK/W7oe3njDoE1P5S1y3nNJgksNzzGNunR84OrEb5A6BND2otYfblEB\n" +
-                        "JsFs/ziqC94EatOQTpiy09P8GMtG4fTrImAMQOTK/Qa06K1KvNgUNg9OrOlLE7M+\n" +
-                        "sYEaCJE97ftoiQWoCXf9hEPLOv6f1j/Wt5atJ72Ebs3DGOl1EP4JLrxVFlVhvdwj\n" +
-                        "v5Z7SQ9AEvkzK7guKggwwYs1zzjxb9iexvDzHNq/td1NL5i7ULhDQg+cWjqDYwRk\n" +
-                        "2Qb2sscVcn+8q8fLV3xD+q5FZSFDNG8odmClbk90tYpVadzMfSKLBFBlcwIDAQAB\n" +
-                        "oyEwHzAdBgNVHQ4EFgQUytEsSR/Kckc1UeVCAg86yrJVOCswDQYJKoZIhvcNAQEL\n" +
-                        "BQADggEBAFfDTeR3lkWHlSnGWLPCDLAsWIXUTgLGpHao2fsGXR1kxzaYOUlv9HhV\n" +
-                        "/bqF5aPsnjKl8JrxZJ1mVUvz7V2qIvmtmmqrqbEh1GF6qhOgmbM/nyx6K/BvESKx\n" +
-                        "+XMVjInj5SND1RhrjR2AOzGHnC/BybsPknaGJ7C8gxFnA6qOXolH0+vtZ/d1hNCG\n" +
-                        "Hz/cckIa10GYFTJacr4Maj/MLvYOS8VEN19LM1hFxCooKJQH70L5kzCAyI7omWt1\n" +
-                        "AzWTKOPAB+BYXbgr/vX316qSVYT6T5pF13DY5lva1mXPOes8pnR53EA5IqvMzKfX\n" +
-                        "wTy8cAqkLUUrJoARWuoocn5B9qpZMAE=\n" +
-                        "-----END CERTIFICATE-----\n";
+        String pemFile = "-----BEGIN CERTIFICATE-----\n" +
+                "MIIBPjCB5aADAgECAgEBMAoGCCqGSM49BAMCMCkxFDASBgNVBCkMC1BsYXRmb3Jt\n" +
+                "QUFNMREwDwYDVQQKDAhTWU1CSU9URTAeFw0xNzAzMzExMDMzNDJaFw0zNzAzMjYx\n" +
+                "MDMzNDJaMCkxFDASBgNVBCkMC1BsYXRmb3JtQUFNMREwDwYDVQQKDAhTWU1CSU9U\n" +
+                "RTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABEyxvMP4rB3CA12QDN5boE93ZhLz\n" +
+                "+vOJdWTtoaHCKOYbEgibYUdj4fhynkNFmEp0jzKCruxhXyBgVhpbcN0ZE9kwCgYI\n" +
+                "KoZIzj0EAwIDSAAwRQIgH+SQ4fmyPupmvUWfwt1PEEYK1aH2h8OtpeUgcEj8s/wC\n" +
+                "IQCW5hMbyWbBnUQUlhHHPWXUCo5ax0cEKe2J89cBRbC6MA==\n" +
+                "-----END CERTIFICATE-----";
         logger.debug("invoked get token certificate");
         return pemFile.getBytes();
     }
@@ -78,26 +70,21 @@ public class CoreAndPlatformAAMDummyServer {
     @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_REQUEST_CORE_TOKEN, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public @ResponseBody
     Token requestCoreToken(@RequestBody Token homeToken) {
-        final String ALIAS = "mytest";
         logger.info("Requesting core token, received home token " + homeToken.getToken());
         try {
-            KeyStore ks = KeyStore.getInstance("JKS");
-            InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
-            ks.load(readStream, "password".toCharArray());
-            Key key = ks.getKey(ALIAS, "password".toCharArray());
-            readStream.close();
-            String tokenString = Jwts.builder()
-                    .setSubject("coreAAM")
-                    .setExpiration(DateUtil.addDays(new Date(), 1))
-                    .claim("name1", "value1")
-                    .claim("name2", "value2")
-                    .claim("name3", "value3")
-                    .signWith(SignatureAlgorithm.RS512, key)
-                    .compact();
+            final String ALIAS = "test aam keystore";
+            KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+            ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+            Key key = ks.getKey(ALIAS, "1234567".toCharArray());
+
+            HashMap<String, String> attributes = new HashMap<>();
+            attributes.put("name", "test2");
+            String tokenString = JWTEngine.generateJWTToken("test1", attributes, ks.getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.CORE, DateUtil.addDays(new Date(), 1).getTime(), "securityHandlerTestAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+
             Token coreToken = new Token();
             coreToken.setToken(tokenString);
             return coreToken;
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableKeyException e) {
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableKeyException | JWTCreationException | NoSuchProviderException e) {
             logger.error(e);
         }
         return null;
@@ -106,26 +93,23 @@ public class CoreAndPlatformAAMDummyServer {
     @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_REQUEST_FOREIGN_TOKEN, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public @ResponseBody
     Token requestForeignToken(@RequestBody Token homeToken) {
-        final String ALIAS = "mytest";
         logger.info("Requesting foreign token, received home token " + homeToken.getToken());
         try {
-            KeyStore ks = KeyStore.getInstance("JKS");
-            InputStream readStream = new FileInputStream("./src/test/resources/certificates/mytest.jks");// Use file stream to load from file system or class.getResourceAsStream to load from classpath
-            ks.load(readStream, "password".toCharArray());
-            Key key = ks.getKey(ALIAS, "password".toCharArray());
-            readStream.close();
-            String tokenString = Jwts.builder()
-                    .setSubject("foreign")
-                    .setExpiration(DateUtil.addDays(new Date(), 1))
-                    .claim("fname1", "fvalue1")
-                    .claim("fname2", "fvalue2")
-                    .claim("fname3", "fvalue3")
-                    .signWith(SignatureAlgorithm.RS512, key)
-                    .compact();
+            final String ALIAS = "test aam keystore";
+            KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+            ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+            Key key = ks.getKey(ALIAS, "1234567".toCharArray());
+
+            HashMap<String, String> attributes = new HashMap<>();
+            attributes.put("fname1", "fvalue1");
+            attributes.put("fname2", "fvalue2");
+            attributes.put("fname3", "fvalue3");
+            String tokenString = JWTEngine.generateJWTToken("foreign", attributes, ks.getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.CORE, DateUtil.addDays(new Date(), 1).getTime(), "securityHandlerTestAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+
             Token coreToken = new Token();
             coreToken.setToken(tokenString);
             return coreToken;
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableKeyException e) {
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableKeyException | NoSuchProviderException | JWTCreationException e) {
             logger.error(e);
         }
         return null;

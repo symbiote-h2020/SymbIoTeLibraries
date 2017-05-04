@@ -67,12 +67,14 @@ dependencies {
     compile('org.springframework.amqp:spring-amqp')
     compile('org.springframework.amqp:spring-rabbit')
     compile('io.jsonwebtoken:jjwt:0.7.0')
+    compile('org.bouncycastle:bcprov-jdk15on:1.56')
 
     //from symbioteLibs
     compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7+')
     compile('org.springframework.data:spring-data-commons')
 
     // common testing
+    testCompile('junit:junit:4.+')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testRuntime('org.springframework.boot:spring-boot-starter-web')
 }
