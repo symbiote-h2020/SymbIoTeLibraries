@@ -3,10 +3,13 @@ package eu.h2020.symbiote.security.token;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
+import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
+import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 /**
  * Class that defines the SymbIoTe JWS token
@@ -24,20 +27,36 @@ public class Token {
     private String id = "";
     private String token = "";
     private IssuingAuthorityType type = IssuingAuthorityType.NULL;
+    @Transient
     private Claims claims;
 
     public Token() {
         // used by JPA
     }
 
+    /**
+     * The token is validated using the issuer public key found in the string.
+     *
+     * @param token compacted signed token string
+     */
     public Token(String token) {
         this.token = token;
+        try {
+            JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
+        } catch (TokenValidationException e) {
+            log.error(e);
+        }
     }
 
     public String getToken() {
         return token;
     }
 
+    /**
+     * The token needs to be validated to have it's claims populated properly
+     *
+     * @param token compacted signed token string
+     */
     public void setToken(String token) {
         this.token = token;
     }
@@ -49,7 +68,8 @@ public class Token {
 
     public void setClaims(Claims claims) {
         this.claims = claims;
-        this.setType(IssuingAuthorityType.valueOf((String) claims.get(AAMConstants.CLAIM_NAME_TOKEN_TYPE)));
+        this.id = claims.getId();
+        this.type = IssuingAuthorityType.valueOf((String) claims.get(AAMConstants.CLAIM_NAME_TOKEN_TYPE));
     }
 
     /**
@@ -61,7 +81,7 @@ public class Token {
         return type;
     }
 
-    public void setType(IssuingAuthorityType type) {
-        this.type = type;
+    public String getId() {
+        return id;
     }
 }

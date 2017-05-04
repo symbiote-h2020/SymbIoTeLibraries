@@ -55,7 +55,24 @@ public class CoreAndPlatformAAMDummyServer {
     public @ResponseBody
     Token doLogin(@RequestBody Credentials credential) {
         logger.info("User trying to login " + credential.getUsername() + " - " + credential.getPassword());
-        return new Token("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA");
+        Token token = new Token();
+        try {
+            final String ALIAS = "test aam keystore";
+            KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+            ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+            Key key = ks.getKey(ALIAS, "1234567".toCharArray());
+
+            HashMap<String, String> attributes = new HashMap<>();
+            attributes.put("name", "test2");
+            String tokenString = JWTEngine.generateJWTToken(credential.getUsername(), attributes, ks.getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.CORE, DateUtil.addDays(new Date(), 1).getTime(), "securityHandlerTestAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+
+            Token coreToken = new Token();
+            coreToken.setToken(tokenString);
+            return coreToken;
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | UnrecoverableKeyException | JWTCreationException | NoSuchProviderException e) {
+            logger.error(e);
+        }
+        return token;
     }
 
 
