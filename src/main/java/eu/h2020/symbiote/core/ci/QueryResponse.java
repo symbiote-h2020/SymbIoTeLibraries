@@ -1,12 +1,13 @@
 package eu.h2020.symbiote.core.ci;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Response message containing results of basic, JSON based resource query.
  */
 public class QueryResponse {
-    private List<QueryResourceResult> resources;
+    private List<QueryResourceResult> resources = new ArrayList<>();
 
     public QueryResponse() {
         //Needed for Jackson serialization
