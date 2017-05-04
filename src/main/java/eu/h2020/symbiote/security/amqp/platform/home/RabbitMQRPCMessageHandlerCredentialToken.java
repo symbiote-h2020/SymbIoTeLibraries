@@ -2,7 +2,7 @@ package eu.h2020.symbiote.security.amqp.platform.home;
 
 import eu.h2020.symbiote.security.amqp.GenericRabbitMQRPCMessageHandler;
 import eu.h2020.symbiote.security.payloads.Credentials;
-import eu.h2020.symbiote.security.payloads.Token;
+import eu.h2020.symbiote.security.token.Token;
 
 
 /**

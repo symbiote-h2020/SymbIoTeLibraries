@@ -3,7 +3,7 @@ package eu.h2020.symbiote.security.rest;
 import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.payloads.Status;
-import eu.h2020.symbiote.security.payloads.Token;
+import eu.h2020.symbiote.security.token.Token;
 import feign.Headers;
 import feign.RequestLine;
 

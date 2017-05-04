@@ -4,9 +4,9 @@ public class CloudMonitoringPlatform {
 
 	//platformID
 	private String internalId;
-	
-//	private SymbIoTeToken coreToken;
-	
+
+//	private Token coreToken;
+
 	private CloudMonitoringDevice[] devices;
 	
 	public CloudMonitoringPlatform(){
@@ -29,11 +29,11 @@ public class CloudMonitoringPlatform {
 		this.devices = devices;
 	}
 
-//	public SymbIoTeToken getCoreToken() {
+//	public Token getCoreToken() {
 //		return coreToken;
 //	}
 //
-//	public void setCoreToken(SymbIoTeToken coreToken) {
+//	public void setCoreToken(Token coreToken) {
 //		this.coreToken = coreToken;
 //	}
 	

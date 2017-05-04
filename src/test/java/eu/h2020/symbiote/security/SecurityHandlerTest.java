@@ -1,9 +1,10 @@
 package eu.h2020.symbiote.security;
 
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
+import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
-import eu.h2020.symbiote.security.token.SymbIoTeToken;
+import eu.h2020.symbiote.security.token.Token;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.logging.Log;
@@ -34,8 +35,9 @@ import java.util.HashMap;
  * This class handles the initialization from the platform. Initially created by jose
  *
  * @author Elena Garrido
- * @version:06/10/2016 \class PlatformInformationManager
- * \brief PlatformInformationManager handles the registration of the resources within the platform
+ * @version 06/10/2016
+ *          \class PlatformInformationManager
+ *          \brief PlatformInformationManager handles the registration of the resources within the platform
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, properties = {"symbiote.testaam.url=http://localhost:18033", "symbiote.coreaam.url=http://localhost:18033"})
@@ -82,9 +84,9 @@ public class SecurityHandlerTest {
     @Test
     public void testRequestCoreToken() {
         try {
-            SymbIoTeToken token = securityHandler.requestCoreToken("user", "password");
+            Token token = securityHandler.requestCoreToken("user", "password");
             assert (token != null);
-        } catch (SecurityHandlerDisabledException e) {
+        } catch (SecurityHandlerException e) {
             logger.error(e);
         }
     }
@@ -95,9 +97,9 @@ public class SecurityHandlerTest {
             securityHandler.requestCoreToken("user", "password");
             ArrayList<String> urllist = new ArrayList<String>();
             urllist.add(aamUrl);
-            HashMap<String, SymbIoTeToken> tokens = securityHandler.requestForeignTokens(urllist);
+            HashMap<String, Token> tokens = securityHandler.requestForeignTokens(urllist);
             assert (tokens != null);
-        } catch (SecurityHandlerDisabledException e) {
+        } catch (SecurityHandlerException e) {
             logger.error(e);
         }
     }
@@ -105,9 +107,9 @@ public class SecurityHandlerTest {
     @Test
     public void testRequestCoreTokenFromApplication() {
         try {
-            SymbIoTeToken token = securityHandler.appRequestCoreToken("user", "password");
+            Token token = securityHandler.appRequestCoreToken("user", "password");
             assert (token != null);
-        } catch (SecurityHandlerDisabledException e) {
+        } catch (SecurityHandlerException e) {
             logger.error(e);
         }
     }
@@ -129,9 +131,9 @@ public class SecurityHandlerTest {
                     .claim("name", "test2")
                     .signWith(SignatureAlgorithm.RS512, key)
                     .compact();
-            SymbIoTeToken token = securityHandler.verifyCoreToken(tokenString);
-            boolean result = "test1".equals(token.getClaim(SymbIoTeToken.JWT_CLAIMS_SUBJECT));
-            result &= "test2".equals(token.getClaim("name"));
+            Token token = securityHandler.verifyCoreToken(tokenString);
+            boolean result = "test1".equals(token.getClaims().getSubject());
+            result &= "test2".equals(token.getClaims().get("name"));
             assert (result);
         } catch (IOException | CertificateException | UnrecoverableKeyException | TokenValidationException | NoSuchAlgorithmException | KeyStoreException | SecurityHandlerDisabledException e) {
             logger.error(e);
@@ -170,9 +172,9 @@ public class SecurityHandlerTest {
                     .claim("name", "test2")
                     .signWith(SignatureAlgorithm.RS512, key)
                     .compact();
-            SymbIoTeToken token = securityHandler.verifyForeignPlatformToken(aamUrl, tokenString);
-            boolean result = "test1".equals(token.getClaim(SymbIoTeToken.JWT_CLAIMS_SUBJECT));
-            result &= "test2".equals(token.getClaim("name"));
+            Token token = securityHandler.verifyForeignPlatformToken(aamUrl, tokenString);
+            boolean result = "test1".equals(token.getClaims().getSubject());
+            result &= "test2".equals(token.getClaims().get("name"));
             assert (result);
         } catch (SecurityHandlerDisabledException e) {
             logger.error(e);

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.*;
+import eu.h2020.symbiote.security.token.Token;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -57,7 +58,7 @@ public class GenericRabbitMQRPCMessageHandler<T, O> {
      * @param object
      * @throws Exception
      */
-	public O sendMessage(T object) throws Exception {
+    public Token sendMessage(T object) throws Exception {
         O result = null;
         
         String corrId = java.util.UUID.randomUUID().toString();
@@ -92,7 +93,7 @@ public class GenericRabbitMQRPCMessageHandler<T, O> {
         
         
         logger.info("Result " + result);
-        return result;
+        return new Token((String) result);
 
     }
 

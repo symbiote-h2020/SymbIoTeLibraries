@@ -7,7 +7,7 @@ import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
 import eu.h2020.symbiote.security.exceptions.aam.MalformedJWTException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
-import eu.h2020.symbiote.security.token.SymbIoTeToken;
+import eu.h2020.symbiote.security.token.Token;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureException;
 import org.apache.commons.codec.binary.Base64;
@@ -38,7 +38,7 @@ public class JWTEngine {
 
     private SecureRandom random = new SecureRandom();
 
-    private static void validateToken(SymbIoTeToken token, PublicKey publicKey) throws TokenValidationException {
+    private static void validateToken(Token token, PublicKey publicKey) throws TokenValidationException {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(publicKey)
@@ -89,7 +89,7 @@ public class JWTEngine {
             PublicKey pubKey = keyFactory.generatePublic(keySpec);
 
             //Validate token signature
-            validateToken(new SymbIoTeToken(jwtToken), pubKey);
+            validateToken(new Token(jwtToken), pubKey);
 
             return retClaims;
 

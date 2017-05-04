@@ -5,7 +5,6 @@ import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
 import eu.h2020.symbiote.security.amqp.platform.foreign.ForeignPlatformAAMMessageHandler;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.payloads.Status;
-import eu.h2020.symbiote.security.payloads.Token;
 import eu.h2020.symbiote.security.rest.AAMMessageHandler;
 import io.jsonwebtoken.*;
 
@@ -24,17 +23,17 @@ public class TokenHandler {
         this.publicCertificates = new HashMap<String, X509Certificate>();
     }
 
-    public SymbIoTeToken requestCoreToken(SymbIoTeToken homeToken) {
-        return new SymbIoTeToken(coreAAM.requestCoreToken(new Token(homeToken.getToken())));
+    public Token requestCoreToken(Token homeToken) {
+        return coreAAM.requestCoreToken(homeToken);
     }
 
-    public SymbIoTeToken requestForeignToken(String aamURL, SymbIoTeToken coreToken) {
+    public Token requestForeignToken(String aamURL, Token coreToken) {
         ForeignPlatformAAMMessageHandler platformAAM = new ForeignPlatformAAMMessageHandler();
         platformAAM.createClient(aamURL);
-        return new SymbIoTeToken(platformAAM.requestForeignToken(new Token(coreToken.getToken())));
+        return platformAAM.requestForeignToken(coreToken);
     }
 
-    public void validateCoreToken(SymbIoTeToken token) throws TokenValidationException {
+    public void validateCoreToken(Token token) throws TokenValidationException {
         try {
             //TODO checkChallengeResponse()
             validateToken(token, getCA(coreAAM));
@@ -44,7 +43,7 @@ public class TokenHandler {
         }
     }
 
-    public void validateForeignPlatformToken(String aamURL, SymbIoTeToken token) throws TokenValidationException {
+    public void validateForeignPlatformToken(String aamURL, Token token) throws TokenValidationException {
         try {
             ForeignPlatformAAMMessageHandler platformAAM = new ForeignPlatformAAMMessageHandler();
             platformAAM.createClient(aamURL);
@@ -56,7 +55,7 @@ public class TokenHandler {
         }
     }
 
-    private void validateToken(SymbIoTeToken token, Certificate certificate) throws TokenValidationException {
+    private void validateToken(Token token, Certificate certificate) throws TokenValidationException {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(certificate.getPublicKey())
@@ -67,9 +66,7 @@ public class TokenHandler {
         }
     }
 
-    private void checkRevocation(AAMMessageHandler aamMessagHandler, SymbIoTeToken token) throws TokenValidationException {
-        Token tokenForRevocation = new Token();
-        tokenForRevocation.setToken(token.getToken());
+    private void checkRevocation(AAMMessageHandler aamMessagHandler, Token tokenForRevocation) throws TokenValidationException {
         Status status = aamMessagHandler.checkTokenRevocation(tokenForRevocation);
         if (status == null) {
             throw new TokenValidationException("Error retrieving the status revocation of the token");

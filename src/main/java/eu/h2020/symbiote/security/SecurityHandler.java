@@ -4,11 +4,12 @@ import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
 import eu.h2020.symbiote.security.amqp.platform.home.PlatformAAMMessageHandler;
 import eu.h2020.symbiote.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
+import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.session.SessionInformation;
-import eu.h2020.symbiote.security.token.SymbIoTeToken;
+import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.TokenHandler;
 
 import java.security.KeyStore;
@@ -42,17 +43,17 @@ public class SecurityHandler {
     }
 
 
-    public SymbIoTeToken appRequestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerDisabledException {
+    public Token appRequestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
-        SymbIoTeToken coreToken = sessionInformation.getCoreToken();
+        Token coreToken = sessionInformation.getCoreToken();
         if (coreToken == null) {
             //not logged in
             Credentials credentials = new Credentials();
             credentials.setUsername(userName);
             credentials.setPassword(password);
-            coreToken = new SymbIoTeToken(coreMessageHandler.login(credentials));
+            coreToken = coreMessageHandler.login(credentials);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getCoreToken() == null) {
                 throw new SecurityException("It was not possible to vaildate you with the give credentials. Please check them");
@@ -61,17 +62,17 @@ public class SecurityHandler {
         return coreToken;
     }
 
-    public SymbIoTeToken requestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerDisabledException {
+    public Token requestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
-        SymbIoTeToken coreToken = sessionInformation.getCoreToken();
+        Token coreToken = sessionInformation.getCoreToken();
         if (coreToken == null) {
             //not logged in
             Credentials credentials = new Credentials();
             credentials.setUsername(userName);
             credentials.setPassword(password);
-            SymbIoTeToken homeToken = new SymbIoTeToken(platformMessageHandler.login(credentials));
+            Token homeToken = platformMessageHandler.login(credentials);
             //TODO challenge response procedure??
             coreToken = tokenHandler.requestCoreToken(homeToken);
             sessionInformation.setHomeToken(homeToken);
@@ -85,17 +86,17 @@ public class SecurityHandler {
     }
 
 
-    public HashMap<String, SymbIoTeToken> requestForeignTokens(List<String> aamUrls) throws SecurityHandlerDisabledException {
+    public HashMap<String, Token> requestForeignTokens(List<String> aamUrls) throws SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
-        HashMap<String, SymbIoTeToken> foreignTokens = null;
-        SymbIoTeToken coreToken = sessionInformation.getCoreToken();
+        HashMap<String, Token> foreignTokens = null;
+        Token coreToken = sessionInformation.getCoreToken();
         if (coreToken != null) {
             //logged in
-            foreignTokens = new HashMap<String, SymbIoTeToken>();
+            foreignTokens = new HashMap<String, Token>();
             for (String url : aamUrls) {
-                SymbIoTeToken foreignToken = sessionInformation.getForeignToken(url);
+                Token foreignToken = sessionInformation.getForeignToken(url);
                 if (foreignToken == null) {
                     foreignToken = tokenHandler.requestForeignToken(url, coreToken);
                     sessionInformation.setForeignToken(url, foreignToken);
@@ -114,14 +115,14 @@ public class SecurityHandler {
         sessionInformation.setCoreToken(null);
     }
 
-    public SymbIoTeToken getHomeToken() throws SecurityHandlerDisabledException {
+    public Token getHomeToken() throws SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
         return sessionInformation.getHomeToken();
     }
 
-    public SymbIoTeToken getCoreToken() throws SecurityHandlerDisabledException {
+    public Token getCoreToken() throws SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
@@ -136,32 +137,32 @@ public class SecurityHandler {
     }
 
 
-    public SymbIoTeToken verifyCoreToken(String encodedTokenString) throws TokenValidationException, SecurityHandlerDisabledException {
+    public Token verifyCoreToken(String encodedTokenString) throws TokenValidationException, SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
-        SymbIoTeToken token = new SymbIoTeToken(encodedTokenString);
+        Token token = new Token(encodedTokenString);
         verifyCoreToken(token);
         return token;
     }
 
-    public void verifyCoreToken(SymbIoTeToken token) throws TokenValidationException, SecurityHandlerDisabledException {
+    public void verifyCoreToken(Token token) throws TokenValidationException, SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
         tokenHandler.validateCoreToken(token);
     }
 
-    public SymbIoTeToken verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenValidationException, SecurityHandlerDisabledException {
+    public Token verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenValidationException, SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
-        SymbIoTeToken token = new SymbIoTeToken(encodedTokenString);
+        Token token = new Token(encodedTokenString);
         verifyForeignPlatformToken(aamURL, token);
         return token;
     }
 
-    public void verifyForeignPlatformToken(String aamURL, SymbIoTeToken token) throws TokenValidationException, SecurityHandlerDisabledException {
+    public void verifyForeignPlatformToken(String aamURL, Token token) throws TokenValidationException, SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
