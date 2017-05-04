@@ -17,21 +17,11 @@ import java.util.List;
  */
 public class ResourceRegistryRequest {
 
-    @JsonProperty("token")
-    private String token;
-
     @JsonProperty("resources")
     private List<Resource> resources;
 
     public ResourceRegistryRequest() {
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+        // Needed for Jackson serialization
     }
 
     public List<Resource> getResources() {

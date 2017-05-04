@@ -20,6 +20,7 @@ public class ResourceRegistryResponse {
     private List<Resource> resources;
 
     public ResourceRegistryResponse() {
+        // Needed for Jackson serialization
     }
 
     public String getMessage() {
