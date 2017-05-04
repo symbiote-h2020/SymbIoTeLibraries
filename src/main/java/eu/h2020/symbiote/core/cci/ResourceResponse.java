@@ -11,6 +11,7 @@ import javax.annotation.Resource;
  *
  * Created by Szymon Mueller on 31/03/2017.
  */
+@Deprecated
 public class ResourceResponse {
 
     /**
