@@ -62,7 +62,7 @@ public class SecurityHandler {
         return coreToken;
     }
 
-    public Token requestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerException {
+    public Token requestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerException, TokenValidationException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
@@ -82,6 +82,7 @@ public class SecurityHandler {
             }
 
         }
+        tokenHandler.validateCoreToken(coreToken);
         return coreToken;
     }
 

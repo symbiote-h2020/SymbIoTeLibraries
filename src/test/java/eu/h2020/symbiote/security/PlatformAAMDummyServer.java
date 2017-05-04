@@ -2,8 +2,11 @@ package eu.h2020.symbiote.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
+import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
+import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
+import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.Message;
@@ -16,13 +19,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.*;
+import java.security.cert.CertificateException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class PlatformAAMDummyServer {
+    private static final Log log = LogFactory.getLog(PlatformAAMDummyServer.class);
     private static Log logger = LogFactory.getLog(PlatformAAMDummyServer.class);
-
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
@@ -46,9 +54,16 @@ public class PlatformAAMDummyServer {
             Credentials credential = mapper.readValue(new String(message.getBody()), Credentials.class);
             logger.info("User trying to login " + credential.getUsername() + " - " + credential.getPassword());
 
+            final String ALIAS = "test aam keystore";
+            KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+            ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+            Key key = ks.getKey(ALIAS, "1234567".toCharArray());
 
-            String response = mapper.writeValueAsString(new Token("eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MDI3ODIyMSwibmFtZSI6InRlc3QyIn0.V2qYTXOp1Xv1jSXZaxn-pbr_Byhmhuu6fAMy0fytco1JgJpvxTw5wlhJ1GuAvuA71IRmINyCAgcUo4oBrXFd4Wy_NthR3pQ5YIflD2t31RoVD1QQlhARri6A-mkjj4rVbsU98BG3ixvdYTkAjiLUbpvNrqm2Y3cDstaLWcSfGzN7ulVuMbEUWbZj9rkW_G4VF62vvOXL9C8UsxYyV0qx9dPzy2iiMGJQ-s16dYb5jiFY5BfvxUf3TWRJPhe5eaX5X7oDvzNh4JDWAFxoKYEH2PvoHctknX5Kon0HBCV_8xmJtxwlKB3lzeugqqFQW8HQiAqSbTAhkcmK9QGs_zkmyA"));
+            HashMap<String, String> attributes = new HashMap<>();
+            attributes.put("name", "test2");
+            String tokenString = JWTEngine.generateJWTToken(credential.getUsername(), attributes, ks.getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.PLATFORM, SecurityHandlerTest.DateUtil.addDays(new Date(), 1).getTime(), "securityHandlerTestPlatformAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
 
+            String response = mapper.writeValueAsString(new Token(tokenString));
             rabbitTemplate.convertAndSend(headers.get("amqp_replyTo"), response.getBytes(),
                     m -> {
                         Object a = headers.get("amqp_correlationId");
@@ -56,9 +71,8 @@ public class PlatformAAMDummyServer {
                         m.getMessageProperties().setCorrelationId((byte[]) a);
                         return m;
                     });
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (IOException | JWTCreationException | NoSuchAlgorithmException | CertificateException | NoSuchProviderException | UnrecoverableKeyException | KeyStoreException e) {
+            log.error(e);
         }
     }
 

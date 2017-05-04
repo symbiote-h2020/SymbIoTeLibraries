@@ -49,6 +49,7 @@ public class Token {
 
     public void setClaims(Claims claims) {
         this.claims = claims;
+        this.setType(IssuingAuthorityType.valueOf((String) claims.get(AAMConstants.CLAIM_NAME_TOKEN_TYPE)));
     }
 
     /**
