@@ -2,6 +2,7 @@ package eu.h2020.symbiote.security.payloads;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.h2020.symbiote.security.certificate.Certificate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,8 +18,8 @@ public class UserRegistrationResponse {
     private static Log log = LogFactory.getLog(UserRegistrationResponse.class);
 
     // TODO Release 3 fix to support CertificateSignRequests
-    private String pemCertificate = "";
-    private String pemPrivateKey = "";
+    private Certificate userCertificate = new Certificate();
+    private String userPrivateKey = "";
 
     /**
      * required for JSON serialization
@@ -27,25 +28,31 @@ public class UserRegistrationResponse {
         // required by JSON
     }
 
-    public UserRegistrationResponse(String pemCertificate, String pemPrivateKey) {
-        this.pemCertificate = pemCertificate;
-        this.pemPrivateKey = pemPrivateKey;
+    public UserRegistrationResponse(Certificate userCertificate, String userPrivateKey) {
+        this.userCertificate = userCertificate;
+        this.userPrivateKey = userPrivateKey;
     }
 
-    public String getPemCertificate() {
-        return pemCertificate;
+    /**
+     * @return user certificate to be used for interaction with symbIoTe core components.
+     */
+    public Certificate getUserCertificate() {
+        return userCertificate;
     }
 
-    public void setPemCertificate(String pemCertificate) {
-        this.pemCertificate = pemCertificate;
+    public void setUserCertificate(Certificate userCertificate) {
+        this.userCertificate = userCertificate;
     }
 
-    public String getPemPrivateKey() {
-        return pemPrivateKey;
+    /**
+     * @return in PEM format
+     */
+    public String getUserPrivateKey() {
+        return userPrivateKey;
     }
 
-    public void setPemPrivateKey(String pemPrivateKey) {
-        this.pemPrivateKey = pemPrivateKey;
+    public void setUserPrivateKey(String userPrivateKey) {
+        this.userPrivateKey = userPrivateKey;
     }
 
     public String toJson() {

@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.security.payloads;
 
+import eu.h2020.symbiote.security.certificate.Certificate;
+
 /**
  * Describes a response for platform registration sent by AAM
  *
@@ -7,36 +9,46 @@ package eu.h2020.symbiote.security.payloads;
  * @author Mikołaj Dobski (PSNC)
  */
 public class PlatformRegistrationResponse {
-    private String pemCertificate = "";
-    private String pemPrivateKey = "";
+    private Certificate platformOwnerCertificate = new Certificate();
+    private String platformOwnerPrivateKey = "";
     private String platformId = "";
 
     public PlatformRegistrationResponse() {
         // used by serializer
     }
 
-    public PlatformRegistrationResponse(String pemCertificate, String pemPrivateKey, String generatedId) {
-        this.pemCertificate = pemCertificate;
-        this.pemPrivateKey = pemPrivateKey;
-        this.platformId = generatedId;
+    public PlatformRegistrationResponse(Certificate platformOwnerCertificate, String platformOwnerPrivateKey, String
+            registeredPlatformId) {
+        this.platformOwnerCertificate = platformOwnerCertificate;
+        this.platformOwnerPrivateKey = platformOwnerPrivateKey;
+        this.platformId = registeredPlatformId;
     }
 
-    public String getPemCertificate() {
-        return pemCertificate;
+    /**
+     * @return Platform Owner certificate to be used for interaction with symbIoTe core components.
+     */
+    public Certificate getPlatformOwnerCertificate() {
+        return platformOwnerCertificate;
     }
 
-    public void setPemCertificate(String pemCertificate) {
-        this.pemCertificate = pemCertificate;
+    public void setPlatformOwnerCertificate(Certificate platformOwnerCertificate) {
+        this.platformOwnerCertificate = platformOwnerCertificate;
     }
 
-    public String getPemPrivateKey() {
-        return pemPrivateKey;
+    /**
+     * @return in PEM format
+     */
+    public String getPlatformOwnerPrivateKey() {
+        return platformOwnerPrivateKey;
     }
 
-    public void setPemPrivateKey(String pemPrivateKey) {
-        this.pemPrivateKey = pemPrivateKey;
+    public void setPlatformOwnerPrivateKey(String platformOwnerPrivateKey) {
+        this.platformOwnerPrivateKey = platformOwnerPrivateKey;
     }
 
+    /**
+     * @return platform identifier for given platform owner, to be used later in Registry
+     */
     public String getPlatformId() {
         return platformId;
     }
@@ -44,5 +56,4 @@ public class PlatformRegistrationResponse {
     public void setPlatformId(String platformId) {
         this.platformId = platformId;
     }
-
 }
