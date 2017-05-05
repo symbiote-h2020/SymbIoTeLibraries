@@ -42,6 +42,13 @@ public class SecurityHandler {
         this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean getEnabled() {
+        return this.enabled;
+    }
 
     public Token appRequestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerDisabledException {
         if (!enabled)
