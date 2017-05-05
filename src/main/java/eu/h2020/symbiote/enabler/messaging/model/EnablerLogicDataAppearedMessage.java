@@ -17,7 +17,7 @@ public class EnablerLogicDataAppearedMessage {
 	private String timestamp;
 	
 	@JsonProperty("data")
-	private List<Observation> observations;
+	private List<Observation> data;
 	
 	public EnablerLogicDataAppearedMessage(){
 	}
@@ -39,10 +39,10 @@ public class EnablerLogicDataAppearedMessage {
 	}
 
 	public List<Observation> getObservations() {
-		return observations;
+		return data;
 	}
 
 	public void setObservations(List<Observation> observations) {
-		this.observations = observations;
+		this.data = observations;
 	}
 }
