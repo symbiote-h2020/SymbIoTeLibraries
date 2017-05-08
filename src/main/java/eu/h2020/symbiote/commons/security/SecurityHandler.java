@@ -34,12 +34,16 @@ public class SecurityHandler {
 	private boolean enabled;
 	
     public  SecurityHandler(String coreAAMUrl, String rabbitMQHostIP, boolean enabled) {
-    	this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP);
-    	this.coreMessageHandler = new CoreAAMMessageHandler(coreAAMUrl);
-    	this.sessionInformation = new SessionInformation();
-    	this.tokenHandler = new TokenHandler(this.coreMessageHandler);
-    	this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
-    	this.enabled = enabled;
+        this.enabled = enabled;
+
+        if (this.enabled) {
+            this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP);
+            this.coreMessageHandler = new CoreAAMMessageHandler(coreAAMUrl);
+            this.sessionInformation = new SessionInformation();
+            this.tokenHandler = new TokenHandler(this.coreMessageHandler);
+            this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
+
+        }
     }
 	
 
