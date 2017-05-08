@@ -15,6 +15,7 @@ public class RDFResourceRegistryResponse {
     private RDFInfo rdfInfo;
 
     public RDFResourceRegistryResponse() {
+        // Needed for Jackson serialization
     }
 
     public String getMessage() {

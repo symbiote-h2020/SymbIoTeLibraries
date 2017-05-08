@@ -10,19 +10,10 @@ import eu.h2020.symbiote.core.model.RDFInfo;
  */
 public class RDFResourceRegistryRequest {
 
-    private String token;
-
     private RDFInfo rdfInfo;
 
     public RDFResourceRegistryRequest() {
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+        // Needed for Jackson serialization
     }
 
     public RDFInfo getRdfInfo() {

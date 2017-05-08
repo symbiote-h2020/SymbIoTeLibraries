@@ -1,11 +1,13 @@
 package eu.h2020.symbiote.cloud.model.internal;
 
+import eu.h2020.symbiote.cloud.model.CloudResourceParams;
 import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import eu.h2020.symbiote.core.model.resources.Resource;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class CloudResource  {
 
@@ -18,6 +20,9 @@ public class CloudResource  {
     @JsonProperty("resource")
     Resource resource;
 
+    //Needed by Monitoring component
+    @JsonProperty("params")
+    CloudResourceParams params;
 
     public CloudResource() {
     }
@@ -44,8 +49,14 @@ public class CloudResource  {
 
 	public void setResource(Resource resource) {
 		this.resource = resource;
-	}  
+	}
 
-	
+	public CloudResourceParams getParams() {
+		return params;
+	}
+
+	public void setParams(CloudResourceParams params) {
+		this.params = params;
+	}  
     
 }

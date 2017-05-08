@@ -1,12 +1,13 @@
 // initial extensions to gradle
 buildscript {
     ext {
-        springBootVersion = '1.5.2.RELEASE'
+        springBootVersion = '1.5.3.RELEASE'
     }
     repositories {
         mavenCentral()
     }
     dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.0.RELEASE"
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.2.1'
         classpath 'org.owasp:dependency-check-gradle:1.4.5.1'
@@ -14,6 +15,7 @@ buildscript {
 }
 
 // code
+apply plugin: "io.spring.dependency-management"
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
@@ -30,7 +32,7 @@ apply plugin: 'com.cinnober.gradle.semver-git'
 apply plugin: 'maven-publish'
 
 // XXX please change with your commits according to http://semver.org/
-project.version = '0.1.2'
+project.version = '1.0.0'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -53,7 +55,7 @@ repositories {
 // Spring related configs
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR6"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Dalston.RELEASE"
     }
 }
 // this is a library, not a runnable spring-boot jar, therefore
@@ -62,15 +64,17 @@ bootRepackage.enabled = false
 dependencies {
     //from SH
     compile group: 'com.netflix.feign', name: 'feign-jackson', version: '8.18.0'
-    compile('org.springframework.amqp:spring-amqp:1.7.1.RELEASE')
-    compile('org.springframework.amqp:spring-rabbit:1.7.1.RELEASE')
+    compile('org.springframework.amqp:spring-amqp')
+    compile('org.springframework.amqp:spring-rabbit')
     compile('io.jsonwebtoken:jjwt:0.7.0')
+    compile('org.bouncycastle:bcprov-jdk15on:1.56')
 
     //from symbioteLibs
     compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7+')
-    compile('org.springframework.data:spring-data-commons:1.13.1.RELEASE')
+    compile('org.springframework.data:spring-data-commons')
 
     // common testing
+    testCompile('junit:junit:4.+')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testRuntime('org.springframework.boot:spring-boot-starter-web')
 }
@@ -99,4 +103,4 @@ dependencyCheck {
 }
 
 // including code quality extensions into the build
-check.dependsOn(jacocoTestReport, 'dependencyCheck')
+check.dependsOn(jacocoTestReport)//, 'dependencyCheck')
