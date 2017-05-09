@@ -47,6 +47,9 @@ public class JWTEngine {
      */
     public static TokenValidationStatus validateTokenUsingIncludedIssuersPublicKey(Token token) throws TokenValidationException {
         try {
+            // we need BC provider to handle Elliptic Curve Certificates
+            Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
             JWTClaims claims = getClaimsFromToken(token.getToken());
             //Convert IPK claim to publicKey for validation
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decodeBase64(claims.getIpk()));
@@ -81,6 +84,9 @@ public class JWTEngine {
      */
     public static TokenValidationStatus validateToken(Token token, PublicKey publicKey) throws TokenValidationException {
         try {
+            // we need BC provider to handle Elliptic Curve Certificates
+            Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
             Claims claims = Jwts.parser()
                     .setSigningKey(publicKey)
                     .parseClaimsJws(token.getToken()).getBody();
