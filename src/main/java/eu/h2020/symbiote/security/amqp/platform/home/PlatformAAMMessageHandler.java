@@ -25,17 +25,17 @@ public class PlatformAAMMessageHandler {
                     new RabbitMQRPCMessageHandlerCredentialToken(
                             rabbitMQHostIP,
                             SecurityHandlerConstants.EXCHANGE_NAME,
-                            SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY,
-                            SecurityHandlerConstants.HOME_PLATOFRM_AAM_LOGIN_TOKEN_ROUTING_KEY_REPLY);
+                            SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE,
+                            SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_ROUTING_KEY);
             rabbitMQMessageHandler.connect();
             Token result = rabbitMQMessageHandler.sendMessage(credentials);
             rabbitMQMessageHandler.close();
             return result;
         } catch (Exception e) {
             String message = "Fatal error sending data to EXCHANGE_NAME: "
-                    + SecurityHandlerConstants.EXCHANGE_NAME + ", PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY:"
-                    + SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY + ", PLATOFRMAAM_LOGIN_TOKEN_ROUTING_KEY_REPLY:"
-                    + SecurityHandlerConstants.HOME_PLATOFRM_AAM_LOGIN_TOKEN_ROUTING_KEY_REPLY;
+                    + SecurityHandlerConstants.EXCHANGE_NAME + ", PLATFORM_AAM_LOGIN_QUEUE:"
+                    + SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE + ", PLATFORM_AAM_LOGIN_ROUTING_KEY:"
+                    + SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_ROUTING_KEY;
             logger.error(message, e);
             throw new SecurityHandlerException(message, e);
         }

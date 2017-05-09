@@ -43,9 +43,10 @@ public class PlatformAAMDummyServer {
      * @param headers The AMQP headers
      */
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY, durable = "true", autoDelete = "false", exclusive = "false"),
+            value = @Queue(value = SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE, durable = "true",
+                    autoDelete = "false", exclusive = "false"),
             exchange = @Exchange(value = SecurityHandlerConstants.EXCHANGE_NAME, ignoreDeclarationExceptions = "true"),
-            key = SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_TOKEN_ROUTING_KEY)
+            key = SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_ROUTING_KEY)
     )
     public void resourceRegistration(Message message, @Headers() Map<String, String> headers) {
         logger.info("resourceRegistration" + new String(message.getBody()));

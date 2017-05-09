@@ -58,7 +58,9 @@ public abstract class AAMMessageHandler {
         Token result = null;
         try {
             logger.info("User trying to login " + credential.getUsername() + " - " + credential.getPassword());
-            result = jsonclient.login(credential);
+            Token tempResult = jsonclient.login(credential);
+            // validates the token
+            result = new Token(tempResult.getToken());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }
@@ -80,7 +82,9 @@ public abstract class AAMMessageHandler {
         Token result = null;
         try {
             logger.info("User trying to requestCoreToken");
-            result = jsonclient.requestCoreToken(token);
+            Token tempResult = jsonclient.requestCoreToken(token);
+            // validates the token
+            result = new Token(tempResult.getToken());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }
@@ -91,7 +95,9 @@ public abstract class AAMMessageHandler {
         Token result = null;
         try {
             logger.info("User trying to requestForeignToken");
-            result = jsonclient.requestForeignToken(token);
+            Token tempResult = jsonclient.requestForeignToken(token);
+            // validates the token
+            result = new Token(tempResult.getToken());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }
