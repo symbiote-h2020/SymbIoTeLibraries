@@ -33,11 +33,13 @@ public class SecurityHandler {
     private CertificateValidator certificateValidator;
     private boolean enabled;
 
-    public SecurityHandler(String coreAAMUrl, String rabbitMQHostIP, boolean enabled) {
+    public SecurityHandler(String coreAAMUrl, String rabbitMQHostIP, String rabbitMQUsername, String
+            rabbitMQPassword, boolean enabled) {
         this.enabled = enabled;
 
         if (this.enabled) {
-            this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP);
+            this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP, rabbitMQUsername,
+                    rabbitMQPassword);
             this.coreMessageHandler = new CoreAAMMessageHandler(coreAAMUrl);
             this.sessionInformation = new SessionInformation();
             this.tokenHandler = new TokenHandler(this.coreMessageHandler);
@@ -45,12 +47,12 @@ public class SecurityHandler {
         }
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public boolean getEnabled() {
         return this.enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Token appRequestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerDisabledException {
@@ -88,7 +90,7 @@ public class SecurityHandler {
             sessionInformation.setHomeToken(homeToken);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getHomeToken() == null) {
-                throw new SecurityException("It was not possible to vaildate you with the give credentials. Please check them");
+                throw new SecurityException("It was not possible to validate you with the give credentials. Please check them");
             }
 
         }

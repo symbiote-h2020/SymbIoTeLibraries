@@ -1,24 +1,18 @@
 package eu.h2020.symbiote.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.RpcClient;
 import eu.h2020.symbiote.security.aams.DummyAAMAMQPLoginListener;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.constants.AAMConstants;
-import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
-import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,7 +64,6 @@ public class SecurityHandlerTest {
     private String aamUrl;
 
     private String rabbitMQHostIP;
-    private ConnectionFactory factory = new ConnectionFactory();
 
     private DummyAAMAMQPLoginListener dummyAAMAMQPLoginListener = new DummyAAMAMQPLoginListener();
 
@@ -81,7 +74,7 @@ public class SecurityHandlerTest {
 
         String coreAAMUrl = "http://localhost:18033";
         rabbitMQHostIP = "localhost";
-        securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, true);
+        securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, "guest", "guest", true);
 
         final String ALIAS = "test aam keystore";
         KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
@@ -97,9 +90,6 @@ public class SecurityHandlerTest {
                         .getEncoded(), IssuingAuthorityType.PLATFORM, DateUtil.addDays(new Date(), 1).getTime(),
                 "securityHandlerTestPlatformAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
 
-        factory.setHost(rabbitMQHostIP);
-        factory.setUsername("guest");
-        factory.setPassword("guest");
     }
 
 
@@ -120,80 +110,42 @@ public class SecurityHandlerTest {
 
     @Test
     public void testRequestCoreToken() throws IOException, TimeoutException {
-        // TODO use securityHandler.requestCoreToken("user", "password"); instead of RpcClient
-        RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", SecurityHandlerConstants
-                .HOME_PLATFORM_AAM_LOGIN_QUEUE, 5000);
-        ObjectMapper mapper = new ObjectMapper();
-        byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
-                .getBytes());
-        Token token = mapper.readValue(response, Token.class);
-
-        log.info("Test Client received this Token: " + token.toString());
-
-        assertNotNull(token.getToken());
-        assertEquals(IssuingAuthorityType.CORE, token.getType());
-        /*
         try {
             Token token = securityHandler.requestCoreToken("user", "password");
             Assert.assertTrue(IssuingAuthorityType.CORE == token.getType());
         } catch (SecurityHandlerException | TokenValidationException e) {
             log.error(e);
         }
-        */
     }
 
     @Test
-    @Ignore
     public void testRequestForeignToken() throws IOException, TimeoutException {
         try {
-            // TODO use securityHandler.requestCoreToken("user", "password"); instead of RpcClient
-            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", SecurityHandlerConstants
-                    .HOME_PLATFORM_AAM_LOGIN_QUEUE, 5000);
-            ObjectMapper mapper = new ObjectMapper();
-            byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
-                    .getBytes());
-            Token token = mapper.readValue(response, Token.class);
+            Token token = securityHandler.requestCoreToken("user", "password");
 
             log.info("Test Client received this Token: " + token.toString());
 
             assertNotNull(token.getToken());
             assertEquals(IssuingAuthorityType.CORE, token.getType());
-            /*
-            securityHandler.requestCoreToken("user", "password");
-            */
+
             ArrayList<String> urllist = new ArrayList<String>();
             urllist.add(aamUrl);
             HashMap<String, Token> tokens = securityHandler.requestForeignTokens(urllist);
             assert (tokens != null);
-        } catch (SecurityHandlerException e) {
+        } catch (SecurityHandlerException | TokenValidationException e) {
             log.error(e);
         }
     }
 
     @Test
     public void testRequestCoreTokenFromApplication() throws IOException, TimeoutException {
-
-        // TODO use securityHandler.appRequestCoreToken("user", "password"); instead of RpcClient
-        RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", SecurityHandlerConstants
-                .HOME_PLATFORM_AAM_LOGIN_QUEUE, 5000);
-        ObjectMapper mapper = new ObjectMapper();
-        byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
-                .getBytes());
-        Token token = mapper.readValue(response, Token.class);
-
-        log.info("Test Client received this Token: " + token.toString());
-
-        assertNotNull(token.getToken());
-        assertEquals(IssuingAuthorityType.CORE, token.getType());
-        /*
         try {
             Token token = securityHandler.appRequestCoreToken("user", "password");
             Assert.assertNotNull(token);
-            Assert.assertTrue(IssuingAuthorityType.CORE == token.getType());
+            assertEquals(IssuingAuthorityType.CORE, token.getType());
         } catch (SecurityHandlerException e) {
             log.error(e);
         }
-        */
     }
 
 
