@@ -1,11 +1,17 @@
 package eu.h2020.symbiote.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.RpcClient;
+import eu.h2020.symbiote.security.aams.DummyAAMAMQPLoginListener;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.constants.AAMConstants;
+import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
+import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
@@ -32,6 +38,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeoutException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * This class handles the initialization from the platform. Initially created by jose
@@ -42,7 +52,8 @@ import java.util.HashMap;
  *          \brief PlatformInformationManager handles the registration of the resources within the platform
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, properties = {"symbiote.testaam.url=http://localhost:18033", "symbiote.coreaam.url=http://localhost:18033"})
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, properties = {"symbiote.testaam" +
+        ".url=http://localhost:18033", "symbiote.coreaam.url=http://localhost:18033"})
 @ContextConfiguration(locations = {"classpath:test-properties.xml"})
 @Configuration
 @ComponentScan
@@ -58,12 +69,18 @@ public class SecurityHandlerTest {
     @Value("${symbiote.testaam.url}")
     private String aamUrl;
 
+    private String rabbitMQHostIP;
+    private ConnectionFactory factory = new ConnectionFactory();
+
+    private DummyAAMAMQPLoginListener dummyAAMAMQPLoginListener = new DummyAAMAMQPLoginListener();
+
     @Before
     public void setUp() throws Exception {
+        dummyAAMAMQPLoginListener.init();
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
         String coreAAMUrl = "http://localhost:18033";
-        String rabbitMQHostIP = "localhost";
+        rabbitMQHostIP = "localhost";
         securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, true);
 
         final String ALIAS = "test aam keystore";
@@ -73,8 +90,16 @@ public class SecurityHandlerTest {
 
         HashMap<String, String> attributes = new HashMap<>();
         attributes.put("name", "test2");
-        coreTokenString = JWTEngine.generateJWTToken("test1", attributes, ks.getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.CORE, DateUtil.addDays(new Date(), 1).getTime(), "securityHandlerTestCoreAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
-        platformTokenString = JWTEngine.generateJWTToken("test1", attributes, ks.getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.PLATFORM, DateUtil.addDays(new Date(), 1).getTime(), "securityHandlerTestPlatformAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+        coreTokenString = JWTEngine.generateJWTToken("test1", attributes, ks.getCertificate(ALIAS).getPublicKey()
+                        .getEncoded(), IssuingAuthorityType.CORE, DateUtil.addDays(new Date(), 1).getTime(),
+                "securityHandlerTestCoreAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+        platformTokenString = JWTEngine.generateJWTToken("test1", attributes, ks.getCertificate(ALIAS).getPublicKey()
+                        .getEncoded(), IssuingAuthorityType.PLATFORM, DateUtil.addDays(new Date(), 1).getTime(),
+                "securityHandlerTestPlatformAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+
+        factory.setHost(rabbitMQHostIP);
+        factory.setUsername("guest");
+        factory.setPassword("guest");
     }
 
 
@@ -86,39 +111,81 @@ public class SecurityHandlerTest {
             ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
             Assert.assertTrue(securityHandler.certificateValidation(ks));
 
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException | CertificateVerificationException | SecurityHandlerDisabledException | NoSuchProviderException e) {
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
+                CertificateVerificationException | SecurityHandlerDisabledException | NoSuchProviderException e) {
             log.error(e);
         }
     }
 
 
     @Test
-    @Ignore
-    public void testRequestCoreToken() {
+    public void testRequestCoreToken() throws IOException, TimeoutException {
+        // TODO use securityHandler.requestCoreToken("user", "password"); instead of RpcClient
+        RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", SecurityHandlerConstants
+                .HOME_PLATFORM_AAM_LOGIN_QUEUE, 5000);
+        ObjectMapper mapper = new ObjectMapper();
+        byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
+                .getBytes());
+        Token token = mapper.readValue(response, Token.class);
+
+        log.info("Test Client received this Token: " + token.toString());
+
+        assertNotNull(token.getToken());
+        assertEquals(IssuingAuthorityType.CORE, token.getType());
+        /*
         try {
             Token token = securityHandler.requestCoreToken("user", "password");
             Assert.assertTrue(IssuingAuthorityType.CORE == token.getType());
         } catch (SecurityHandlerException | TokenValidationException e) {
             log.error(e);
         }
+        */
     }
 
     @Test
     @Ignore
-    public void testRequestForeignToken() {
+    public void testRequestForeignToken() throws IOException, TimeoutException {
         try {
+            // TODO use securityHandler.requestCoreToken("user", "password"); instead of RpcClient
+            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", SecurityHandlerConstants
+                    .HOME_PLATFORM_AAM_LOGIN_QUEUE, 5000);
+            ObjectMapper mapper = new ObjectMapper();
+            byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
+                    .getBytes());
+            Token token = mapper.readValue(response, Token.class);
+
+            log.info("Test Client received this Token: " + token.toString());
+
+            assertNotNull(token.getToken());
+            assertEquals(IssuingAuthorityType.CORE, token.getType());
+            /*
             securityHandler.requestCoreToken("user", "password");
+            */
             ArrayList<String> urllist = new ArrayList<String>();
             urllist.add(aamUrl);
             HashMap<String, Token> tokens = securityHandler.requestForeignTokens(urllist);
             assert (tokens != null);
-        } catch (SecurityHandlerException | TokenValidationException e) {
+        } catch (SecurityHandlerException e) {
             log.error(e);
         }
     }
 
     @Test
-    public void testRequestCoreTokenFromApplication() {
+    public void testRequestCoreTokenFromApplication() throws IOException, TimeoutException {
+
+        // TODO use securityHandler.appRequestCoreToken("user", "password"); instead of RpcClient
+        RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", SecurityHandlerConstants
+                .HOME_PLATFORM_AAM_LOGIN_QUEUE, 5000);
+        ObjectMapper mapper = new ObjectMapper();
+        byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
+                .getBytes());
+        Token token = mapper.readValue(response, Token.class);
+
+        log.info("Test Client received this Token: " + token.toString());
+
+        assertNotNull(token.getToken());
+        assertEquals(IssuingAuthorityType.CORE, token.getType());
+        /*
         try {
             Token token = securityHandler.appRequestCoreToken("user", "password");
             Assert.assertNotNull(token);
@@ -126,6 +193,7 @@ public class SecurityHandlerTest {
         } catch (SecurityHandlerException e) {
             log.error(e);
         }
+        */
     }
 
 
@@ -144,7 +212,8 @@ public class SecurityHandlerTest {
     @Test
     public void testCoreTokenValidationWithError() {
         try {
-            String tokenString = "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
+            String tokenString =
+                    "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
             securityHandler.verifyCoreToken(tokenString);
             assert (false);
         } catch (SecurityHandlerDisabledException e) {

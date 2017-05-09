@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.security;
+package eu.h2020.symbiote.security.aams;
 
 
 import eu.h2020.symbiote.security.SecurityHandlerTest.DateUtil;
@@ -28,10 +28,10 @@ import java.util.HashMap;
  */
 @RestController
 @WebAppConfiguration
-public class CoreAndPlatformAAMDummyServer {
-    private static final Log logger = LogFactory.getLog(CoreAndPlatformAAMDummyServer.class);
+public class DummyAAMRestListeners {
+    private static final Log logger = LogFactory.getLog(DummyAAMRestListeners.class);
 
-    public CoreAndPlatformAAMDummyServer() {
+    public DummyAAMRestListeners() {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
 
