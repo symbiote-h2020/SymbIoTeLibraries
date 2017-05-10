@@ -4,6 +4,7 @@ import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
 import eu.h2020.symbiote.security.amqp.platform.home.PlatformAAMMessageHandler;
 import eu.h2020.symbiote.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
+import eu.h2020.symbiote.security.certificate.ECDSAHelper;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
@@ -22,7 +23,8 @@ import java.util.List;
  * @author Elena Garrido
  * @version 08/03/2017
  *          ! \class SecurityHandler
- *          \brief This class implement the methods to be used by the component in order to integrate with the security from symbIoTe
+ *          \brief This class implement the methods to be used by the component in order to integrate with the
+ *          security from symbIoTe
  **/
 
 public class SecurityHandler {
@@ -35,6 +37,7 @@ public class SecurityHandler {
 
     public SecurityHandler(String coreAAMUrl, String rabbitMQHostIP, String rabbitMQUsername, String
             rabbitMQPassword, boolean enabled) {
+        ECDSAHelper.enableECDSAProvider();
         this.enabled = enabled;
 
         if (this.enabled) {
@@ -55,7 +58,8 @@ public class SecurityHandler {
         this.enabled = enabled;
     }
 
-    public Token appRequestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerDisabledException {
+    public Token appRequestCoreToken(String userName, String password) throws SecurityException,
+            SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
@@ -68,13 +72,15 @@ public class SecurityHandler {
             coreToken = coreMessageHandler.login(credentials);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getCoreToken() == null) {
-                throw new SecurityException("It was not possible to vaildate you with the give credentials. Please check them");
+                throw new SecurityException("It was not possible to vaildate you with the give credentials. Please " +
+                        "check them");
             }
         }
         return coreToken;
     }
 
-    public Token requestCoreToken(String userName, String password) throws SecurityException, SecurityHandlerException, TokenValidationException {
+    public Token requestCoreToken(String userName, String password) throws SecurityException,
+            SecurityHandlerException, TokenValidationException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
@@ -90,7 +96,8 @@ public class SecurityHandler {
             sessionInformation.setHomeToken(homeToken);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getHomeToken() == null) {
-                throw new SecurityException("It was not possible to validate you with the give credentials. Please check them");
+                throw new SecurityException("It was not possible to vaildate you with the give credentials. Please " +
+                        "check them");
             }
 
         }
@@ -142,7 +149,8 @@ public class SecurityHandler {
         return sessionInformation.getCoreToken();
     }
 
-    public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException, SecurityHandlerDisabledException {
+    public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException,
+            SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
@@ -150,7 +158,8 @@ public class SecurityHandler {
     }
 
 
-    public Token verifyCoreToken(String encodedTokenString) throws TokenValidationException, SecurityHandlerDisabledException {
+    public Token verifyCoreToken(String encodedTokenString) throws TokenValidationException,
+            SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
@@ -166,7 +175,8 @@ public class SecurityHandler {
         tokenHandler.validateCoreToken(token);
     }
 
-    public Token verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws TokenValidationException, SecurityHandlerDisabledException {
+    public Token verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws
+            TokenValidationException, SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 
@@ -175,7 +185,8 @@ public class SecurityHandler {
         return token;
     }
 
-    public void verifyForeignPlatformToken(String aamURL, Token token) throws TokenValidationException, SecurityHandlerDisabledException {
+    public void verifyForeignPlatformToken(String aamURL, Token token) throws TokenValidationException,
+            SecurityHandlerDisabledException {
         if (!enabled)
             throw new SecurityHandlerDisabledException("Security Handler is disabled!");
 

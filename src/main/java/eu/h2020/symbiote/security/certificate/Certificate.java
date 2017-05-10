@@ -26,13 +26,14 @@ public class Certificate {
      * required by JPA
      */
     public Certificate() {
-        // required by JPA
+        ECDSAHelper.enableECDSAProvider();
     }
 
     /**
      * @param certificateString in PEM format
      */
     public Certificate(String certificateString) {
+        ECDSAHelper.enableECDSAProvider();
         this.certificateString = certificateString;
     }
 
@@ -42,6 +43,7 @@ public class Certificate {
      */
     @JsonIgnore
     public X509Certificate getX509() throws CertificateException {
+        ECDSAHelper.enableECDSAProvider();
         InputStream stream = new ByteArrayInputStream(this.getCertificateString().getBytes(StandardCharsets.UTF_8));
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
         return (X509Certificate) cf.generateCertificate(stream);

@@ -2,6 +2,7 @@ package eu.h2020.symbiote.security.token.jwt;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.h2020.symbiote.security.certificate.ECDSAHelper;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
@@ -47,6 +48,8 @@ public class JWTEngine {
      */
     public static TokenValidationStatus validateTokenUsingIncludedIssuersPublicKey(Token token) throws TokenValidationException {
         try {
+            ECDSAHelper.enableECDSAProvider();
+
             JWTClaims claims = getClaimsFromToken(token.getToken());
             //Convert IPK claim to publicKey for validation
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decodeBase64(claims.getIpk()));
@@ -81,6 +84,8 @@ public class JWTEngine {
      */
     public static TokenValidationStatus validateToken(Token token, PublicKey publicKey) throws TokenValidationException {
         try {
+            ECDSAHelper.enableECDSAProvider();
+
             Claims claims = Jwts.parser()
                     .setSigningKey(publicKey)
                     .parseClaimsJws(token.getToken()).getBody();
@@ -138,6 +143,7 @@ public class JWTEngine {
     }
 
     public static String generateJWTToken(String userId, Map<String, String> attributes, byte[] userPublicKey, IssuingAuthorityType deploymentType, Long tokenValidity, String deploymentID, PublicKey aamPublicKey, PrivateKey aamPrivateKey) throws JWTCreationException {
+        ECDSAHelper.enableECDSAProvider();
 
         String jti = String.valueOf(random.nextInt());
         Map<String, Object> claimsMap = new HashMap<String, Object>();
