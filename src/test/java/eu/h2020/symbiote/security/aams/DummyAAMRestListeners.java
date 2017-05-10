@@ -2,6 +2,7 @@ package eu.h2020.symbiote.security.aams;
 
 
 import eu.h2020.symbiote.security.SecurityHandlerTest.DateUtil;
+import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
@@ -80,7 +81,7 @@ public class DummyAAMRestListeners {
 
     @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_CORE_AAM_CHECK_TOKEN_REVOCATION, produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public @ResponseBody
-    TokenValidationStatus checkTokenRevocation(@RequestBody Token token) {
+    TokenValidationStatus checkTokenRevocation(@RequestHeader(AAMConstants.TOKEN_HEADER_NAME) String token) {
         logger.info("Checking token revocation " + token);
         // todo implement... for the moment returns valid
         return TokenValidationStatus.VALID;

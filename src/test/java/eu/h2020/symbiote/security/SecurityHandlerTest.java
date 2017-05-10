@@ -161,15 +161,10 @@ public class SecurityHandlerTest {
 
 
     @Test
-    public void testCoreTokenValidation() {
-        try {
+    public void testCoreTokenValidation() throws SecurityHandlerDisabledException, TokenValidationException {
             Token token = securityHandler.verifyCoreToken(coreTokenString);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
-        } catch (TokenValidationException | SecurityHandlerDisabledException e) {
-            log.error(e);
-        }
-
     }
 
     @Test
