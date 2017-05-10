@@ -2,7 +2,7 @@ package eu.h2020.symbiote.security.rest;
 
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
-import eu.h2020.symbiote.security.enums.TokenValidationStatus;
+import eu.h2020.symbiote.security.payloads.CheckTokenRevocationResponse;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import feign.Headers;
 import feign.Param;
@@ -21,7 +21,7 @@ public interface AAMRestService {
     @RequestLine("POST " + SecurityHandlerConstants.DO_CORE_AAM_CHECK_TOKEN_REVOCATION)
     @Headers({"Content-Type: application/json", "Accept: application/json", AAMConstants.TOKEN_HEADER_NAME + ": " +
             "{token}"})
-    TokenValidationStatus checkTokenRevocation(@Param("token") String token);
+    CheckTokenRevocationResponse checkTokenRevocation(@Param("token") String token);
 
     @RequestLine("POST " + SecurityHandlerConstants.DO_REQUEST_FOREIGN_TOKEN)
     @Headers({"Content-Type: application/json", "Accept: application/json", AAMConstants.TOKEN_HEADER_NAME + ": " +

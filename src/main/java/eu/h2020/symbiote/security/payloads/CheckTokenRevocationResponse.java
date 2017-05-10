@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CheckTokenRevocationResponse {
 
-    private Log log = LogFactory.getLog(CheckTokenRevocationResponse.class);
+    private static Log log = LogFactory.getLog(CheckTokenRevocationResponse.class);
 
     private String status;
 

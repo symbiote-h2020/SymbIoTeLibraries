@@ -70,7 +70,7 @@ public abstract class AAMMessageHandler {
         TokenValidationStatus result = null;
         try {
             logger.info("User trying to checkTokenRevocation");
-            result = jsonclient.checkTokenRevocation(token.toString());
+            result = TokenValidationStatus.valueOf(jsonclient.checkTokenRevocation(token.toString()).getStatus());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }
