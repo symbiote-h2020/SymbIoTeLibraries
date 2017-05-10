@@ -11,13 +11,16 @@ import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -36,19 +39,18 @@ public class DummyAAMRestListeners {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = SecurityHandlerConstants.GET_CORE_AAM_CA_CERTIFICATE)
-    public byte[] getRootCertificate() {
+    public String getRootCertificate() throws NoSuchProviderException, KeyStoreException, IOException,
+            UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException {
         logger.debug("invoked get token public");
-        String pemFile = "-----BEGIN CERTIFICATE-----\n" +
-                "MIIBPjCB5aADAgECAgEBMAoGCCqGSM49BAMCMCkxFDASBgNVBCkMC1BsYXRmb3Jt\n" +
-                "QUFNMREwDwYDVQQKDAhTWU1CSU9URTAeFw0xNzAzMzExMDMzNDJaFw0zNzAzMjYx\n" +
-                "MDMzNDJaMCkxFDASBgNVBCkMC1BsYXRmb3JtQUFNMREwDwYDVQQKDAhTWU1CSU9U\n" +
-                "RTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABEyxvMP4rB3CA12QDN5boE93ZhLz\n" +
-                "+vOJdWTtoaHCKOYbEgibYUdj4fhynkNFmEp0jzKCruxhXyBgVhpbcN0ZE9kwCgYI\n" +
-                "KoZIzj0EAwIDSAAwRQIgH+SQ4fmyPupmvUWfwt1PEEYK1aH2h8OtpeUgcEj8s/wC\n" +
-                "IQCW5hMbyWbBnUQUlhHHPWXUCo5ax0cEKe2J89cBRbC6MA==\n" +
-                "-----END CERTIFICATE-----";
-        logger.debug("invoked get token certificate");
-        return pemFile.getBytes();
+        final String ALIAS = "test aam keystore";
+        KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+        ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+        X509Certificate x509Certificate = (X509Certificate) ks.getCertificate("test aam keystore");
+        StringWriter signedCertificatePEMDataStringWriter = new StringWriter();
+        JcaPEMWriter pemWriter = new JcaPEMWriter(signedCertificatePEMDataStringWriter);
+        pemWriter.writeObject(x509Certificate);
+        pemWriter.close();
+        return signedCertificatePEMDataStringWriter.toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_CORE_AAM_LOGIN, produces = "application/json", consumes = "application/json")

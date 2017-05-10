@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.security.rest;
 
+import eu.h2020.symbiote.security.certificate.Certificate;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
@@ -9,9 +10,7 @@ import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.ByteArrayInputStream;
 import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 public abstract class AAMMessageHandler {
@@ -36,8 +35,8 @@ public abstract class AAMMessageHandler {
         return url;
     }
 
-    private byte[] getAAMRootCertificateAsByteArray() {
-        byte[] result = null;
+    private String getAAMRootCertificatePEMString() {
+        String result = null;
         try {
             result = simpleclient.getRootCertificate();
         } catch (Exception e) {
@@ -47,11 +46,10 @@ public abstract class AAMMessageHandler {
     }
 
     public X509Certificate getAAMRootCertificate() throws CertificateException {
-        byte[] keyBytes = getAAMRootCertificateAsByteArray();
-        CertificateFactory fact = CertificateFactory.getInstance("X.509");
-        if (keyBytes != null)
-            return (X509Certificate) fact.generateCertificate(new ByteArrayInputStream(keyBytes));
-        return null;
+        String pemCert = getAAMRootCertificatePEMString();
+        if (pemCert.isEmpty())
+            return null;
+        return new Certificate(pemCert).getX509();
     }
 
     public Token login(Credentials credential) {

@@ -10,7 +10,7 @@ import feign.RequestLine;
 public interface AAMRestService {
     @RequestLine("GET " + SecurityHandlerConstants.GET_CORE_AAM_CA_CERTIFICATE)
     @Headers("Accept: multipart/form-data")
-    byte[] getRootCertificate();
+    String getRootCertificate();
 
     @RequestLine("POST " + SecurityHandlerConstants.DO_CORE_AAM_LOGIN)
     @Headers("Content-Type: application/json")

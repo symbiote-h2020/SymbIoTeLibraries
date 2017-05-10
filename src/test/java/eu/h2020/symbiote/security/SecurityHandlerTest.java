@@ -3,6 +3,7 @@ package eu.h2020.symbiote.security;
 import eu.h2020.symbiote.security.aams.DummyAAMAMQPLoginListener;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.constants.AAMConstants;
+import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
@@ -11,31 +12,42 @@ import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.SSLContext;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * This class handles the initialization from the platform. Initially created by jose
@@ -60,9 +72,7 @@ public class SecurityHandlerTest {
     private String coreTokenString;
     private String platformTokenString;
 
-    @Value("${symbiote.testaam.url}")
-    private String aamUrl;
-
+    private String coreAAMUrl;
     private String rabbitMQHostIP;
 
     private DummyAAMAMQPLoginListener dummyAAMAMQPLoginListener = new DummyAAMAMQPLoginListener();
@@ -72,7 +82,8 @@ public class SecurityHandlerTest {
         dummyAAMAMQPLoginListener.init();
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
-        String coreAAMUrl = "http://localhost:18033";
+
+        coreAAMUrl = "http://localhost:18033";
         rabbitMQHostIP = "localhost";
         securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, "guest", "guest", true);
 
@@ -129,7 +140,7 @@ public class SecurityHandlerTest {
             assertEquals(IssuingAuthorityType.CORE, token.getType());
 
             ArrayList<String> urllist = new ArrayList<String>();
-            urllist.add(aamUrl);
+            urllist.add(coreAAMUrl);
             HashMap<String, Token> tokens = securityHandler.requestForeignTokens(urllist);
             assert (tokens != null);
         } catch (SecurityHandlerException | TokenValidationException e) {
@@ -180,7 +191,7 @@ public class SecurityHandlerTest {
     @Test
     public void testForeignPlatformTokenValidation() {
         try {
-            Token token = securityHandler.verifyForeignPlatformToken(aamUrl, platformTokenString);
+            Token token = securityHandler.verifyForeignPlatformToken(coreAAMUrl, platformTokenString);
             Assert.assertTrue(token.getType() == IssuingAuthorityType.PLATFORM);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
@@ -188,6 +199,47 @@ public class SecurityHandlerTest {
             log.error(e);
         }
 
+    }
+
+    @Test
+    public void getCACertOverRESTSuccess() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+        // dirty definition of HttpClient to connect to HTTPS endpoints.
+        TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
+
+        SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
+                .loadTrustMaterial(null, acceptingTrustStrategy)
+                .build();
+
+        SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+
+        CloseableHttpClient httpClient = HttpClients.custom()
+                .setSSLSocketFactory(csf)
+                .build();
+
+        HttpComponentsClientHttpRequestFactory requestFactory =
+                new HttpComponentsClientHttpRequestFactory();
+
+        requestFactory.setHttpClient(httpClient);
+
+        // Test rest template
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        ResponseEntity<String> response = restTemplate.getForEntity(coreAAMUrl + SecurityHandlerConstants
+                .GET_CORE_AAM_CA_CERTIFICATE, String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        try {
+            KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+            ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
+            X509Certificate x509Certificate = (X509Certificate) ks.getCertificate("test aam keystore");
+            StringWriter signedCertificatePEMDataStringWriter = new StringWriter();
+            JcaPEMWriter pemWriter = new JcaPEMWriter(signedCertificatePEMDataStringWriter);
+            pemWriter.writeObject(x509Certificate);
+            pemWriter.close();
+            assertEquals(signedCertificatePEMDataStringWriter.toString(), response.getBody());
+        } catch (IOException | NoSuchProviderException | KeyStoreException | CertificateException |
+                NoSuchAlgorithmException e) {
+            log.error(e);
+            assertNull(e);
+        }
     }
 
     static public class DateUtil {
