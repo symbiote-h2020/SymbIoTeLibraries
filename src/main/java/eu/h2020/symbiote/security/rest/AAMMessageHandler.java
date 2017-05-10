@@ -1,10 +1,12 @@
 package eu.h2020.symbiote.security.rest;
 
 import eu.h2020.symbiote.security.certificate.Certificate;
+import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
 import feign.Feign;
+import feign.Response;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
@@ -56,9 +58,8 @@ public abstract class AAMMessageHandler {
         Token result = null;
         try {
             logger.info("User trying to login " + credential.getUsername() + " - " + credential.getPassword());
-            Token tempResult = jsonclient.login(credential);
-            // validates the token
-            result = new Token(tempResult.getToken());
+            result = new Token(jsonclient.login(credential).headers().get(AAMConstants.TOKEN_HEADER_NAME).iterator()
+                    .next());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }
@@ -80,9 +81,8 @@ public abstract class AAMMessageHandler {
         Token result = null;
         try {
             logger.info("User trying to requestCoreToken");
-            Token tempResult = jsonclient.requestCoreToken(token);
-            // validates the token
-            result = new Token(tempResult.getToken());
+            Response response = jsonclient.requestCoreToken(token.toString());
+            result = new Token(response.headers().get(AAMConstants.TOKEN_HEADER_NAME).iterator().next());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }
@@ -93,9 +93,8 @@ public abstract class AAMMessageHandler {
         Token result = null;
         try {
             logger.info("User trying to requestForeignToken");
-            Token tempResult = jsonclient.requestForeignToken(token);
-            // validates the token
-            result = new Token(tempResult.getToken());
+            result = new Token(jsonclient.requestForeignToken(token.toString()).headers().get(AAMConstants
+                    .TOKEN_HEADER_NAME).iterator().next());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }
