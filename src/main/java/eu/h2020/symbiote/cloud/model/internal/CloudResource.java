@@ -14,8 +14,9 @@ public class CloudResource  {
     @Id
     @JsonProperty("internalId")
     private String internalId;
-    @JsonProperty("host")
-    private String host;
+    //ip address of the host. Needed by Monitoring component
+    @JsonProperty("cloudMonitoringHost")
+    private String cloudMonitoringHost;
     
     @JsonProperty("resource")
     Resource resource;
@@ -35,12 +36,12 @@ public class CloudResource  {
         this.internalId = internalId;
     }
    
-	public String getHost() {
-		return host;
+	public String getCloudMonitoringHost() {
+		return cloudMonitoringHost;
 	}
 
-	public void setHost(String host) {
-		this.host = host;
+	public void setCloudMonitoringHost(String cloudMonitoringHost) {
+		this.cloudMonitoringHost = cloudMonitoringHost;
 	}
 
 	public Resource getResource() {
