@@ -9,7 +9,7 @@ package eu.h2020.symbiote.security.payloads;
 public class PlatformRegistrationRequest {
     private Credentials AAMOwnerCredentials = new Credentials();
     private UserDetails platformOwnerDetails = new UserDetails();
-    private String platformAAMURL = "";
+    private String platformInterworkingInterfaceAddress = "";
     private String platformInstanceId = "";
     private String platformInstanceFriendlyName;
 
@@ -21,16 +21,18 @@ public class PlatformRegistrationRequest {
     /**
      * For use when a Platform Owner is fine with generated platform identifier
      *
-     * @param AAMOwnerCredentials          used to authorize this request
-     * @param platformOwnerDetails         used to register the platform owner in the database
-     * @param platformAAMURL               used to point symbiote users to possible login entrypoints
-     * @param platformInstanceFriendlyName a label for the end user to be able to identify the login endrypoint
+     * @param AAMOwnerCredentials                  used to authorize this request
+     * @param platformOwnerDetails                 used to register the platform owner in the database
+     * @param platformInterworkingInterfaceAddress used to point symbiote users to possible login entrypoints
+     * @param platformInstanceFriendlyName         a label for the end user to be able to identify the login endrypoint
      */
-    public PlatformRegistrationRequest(Credentials AAMOwnerCredentials, UserDetails platformOwnerDetails, String
-            platformAAMURL, String platformInstanceFriendlyName) {
+    public PlatformRegistrationRequest(Credentials AAMOwnerCredentials,
+                                       UserDetails platformOwnerDetails,
+                                       String platformInterworkingInterfaceAddress,
+                                       String platformInstanceFriendlyName) {
         this.AAMOwnerCredentials = AAMOwnerCredentials;
         this.platformOwnerDetails = platformOwnerDetails;
-        this.platformAAMURL = platformAAMURL;
+        this.platformInterworkingInterfaceAddress = platformInterworkingInterfaceAddress;
         this.platformInstanceFriendlyName = platformInstanceFriendlyName;
     }
 
@@ -38,17 +40,20 @@ public class PlatformRegistrationRequest {
      * For use when a Platform Owner wants a preferred platform identifier
      * * @param AAMOwnerCredentials used to authorize this request
      *
-     * @param platformOwnerDetails         used to register the platform owner in the database
-     * @param platformAAMURL               used to point symbiote users to possible login entrypoints
-     * @param platformInstanceFriendlyName a label for the end user to be able to identify the login endrypoint
-     * @param preferredPlatformInstanceID  when a Platform Owner preferres his own platform identifier
+     * @param platformOwnerDetails                 used to register the platform owner in the database
+     * @param platformInterworkingInterfaceAddress used to point symbiote users to possible login entrypoints
+     * @param platformInstanceFriendlyName         a label for the end user to be able to identify the login endrypoint
+     * @param preferredPlatformInstanceID          when a Platform Owner preferres his own platform identifier
      */
-    public PlatformRegistrationRequest(Credentials AAMOwnerCredentials, UserDetails platformOwnerDetails, String
-            platformAAMURL, String platformInstanceFriendlyName, String preferredPlatformInstanceID) {
+    public PlatformRegistrationRequest(Credentials AAMOwnerCredentials,
+                                       UserDetails platformOwnerDetails,
+                                       String platformInterworkingInterfaceAddress,
+                                       String platformInstanceFriendlyName,
+                                       String preferredPlatformInstanceID) {
         this.AAMOwnerCredentials = AAMOwnerCredentials;
         this.platformInstanceFriendlyName = platformInstanceFriendlyName;
         this.platformInstanceId = preferredPlatformInstanceID;
-        this.platformAAMURL = platformAAMURL;
+        this.platformInterworkingInterfaceAddress = platformInterworkingInterfaceAddress;
         this.platformOwnerDetails = platformOwnerDetails;
     }
 
@@ -68,12 +73,12 @@ public class PlatformRegistrationRequest {
         this.platformInstanceId = platformInstanceId;
     }
 
-    public String getPlatformAAMURL() {
-        return platformAAMURL;
+    public String getPlatformInterworkingInterfaceAddress() {
+        return platformInterworkingInterfaceAddress;
     }
 
-    public void setPlatformAAMURL(String platformAAMURL) {
-        this.platformAAMURL = platformAAMURL;
+    public void setPlatformInterworkingInterfaceAddress(String platformInterworkingInterfaceAddress) {
+        this.platformInterworkingInterfaceAddress = platformInterworkingInterfaceAddress;
     }
 
     public Credentials getAAMOwnerCredentials() {
