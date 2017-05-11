@@ -17,7 +17,7 @@ public class QueryResourceResult {
     private Double locationLongitude;
     private Double locationAltitude;
     private List<String> observedProperties;
-    private String type;
+    private List<String> resourceType;
 
     /**
      * Default empty constructor.
@@ -114,11 +114,11 @@ public class QueryResourceResult {
         this.observedProperties = observedProperties;
     }
 
-    public String getType() {
-        return type;
+    public List<String> getResourceType() {
+        return resourceType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setResourceType(List<String> resourceType) {
+        this.resourceType = resourceType;
     }
 }

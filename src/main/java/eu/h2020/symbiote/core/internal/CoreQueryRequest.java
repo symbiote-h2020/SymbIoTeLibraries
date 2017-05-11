@@ -18,6 +18,7 @@ public class CoreQueryRequest {
     private Double location_long;
     private Integer max_distance;
     private List<String> observed_property;
+    private String resource_type;
     private String token;
 
     /**
@@ -113,6 +114,14 @@ public class CoreQueryRequest {
 
     public void setObserved_property(List<String> observed_property) {
         this.observed_property = observed_property;
+    }
+
+    public String getResource_type() {
+        return resource_type;
+    }
+
+    public void setResource_type(String resource_type) {
+        this.resource_type = resource_type;
     }
 
     public String getToken() {
