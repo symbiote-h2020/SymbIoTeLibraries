@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.security.aams;
 
 import com.rabbitmq.client.*;
-import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
+import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.exceptions.aam.AAMMisconfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -74,13 +74,13 @@ public class DummyAAMAMQPLoginListener {
 
         try {
             channel = this.connection.createChannel();
-            channel.queueDeclare(SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE, true, false, false, null);
-            channel.queueBind(SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE, SecurityHandlerConstants
-                    .EXCHANGE_NAME, SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_ROUTING_KEY);
+            channel.queueDeclare(AAMConstants.AAM_LOGIN_QUEUE, true, false, false, null);
+            channel.queueBind(AAMConstants.AAM_LOGIN_QUEUE, AAMConstants
+                    .AAM_EXCHANGE_NAME, AAMConstants.AAM_LOGIN_ROUTING_KEY);
             log.info("Authentication and Authorization Manager waiting for login request messages....");
 
             Consumer consumer = new LoginRequestConsumerService(channel);
-            channel.basicConsume(SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE, false, consumer);
+            channel.basicConsume(AAMConstants.AAM_LOGIN_QUEUE, false, consumer);
         } catch (IOException e) {
             log.error(e);
         }
@@ -104,7 +104,7 @@ public class DummyAAMAMQPLoginListener {
             try {
                 channel = this.connection.createChannel();
 
-                channel.exchangeDeclare(SecurityHandlerConstants.EXCHANGE_NAME,
+                channel.exchangeDeclare(AAMConstants.AAM_EXCHANGE_NAME,
                         "direct",
                         true,
                         false,
@@ -132,10 +132,10 @@ public class DummyAAMAMQPLoginListener {
             if (this.connection != null && this.connection.isOpen()) {
                 channel = connection.createChannel();
                 // login
-                channel.queueUnbind(SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE, SecurityHandlerConstants
-                                .EXCHANGE_NAME,
-                        SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_ROUTING_KEY);
-                channel.queueDelete(SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE);
+                channel.queueUnbind(AAMConstants.AAM_LOGIN_QUEUE, AAMConstants
+                                .AAM_EXCHANGE_NAME,
+                        AAMConstants.AAM_LOGIN_ROUTING_KEY);
+                channel.queueDelete(AAMConstants.AAM_LOGIN_QUEUE);
 
                 closeChannel(channel);
                 this.connection.close();

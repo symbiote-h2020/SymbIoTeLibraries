@@ -3,7 +3,7 @@ package eu.h2020.symbiote.security.amqp.platform.home;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.RpcClient;
-import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
+import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
@@ -27,18 +27,18 @@ public class PlatformAAMMessageHandler {
         try {
             log.info("Sending request of login for " + credentials.getUsername());
 
-            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", SecurityHandlerConstants
-                    .HOME_PLATFORM_AAM_LOGIN_QUEUE, 5000);
+            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+                    .AAM_LOGIN_QUEUE, 5000);
 
             byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
                     .getBytes());
 
             return mapper.readValue(response, Token.class);
         } catch (Exception e) {
-            String message = "Fatal error sending data to EXCHANGE_NAME: "
-                    + SecurityHandlerConstants.EXCHANGE_NAME + ", PLATFORM_AAM_LOGIN_QUEUE:"
-                    + SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_QUEUE + ", PLATFORM_AAM_LOGIN_ROUTING_KEY:"
-                    + SecurityHandlerConstants.HOME_PLATFORM_AAM_LOGIN_ROUTING_KEY;
+            String message = "Fatal error sending data to AAM_EXCHANGE_NAME: "
+                    + AAMConstants.AAM_EXCHANGE_NAME + ", PLATFORM_AAM_LOGIN_QUEUE:"
+                    + AAMConstants.AAM_LOGIN_QUEUE + ", PLATFORM_AAM_LOGIN_ROUTING_KEY:"
+                    + AAMConstants.AAM_LOGIN_ROUTING_KEY;
             log.error(message, e);
             throw new SecurityHandlerException(message, e);
         }

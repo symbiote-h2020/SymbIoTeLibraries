@@ -3,7 +3,6 @@ package eu.h2020.symbiote.security.aams;
 
 import eu.h2020.symbiote.security.SecurityHandlerTest.DateUtil;
 import eu.h2020.symbiote.security.constants.AAMConstants;
-import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
@@ -43,7 +42,7 @@ public class DummyAAMRestListeners {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = SecurityHandlerConstants.GET_CORE_AAM_CA_CERTIFICATE)
+    @RequestMapping(method = RequestMethod.GET, path = AAMConstants.AAM_GET_CA_CERTIFICATE)
     public String getRootCertificate() throws NoSuchProviderException, KeyStoreException, IOException,
             UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException {
         logger.debug("invoked get token public");
@@ -58,7 +57,7 @@ public class DummyAAMRestListeners {
         return signedCertificatePEMDataStringWriter.toString();
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_CORE_AAM_LOGIN, produces =
+    @RequestMapping(method = RequestMethod.POST, path = AAMConstants.AAM_LOGIN, produces =
             "application/json", consumes = "application/json")
     public ResponseEntity<?> doLogin(@RequestBody Credentials credential) {
         logger.info("User trying to login " + credential.getUsername() + " - " + credential.getPassword());
@@ -89,7 +88,7 @@ public class DummyAAMRestListeners {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_CORE_AAM_CHECK_TOKEN_REVOCATION,
+    @RequestMapping(method = RequestMethod.POST, path = AAMConstants.AAM_CHECK_HOME_TOKEN_REVOCATION,
             produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public ResponseEntity<CheckTokenRevocationResponse> checkTokenRevocation(@RequestHeader(AAMConstants
             .TOKEN_HEADER_NAME) String token) {
@@ -99,7 +98,7 @@ public class DummyAAMRestListeners {
                 (TokenValidationStatus.VALID), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = SecurityHandlerConstants.DO_REQUEST_FOREIGN_TOKEN, produces =
+    @RequestMapping(method = RequestMethod.POST, path = AAMConstants.AAM_REQUEST_FOREIGN_TOKEN, produces =
             "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public ResponseEntity<?> requestForeignToken(@RequestHeader(AAMConstants.TOKEN_HEADER_NAME) String
                                                          homeTokenString) {

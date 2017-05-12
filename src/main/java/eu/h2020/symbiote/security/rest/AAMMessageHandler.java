@@ -30,7 +30,8 @@ public abstract class AAMMessageHandler {
     public void createClient(String url) {
         this.url = url;
         simpleclient = Feign.builder().target(AAMRestService.class, url);
-        jsonclient = Feign.builder().decoder(new JacksonDecoder()).encoder(new JacksonEncoder()).target(AAMRestService.class, url);
+        jsonclient = Feign.builder().decoder(new JacksonDecoder()).encoder(new JacksonEncoder()).target
+                (AAMRestService.class, url);
     }
 
     public String getURL() {
@@ -49,7 +50,7 @@ public abstract class AAMMessageHandler {
 
     public X509Certificate getAAMRootCertificate() throws CertificateException {
         String pemCert = getAAMRootCertificatePEMString();
-        if (pemCert.isEmpty())
+        if (pemCert == null || pemCert.isEmpty())
             return null;
         return new Certificate(pemCert).getX509();
     }
@@ -81,7 +82,7 @@ public abstract class AAMMessageHandler {
         Token result = null;
         try {
             logger.info("User trying to requestCoreToken");
-            Response response = jsonclient.requestCoreToken(token.toString());
+            Response response = jsonclient.requestForeignToken(token.toString());
             result = new Token(response.headers().get(AAMConstants.TOKEN_HEADER_NAME).iterator().next());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);

@@ -3,7 +3,6 @@ package eu.h2020.symbiote.security;
 import eu.h2020.symbiote.security.aams.DummyAAMAMQPLoginListener;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.constants.AAMConstants;
-import eu.h2020.symbiote.security.constants.SecurityHandlerConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
@@ -235,8 +234,8 @@ public class SecurityHandlerTest {
 
         // Test rest template
         RestTemplate restTemplate = new RestTemplate(requestFactory);
-        ResponseEntity<String> response = restTemplate.getForEntity(coreAAMUrl + SecurityHandlerConstants
-                .GET_CORE_AAM_CA_CERTIFICATE, String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(coreAAMUrl + AAMConstants
+                .AAM_GET_CA_CERTIFICATE, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         try {
             KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
