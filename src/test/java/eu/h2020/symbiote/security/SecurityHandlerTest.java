@@ -6,7 +6,6 @@ import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
-import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
 import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
@@ -40,10 +39,7 @@ import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -51,10 +47,10 @@ import static org.junit.Assert.assertNotNull;
 /**
  * This class handles the initialization from the platform. Initially created by jose
  *
- * @author Elena Garrido
- * @version 06/10/2016
- *          \class PlatformInformationManager
- *          \brief PlatformInformationManager handles the registration of the resources within the platform
+ * @author Elena Garrido (Atos)
+ * @author Mikołaj Dobski (PSNC)
+ *         \class PlatformInformationManager
+ *         \brief PlatformInformationManager handles the registration of the resources within the platform
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, properties = {"symbiote.testaam" +
@@ -84,7 +80,7 @@ public class SecurityHandlerTest {
 
         coreAAMUrl = "http://localhost:18033";
         rabbitMQHostIP = "localhost";
-        securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, "guest", "guest", true);
+        securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, "guest", "guest");
 
         final String ALIAS = "test aam keystore";
         KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
@@ -110,9 +106,8 @@ public class SecurityHandlerTest {
             KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
             ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
             Assert.assertTrue(securityHandler.certificateValidation(ks));
-
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
-                CertificateVerificationException | SecurityHandlerDisabledException | NoSuchProviderException e) {
+                CertificateVerificationException | NoSuchProviderException e) {
             log.error(e);
             assert (false);
         }
@@ -120,11 +115,11 @@ public class SecurityHandlerTest {
 
 
     @Test
-    public void testRequestCoreToken() {
+    public void testRequestFederatedCoreToken() {
         try {
-            Token token = securityHandler.requestCoreToken("user", "password");
+            Token token = securityHandler.requestFederatedCoreToken("user", "password");
             Assert.assertTrue(IssuingAuthorityType.CORE == token.getType());
-        } catch (SecurityHandlerException | TokenValidationException e) {
+        } catch (SecurityHandlerException e) {
             log.error(e);
             assert (false);
         }
@@ -133,7 +128,7 @@ public class SecurityHandlerTest {
     @Test
     public void testRequestForeignToken() {
         try {
-            Token token = securityHandler.requestCoreToken("user", "password");
+            Token token = securityHandler.requestFederatedCoreToken("user", "password");
 
             log.info("Test Client received this Token: " + token.toString());
 
@@ -142,34 +137,30 @@ public class SecurityHandlerTest {
 
             ArrayList<String> urllist = new ArrayList<String>();
             urllist.add(coreAAMUrl);
-            HashMap<String, Token> tokens = securityHandler.requestForeignTokens(urllist);
+            Map<String, Token> tokens = securityHandler.requestForeignTokens(urllist);
             assert (tokens != null);
-        } catch (SecurityHandlerException | TokenValidationException e) {
-            log.error(e);
-            assert (false);
-        }
-    }
-
-    @Test
-    public void testRequestCoreTokenFromApplication() {
-        try {
-            Token token = securityHandler.appRequestCoreToken("user", "password");
-            Assert.assertNotNull(token);
-            assertEquals(IssuingAuthorityType.CORE, token.getType());
         } catch (SecurityHandlerException e) {
             log.error(e);
             assert (false);
         }
     }
 
+    @Test
+    public void testRequestCoreTokenUsingCoreCredentials() {
+        Token token = securityHandler.requestCoreToken("Test1", "Test1");
+        Assert.assertNotNull(token);
+        assertEquals(IssuingAuthorityType.CORE, token.getType());
+    }
+
 
     @Test
     public void testCoreTokenValidation() {
         try {
-            Token token = securityHandler.verifyCoreToken(coreTokenString);
+            Token token = new Token(coreTokenString);
+            securityHandler.verifyCoreToken(token);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
-        } catch (SecurityHandlerException | TokenValidationException e) {
+        } catch (TokenValidationException e) {
             log.error(e);
             assert (false);
         }
@@ -180,13 +171,11 @@ public class SecurityHandlerTest {
         try {
             String tokenString =
                     "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
-            securityHandler.verifyCoreToken(tokenString);
+            Token token = new Token(tokenString);
+            securityHandler.verifyCoreToken(token);
             assert (false);
-        } catch (SecurityHandlerDisabledException e) {
-            log.error(e);
-            assert (false);
-        } catch (Throwable t) {
-            log.debug("Exception correctly thrown form the software", t);
+        } catch (Exception e) {
+            log.info("Exception correctly thrown form the software", e);
             assert (true);
         }
 
@@ -195,11 +184,12 @@ public class SecurityHandlerTest {
     @Test
     public void testForeignPlatformTokenValidation() {
         try {
-            Token token = securityHandler.verifyForeignPlatformToken(coreAAMUrl, platformTokenString);
+            Token token = new Token(platformTokenString);
+            securityHandler.verifyPlatformToken(coreAAMUrl, token);
             Assert.assertTrue(token.getType() == IssuingAuthorityType.PLATFORM);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
-        } catch (SecurityHandlerDisabledException | TokenValidationException e) {
+        } catch (TokenValidationException e) {
             log.error(e);
             assert (false);
         }

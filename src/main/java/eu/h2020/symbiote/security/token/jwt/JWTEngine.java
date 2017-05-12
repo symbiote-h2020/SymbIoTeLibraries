@@ -36,8 +36,10 @@ import java.util.Set;
 public class JWTEngine {
 
     private static Log log = LogFactory.getLog(JWTEngine.class);
-
     private static SecureRandom random = new SecureRandom();
+
+    private JWTEngine() {
+    }
 
     /**
      * validates the token using the encoded issuer's public key and sets its claims
@@ -46,7 +48,8 @@ public class JWTEngine {
      * @return validation status
      * @throws TokenValidationException on other errors
      */
-    public static TokenValidationStatus validateTokenUsingIncludedIssuersPublicKey(Token token) throws TokenValidationException {
+    public static TokenValidationStatus validateTokenUsingIncludedIssuersPublicKey(Token token) throws
+            TokenValidationException {
         try {
             ECDSAHelper.enableECDSAProvider();
 
@@ -67,11 +70,11 @@ public class JWTEngine {
                 case INVALID:
                     return TokenValidationStatus.INVALID;
             }
+            return TokenValidationStatus.INVALID;
         } catch (MalformedJWTException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             log.error(e);
             throw new TokenValidationException("Token could not be validated", e);
         }
-        return TokenValidationStatus.INVALID;
     }
 
     /**
@@ -82,7 +85,8 @@ public class JWTEngine {
      * @return validation status
      * @throws TokenValidationException on other errors
      */
-    public static TokenValidationStatus validateToken(Token token, PublicKey publicKey) throws TokenValidationException {
+    public static TokenValidationStatus validateToken(Token token, PublicKey publicKey) throws
+            TokenValidationException {
         try {
             ECDSAHelper.enableECDSAProvider();
 
@@ -104,7 +108,7 @@ public class JWTEngine {
     }
 
     public static JWTClaims getClaimsFromToken(String jwtToken) throws MalformedJWTException {
-        HashMap<String, Object> retMap = new HashMap<String, Object>();
+        HashMap<String, Object> retMap = new HashMap<>();
         String[] jwtParts = jwtToken.split("\\.");
         if (jwtParts.length < AAMConstants.JWTPartsCount) {
             throw new MalformedJWTException();
@@ -116,7 +120,7 @@ public class JWTEngine {
 
         ObjectMapper mapper = new ObjectMapper();
 
-        Map<String, Object> claimsMap = new HashMap<String, Object>();
+        Map<String, Object> claimsMap;
 
         try {
             claimsMap = mapper.readValue(claimsString, new TypeReference<Map<String, String>>() {
@@ -133,20 +137,24 @@ public class JWTEngine {
             }
 
             //Extracting claims from JWT claims map
-            JWTClaims retClaims = new JWTClaims(retMap.get("jti"), retMap.get("alg"), retMap.get("iss"), retMap.get("sub"), retMap
-                    .get("iat"), retMap.get("exp"), retMap.get("ipk"), retMap.get("spk"), retMap.get("ttyp"), attributes);
-            return retClaims;
-        } catch (IOException e) {
+            return new JWTClaims(retMap.get("jti"), retMap.get("alg"), retMap.get("iss"), retMap.get
+                    ("sub"), retMap
+                    .get("iat"), retMap.get("exp"), retMap.get("ipk"), retMap.get("spk"), retMap.get("ttyp"),
+                    attributes);
+        } catch (IOException | NumberFormatException e) {
             log.error(e);
             throw new MalformedJWTException(e);
         }
     }
 
-    public static String generateJWTToken(String userId, Map<String, String> attributes, byte[] userPublicKey, IssuingAuthorityType deploymentType, Long tokenValidity, String deploymentID, PublicKey aamPublicKey, PrivateKey aamPrivateKey) throws JWTCreationException {
+    public static String generateJWTToken(String userId, Map<String, String> attributes, byte[] userPublicKey,
+                                          IssuingAuthorityType deploymentType, Long tokenValidity, String
+                                                  deploymentID, PublicKey aamPublicKey, PrivateKey aamPrivateKey)
+            throws JWTCreationException {
         ECDSAHelper.enableECDSAProvider();
 
         String jti = String.valueOf(random.nextInt());
-        Map<String, Object> claimsMap = new HashMap<String, Object>();
+        Map<String, Object> claimsMap = new HashMap<>();
 
         try {
             // Insert AAM Public Key

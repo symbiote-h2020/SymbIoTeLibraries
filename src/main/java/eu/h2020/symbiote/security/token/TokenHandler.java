@@ -20,11 +20,11 @@ public class TokenHandler {
 
     public TokenHandler(CoreAAMMessageHandler coreAAM) {
         this.coreAAM = coreAAM;
-        this.publicCertificates = new HashMap<String, X509Certificate>();
+        this.publicCertificates = new HashMap<>();
     }
 
     public Token requestCoreToken(Token homeToken) {
-        return coreAAM.requestCoreToken(homeToken);
+        return coreAAM.requestFederatedCoreToken(homeToken);
     }
 
     public Token requestForeignToken(String aamURL, Token coreToken) {

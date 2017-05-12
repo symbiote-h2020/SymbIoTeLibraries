@@ -1,10 +1,9 @@
 package eu.h2020.symbiote.security.constants;
 
 /**
- * Recipient class used to collect all the constant values used throughout Cloud AAM code.
+ * Constants related to SH-AAM communication
  *
- * @author Daniele Caldarola (CNIT)
- * @author Nemanja Ignjatov (UNIVIE)
+ * @author Mikołaj Dobski (PSNC)
  */
 public class AAMConstants {
     public static final long serialVersionUID = 7526472295622776147L;

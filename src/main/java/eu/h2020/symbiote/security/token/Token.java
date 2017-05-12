@@ -6,8 +6,6 @@ import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import io.jsonwebtoken.Claims;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
@@ -22,7 +20,6 @@ import org.springframework.data.annotation.Transient;
 public class Token {
     public final static String JWT_CLAIMS_TTYPE = AAMConstants.CLAIM_NAME_TOKEN_TYPE;
 
-    private static Log log = LogFactory.getLog(Token.class);
     @Id
     private String id = "";
     private String token = "";
@@ -39,13 +36,9 @@ public class Token {
      *
      * @param token compacted signed token string
      */
-    public Token(String token) {
+    public Token(String token) throws TokenValidationException {
         this.token = token;
-        try {
-            JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
-        } catch (TokenValidationException e) {
-            log.error(e);
-        }
+        JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
     }
 
     public String getToken() {
@@ -53,12 +46,11 @@ public class Token {
     }
 
     /**
-     * The token needs to be validated to have it's claims populated properly
-     *
      * @param token compacted signed token string
      */
-    public void setToken(String token) {
+    public void setToken(String token) throws TokenValidationException {
         this.token = token;
+        JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
     }
 
     @JsonIgnore

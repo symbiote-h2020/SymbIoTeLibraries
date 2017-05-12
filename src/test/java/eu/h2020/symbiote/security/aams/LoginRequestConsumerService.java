@@ -7,6 +7,7 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
+import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.payloads.ErrorResponseContainer;
 import eu.h2020.symbiote.security.token.Token;
@@ -90,7 +91,7 @@ public class LoginRequestConsumerService extends DefaultConsumer {
 
                     response = om.writeValueAsString(new Token(tokenString));
                     this.getChannel().basicPublish("", properties.getReplyTo(), replyProps, response.getBytes());
-                } catch (JWTCreationException e) {
+                } catch (JWTCreationException | TokenValidationException e) {
                     log.error(e);
                     response = (new ErrorResponseContainer(e.getErrorMessage(), e.getStatusCode().ordinal())).toJson();
                     this.getChannel().basicPublish("", properties.getReplyTo(), replyProps, response.getBytes());

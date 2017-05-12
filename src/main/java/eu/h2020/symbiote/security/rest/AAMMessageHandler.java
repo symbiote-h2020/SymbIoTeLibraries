@@ -78,10 +78,10 @@ public abstract class AAMMessageHandler {
         return result;
     }
 
-    public Token requestCoreToken(Token token) {
+    public Token requestFederatedCoreToken(Token token) {
         Token result = null;
         try {
-            logger.info("User trying to requestCoreToken");
+            logger.info("User trying to requestFederatedCoreToken");
             Response response = jsonclient.requestForeignToken(token.toString());
             result = new Token(response.headers().get(AAMConstants.TOKEN_HEADER_NAME).iterator().next());
         } catch (Exception e) {

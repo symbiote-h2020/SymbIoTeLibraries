@@ -6,6 +6,7 @@ import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
+import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.payloads.CheckTokenRevocationResponse;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
@@ -81,7 +82,8 @@ public class DummyAAMRestListeners {
             /* Finally issues and return foreign_token */
             return new ResponseEntity<>(headers, HttpStatus.OK);
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
-                UnrecoverableKeyException | JWTCreationException | NoSuchProviderException e) {
+                UnrecoverableKeyException | JWTCreationException | NoSuchProviderException | TokenValidationException
+                e) {
             logger.error(e);
         }
         return null;
@@ -94,7 +96,7 @@ public class DummyAAMRestListeners {
             .TOKEN_HEADER_NAME) String token) {
         logger.info("Checking token revocation " + token);
         // todo implement... for the moment returns valid
-        return new ResponseEntity<CheckTokenRevocationResponse>(new CheckTokenRevocationResponse
+        return new ResponseEntity<>(new CheckTokenRevocationResponse
                 (TokenValidationStatus.VALID), HttpStatus.OK);
     }
 
@@ -124,7 +126,8 @@ public class DummyAAMRestListeners {
             /* Finally issues and return foreign_token */
             return new ResponseEntity<>(headers, HttpStatus.OK);
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
-                UnrecoverableKeyException | NoSuchProviderException | JWTCreationException e) {
+                UnrecoverableKeyException | NoSuchProviderException | JWTCreationException | TokenValidationException
+                e) {
             logger.error(e);
         }
         return null;

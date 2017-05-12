@@ -7,20 +7,23 @@ import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.certificate.ECDSAHelper;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
-import eu.h2020.symbiote.security.exceptions.sh.SecurityHandlerDisabledException;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.session.SessionInformation;
 import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.TokenHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class exposing the library from security handler
  *
- * @author Elena Garrido
+ * @author Elena Garrido (Atos)
+ * @author Mikołaj Dobski (PSNC)
  * @version 08/03/2017
  *          ! \class SecurityHandler
  *          \brief This class implement the methods to be used by the component in order to integrate with the
@@ -28,41 +31,51 @@ import java.util.List;
  **/
 
 public class SecurityHandler {
-    private PlatformAAMMessageHandler platformMessageHandler;
-    private CoreAAMMessageHandler coreMessageHandler;
-    private SessionInformation sessionInformation;
-    private TokenHandler tokenHandler;
-    private CertificateValidator certificateValidator;
-    private boolean enabled;
+    private static Log log = LogFactory.getLog(SecurityHandler.class);
+    private PlatformAAMMessageHandler platformMessageHandler = null;
+    private CoreAAMMessageHandler coreMessageHandler = null;
+    private SessionInformation sessionInformation = null;
+    private TokenHandler tokenHandler = null;
+    private CertificateValidator certificateValidator = null;
 
-    public SecurityHandler(String coreAAMUrl, String rabbitMQHostIP, String rabbitMQUsername, String
-            rabbitMQPassword, boolean enabled) {
+    /**
+     * Initializes the Security Handler for 3rd Party applications
+     *
+     * @param symbioteCoreInterfaceAddress used to access exposed Core AAM services
+     */
+    public SecurityHandler(String symbioteCoreInterfaceAddress) {
         ECDSAHelper.enableECDSAProvider();
-        this.enabled = enabled;
-
-        if (this.enabled) {
-            this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP, rabbitMQUsername,
-                    rabbitMQPassword);
-            this.coreMessageHandler = new CoreAAMMessageHandler(coreAAMUrl);
-            this.sessionInformation = new SessionInformation();
-            this.tokenHandler = new TokenHandler(this.coreMessageHandler);
-            this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
-        }
+        this.coreMessageHandler = new CoreAAMMessageHandler(symbioteCoreInterfaceAddress);
+        this.sessionInformation = new SessionInformation();
+        this.tokenHandler = new TokenHandler(this.coreMessageHandler);
+        this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
     }
 
-    public boolean getEnabled() {
-        return this.enabled;
+    /**
+     * Initializes the Security Handler for platform components
+     *
+     * @param symbioteCoreInterfaceAddress used to access exposed Core AAM services
+     * @param rabbitMQHostIP               used to access platform AAM over AMQP
+     * @param rabbitMQUsername             used to access platform AAM over AMQP
+     * @param rabbitMQPassword             used to access platform AAM over AMQP
+     */
+    public SecurityHandler(String symbioteCoreInterfaceAddress, String rabbitMQHostIP, String rabbitMQUsername, String
+            rabbitMQPassword) {
+        this(symbioteCoreInterfaceAddress);
+        this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP, rabbitMQUsername,
+                rabbitMQPassword);
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Token appRequestCoreToken(String userName, String password) throws SecurityException,
-            SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * Request core token using one's Symbiote Core Account
+     * <p>
+     * TODO R3 rework/add new method so that user can actually request Home Token from any AAM that is his home AAM.
+     *
+     * @param userName username in Symbiote Core
+     * @param password password in Symbiote Core
+     * @return Token issued for your user in Symbiote Core
+     */
+    public Token requestCoreToken(String userName, String password) {
         Token coreToken = sessionInformation.getCoreToken();
         if (coreToken == null) {
             //not logged in
@@ -72,18 +85,28 @@ public class SecurityHandler {
             coreToken = coreMessageHandler.login(credentials);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getCoreToken() == null) {
-                throw new SecurityException("It was not possible to vaildate you with the give credentials. Please " +
-                        "check them");
+                String message = "It was not possible to validate you with the give credentials. Please " +
+                        "check them";
+                log.error(message);
+                throw new SecurityException(message);
             }
         }
         return coreToken;
     }
 
-    public Token requestCoreToken(String userName, String password) throws SecurityException,
-            SecurityHandlerException, TokenValidationException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * Request federated core token using your home platform token
+     *
+     * @param userName home platform username
+     * @param password home platform password
+     * @return Token issued according to you Home Platform and Core Federation
+     * @apiNote JUST FOR INTERNAL PLATFORM USAGE
+     */
+    public Token requestFederatedCoreToken(String userName, String password) throws SecurityHandlerException {
+        if (platformMessageHandler == null) {
+            throw new SecurityHandlerException("Security Handler wasn't configured to access Platform AAM over AMQP, " +
+                    "use the 4 parameters constructor for that");
+        }
         Token coreToken = sessionInformation.getCoreToken();
         if (coreToken == null) {
             //not logged in
@@ -96,25 +119,37 @@ public class SecurityHandler {
             sessionInformation.setHomeToken(homeToken);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getHomeToken() == null) {
-                throw new SecurityException("It was not possible to vaildate you with the give credentials. Please " +
-                        "check them");
+                String message = "It was not possible to validate you with the give credentials. " +
+                        "Please " +
+                        "check them";
+                log.error(message);
+                throw new SecurityException(message);
             }
 
         }
-        tokenHandler.validateCoreToken(coreToken);
+
+        try {
+            tokenHandler.validateCoreToken(coreToken);
+        } catch (TokenValidationException e) {
+            log.error(e);
+            throw new SecurityException(e);
+        }
         return coreToken;
     }
 
-
-    public HashMap<String, Token> requestForeignTokens(List<String> aamUrls) throws SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * Requests federated Platform tokens using acquired Core token.
+     * TODO R3 review and update
+     *
+     * @param aamUrls
+     * @return
+     */
+    public Map<String, Token> requestForeignTokens(List<String> aamUrls) {
         HashMap<String, Token> foreignTokens = null;
         Token coreToken = sessionInformation.getCoreToken();
         if (coreToken != null) {
             //logged in
-            foreignTokens = new HashMap<String, Token>();
+            foreignTokens = new HashMap<>();
             for (String url : aamUrls) {
                 Token foreignToken = sessionInformation.getForeignToken(url);
                 if (foreignToken == null) {
@@ -127,70 +162,63 @@ public class SecurityHandler {
         return foreignTokens;
     }
 
-    public void logout() throws SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * Clears the token wallet (home and core)
+     */
+    public void logout() {
         sessionInformation.setHomeToken(null);
         sessionInformation.setCoreToken(null);
     }
 
-    public Token getHomeToken() throws SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * @return home token from the local token wallet
+     */
+    public Token getHomeToken() {
         return sessionInformation.getHomeToken();
     }
 
-    public Token getCoreToken() throws SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * @return core token from the local token wallet
+     */
+    public Token getCoreToken() {
         return sessionInformation.getCoreToken();
     }
 
-    public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException,
-            SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * Validates the certificate used by the user in challenge-response operations against the exposed Core AAM root
+     * CA certificate
+     *
+     * @param p12Certificate the local certificate store (either issued by Platform or Core AAM)
+     * @return true if valid
+     * @throws CertificateVerificationException on validation error
+     */
+    public boolean certificateValidation(KeyStore p12Certificate) throws CertificateVerificationException {
         return certificateValidator.validate(p12Certificate);
     }
 
-
-    public Token verifyCoreToken(String encodedTokenString) throws TokenValidationException,
-            SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
-        Token token = new Token(encodedTokenString);
-        verifyCoreToken(token);
-        return token;
-    }
-
-    public void verifyCoreToken(Token token) throws TokenValidationException, SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
+    /**
+     * Validates the given token against the exposed Core AAM certificate
+     * <p>
+     * TODO R3 rework to return {@link eu.h2020.symbiote.security.enums.TokenValidationStatus}
+     *
+     * @param token to be validated
+     * @throws TokenValidationException on error
+     */
+    public void verifyCoreToken(Token token) throws TokenValidationException {
         tokenHandler.validateCoreToken(token);
     }
 
-    public Token verifyForeignPlatformToken(String aamURL, String encodedTokenString) throws
-            TokenValidationException, SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
-        Token token = new Token(encodedTokenString);
-        verifyForeignPlatformToken(aamURL, token);
-        return token;
+    /**
+     * Validates the given token against the exposed relevant AAM certificate
+     * <p>
+     * TODO R3 rework to return {@link eu.h2020.symbiote.security.enums.TokenValidationStatus}
+     *
+     * @param platformInterworkingInterfaceAddress the address where one can access the exposed Platform AAM interfaces
+     * @param token                                to be validated
+     * @throws TokenValidationException on error
+     */
+    public void verifyPlatformToken(String platformInterworkingInterfaceAddress, Token token) throws
+            TokenValidationException {
+        tokenHandler.validateForeignPlatformToken(platformInterworkingInterfaceAddress, token);
     }
-
-    public void verifyForeignPlatformToken(String aamURL, Token token) throws TokenValidationException,
-            SecurityHandlerDisabledException {
-        if (!enabled)
-            throw new SecurityHandlerDisabledException("Security Handler is disabled!");
-
-        tokenHandler.validateForeignPlatformToken(aamURL, token);
-    }
-
 }
