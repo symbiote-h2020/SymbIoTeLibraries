@@ -45,9 +45,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.TimeoutException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * This class handles the initialization from the platform. Initially created by jose
@@ -115,22 +115,24 @@ public class SecurityHandlerTest {
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
                 CertificateVerificationException | SecurityHandlerDisabledException | NoSuchProviderException e) {
             log.error(e);
+            assert (false);
         }
     }
 
 
     @Test
-    public void testRequestCoreToken() throws IOException, TimeoutException {
+    public void testRequestCoreToken() {
         try {
             Token token = securityHandler.requestCoreToken("user", "password");
             Assert.assertTrue(IssuingAuthorityType.CORE == token.getType());
         } catch (SecurityHandlerException | TokenValidationException e) {
             log.error(e);
+            assert (false);
         }
     }
 
     @Test
-    public void testRequestForeignToken() throws IOException, TimeoutException {
+    public void testRequestForeignToken() {
         try {
             Token token = securityHandler.requestCoreToken("user", "password");
 
@@ -145,26 +147,33 @@ public class SecurityHandlerTest {
             assert (tokens != null);
         } catch (SecurityHandlerException | TokenValidationException e) {
             log.error(e);
+            assert (false);
         }
     }
 
     @Test
-    public void testRequestCoreTokenFromApplication() throws IOException, TimeoutException {
+    public void testRequestCoreTokenFromApplication() {
         try {
             Token token = securityHandler.appRequestCoreToken("user", "password");
             Assert.assertNotNull(token);
             assertEquals(IssuingAuthorityType.CORE, token.getType());
         } catch (SecurityHandlerException e) {
             log.error(e);
+            assert (false);
         }
     }
 
 
     @Test
-    public void testCoreTokenValidation() throws SecurityHandlerDisabledException, TokenValidationException {
+    public void testCoreTokenValidation() {
+        try {
             Token token = securityHandler.verifyCoreToken(coreTokenString);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
+        } catch (SecurityHandlerException | TokenValidationException e) {
+            log.error(e);
+            assert (false);
+        }
     }
 
     @Test
@@ -176,8 +185,9 @@ public class SecurityHandlerTest {
             assert (false);
         } catch (SecurityHandlerDisabledException e) {
             log.error(e);
+            assert (false);
         } catch (Throwable t) {
-            log.debug("Exception correctly thrown form the sofware", t);
+            log.debug("Exception correctly thrown form the software", t);
             assert (true);
         }
 
@@ -192,18 +202,25 @@ public class SecurityHandlerTest {
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
         } catch (SecurityHandlerDisabledException | TokenValidationException e) {
             log.error(e);
+            assert (false);
         }
 
     }
 
     @Test
-    public void getCACertOverRESTSuccess() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    public void getCACertOverRESTSuccess() {
         // dirty definition of HttpClient to connect to HTTPS endpoints.
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
-        SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
-                .loadTrustMaterial(null, acceptingTrustStrategy)
-                .build();
+        SSLContext sslContext = null;
+        try {
+            sslContext = org.apache.http.ssl.SSLContexts.custom()
+                    .loadTrustMaterial(null, acceptingTrustStrategy)
+                    .build();
+        } catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
+            log.error(e);
+            assert (false);
+        }
 
         SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
 
@@ -233,7 +250,7 @@ public class SecurityHandlerTest {
         } catch (IOException | NoSuchProviderException | KeyStoreException | CertificateException |
                 NoSuchAlgorithmException e) {
             log.error(e);
-            assertNull(e);
+            assert (false);
         }
     }
 
