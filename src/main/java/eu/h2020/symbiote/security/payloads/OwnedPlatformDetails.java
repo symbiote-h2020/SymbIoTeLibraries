@@ -11,6 +11,9 @@ public class OwnedPlatformDetails {
     private String platformInterworkingInterfaceAddress = "";
     private String platformInstanceFriendlyName = "";
 
+    public OwnedPlatformDetails() {
+        // for Jackson JSON
+    }
 
     /**
      * @param platformInstanceId                   SymbIoTe-unique platform identifier
