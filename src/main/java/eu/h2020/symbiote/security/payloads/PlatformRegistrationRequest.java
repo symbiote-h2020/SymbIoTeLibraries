@@ -23,8 +23,8 @@ public class PlatformRegistrationRequest {
      *
      * @param AAMOwnerCredentials                  used to authorize this request
      * @param platformOwnerDetails                 used to register the platform owner in the database
-     * @param platformInterworkingInterfaceAddress used to point symbiote users to possible login entrypoints
-     * @param platformInstanceFriendlyName         a label for the end user to be able to identify the login endrypoint
+     * @param platformInterworkingInterfaceAddress used to point symbiote users to possible login entry points
+     * @param platformInstanceFriendlyName         a label for the end user to be able to identify the login entry point
      */
     public PlatformRegistrationRequest(Credentials AAMOwnerCredentials,
                                        UserDetails platformOwnerDetails,
@@ -41,8 +41,8 @@ public class PlatformRegistrationRequest {
      * * @param AAMOwnerCredentials used to authorize this request
      *
      * @param platformOwnerDetails                 used to register the platform owner in the database
-     * @param platformInterworkingInterfaceAddress used to point symbiote users to possible login entrypoints
-     * @param platformInstanceFriendlyName         a label for the end user to be able to identify the login endrypoint
+     * @param platformInterworkingInterfaceAddress used to point symbiote users to possible login entry points
+     * @param platformInstanceFriendlyName         a label for the end user to be able to identify the login entry point
      * @param preferredPlatformInstanceID          when a Platform Owner preferres his own platform identifier
      */
     public PlatformRegistrationRequest(Credentials AAMOwnerCredentials,
