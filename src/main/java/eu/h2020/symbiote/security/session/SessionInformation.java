@@ -5,11 +5,14 @@ import eu.h2020.symbiote.security.token.Token;
 import java.util.HashMap;
 import java.util.Map;
 
-
+// TODO rework
 public class SessionInformation {
+    // TODO rework to support multiple Platform tokens
     private Token homeToken;
+    // todo rework to have a wallet of tokens grouped by issuing AAMs
     private Token coreToken;
-    private Map<String, Token> foreignTokens = new HashMap<String, Token>();
+    // todo rename to federated tokens
+    private Map<String, Token> foreignTokens = new HashMap<>();
 
     public SessionInformation() {
     }

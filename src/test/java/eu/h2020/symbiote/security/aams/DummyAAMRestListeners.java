@@ -30,9 +30,10 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-/*
- * @author: Elena Garrido
- * @version: 12/02/2017
+/**
+ * Dummy REST service mimicking exposed AAM features required by SymbIoTe users and reachable via CoreInterface in the Core and Interworking Interfaces on Platforms' side.
+ *
+ * @author Mikołaj Dobski (PSNC)
  */
 @RestController
 @WebAppConfiguration

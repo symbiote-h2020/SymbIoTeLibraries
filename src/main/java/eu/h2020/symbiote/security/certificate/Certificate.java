@@ -20,7 +20,7 @@ import java.security.cert.X509Certificate;
 public class Certificate {
 
     @Id
-    private String certificateString;
+    private String certificateString = "";
 
     /**
      * required by JPA
@@ -39,10 +39,12 @@ public class Certificate {
 
     /**
      * @return retrieve the X509 certificate that corresponds to the stored string
-     * @throws CertificateException on internal PEM string value to {@link X509Certificate} conversion.
+     * @throws CertificateException on internal PEM string value to {@link X509Certificate} conversion (e.g. string value empty)
      */
     @JsonIgnore
     public X509Certificate getX509() throws CertificateException {
+        if (certificateString.isEmpty())
+            throw new CertificateException("internal PEM certificate is not initialized");
         ECDSAHelper.enableECDSAProvider();
         InputStream stream = new ByteArrayInputStream(this.getCertificateString().getBytes(StandardCharsets.UTF_8));
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
@@ -58,8 +60,11 @@ public class Certificate {
 
     /**
      * @param certificateString in PEM format
+     * @throws CertificateException for empty string
      */
-    public void setCertificateString(String certificateString) {
+    public void setCertificateString(String certificateString) throws CertificateException {
+        if (certificateString == null || certificateString.isEmpty())
+            throw new CertificateException("trying to pass empty value");
         this.certificateString = certificateString;
     }
 

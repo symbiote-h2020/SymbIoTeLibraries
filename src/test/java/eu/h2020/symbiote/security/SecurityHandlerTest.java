@@ -18,7 +18,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,14 +64,13 @@ import static org.junit.Assert.assertNotNull;
 public class SecurityHandlerTest {
 
     private static final Log log = LogFactory.getLog(SecurityHandlerTest.class);
-
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     private SecurityHandler securityHandler;
     private String coreTokenString;
     private String platformTokenString;
-
     private String coreAAMUrl;
     private String rabbitMQHostIP;
-
     private DummyAAMAMQPLoginListener dummyAAMAMQPLoginListener = new DummyAAMAMQPLoginListener();
 
     @Before
@@ -157,6 +158,7 @@ public class SecurityHandlerTest {
     public void testCoreTokenValidation() {
         try {
             Token token = new Token(coreTokenString);
+            // TODO rework this API to return TokenValidationStatus instead of being exception driven for normal usage
             securityHandler.verifyCoreToken(token);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
@@ -167,18 +169,13 @@ public class SecurityHandlerTest {
     }
 
     @Test
-    public void testCoreTokenValidationWithError() {
-        try {
-            String tokenString =
-                    "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
-            Token token = new Token(tokenString);
-            securityHandler.verifyCoreToken(token);
-            assert (false);
-        } catch (Exception e) {
-            log.info("Exception correctly thrown form the software", e);
-            assert (true);
-        }
-
+    public void testCoreTokenValidationWithError() throws TokenValidationException {
+        thrown.expect(TokenValidationException.class);
+        String tokenString =
+                "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
+        Token token = new Token(tokenString);
+        // TODO rework this API to return TokenValidationStatus instead of being exception driven for normal usage
+        securityHandler.verifyCoreToken(token);
     }
 
     @Test
@@ -193,7 +190,6 @@ public class SecurityHandlerTest {
             log.error(e);
             assert (false);
         }
-
     }
 
     @Test
@@ -251,7 +247,5 @@ public class SecurityHandlerTest {
             return cal.getTime();
         }
     }
-
-
 }
 
