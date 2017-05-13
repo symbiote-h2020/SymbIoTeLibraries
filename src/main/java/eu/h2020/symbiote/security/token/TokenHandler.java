@@ -1,11 +1,11 @@
 package eu.h2020.symbiote.security.token;
 
 
-import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
-import eu.h2020.symbiote.security.amqp.platform.foreign.ForeignPlatformAAMMessageHandler;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
-import eu.h2020.symbiote.security.rest.AAMMessageHandler;
+import eu.h2020.symbiote.security.rest.clients.AAMClient;
+import eu.h2020.symbiote.security.rest.clients.CoreAAMClient;
+import eu.h2020.symbiote.security.session.AAM;
 import io.jsonwebtoken.*;
 
 import java.security.cert.Certificate;
@@ -14,11 +14,11 @@ import java.security.cert.X509Certificate;
 import java.util.HashMap;
 
 public class TokenHandler {
-    private CoreAAMMessageHandler coreAAM;
+    private CoreAAMClient coreAAM;
     private HashMap<String, X509Certificate> publicCertificates;
 
 
-    public TokenHandler(CoreAAMMessageHandler coreAAM) {
+    public TokenHandler(CoreAAMClient coreAAM) {
         this.coreAAM = coreAAM;
         this.publicCertificates = new HashMap<>();
     }
@@ -27,9 +27,8 @@ public class TokenHandler {
         return coreAAM.requestFederatedCoreToken(homeToken);
     }
 
-    public Token requestForeignToken(String aamURL, Token coreToken) {
-        ForeignPlatformAAMMessageHandler platformAAM = new ForeignPlatformAAMMessageHandler();
-        platformAAM.createClient(aamURL);
+    public Token requestForeignToken(AAM aam, Token coreToken) {
+        AAMClient platformAAM = new AAMClient(aam);
         return platformAAM.requestForeignToken(coreToken);
     }
 
@@ -43,10 +42,9 @@ public class TokenHandler {
         }
     }
 
-    public void validateForeignPlatformToken(String aamURL, Token token) throws TokenValidationException {
+    public void validateForeignPlatformToken(AAM aam, Token token) throws TokenValidationException {
         try {
-            ForeignPlatformAAMMessageHandler platformAAM = new ForeignPlatformAAMMessageHandler();
-            platformAAM.createClient(aamURL);
+            AAMClient platformAAM = new AAMClient(aam);
             //TODO checkChallengeResponse()
             validateToken(token, getCA(platformAAM));
             checkRevocation(platformAAM, token);
@@ -66,7 +64,7 @@ public class TokenHandler {
         }
     }
 
-    private void checkRevocation(AAMMessageHandler aamMessageHandler, Token tokenForRevocation) throws TokenValidationException {
+    private void checkRevocation(AAMClient aamMessageHandler, Token tokenForRevocation) throws TokenValidationException {
         TokenValidationStatus status = aamMessageHandler.checkTokenRevocation(tokenForRevocation);
         if (status == null) {
             throw new TokenValidationException("Error retrieving the status revocation of the token");
@@ -77,7 +75,7 @@ public class TokenHandler {
     }
 
 
-    private X509Certificate getCA(AAMMessageHandler aamMessagHandler) throws CertificateException {
+    private X509Certificate getCA(AAMClient aamMessagHandler) throws CertificateException {
         String url = aamMessagHandler.getURL();
         X509Certificate aamX509Certificate = publicCertificates.get(url);
         if (aamX509Certificate == null) {

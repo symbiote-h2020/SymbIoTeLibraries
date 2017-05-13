@@ -1,9 +1,12 @@
-package eu.h2020.symbiote.security.rest;
+package eu.h2020.symbiote.security.rest.clients;
 
+import eu.h2020.symbiote.security.SecurityHandler;
 import eu.h2020.symbiote.security.certificate.Certificate;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
 import eu.h2020.symbiote.security.payloads.Credentials;
+import eu.h2020.symbiote.security.rest.AAMRESTInterface;
+import eu.h2020.symbiote.security.session.AAM;
 import eu.h2020.symbiote.security.token.Token;
 import feign.Feign;
 import feign.Response;
@@ -15,23 +18,42 @@ import org.apache.commons.logging.LogFactory;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-public abstract class AAMMessageHandler {
+/**
+ * Client for Symbiote's AAMs' services.
+ * <p>
+ * To learn about available entry points fetch them using {@link SecurityHandler#getAvailableAAMs()}
+ *
+ * @author Elena Garrido (Atos)
+ * @author Mikołaj Dobski (PSNC)
+ */
+public class AAMClient {
 
-    private static final Log logger = LogFactory.getLog(AAMMessageHandler.class);
+    private static final Log logger = LogFactory.getLog(AAMClient.class);
     private static final String errorMessage = "Error accessing to AAM server at ";
-    private AAMRestService simpleclient;
-    private AAMRestService jsonclient;
+    private AAMRESTInterface simpleclient;
+    private AAMRESTInterface jsonclient;
     private String url;
 
-    public AAMMessageHandler() {
+    /**
+     * For the use of specific implementations
+     */
+    protected AAMClient() {
     }
 
+    /**
+     * Used to create the symbiote entry point to selected AAMs
+     *
+     * @param platformAAM to learn about available platform AAMs fetch them using {@link SecurityHandler#getAvailableAAMs()} from the Core AAM
+     */
+    public AAMClient(AAM platformAAM) {
+        this.createClient(platformAAM.getAamAddress());
+    }
 
-    public void createClient(String url) {
+    protected void createClient(String url) {
         this.url = url;
-        simpleclient = Feign.builder().target(AAMRestService.class, url);
+        simpleclient = Feign.builder().target(AAMRESTInterface.class, url);
         jsonclient = Feign.builder().decoder(new JacksonDecoder()).encoder(new JacksonEncoder()).target
-                (AAMRestService.class, url);
+                (AAMRESTInterface.class, url);
     }
 
     public String getURL() {

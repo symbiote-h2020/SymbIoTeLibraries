@@ -2,6 +2,7 @@ package eu.h2020.symbiote.security.aams;
 
 
 import eu.h2020.symbiote.security.SecurityHandlerTest.DateUtil;
+import eu.h2020.symbiote.security.certificate.Certificate;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.enums.TokenValidationStatus;
@@ -9,6 +10,7 @@ import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.payloads.CheckTokenRevocationResponse;
 import eu.h2020.symbiote.security.payloads.Credentials;
+import eu.h2020.symbiote.security.session.AAM;
 import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
@@ -26,8 +28,10 @@ import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -38,7 +42,7 @@ import java.util.HashMap;
 @RestController
 @WebAppConfiguration
 public class DummyAAMRestListeners {
-    private static final Log logger = LogFactory.getLog(DummyAAMRestListeners.class);
+    private static final Log log = LogFactory.getLog(DummyAAMRestListeners.class);
 
     public DummyAAMRestListeners() {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
@@ -47,7 +51,7 @@ public class DummyAAMRestListeners {
     @RequestMapping(method = RequestMethod.GET, path = AAMConstants.AAM_GET_CA_CERTIFICATE)
     public String getRootCertificate() throws NoSuchProviderException, KeyStoreException, IOException,
             UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException {
-        logger.debug("invoked get token public");
+        log.debug("invoked get token public");
         final String ALIAS = "test aam keystore";
         KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
         ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
@@ -62,7 +66,7 @@ public class DummyAAMRestListeners {
     @RequestMapping(method = RequestMethod.POST, path = AAMConstants.AAM_LOGIN, produces =
             "application/json", consumes = "application/json")
     public ResponseEntity<?> doLogin(@RequestBody Credentials credential) {
-        logger.info("User trying to login " + credential.getUsername() + " - " + credential.getPassword());
+        log.info("User trying to login " + credential.getUsername() + " - " + credential.getPassword());
         try {
             final String ALIAS = "test aam keystore";
             KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
@@ -85,7 +89,7 @@ public class DummyAAMRestListeners {
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
                 UnrecoverableKeyException | JWTCreationException | NoSuchProviderException | TokenValidationException
                 e) {
-            logger.error(e);
+            log.error(e);
         }
         return null;
     }
@@ -95,7 +99,7 @@ public class DummyAAMRestListeners {
             produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public ResponseEntity<CheckTokenRevocationResponse> checkTokenRevocation(@RequestHeader(AAMConstants
             .TOKEN_HEADER_NAME) String token) {
-        logger.info("Checking token revocation " + token);
+        log.info("Checking token revocation " + token);
         // todo implement... for the moment returns valid
         return new ResponseEntity<>(new CheckTokenRevocationResponse
                 (TokenValidationStatus.VALID), HttpStatus.OK);
@@ -105,7 +109,7 @@ public class DummyAAMRestListeners {
             "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
     public ResponseEntity<?> requestForeignToken(@RequestHeader(AAMConstants.TOKEN_HEADER_NAME) String
                                                          homeTokenString) {
-        logger.info("Requesting foreign (core or platform) token, received home token " + homeTokenString);
+        log.info("Requesting foreign (core or platform) token, received home token " + homeTokenString);
         try {
             final String ALIAS = "test aam keystore";
             KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
@@ -129,9 +133,29 @@ public class DummyAAMRestListeners {
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
                 UnrecoverableKeyException | NoSuchProviderException | JWTCreationException | TokenValidationException
                 e) {
-            logger.error(e);
+            log.error(e);
         }
         return null;
     }
+
+    @RequestMapping(value = AAMConstants.AAM_GET_AVAILABLE_AAMS, method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<List<AAM>> getAvailableAAMs() {
+        List<AAM> availableAAMs = new ArrayList<>();
+        try {
+            // Core AAM
+            Certificate coreCertificate = new Certificate("coreCertTestValue");
+            // fetching the identifier from certificate
+            String coreAAMInstanceIdentifier = "Symbiote Core";
+
+            // adding core aam info to the response
+            availableAAMs.add(new AAM("https://localhost:8100", "SymbIoTe Core AAM", coreAAMInstanceIdentifier, coreCertificate));
+
+            return new ResponseEntity<>(availableAAMs, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e);
+            return new ResponseEntity<>(new ArrayList<AAM>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 

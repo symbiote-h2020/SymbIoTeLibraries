@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.security.amqp.platform.home;
+package eu.h2020.symbiote.security.amqp.platform;
 
 import eu.h2020.symbiote.security.amqp.GenericRabbitMQRPCMessageHandler;
 import eu.h2020.symbiote.security.payloads.Credentials;

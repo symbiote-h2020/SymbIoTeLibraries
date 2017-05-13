@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.security.certificate;
 
-import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
+import eu.h2020.symbiote.security.rest.clients.CoreAAMClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -15,9 +15,9 @@ public class CertificateValidator {
     private static final Log logger = LogFactory.getLog(CertificateValidator.class);
 
     private X509Certificate coreAAMX509Certificate;
-    private CoreAAMMessageHandler coreAAM;
+    private CoreAAMClient coreAAM;
 
-    public CertificateValidator(CoreAAMMessageHandler coreAAM) {
+    public CertificateValidator(CoreAAMClient coreAAM) {
         this.coreAAM = coreAAM;
     }
 
@@ -49,7 +49,7 @@ public class CertificateValidator {
             logger.error("Could not verify certificate", e);
             return false;
         } catch (SignatureException e) {
-            logger.error("The certificate has not been signed by the public key");
+            logger.error("The certificate has not been signed by the public key", e);
             return false;
         }
     }

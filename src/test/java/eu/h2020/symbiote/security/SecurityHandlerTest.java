@@ -1,11 +1,13 @@
 package eu.h2020.symbiote.security;
 
 import eu.h2020.symbiote.security.aams.DummyAAMAMQPLoginListener;
+import eu.h2020.symbiote.security.certificate.Certificate;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
+import eu.h2020.symbiote.security.session.AAM;
 import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
@@ -69,7 +71,8 @@ public class SecurityHandlerTest {
     private SecurityHandler securityHandler;
     private String coreTokenString;
     private String platformTokenString;
-    private String coreAAMUrl;
+    private String symbioteCoreInterfaceAddress;
+    private AAM coreAAM;
     private String rabbitMQHostIP;
     private DummyAAMAMQPLoginListener dummyAAMAMQPLoginListener = new DummyAAMAMQPLoginListener();
 
@@ -79,9 +82,9 @@ public class SecurityHandlerTest {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
 
-        coreAAMUrl = "http://localhost:18033";
+        symbioteCoreInterfaceAddress = "http://localhost:18033";
         rabbitMQHostIP = "localhost";
-        securityHandler = new SecurityHandler(coreAAMUrl, rabbitMQHostIP, "guest", "guest");
+        securityHandler = new SecurityHandler(symbioteCoreInterfaceAddress, rabbitMQHostIP, "guest", "guest");
 
         final String ALIAS = "test aam keystore";
         KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
@@ -97,6 +100,14 @@ public class SecurityHandlerTest {
                         .getEncoded(), IssuingAuthorityType.PLATFORM, DateUtil.addDays(new Date(), 1).getTime(),
                 "securityHandlerTestPlatformAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
 
+        // coreAAM
+        X509Certificate x509Certificate = (X509Certificate) ks.getCertificate("test aam keystore");
+        StringWriter signedCertificatePEMDataStringWriter = new StringWriter();
+        JcaPEMWriter pemWriter = new JcaPEMWriter(signedCertificatePEMDataStringWriter);
+        pemWriter.writeObject(x509Certificate);
+        pemWriter.close();
+        // XXX the instance id "PlatformAAM" is hardcoded in the keystore
+        coreAAM = new AAM(symbioteCoreInterfaceAddress, "Core AAM", "PlatformAAM", new Certificate(signedCertificatePEMDataStringWriter.toString()));
     }
 
 
@@ -136,9 +147,9 @@ public class SecurityHandlerTest {
             assertNotNull(token.getToken());
             assertEquals(IssuingAuthorityType.CORE, token.getType());
 
-            ArrayList<String> urllist = new ArrayList<String>();
-            urllist.add(coreAAMUrl);
-            Map<String, Token> tokens = securityHandler.requestForeignTokens(urllist);
+            List<AAM> aams = new ArrayList<>();
+            aams.add(new AAM(symbioteCoreInterfaceAddress, "Core AAM", "coreAAM", new Certificate()));
+            Map<String, Token> tokens = securityHandler.requestForeignTokens(aams);
             assert (tokens != null);
         } catch (SecurityHandlerException e) {
             log.error(e);
@@ -178,11 +189,14 @@ public class SecurityHandlerTest {
         securityHandler.verifyCoreToken(token);
     }
 
+    /**
+     * As the Core AAM and Platform AAM expose the same interface we can use the core AAM for this test
+     */
     @Test
     public void testForeignPlatformTokenValidation() {
         try {
             Token token = new Token(platformTokenString);
-            securityHandler.verifyPlatformToken(coreAAMUrl, token);
+            securityHandler.verifyPlatformToken(coreAAM, token);
             Assert.assertTrue(token.getType() == IssuingAuthorityType.PLATFORM);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
@@ -190,6 +204,23 @@ public class SecurityHandlerTest {
             log.error(e);
             assert (false);
         }
+    }
+
+    @Test
+    public void getAvailableAAMsCollectionFromCoreAAM() throws SecurityHandlerException {
+        List<AAM> aams = securityHandler.getAvailableAAMs();
+
+        // for this test the dummy REST service returns only the core AAM
+        assertEquals(1, aams.size());
+
+        // verifying the contents
+        AAM aam = aams.get(0);
+        // this expected PlatformAAM is due to the value stored in the issued certificate in the test keystore
+        assertEquals("Symbiote Core", aam.getAamInstanceId());
+        assertEquals("https://localhost:8100", aam.getAamAddress());
+        // maybe we could externalize it to spring config
+        assertEquals("SymbIoTe Core AAM", aam.getAamInstanceFriendlyName());
+        assertEquals("coreCertTestValue", aam.getCertificate().getCertificateString());
     }
 
     @Test
@@ -220,7 +251,7 @@ public class SecurityHandlerTest {
 
         // Test rest template
         RestTemplate restTemplate = new RestTemplate(requestFactory);
-        ResponseEntity<String> response = restTemplate.getForEntity(coreAAMUrl + AAMConstants
+        ResponseEntity<String> response = restTemplate.getForEntity(symbioteCoreInterfaceAddress + AAMConstants
                 .AAM_GET_CA_CERTIFICATE, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         try {

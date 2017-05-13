@@ -8,7 +8,10 @@ import feign.Param;
 import feign.RequestLine;
 import feign.Response;
 
-public interface AAMRestService {
+/**
+ * Contains services exposed by all AAMs in Symbiote.
+ */
+public interface AAMRESTInterface {
     @RequestLine("GET " + AAMConstants.AAM_GET_CA_CERTIFICATE)
     @Headers("Accept: multipart/form-data")
     String getRootCertificate();
@@ -27,4 +30,3 @@ public interface AAMRestService {
             "{token}"})
     Response requestForeignToken(@Param("token") String token);
 }
-

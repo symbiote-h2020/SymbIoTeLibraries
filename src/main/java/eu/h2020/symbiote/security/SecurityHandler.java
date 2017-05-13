@@ -1,13 +1,14 @@
 package eu.h2020.symbiote.security;
 
-import eu.h2020.symbiote.security.amqp.core.CoreAAMMessageHandler;
-import eu.h2020.symbiote.security.amqp.platform.home.PlatformAAMMessageHandler;
+import eu.h2020.symbiote.security.amqp.platform.InternalPlatformAAMMessageHandler;
 import eu.h2020.symbiote.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.certificate.ECDSAHelper;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.payloads.Credentials;
+import eu.h2020.symbiote.security.rest.clients.CoreAAMClient;
+import eu.h2020.symbiote.security.session.AAM;
 import eu.h2020.symbiote.security.session.SessionInformation;
 import eu.h2020.symbiote.security.token.Token;
 import eu.h2020.symbiote.security.token.TokenHandler;
@@ -32,8 +33,8 @@ import java.util.Map;
 
 public class SecurityHandler {
     private static Log log = LogFactory.getLog(SecurityHandler.class);
-    private PlatformAAMMessageHandler platformMessageHandler = null;
-    private CoreAAMMessageHandler coreMessageHandler = null;
+    private InternalPlatformAAMMessageHandler platformMessageHandler = null;
+    private CoreAAMClient coreMessageHandler = null;
     private SessionInformation sessionInformation = null;
     private TokenHandler tokenHandler = null;
     private CertificateValidator certificateValidator = null;
@@ -45,7 +46,7 @@ public class SecurityHandler {
      */
     public SecurityHandler(String symbioteCoreInterfaceAddress) {
         ECDSAHelper.enableECDSAProvider();
-        this.coreMessageHandler = new CoreAAMMessageHandler(symbioteCoreInterfaceAddress);
+        this.coreMessageHandler = new CoreAAMClient(symbioteCoreInterfaceAddress);
         this.sessionInformation = new SessionInformation();
         this.tokenHandler = new TokenHandler(this.coreMessageHandler);
         this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
@@ -62,8 +63,18 @@ public class SecurityHandler {
     public SecurityHandler(String symbioteCoreInterfaceAddress, String rabbitMQHostIP, String rabbitMQUsername, String
             rabbitMQPassword) {
         this(symbioteCoreInterfaceAddress);
-        this.platformMessageHandler = new PlatformAAMMessageHandler(rabbitMQHostIP, rabbitMQUsername,
+        this.platformMessageHandler = new InternalPlatformAAMMessageHandler(rabbitMQHostIP, rabbitMQUsername,
                 rabbitMQPassword);
+    }
+
+    /**
+     * @return list of all currently available security entrypoints to symbiote (login, token (request, validation))
+     * for Release 2 with Core certificate, for R3 will include Platforms' certificates
+     * @throws SecurityHandlerException on operation error
+     */
+    public List<AAM> getAvailableAAMs() throws SecurityHandlerException {
+        // TODO integrate with SessionInformation
+        return coreMessageHandler.getAvailableAAMs();
     }
 
     /**
@@ -141,22 +152,22 @@ public class SecurityHandler {
      * Requests federated Platform tokens using acquired Core token.
      * TODO R3 review and update
      *
-     * @param aamUrls
+     * @param aams Symbiote Authentication and Authorization Managers
      * @return
      */
-    public Map<String, Token> requestForeignTokens(List<String> aamUrls) {
+    public Map<String, Token> requestForeignTokens(List<AAM> aams) {
         HashMap<String, Token> foreignTokens = null;
         Token coreToken = sessionInformation.getCoreToken();
         if (coreToken != null) {
             //logged in
             foreignTokens = new HashMap<>();
-            for (String url : aamUrls) {
-                Token foreignToken = sessionInformation.getForeignToken(url);
+            for (AAM aam : aams) {
+                Token foreignToken = sessionInformation.getForeignToken(aam.getAamInstanceId());
                 if (foreignToken == null) {
-                    foreignToken = tokenHandler.requestForeignToken(url, coreToken);
-                    sessionInformation.setForeignToken(url, foreignToken);
+                    foreignToken = tokenHandler.requestForeignToken(aam, coreToken);
+                    sessionInformation.setForeignToken(aam.getAamInstanceId(), foreignToken);
                 }
-                foreignTokens.put(url, foreignToken);
+                foreignTokens.put(aam.getAamInstanceId(), foreignToken);
             }
         }
         return foreignTokens;
@@ -211,14 +222,14 @@ public class SecurityHandler {
     /**
      * Validates the given token against the exposed relevant AAM certificate
      * <p>
-     * TODO R3 rework to return {@link eu.h2020.symbiote.security.enums.TokenValidationStatus}
+     * TODO R3 rework to  return {@link eu.h2020.symbiote.security.enums.TokenValidationStatus} and self resolve the AAM required for validation
      *
-     * @param platformInterworkingInterfaceAddress the address where one can access the exposed Platform AAM interfaces
-     * @param token                                to be validated
+     * @param aam   Platform AAM which issued the token
+     * @param token to be validated
      * @throws TokenValidationException on error
      */
-    public void verifyPlatformToken(String platformInterworkingInterfaceAddress, Token token) throws
+    public void verifyPlatformToken(AAM aam, Token token) throws
             TokenValidationException {
-        tokenHandler.validateForeignPlatformToken(platformInterworkingInterfaceAddress, token);
+        tokenHandler.validateForeignPlatformToken(aam, token);
     }
 }

@@ -41,12 +41,12 @@ public class SessionInformation {
         this.foreignTokens = foreignTokens;
     }
 
-    public Token getForeignToken(String url) {
-        return foreignTokens.get(url);
+    public Token getForeignToken(String aamIdentifier) {
+        return foreignTokens.get(aamIdentifier);
     }
 
-    public void setForeignToken(String url, Token token) {
-        foreignTokens.put(url, token);
+    public void setForeignToken(String aamIdentifier, Token token) {
+        foreignTokens.put(aamIdentifier, token);
     }
 
 }
