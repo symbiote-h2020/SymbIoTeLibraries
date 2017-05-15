@@ -3,7 +3,7 @@ package eu.h2020.symbiote.security.rest.clients;
 import eu.h2020.symbiote.security.SecurityHandler;
 import eu.h2020.symbiote.security.certificate.Certificate;
 import eu.h2020.symbiote.security.constants.AAMConstants;
-import eu.h2020.symbiote.security.enums.TokenValidationStatus;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.rest.AAMRESTInterface;
 import eu.h2020.symbiote.security.session.AAM;
@@ -89,11 +89,11 @@ public class AAMClient {
         return result;
     }
 
-    public TokenValidationStatus checkTokenRevocation(Token token) {
-        TokenValidationStatus result = null;
+    public ValidationStatus checkTokenRevocation(Token token) {
+        ValidationStatus result = null;
         try {
             logger.info("User trying to checkTokenRevocation");
-            result = TokenValidationStatus.valueOf(jsonclient.checkTokenRevocation(token.toString()).getStatus());
+            result = ValidationStatus.valueOf(jsonclient.checkTokenRevocation(token.toString()).getStatus());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }

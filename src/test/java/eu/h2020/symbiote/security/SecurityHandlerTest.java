@@ -5,6 +5,7 @@ import eu.h2020.symbiote.security.certificate.Certificate;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.session.AAM;
@@ -107,7 +108,8 @@ public class SecurityHandlerTest {
         pemWriter.writeObject(x509Certificate);
         pemWriter.close();
         // XXX the instance id "PlatformAAM" is hardcoded in the keystore
-        coreAAM = new AAM(symbioteCoreInterfaceAddress, "Core AAM", "PlatformAAM", new Certificate(signedCertificatePEMDataStringWriter.toString()));
+        coreAAM = new AAM(symbioteCoreInterfaceAddress, "Core AAM", "PlatformAAM", new Certificate
+                (signedCertificatePEMDataStringWriter.toString()));
     }
 
 
@@ -169,8 +171,8 @@ public class SecurityHandlerTest {
     public void testCoreTokenValidation() {
         try {
             Token token = new Token(coreTokenString);
-            // TODO rework this API to return TokenValidationStatus instead of being exception driven for normal usage
-            securityHandler.verifyCoreToken(token);
+            ValidationStatus validationStatus = securityHandler.verifyCoreToken(token);
+            assertEquals(ValidationStatus.VALID, validationStatus);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
         } catch (TokenValidationException e) {
@@ -183,10 +185,15 @@ public class SecurityHandlerTest {
     public void testCoreTokenValidationWithError() throws TokenValidationException {
         thrown.expect(TokenValidationException.class);
         String tokenString =
-                "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
+                "eyJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTQ5MTAzNzk5MiwibmFtZSI6InRlc3QyIn0.j8EPRRVi5L63" +
+                        "-s5r8lI9vq_Pi_NoPy4Q-jn39xg8zETTpYecoC26xMo5XaE-sJjhZ1Mup" +
+                        "-W1njV3g7QMVJUY2G_gqzezuSc1oUs9ZVYabGKI4W8D1jkWZo9-FQTPJw8_Zy8jeU1UZD8Vwcn6u51zw7dDuFA" +
+                        "-tcFoYpK99GyCAqkukm1H7dCfAr-bIWeiOEI8p2KHc2" +
+                        "-3vZto39hGMrexCigWI1dSICw2rG1mESyZgxrT4cs1UEQp1KuQ1WK2nUOhjeNTozpvqs65weKw4aCiQgvp36" +
+                        "-UxUvRJPl7KBydvFf564T0gHEtgmXSZMQGHwUI9x6RUFR4NuvtGeAFU2pcx";
         Token token = new Token(tokenString);
-        // TODO rework this API to return TokenValidationStatus instead of being exception driven for normal usage
-        securityHandler.verifyCoreToken(token);
+        ValidationStatus validationStatus = securityHandler.verifyCoreToken(token);
+        assertEquals(ValidationStatus.INVALID, validationStatus);
     }
 
     /**
@@ -196,7 +203,8 @@ public class SecurityHandlerTest {
     public void testForeignPlatformTokenValidation() {
         try {
             Token token = new Token(platformTokenString);
-            securityHandler.verifyPlatformToken(coreAAM, token);
+            ValidationStatus validationStatus = securityHandler.verifyPlatformToken(coreAAM, token);
+            assertEquals(ValidationStatus.VALID, validationStatus);
             Assert.assertTrue(token.getType() == IssuingAuthorityType.PLATFORM);
             Assert.assertEquals("test1", token.getClaims().getSubject());
             Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));

@@ -1,12 +1,13 @@
 package eu.h2020.symbiote.security.token;
 
 
-import eu.h2020.symbiote.security.enums.TokenValidationStatus;
-import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.rest.clients.AAMClient;
 import eu.h2020.symbiote.security.rest.clients.CoreAAMClient;
 import eu.h2020.symbiote.security.session.AAM;
 import io.jsonwebtoken.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
@@ -14,6 +15,7 @@ import java.security.cert.X509Certificate;
 import java.util.HashMap;
 
 public class TokenHandler {
+    private static Log log = LogFactory.getLog(TokenHandler.class);
     private CoreAAMClient coreAAM;
     private HashMap<String, X509Certificate> publicCertificates;
 
@@ -32,54 +34,62 @@ public class TokenHandler {
         return platformAAM.requestForeignToken(coreToken);
     }
 
-    public void validateCoreToken(Token token) throws TokenValidationException {
+    public ValidationStatus validateCoreToken(Token token) {
         try {
+            ValidationStatus status;
             //TODO checkChallengeResponse()
-            validateToken(token, getCA(coreAAM));
-            checkRevocation(coreAAM, token);
+            status = validateToken(token, getCA(coreAAM));
+            if (status != ValidationStatus.VALID)
+                return status;
+            return checkRevocation(coreAAM, token);
         } catch (CertificateException ex) {
-            throw new TokenValidationException("Error validating token", ex);
+            log.error(ex);
+            return ValidationStatus.INVALID;
         }
     }
 
-    public void validateForeignPlatformToken(AAM aam, Token token) throws TokenValidationException {
+    public ValidationStatus validateForeignPlatformToken(AAM aam, Token token) {
         try {
             AAMClient platformAAM = new AAMClient(aam);
+            ValidationStatus status;
             //TODO checkChallengeResponse()
-            validateToken(token, getCA(platformAAM));
-            checkRevocation(platformAAM, token);
+            status = validateToken(token, getCA(platformAAM));
+            if (status != ValidationStatus.VALID)
+                return status;
+            return checkRevocation(platformAAM, token);
         } catch (CertificateException ex) {
-            throw new TokenValidationException("Error validating token", ex);
+            log.error(ex);
+            return ValidationStatus.INVALID;
         }
     }
 
-    private void validateToken(Token token, Certificate certificate) throws TokenValidationException {
+    private ValidationStatus validateToken(Token token, Certificate certificate) {
         try {
+            // validate using the claims parser
             Claims claims = Jwts.parser()
                     .setSigningKey(certificate.getPublicKey())
                     .parseClaimsJws(token.getToken()).getBody();
             token.setClaims(claims);
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-            throw new TokenValidationException("Token could not be validated", e);
+            return ValidationStatus.VALID;
+        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            log.debug(e);
+            return ValidationStatus.INVALID;
+        } catch (ExpiredJwtException e) {
+            log.debug(e);
+            return ValidationStatus.EXPIRED;
         }
     }
 
-    private void checkRevocation(AAMClient aamMessageHandler, Token tokenForRevocation) throws TokenValidationException {
-        TokenValidationStatus status = aamMessageHandler.checkTokenRevocation(tokenForRevocation);
-        if (status == null) {
-            throw new TokenValidationException("Error retrieving the status revocation of the token");
-        }
-        if (status == TokenValidationStatus.REVOKED) {
-            throw new TokenValidationException("Token has been revoked");
-        }
+    private ValidationStatus checkRevocation(AAMClient aamClient, Token tokenForRevocation) {
+        return aamClient.checkTokenRevocation(tokenForRevocation);
     }
 
 
-    private X509Certificate getCA(AAMClient aamMessagHandler) throws CertificateException {
-        String url = aamMessagHandler.getURL();
+    private X509Certificate getCA(AAMClient aamClient) throws CertificateException {
+        String url = aamClient.getURL();
         X509Certificate aamX509Certificate = publicCertificates.get(url);
         if (aamX509Certificate == null) {
-            aamX509Certificate = aamMessagHandler.getAAMRootCertificate();
+            aamX509Certificate = aamClient.getAAMRootCertificate();
             publicCertificates.put(url, aamX509Certificate);
         }
         return aamX509Certificate;

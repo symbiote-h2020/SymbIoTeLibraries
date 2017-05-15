@@ -5,10 +5,10 @@ import eu.h2020.symbiote.security.SecurityHandlerTest.DateUtil;
 import eu.h2020.symbiote.security.certificate.Certificate;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
-import eu.h2020.symbiote.security.enums.TokenValidationStatus;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
-import eu.h2020.symbiote.security.payloads.CheckTokenRevocationResponse;
+import eu.h2020.symbiote.security.payloads.CheckRevocationResponse;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.session.AAM;
 import eu.h2020.symbiote.security.token.Token;
@@ -97,12 +97,12 @@ public class DummyAAMRestListeners {
 
     @RequestMapping(method = RequestMethod.POST, path = AAMConstants.AAM_CHECK_HOME_TOKEN_REVOCATION,
             produces = "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
-    public ResponseEntity<CheckTokenRevocationResponse> checkTokenRevocation(@RequestHeader(AAMConstants
+    public ResponseEntity<CheckRevocationResponse> checkTokenRevocation(@RequestHeader(AAMConstants
             .TOKEN_HEADER_NAME) String token) {
         log.info("Checking token revocation " + token);
         // todo implement... for the moment returns valid
-        return new ResponseEntity<>(new CheckTokenRevocationResponse
-                (TokenValidationStatus.VALID), HttpStatus.OK);
+        return new ResponseEntity<>(new CheckRevocationResponse
+                (ValidationStatus.VALID), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = AAMConstants.AAM_REQUEST_FOREIGN_TOKEN, produces =

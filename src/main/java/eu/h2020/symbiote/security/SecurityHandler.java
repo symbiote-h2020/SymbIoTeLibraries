@@ -4,6 +4,7 @@ import eu.h2020.symbiote.security.amqp.platform.InternalPlatformAAMMessageHandle
 import eu.h2020.symbiote.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.certificate.ECDSAHelper;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.payloads.Credentials;
@@ -139,12 +140,9 @@ public class SecurityHandler {
 
         }
 
-        try {
-            tokenHandler.validateCoreToken(coreToken);
-        } catch (TokenValidationException e) {
-            log.error(e);
-            throw new SecurityException(e);
-        }
+        ValidationStatus validationStatus = tokenHandler.validateCoreToken(coreToken);
+        if (validationStatus != ValidationStatus.VALID)
+            throw new SecurityException("Received core token is not valid");
         return coreToken;
     }
 
@@ -208,28 +206,23 @@ public class SecurityHandler {
     }
 
     /**
-     * Validates the given token against the exposed Core AAM certificate
-     * <p>
-     * TODO R3 rework to return {@link eu.h2020.symbiote.security.enums.TokenValidationStatus}
-     *
      * @param token to be validated
-     * @throws TokenValidationException on error
+     * @return validation status of the core token
      */
-    public void verifyCoreToken(Token token) throws TokenValidationException {
-        tokenHandler.validateCoreToken(token);
+    public ValidationStatus verifyCoreToken(Token token) {
+        return tokenHandler.validateCoreToken(token);
     }
 
     /**
      * Validates the given token against the exposed relevant AAM certificate
      * <p>
-     * TODO R3 rework to  return {@link eu.h2020.symbiote.security.enums.TokenValidationStatus} and self resolve the AAM required for validation
      *
      * @param aam   Platform AAM which issued the token
      * @param token to be validated
-     * @throws TokenValidationException on error
+     * @return validation status of the core token
      */
-    public void verifyPlatformToken(AAM aam, Token token) throws
+    public ValidationStatus verifyPlatformToken(AAM aam, Token token) throws
             TokenValidationException {
-        tokenHandler.validateForeignPlatformToken(aam, token);
+        return tokenHandler.validateForeignPlatformToken(aam, token);
     }
 }

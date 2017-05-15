@@ -2,28 +2,28 @@ package eu.h2020.symbiote.security.payloads;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.h2020.symbiote.security.enums.TokenValidationStatus;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Class that defines the status of the checked token sent for revocation to
- * CloudAAM as part of a request.
+ * Class that defines the status of the checked certificate/token sent for revocation to
+ * AAM as part of a request.
  *
  * @author Daniele Caldarola (CNIT)
  * @author Nemanja Ignjatov (UNIVIE)
  */
-public class CheckTokenRevocationResponse {
+public class CheckRevocationResponse {
 
-    private static Log log = LogFactory.getLog(CheckTokenRevocationResponse.class);
+    private static Log log = LogFactory.getLog(CheckRevocationResponse.class);
 
     private String status;
 
-    public CheckTokenRevocationResponse() {
+    public CheckRevocationResponse() {
         this.status = null;
     }
 
-    public CheckTokenRevocationResponse(TokenValidationStatus token) {
+    public CheckRevocationResponse(ValidationStatus token) {
         this.status = token.toString();
     }
 
@@ -35,8 +35,8 @@ public class CheckTokenRevocationResponse {
         this.status = status;
     }
 
-    public void setStatus(TokenValidationStatus tokenValidationStatus) {
-        this.status = tokenValidationStatus.toString();
+    public void setStatus(ValidationStatus validationStatus) {
+        this.status = validationStatus.toString();
     }
 
     public String toJson() {
@@ -51,7 +51,7 @@ public class CheckTokenRevocationResponse {
 
     @Override
     public String toString() {
-        return "CheckTokenRevocationResponse [status=" + status + "]";
+        return "CheckRevocationResponse [status=" + status + "]";
     }
 
 }

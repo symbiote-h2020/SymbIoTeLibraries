@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.h2020.symbiote.security.certificate.ECDSAHelper;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
-import eu.h2020.symbiote.security.enums.TokenValidationStatus;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.aam.JWTCreationException;
 import eu.h2020.symbiote.security.exceptions.aam.MalformedJWTException;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
@@ -48,7 +48,7 @@ public class JWTEngine {
      * @return validation status
      * @throws TokenValidationException on other errors
      */
-    public static TokenValidationStatus validateTokenUsingIncludedIssuersPublicKey(Token token) throws
+    public static ValidationStatus validateTokenUsingIncludedIssuersPublicKey(Token token) throws
             TokenValidationException {
         try {
             ECDSAHelper.enableECDSAProvider();
@@ -62,15 +62,15 @@ public class JWTEngine {
             //Validate token signature
             switch (validateToken(token, pubKey)) {
                 case VALID:
-                    return TokenValidationStatus.VALID;
+                    return ValidationStatus.VALID;
                 case EXPIRED:
-                    return TokenValidationStatus.EXPIRED;
+                    return ValidationStatus.EXPIRED;
                 case REVOKED:
-                    return TokenValidationStatus.REVOKED;
+                    return ValidationStatus.REVOKED;
                 case INVALID:
-                    return TokenValidationStatus.INVALID;
+                    return ValidationStatus.INVALID;
             }
-            return TokenValidationStatus.INVALID;
+            return ValidationStatus.INVALID;
         } catch (MalformedJWTException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             log.error(e);
             throw new TokenValidationException("Token could not be validated", e);
@@ -85,7 +85,7 @@ public class JWTEngine {
      * @return validation status
      * @throws TokenValidationException on other errors
      */
-    public static TokenValidationStatus validateToken(Token token, PublicKey publicKey) throws
+    public static ValidationStatus validateToken(Token token, PublicKey publicKey) throws
             TokenValidationException {
         try {
             ECDSAHelper.enableECDSAProvider();
@@ -94,13 +94,13 @@ public class JWTEngine {
                     .setSigningKey(publicKey)
                     .parseClaimsJws(token.getToken()).getBody();
             token.setClaims(claims);
-            return TokenValidationStatus.VALID;
+            return ValidationStatus.VALID;
         } catch (ExpiredJwtException e) {
             log.error(e);
-            return TokenValidationStatus.EXPIRED;
+            return ValidationStatus.EXPIRED;
         } catch (SignatureException e) {
             log.error(e);
-            return TokenValidationStatus.INVALID;
+            return ValidationStatus.INVALID;
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
             log.error(e);
             throw new TokenValidationException("Token could not be validated", e);
