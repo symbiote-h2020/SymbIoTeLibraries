@@ -2,7 +2,6 @@ package eu.h2020.symbiote.security;
 
 import eu.h2020.symbiote.security.aams.DummyAAMAMQPListener;
 import eu.h2020.symbiote.security.certificate.Certificate;
-import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
 import eu.h2020.symbiote.security.enums.ValidationStatus;
@@ -27,10 +26,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.StringWriter;
-import java.security.*;
-import java.security.cert.CertificateException;
+import java.security.Key;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.*;
 
@@ -100,22 +100,6 @@ public class InternalSecurityHandlerTest {
         coreAAM = new AAM(symbioteCoreInterfaceAddress, "Core AAM", "PlatformAAM", new Certificate
                 (signedCertificatePEMDataStringWriter.toString()));
     }
-
-
-    @Test
-    public void testValidation() {
-        try {
-            final String ALIAS = "test aam keystore";
-            KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
-            ks.load(new FileInputStream("./src/test/resources/TestAAM.keystore"), "1234567".toCharArray());
-            Assert.assertTrue(securityHandler.certificateValidation(ks));
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
-                CertificateVerificationException | NoSuchProviderException e) {
-            log.error(e);
-            assert (false);
-        }
-    }
-
 
     @Test
     @Ignore("do it for R3")

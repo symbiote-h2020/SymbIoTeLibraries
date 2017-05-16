@@ -104,7 +104,7 @@ public class SecurityHandler {
             for (AAM aam : aams) {
                 Token foreignToken = sessionInformation.getForeignToken(aam.getAamInstanceId());
                 if (foreignToken == null) {
-                    foreignToken = tokenHandler.requestForeignToken(aam, coreToken);
+                    foreignToken = tokenHandler.requestFederatedToken(aam, coreToken);
                     sessionInformation.setForeignToken(aam.getAamInstanceId(), foreignToken);
                 }
                 foreignTokens.put(aam.getAamInstanceId(), foreignToken);

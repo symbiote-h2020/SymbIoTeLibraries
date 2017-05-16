@@ -1,19 +1,22 @@
 package eu.h2020.symbiote.security.session;
 
+import eu.h2020.symbiote.security.SecurityHandler;
 import eu.h2020.symbiote.security.token.Token;
 
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO rework
+// TODO R3 rework
 public class SessionInformation {
-    // TODO rework to support multiple Platform tokens
+    // todo R3 rework to have a wallet of tokens grouped by issuing AAMs and support multiple Platform (home) tokens
     private Token homeToken;
-    // todo rework to have a wallet of tokens grouped by issuing AAMs
     private Token coreToken;
-    // todo rename to federated tokens
+    // todo R3 rename to federated tokens
     private Map<String, Token> foreignTokens = new HashMap<>();
 
+    /**
+     * TODO R3 add support for handling the collection received from @{@link SecurityHandler#getAvailableAAMs()} in a map grouped by aamsIds
+     */
     public SessionInformation() {
     }
 

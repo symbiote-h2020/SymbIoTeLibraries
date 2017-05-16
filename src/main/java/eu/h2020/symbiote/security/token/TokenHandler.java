@@ -1,7 +1,8 @@
 package eu.h2020.symbiote.security.token;
 
 
-import eu.h2020.symbiote.security.amqp.platform.InternalPlatformAAMMessageHandler;
+import eu.h2020.symbiote.security.SecurityHandler;
+import eu.h2020.symbiote.security.amqp.LocalAAMOverAMQPClient;
 import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.rest.clients.AAMClient;
@@ -19,30 +20,39 @@ import java.util.HashMap;
 public class TokenHandler {
     private static Log log = LogFactory.getLog(TokenHandler.class);
     private CoreAAMClient coreAAM;
-    private InternalPlatformAAMMessageHandler platformAAMMessageHandler;
+    private LocalAAMOverAMQPClient platformAAMMessageHandler;
+    // TODO R3 rework to Map<String,AAM> built using @{@link SecurityHandler#getAvailableAAMs()}
     private HashMap<String, X509Certificate> publicCertificates;
 
-
-    public TokenHandler(CoreAAMClient coreAAM, InternalPlatformAAMMessageHandler platformAAMMessageHandler) {
+    /**
+     * TODO R3 rework so that this is initialized with the Map built using @{@link SecurityHandler#getAvailableAAMs()}, to locate Core AAM one should use {@link eu.h2020.symbiote.security.constants.AAMConstants#AAM_CORE_AAM_INSTANCE_ID}
+     */
+    public TokenHandler(CoreAAMClient coreAAM, LocalAAMOverAMQPClient platformAAMMessageHandler) {
         this.coreAAM = coreAAM;
         this.platformAAMMessageHandler = platformAAMMessageHandler;
         this.publicCertificates = new HashMap<>();
     }
 
-    public Token requestCoreToken(Token homeToken) {
-        return coreAAM.requestFederatedCoreToken(homeToken);
+    public Token requestFederatedCoreToken(Token homeToken) {
+        return coreAAM.requestFederatedToken(homeToken);
     }
 
-    public Token requestForeignToken(AAM aam, Token coreToken) {
+    /**
+     * TODO R3 unify with the method {@link #requestFederatedCoreToken(Token)} so that the user simply puts the coreAAM in this param
+     */
+    public Token requestFederatedToken(AAM aam, Token coreToken) {
         AAMClient platformAAM = new AAMClient(aam);
-        return platformAAM.requestForeignToken(coreToken);
+        return platformAAM.requestFederatedToken(coreToken);
     }
 
+    /**
+     * TODO R3 drop this method and use the reworked {@link #validateForeignPlatformToken(AAM, Token)}
+     */
     public ValidationStatus validateCoreToken(Token token) {
         try {
             ValidationStatus status;
-            //TODO checkChallengeResponse()
-            status = validateToken(token, getCA(coreAAM));
+            //TODO R3 checkChallengeResponse()
+            status = validateToken(token, getCACert(coreAAM));
             if (status != ValidationStatus.VALID)
                 return status;
             return checkRevocation(coreAAM, token);
@@ -52,12 +62,15 @@ public class TokenHandler {
         }
     }
 
+    /**
+     * TODO R3 rename to validateToken and drop the aam parameter completely. This method should automatically, using the @{@link SecurityHandler#getAvailableAAMs()} collection and the token's iss value know which AAM to use for validation.
+     */
     public ValidationStatus validateForeignPlatformToken(AAM aam, Token token) {
         try {
             AAMClient platformAAM = new AAMClient(aam);
             ValidationStatus status;
-            //TODO checkChallengeResponse()
-            status = validateToken(token, getCA(platformAAM));
+            //TODO R3 checkChallengeResponse()
+            status = validateToken(token, getCACert(platformAAM));
             if (status != ValidationStatus.VALID)
                 return status;
             return checkRevocation(platformAAM, token);
@@ -66,6 +79,7 @@ public class TokenHandler {
             return ValidationStatus.INVALID;
         }
     }
+
 
     private ValidationStatus validateToken(Token token, Certificate certificate) {
         try {
@@ -84,21 +98,34 @@ public class TokenHandler {
         }
     }
 
+    /**
+     * TODO R3 This method should automatically, using the @{@link SecurityHandler#getAvailableAAMs()} collection and the token's iss value know which AAM to use for validation.
+     */
     private ValidationStatus checkRevocation(AAMClient aamClient, Token tokenForRevocation) {
         return aamClient.checkTokenRevocation(tokenForRevocation);
     }
 
 
-    private X509Certificate getCA(AAMClient aamClient) throws CertificateException {
+    /**
+     * TODO R3, when we have certificate signing request support in Core AAM we can drop this method completely as @{@link SecurityHandler#getAvailableAAMs()} will provide up-to-date AAM data including the certificates
+     */
+    private X509Certificate getCACert(AAMClient aamClient) throws CertificateException {
         String url = aamClient.getURL();
+        // TODO early  R3 rework to Map<String,AAM> built using @{@link SecurityHandler#getAvailableAAMs()}
         X509Certificate aamX509Certificate = publicCertificates.get(url);
         if (aamX509Certificate == null) {
-            aamX509Certificate = aamClient.getAAMRootCertificate();
+            aamX509Certificate = aamClient.getAAMCertificate();
             publicCertificates.put(url, aamX509Certificate);
         }
         return aamX509Certificate;
     }
 
+    /**
+     * Validates the token using the AMQP connection to the local/internal AAM
+     *
+     * @param token to be validated
+     * @return status of the validation or {@link ValidationStatus#NULL} on error
+     */
     public ValidationStatus validateHomeToken(Token token) {
         ValidationStatus validationStatus = ValidationStatus.NULL;
         try {
@@ -106,7 +133,6 @@ public class TokenHandler {
                     .checkHomeTokenRevocation(token).getStatus());
         } catch (SecurityHandlerException e) {
             log.error(e);
-
         }
         return validationStatus;
     }

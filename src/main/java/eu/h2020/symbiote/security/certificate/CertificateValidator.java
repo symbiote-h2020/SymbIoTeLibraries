@@ -21,6 +21,12 @@ public class CertificateValidator {
         this.coreAAM = coreAAM;
     }
 
+    /**
+     * TODO R3:
+     * - rework so that it doesn't throw an Exception, if must then it should throw a unified Validation Exception (rename the @{@link eu.h2020.symbiote.security.exceptions.aam.TokenValidationException} and reuse it here)
+     * - rework so instead of boolean it return the @{@link eu.h2020.symbiote.security.enums.ValidationStatus}
+     * - As the user can have accounts in multiple AAMs, then it should be able to store them all in a single keystore, identifiable by the issuer id (aam instance id)
+     */
     public boolean validate(KeyStore p12Certificate) throws CertificateVerificationException {
         boolean result = false;
         try {
@@ -39,6 +45,9 @@ public class CertificateValidator {
     }
 
 
+    /**
+     * TODO R3 this could also return the @{@link eu.h2020.symbiote.security.enums.ValidationStatus}
+     */
     public boolean verifyCertificate(X509Certificate x509Certificate) {
         try {
             X509Certificate rootCertificate = getCA();
@@ -57,7 +66,7 @@ public class CertificateValidator {
 
     private X509Certificate getCA() throws CertificateException {
         if (coreAAMX509Certificate == null) {
-            coreAAMX509Certificate = coreAAM.getAAMRootCertificate();
+            coreAAMX509Certificate = coreAAM.getAAMCertificate();
         }
         return coreAAMX509Certificate;
     }

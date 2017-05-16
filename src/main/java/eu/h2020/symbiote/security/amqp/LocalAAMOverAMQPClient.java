@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.security.amqp.platform;
+package eu.h2020.symbiote.security.amqp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.ConnectionFactory;
@@ -11,14 +11,18 @@ import eu.h2020.symbiote.security.token.Token;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
-public class InternalPlatformAAMMessageHandler {
-    private static Log log = LogFactory.getLog(InternalPlatformAAMMessageHandler.class);
+/**
+ * Client used to access local/intenal AAM over AMQP by Symbiote components
+ *
+ * @author Mikołaj Dobski (PSNC)
+ */
+public class LocalAAMOverAMQPClient {
+    private static Log log = LogFactory.getLog(LocalAAMOverAMQPClient.class);
 
     private final ConnectionFactory factory = new ConnectionFactory();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public InternalPlatformAAMMessageHandler(String rabbitMQHostIP, String rabbitMQUsername, String rabbitMQPassword) {
+    public LocalAAMOverAMQPClient(String rabbitMQHostIP, String rabbitMQUsername, String rabbitMQPassword) {
         factory.setHost(rabbitMQHostIP);
         factory.setUsername(rabbitMQUsername);
         factory.setPassword(rabbitMQPassword);
@@ -26,7 +30,7 @@ public class InternalPlatformAAMMessageHandler {
 
     public Token login(Credentials credentials) throws SecurityHandlerException {
         try {
-            log.info("Sending request of login for " + credentials.getUsername());
+            log.debug("Sending request of login for " + credentials.getUsername());
 
             RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
                     .AAM_LOGIN_QUEUE, 5000);
@@ -36,34 +40,22 @@ public class InternalPlatformAAMMessageHandler {
 
             return mapper.readValue(response, Token.class);
         } catch (Exception e) {
-            String message = "Fatal error sending data to AAM_EXCHANGE_NAME: "
-                    + AAMConstants.AAM_EXCHANGE_NAME + ", PLATFORM_AAM_LOGIN_QUEUE:"
-                    + AAMConstants.AAM_LOGIN_QUEUE + ", PLATFORM_AAM_LOGIN_ROUTING_KEY:"
-                    + AAMConstants.AAM_LOGIN_ROUTING_KEY;
-            log.error(message, e);
-            throw new SecurityHandlerException(message, e);
+            log.error(e);
+            throw new SecurityHandlerException(e.getMessage(), e);
         }
     }
 
     public CheckRevocationResponse checkHomeTokenRevocation(Token token) throws SecurityHandlerException {
-        CheckRevocationResponse outcome;
         try {
             RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
                     .AAM_CHECK_REVOCATION_QUEUE, 5000);
             byte[] amqpResponse = client.primitiveCall(mapper.writeValueAsString(token).getBytes());
 
-
-            outcome = mapper.readValue(amqpResponse,
+            return mapper.readValue(amqpResponse,
                     CheckRevocationResponse.class);
         } catch (Exception e) {
-            String message = "Fatal error sending data to AAM_EXCHANGE_NAME: "
-                    + AAMConstants.AAM_EXCHANGE_NAME + ", PLATFORM_AAM_LOGIN_QUEUE:"
-                    + AAMConstants.AAM_CHECK_REVOCATION_QUEUE + ", PLATFORM_AAM_LOGIN_ROUTING_KEY:"
-                    + AAMConstants.AAM_CHECK_REVOCATION_ROUTING_KEY;
-            log.error(message, e);
-            throw new SecurityHandlerException(message, e);
+            log.error(e);
+            throw new SecurityHandlerException(e.getMessage(), e);
         }
-
-        return outcome;
     }
 }

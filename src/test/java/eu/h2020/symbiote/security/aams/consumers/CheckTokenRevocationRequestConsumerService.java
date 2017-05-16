@@ -51,7 +51,7 @@ public class CheckTokenRevocationRequestConsumerService extends DefaultConsumer 
         Token token;
         String response;
 
-        log.info("[x] Received Check Token Revocation Request: '" + message + "'");
+        log.debug("[x] Received Check Token Revocation Request: '" + message + "'");
 
         if (properties.getReplyTo() != null || properties.getCorrelationId() != null) {
 

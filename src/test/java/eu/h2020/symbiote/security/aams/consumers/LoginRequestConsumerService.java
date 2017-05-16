@@ -61,7 +61,7 @@ public class LoginRequestConsumerService extends DefaultConsumer {
         Credentials loginReq;
         String response;
 
-        log.info("[x] Received Login Request: '" + message + "'");
+        log.debug("[x] Received Login Request: '" + message + "'");
 
         if (properties.getReplyTo() != null || properties.getCorrelationId() != null) {
 

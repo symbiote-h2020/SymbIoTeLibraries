@@ -9,7 +9,6 @@ import eu.h2020.symbiote.security.rest.AAMRESTInterface;
 import eu.h2020.symbiote.security.session.AAM;
 import eu.h2020.symbiote.security.token.Token;
 import feign.Feign;
-import feign.Response;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
@@ -43,10 +42,10 @@ public class AAMClient {
     /**
      * Used to create the symbiote entry point to selected AAMs
      *
-     * @param platformAAM to learn about available platform AAMs fetch them using {@link SecurityHandler#getAvailableAAMs()} from the Core AAM
+     * @param aam to learn about available platform AAMs fetch them using {@link SecurityHandler#getAvailableAAMs()} from the Core AAM
      */
-    public AAMClient(AAM platformAAM) {
-        this.createClient(platformAAM.getAamAddress());
+    public AAMClient(AAM aam) {
+        this.createClient(aam.getAamAddress());
     }
 
     protected void createClient(String url) {
@@ -60,7 +59,7 @@ public class AAMClient {
         return url;
     }
 
-    private String getAAMRootCertificatePEMString() {
+    private String getAAMCertificatePEMString() {
         String result = null;
         try {
             result = simpleclient.getRootCertificate();
@@ -70,8 +69,8 @@ public class AAMClient {
         return result;
     }
 
-    public X509Certificate getAAMRootCertificate() throws CertificateException {
-        String pemCert = getAAMRootCertificatePEMString();
+    public X509Certificate getAAMCertificate() throws CertificateException {
+        String pemCert = getAAMCertificatePEMString();
         if (pemCert == null || pemCert.isEmpty())
             return null;
         return new Certificate(pemCert).getX509();
@@ -100,23 +99,11 @@ public class AAMClient {
         return result;
     }
 
-    public Token requestFederatedCoreToken(Token token) {
+    public Token requestFederatedToken(Token token) {
         Token result = null;
         try {
-            logger.info("User trying to requestFederatedCoreToken");
-            Response response = jsonclient.requestForeignToken(token.toString());
-            result = new Token(response.headers().get(AAMConstants.TOKEN_HEADER_NAME).iterator().next());
-        } catch (Exception e) {
-            logger.error(errorMessage + url, e);
-        }
-        return result;
-    }
-
-    public Token requestForeignToken(Token token) {
-        Token result = null;
-        try {
-            logger.info("User trying to requestForeignToken");
-            result = new Token(jsonclient.requestForeignToken(token.toString()).headers().get(AAMConstants
+            logger.info("User trying to requestFederatedToken");
+            result = new Token(jsonclient.requestForeignToken(token.getToken()).headers().get(AAMConstants
                     .TOKEN_HEADER_NAME).iterator().next());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 /**
  * Custom exception thrown when JWT token creation fails
  *
+ * TODO R3 rename for Validation Exception
+ *
  * @author Daniele Caldarola (CNIT)
  * @author Nemanja Ignjatov (UNIVIE)
  */

@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.security;
 
-import eu.h2020.symbiote.security.amqp.platform.InternalPlatformAAMMessageHandler;
+import eu.h2020.symbiote.security.amqp.LocalAAMOverAMQPClient;
 import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.payloads.Credentials;
@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class InternalSecurityHandler extends SecurityHandler {
     private static Log log = LogFactory.getLog(InternalSecurityHandler.class);
-    private InternalPlatformAAMMessageHandler platformMessageHandler = null;
+    private LocalAAMOverAMQPClient platformMessageHandler = null;
 
     /**
      * Initializes the Security Handler for symbiote components
@@ -36,7 +36,7 @@ public class InternalSecurityHandler extends SecurityHandler {
             rabbitMQUsername, String
             rabbitMQPassword) {
         super(symbioteCoreInterfaceAddress);
-        this.platformMessageHandler = new InternalPlatformAAMMessageHandler(rabbitMQHostIP, rabbitMQUsername,
+        this.platformMessageHandler = new LocalAAMOverAMQPClient(rabbitMQHostIP, rabbitMQUsername,
                 rabbitMQPassword);
         this.tokenHandler = new TokenHandler(this.coreMessageHandler, platformMessageHandler);
     }
@@ -89,7 +89,7 @@ public class InternalSecurityHandler extends SecurityHandler {
             credentials.setPassword(password);
             Token homeToken = platformMessageHandler.login(credentials);
             //TODO challenge response procedure??
-            coreToken = tokenHandler.requestCoreToken(homeToken);
+            coreToken = tokenHandler.requestFederatedCoreToken(homeToken);
             sessionInformation.setHomeToken(homeToken);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getHomeToken() == null) {
