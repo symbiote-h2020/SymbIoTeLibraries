@@ -7,6 +7,9 @@ package eu.h2020.symbiote.security.constants;
  */
 public class AAMConstants {
     public static final long serialVersionUID = 7526472295622776147L;
+    // AAM GLOBAL
+    public static final String AAM_CORE_AAM_FRIENDLY_NAME = "SymbIoTe Core AAM";
+    public static final String AAM_CORE_AAM_INSTANCE_ID = "SymbIoTe_Core_AAM";
     // AAM AMQP
     public static final String AAM_EXCHANGE_NAME = "symbIoTe.AuthenticationAuthorizationManager";
     public static final String AAM_LOGIN_QUEUE =
