@@ -139,3 +139,5 @@ target
 # Logs
 logs
 *.log
+
+# just triggering a new jitpack build
