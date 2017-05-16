@@ -12,6 +12,10 @@ public class AAMConstants {
     public static final String AAM_CORE_AAM_INSTANCE_ID = "SymbIoTe_Core_AAM";
     // AAM AMQP
     public static final String AAM_EXCHANGE_NAME = "symbIoTe.AuthenticationAuthorizationManager";
+    public static final String AAM_CHECK_REVOCATION_QUEUE =
+            "symbIoTe-AuthenticationAuthorizationManager-check_token_revocation_request";
+    public static final String AAM_CHECK_REVOCATION_ROUTING_KEY = "symbIoTe.AuthenticationAuthorizationManager" +
+            ".check_token_revocation_request";
     public static final String AAM_LOGIN_QUEUE =
             "symbIoTe-AuthenticationAuthorizationManager-login_request";
     public static final String AAM_LOGIN_ROUTING_KEY = "symbIoTe.AuthenticationAuthorizationManager" +

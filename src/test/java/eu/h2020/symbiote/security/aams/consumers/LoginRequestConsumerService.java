@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.security.aams;
+package eu.h2020.symbiote.security.aams.consumers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.AMQP;

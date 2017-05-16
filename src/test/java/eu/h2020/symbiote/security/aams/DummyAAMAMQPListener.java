@@ -1,6 +1,8 @@
 package eu.h2020.symbiote.security.aams;
 
 import com.rabbitmq.client.*;
+import eu.h2020.symbiote.security.aams.consumers.CheckTokenRevocationRequestConsumerService;
+import eu.h2020.symbiote.security.aams.consumers.LoginRequestConsumerService;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.exceptions.aam.AAMMisconfigurationException;
 import org.apache.commons.logging.Log;
@@ -10,9 +12,9 @@ import javax.annotation.PreDestroy;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class DummyAAMAMQPLoginListener {
+public class DummyAAMAMQPListener {
 
-    private static Log log = LogFactory.getLog(DummyAAMAMQPLoginListener.class);
+    private static Log log = LogFactory.getLog(DummyAAMAMQPListener.class);
 
     private Connection connection;
 
@@ -54,6 +56,7 @@ public class DummyAAMAMQPLoginListener {
      */
     private void startConsumers() throws AAMMisconfigurationException {
         try {
+            startConsumerOfCheckTokenRevocationRequestMessages();
             startConsumerOfLoginRequestMessages();
         } catch (InterruptedException | IOException e) {
             log.error(e);
@@ -81,6 +84,34 @@ public class DummyAAMAMQPLoginListener {
 
             Consumer consumer = new LoginRequestConsumerService(channel);
             channel.basicConsume(AAMConstants.AAM_LOGIN_QUEUE, false, consumer);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Method creates queue and binds it globally available exchange and adequate Routing Key.
+     * It also creates a consumer for messages incoming to this queue, regarding to Login requests.
+     *
+     * @throws InterruptedException
+     * @throws IOException
+     */
+    private void startConsumerOfCheckTokenRevocationRequestMessages() throws InterruptedException, IOException {
+
+        String queueName = AAMConstants.AAM_CHECK_REVOCATION_QUEUE;
+
+        Channel channel;
+
+        try {
+            channel = this.connection.createChannel();
+            channel.queueDeclare(queueName, true, false, false, null);
+            channel.queueBind(queueName, AAMConstants
+                    .AAM_EXCHANGE_NAME, AAMConstants.AAM_CHECK_REVOCATION_ROUTING_KEY);
+
+            log.info("Authentication and Authorization Manager waiting for check token revocation request messages");
+
+            Consumer consumer = new CheckTokenRevocationRequestConsumerService(channel);
+            channel.basicConsume(queueName, false, consumer);
         } catch (IOException e) {
             log.error(e);
         }
@@ -131,6 +162,10 @@ public class DummyAAMAMQPLoginListener {
             Channel channel;
             if (this.connection != null && this.connection.isOpen()) {
                 channel = connection.createChannel();
+                // check revocation
+                channel.queueUnbind(AAMConstants.AAM_CHECK_REVOCATION_QUEUE, AAMConstants.AAM_EXCHANGE_NAME,
+                        AAMConstants.AAM_CHECK_REVOCATION_ROUTING_KEY);
+                channel.queueDelete(AAMConstants.AAM_CHECK_REVOCATION_QUEUE);
                 // login
                 channel.queueUnbind(AAMConstants.AAM_LOGIN_QUEUE, AAMConstants
                                 .AAM_EXCHANGE_NAME,

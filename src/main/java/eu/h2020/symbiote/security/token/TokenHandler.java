@@ -1,7 +1,9 @@
 package eu.h2020.symbiote.security.token;
 
 
+import eu.h2020.symbiote.security.amqp.platform.InternalPlatformAAMMessageHandler;
 import eu.h2020.symbiote.security.enums.ValidationStatus;
+import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.rest.clients.AAMClient;
 import eu.h2020.symbiote.security.rest.clients.CoreAAMClient;
 import eu.h2020.symbiote.security.session.AAM;
@@ -17,11 +19,13 @@ import java.util.HashMap;
 public class TokenHandler {
     private static Log log = LogFactory.getLog(TokenHandler.class);
     private CoreAAMClient coreAAM;
+    private InternalPlatformAAMMessageHandler platformAAMMessageHandler;
     private HashMap<String, X509Certificate> publicCertificates;
 
 
-    public TokenHandler(CoreAAMClient coreAAM) {
+    public TokenHandler(CoreAAMClient coreAAM, InternalPlatformAAMMessageHandler platformAAMMessageHandler) {
         this.coreAAM = coreAAM;
+        this.platformAAMMessageHandler = platformAAMMessageHandler;
         this.publicCertificates = new HashMap<>();
     }
 
@@ -95,5 +99,16 @@ public class TokenHandler {
         return aamX509Certificate;
     }
 
+    public ValidationStatus validateHomeToken(Token token) {
+        ValidationStatus validationStatus = ValidationStatus.NULL;
+        try {
+            validationStatus = ValidationStatus.valueOf(platformAAMMessageHandler
+                    .checkHomeTokenRevocation(token).getStatus());
+        } catch (SecurityHandlerException e) {
+            log.error(e);
+
+        }
+        return validationStatus;
+    }
 }
 

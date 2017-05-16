@@ -93,7 +93,7 @@ public class AAMClient {
         ValidationStatus result = null;
         try {
             logger.info("User trying to checkTokenRevocation");
-            result = ValidationStatus.valueOf(jsonclient.checkTokenRevocation(token.toString()).getStatus());
+            result = ValidationStatus.valueOf(jsonclient.checkTokenRevocation(token.getToken()).getStatus());
         } catch (Exception e) {
             logger.error(errorMessage + url, e);
         }

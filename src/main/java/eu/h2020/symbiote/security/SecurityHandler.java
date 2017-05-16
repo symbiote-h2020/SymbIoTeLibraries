@@ -1,12 +1,10 @@
 package eu.h2020.symbiote.security;
 
-import eu.h2020.symbiote.security.amqp.platform.InternalPlatformAAMMessageHandler;
 import eu.h2020.symbiote.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.certificate.ECDSAHelper;
 import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
-import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.rest.clients.CoreAAMClient;
 import eu.h2020.symbiote.security.session.AAM;
@@ -34,10 +32,9 @@ import java.util.Map;
 
 public class SecurityHandler {
     private static Log log = LogFactory.getLog(SecurityHandler.class);
-    private InternalPlatformAAMMessageHandler platformMessageHandler = null;
-    private CoreAAMClient coreMessageHandler = null;
-    private SessionInformation sessionInformation = null;
-    private TokenHandler tokenHandler = null;
+    protected SessionInformation sessionInformation = null;
+    protected TokenHandler tokenHandler = null;
+    protected CoreAAMClient coreMessageHandler = null;
     private CertificateValidator certificateValidator = null;
 
     /**
@@ -49,23 +46,8 @@ public class SecurityHandler {
         ECDSAHelper.enableECDSAProvider();
         this.coreMessageHandler = new CoreAAMClient(symbioteCoreInterfaceAddress);
         this.sessionInformation = new SessionInformation();
-        this.tokenHandler = new TokenHandler(this.coreMessageHandler);
+        this.tokenHandler = new TokenHandler(this.coreMessageHandler, null);
         this.certificateValidator = new CertificateValidator(this.coreMessageHandler);
-    }
-
-    /**
-     * Initializes the Security Handler for platform components
-     *
-     * @param symbioteCoreInterfaceAddress used to access exposed Core AAM services
-     * @param rabbitMQHostIP               used to access platform AAM over AMQP
-     * @param rabbitMQUsername             used to access platform AAM over AMQP
-     * @param rabbitMQPassword             used to access platform AAM over AMQP
-     */
-    public SecurityHandler(String symbioteCoreInterfaceAddress, String rabbitMQHostIP, String rabbitMQUsername, String
-            rabbitMQPassword) {
-        this(symbioteCoreInterfaceAddress);
-        this.platformMessageHandler = new InternalPlatformAAMMessageHandler(rabbitMQHostIP, rabbitMQUsername,
-                rabbitMQPassword);
     }
 
     /**
@@ -103,46 +85,6 @@ public class SecurityHandler {
                 throw new SecurityException(message);
             }
         }
-        return coreToken;
-    }
-
-    /**
-     * Request federated core token using your home platform token
-     *
-     * @param userName home platform username
-     * @param password home platform password
-     * @return Token issued according to you Home Platform and Core Federation
-     * @apiNote JUST FOR INTERNAL PLATFORM USAGE
-     */
-    public Token requestFederatedCoreToken(String userName, String password) throws SecurityHandlerException {
-        if (platformMessageHandler == null) {
-            throw new SecurityHandlerException("Security Handler wasn't configured to access Platform AAM over AMQP, " +
-                    "use the 4 parameters constructor for that");
-        }
-        Token coreToken = sessionInformation.getCoreToken();
-        if (coreToken == null) {
-            //not logged in
-            Credentials credentials = new Credentials();
-            credentials.setUsername(userName);
-            credentials.setPassword(password);
-            Token homeToken = platformMessageHandler.login(credentials);
-            //TODO challenge response procedure??
-            coreToken = tokenHandler.requestCoreToken(homeToken);
-            sessionInformation.setHomeToken(homeToken);
-            sessionInformation.setCoreToken(coreToken);
-            if (sessionInformation.getHomeToken() == null) {
-                String message = "It was not possible to validate you with the give credentials. " +
-                        "Please " +
-                        "check them";
-                log.error(message);
-                throw new SecurityException(message);
-            }
-
-        }
-
-        ValidationStatus validationStatus = tokenHandler.validateCoreToken(coreToken);
-        if (validationStatus != ValidationStatus.VALID)
-            throw new SecurityException("Received core token is not valid");
         return coreToken;
     }
 
@@ -221,8 +163,7 @@ public class SecurityHandler {
      * @param token to be validated
      * @return validation status of the core token
      */
-    public ValidationStatus verifyPlatformToken(AAM aam, Token token) throws
-            TokenValidationException {
+    public ValidationStatus verifyPlatformToken(AAM aam, Token token) {
         return tokenHandler.validateForeignPlatformToken(aam, token);
     }
 }

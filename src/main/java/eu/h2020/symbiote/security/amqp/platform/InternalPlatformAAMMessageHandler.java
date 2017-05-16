@@ -5,6 +5,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.RpcClient;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
+import eu.h2020.symbiote.security.payloads.CheckRevocationResponse;
 import eu.h2020.symbiote.security.payloads.Credentials;
 import eu.h2020.symbiote.security.token.Token;
 import org.apache.commons.logging.Log;
@@ -42,5 +43,27 @@ public class InternalPlatformAAMMessageHandler {
             log.error(message, e);
             throw new SecurityHandlerException(message, e);
         }
+    }
+
+    public CheckRevocationResponse checkHomeTokenRevocation(Token token) throws SecurityHandlerException {
+        CheckRevocationResponse outcome;
+        try {
+            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+                    .AAM_CHECK_REVOCATION_QUEUE, 5000);
+            byte[] amqpResponse = client.primitiveCall(mapper.writeValueAsString(token).getBytes());
+
+
+            outcome = mapper.readValue(amqpResponse,
+                    CheckRevocationResponse.class);
+        } catch (Exception e) {
+            String message = "Fatal error sending data to AAM_EXCHANGE_NAME: "
+                    + AAMConstants.AAM_EXCHANGE_NAME + ", PLATFORM_AAM_LOGIN_QUEUE:"
+                    + AAMConstants.AAM_CHECK_REVOCATION_QUEUE + ", PLATFORM_AAM_LOGIN_ROUTING_KEY:"
+                    + AAMConstants.AAM_CHECK_REVOCATION_ROUTING_KEY;
+            log.error(message, e);
+            throw new SecurityHandlerException(message, e);
+        }
+
+        return outcome;
     }
 }
