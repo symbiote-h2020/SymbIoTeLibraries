@@ -84,7 +84,7 @@ public class LoginRequestConsumerService extends DefaultConsumer {
                     HashMap<String, String> attributes = new HashMap<>();
                     attributes.put("name", "test2");
                     String tokenString = JWTEngine.generateJWTToken(loginReq.getUsername(), attributes, ks
-                                    .getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.CORE,
+                                    .getCertificate(ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.PLATFORM,
                             DateUtil.addDays(new Date(), 1).getTime(),
                             "securityHandlerTestPlatformAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey)
                                     key);

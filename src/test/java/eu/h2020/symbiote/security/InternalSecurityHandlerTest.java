@@ -114,17 +114,19 @@ public class InternalSecurityHandlerTest {
     }
 
     @Test
-    public void testRequestForeignToken() {
+    @Ignore("Needs rework of security handler codes in R3")
+    public void testRequestFederatedToken() {
         try {
-            Token token = securityHandler.requestFederatedCoreToken("user", "password");
+            Token token = securityHandler.requestHomeToken("user", "password");
 
             log.info("Test Client received this Token: " + token.toString());
 
             assertNotNull(token.getToken());
-            assertEquals(IssuingAuthorityType.CORE, token.getType());
+            assertEquals(IssuingAuthorityType.PLATFORM, token.getType());
 
             List<AAM> aams = new ArrayList<>();
-            aams.add(new AAM(symbioteCoreInterfaceAddress, "Core AAM", "coreAAM", new Certificate()));
+            // stubbing a dummy platform aam
+            aams.add(new AAM(symbioteCoreInterfaceAddress, "A test platform aam", "SomePlatformAAM", new Certificate()));
             Map<String, Token> tokens = securityHandler.requestForeignTokens(aams);
             assert (tokens != null);
         } catch (SecurityHandlerException e) {

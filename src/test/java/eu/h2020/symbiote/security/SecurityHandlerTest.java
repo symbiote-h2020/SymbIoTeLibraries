@@ -18,7 +18,10 @@ import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -41,12 +44,9 @@ import java.io.StringWriter;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * This class handles the initialization from the platform. Initially created by jose
@@ -125,9 +125,22 @@ public class SecurityHandlerTest {
 
 
     @Test
-    @Ignore("TODO for R3")
     public void testRequestFederatedToken() {
         // TODO R3 using a selected token from wallet try to request foreign token over REST
+        Token token = securityHandler.requestCoreToken("user", "password");
+
+        log.info("Test Client received this Token: " + token.toString());
+
+        assertNotNull(token.getToken());
+        assertEquals(IssuingAuthorityType.CORE, token.getType());
+
+        List<AAM> aams = new ArrayList<>();
+        // stubbing a dummy platform aam
+        aams.add(new AAM(symbioteCoreInterfaceAddress, "A test platform aam", "SomePlatformAAM", new Certificate()));
+        Map<String, Token> tokens = securityHandler.requestForeignTokens(aams);
+        assertNotNull(tokens);
+        assertTrue(tokens.containsKey("SomePlatformAAM"));
+        assertEquals(IssuingAuthorityType.PLATFORM, tokens.get("SomePlatformAAM").getType());
     }
 
     @Test

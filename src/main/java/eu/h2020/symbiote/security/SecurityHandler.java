@@ -90,27 +90,32 @@ public class SecurityHandler {
 
     /**
      * Requests federated Platform tokens using acquired Core token.
-     * TODO R3 review and update
+     * TODO R3 review and update to be able to use any kind of symbiote token for requesting federated tokens (pass a token as param).
      *
-     * @param aams Symbiote Authentication and Authorization Managers
+     * @param aams Symbiote Authentication and Authorization Managers to request federated tokens from
      * @return
      */
     public Map<String, Token> requestForeignTokens(List<AAM> aams) {
-        HashMap<String, Token> foreignTokens = null;
-        Token coreToken = sessionInformation.getCoreToken();
-        if (coreToken != null) {
+        HashMap<String, Token> federatedTokens = null;
+
+        Token requestToken = sessionInformation.getCoreToken();
+        if (requestToken != null) {
             //logged in
-            foreignTokens = new HashMap<>();
+            federatedTokens = new HashMap<>();
             for (AAM aam : aams) {
-                Token foreignToken = sessionInformation.getForeignToken(aam.getAamInstanceId());
-                if (foreignToken == null) {
-                    foreignToken = tokenHandler.requestFederatedToken(aam, coreToken);
-                    sessionInformation.setForeignToken(aam.getAamInstanceId(), foreignToken);
+                // the user should not request a federated token if he has a home token in that aam
+                if (aam.getAamInstanceId().equals(requestToken.getClaims().getIssuer()))
+                    continue;
+                // request federated token from that the foreign AAM
+                Token federatedToken = sessionInformation.getForeignToken(aam.getAamInstanceId());
+                if (federatedToken == null) {
+                    federatedToken = tokenHandler.requestFederatedToken(aam, requestToken);
+                    sessionInformation.setForeignToken(aam.getAamInstanceId(), federatedToken);
                 }
-                foreignTokens.put(aam.getAamInstanceId(), foreignToken);
+                federatedTokens.put(aam.getAamInstanceId(), federatedToken);
             }
         }
-        return foreignTokens;
+        return federatedTokens;
     }
 
     /**
