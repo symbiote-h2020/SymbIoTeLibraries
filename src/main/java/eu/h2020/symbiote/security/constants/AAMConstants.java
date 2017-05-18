@@ -27,9 +27,13 @@ public class AAMConstants {
     public static final String AAM_LOGIN = "/login";
     public static final String AAM_REQUEST_FOREIGN_TOKEN = "/request_foreign_token";
     // errors
-    public static final String ERROR_WRONG_TOKEN = "ERR_WRONG_TOKEN";
+
+    public static final String ERR_MISSING_ARGUMENTS = "ERR_MISSING_ARGUMENTS";
     public static final String ERR_TOKEN_EXPIRED = "TOKEN_EXPIRED";
+    public static final String ERR_WRONG_CREDENTIALS = "ERR_WRONG_CREDENTIALS";
     public static final String ERR_TOKEN_WRONG_ISSUER = "TOKEN_WRONG_ISSUER";
+    public static final String ERROR_WRONG_TOKEN = "ERR_WRONG_TOKEN";
+
     // tokens
     public static final String TOKEN_HEADER_NAME = "X-Auth-Token";
     public static final int JWTPartsCount = 3; //Header, body and signature
