@@ -35,7 +35,7 @@ public class LocalAAMOverAMQPClient {
             RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
                     .AAM_LOGIN_QUEUE, 5000);
 
-            byte[] response = client.primitiveCall(mapper.writeValueAsString(new Credentials("user", "password"))
+            byte[] response = client.primitiveCall(mapper.writeValueAsString(credentials)
                     .getBytes());
 
             return mapper.readValue(response, Token.class);
