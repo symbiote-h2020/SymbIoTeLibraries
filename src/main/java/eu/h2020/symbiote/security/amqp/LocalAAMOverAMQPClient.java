@@ -7,9 +7,12 @@ import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.payloads.CheckRevocationResponse;
 import eu.h2020.symbiote.security.payloads.Credentials;
+import eu.h2020.symbiote.security.payloads.ErrorResponseContainer;
 import eu.h2020.symbiote.security.token.Token;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.io.IOException;
 
 /**
  * Client used to access local/intenal AAM over AMQP by Symbiote components
@@ -29,19 +32,34 @@ public class LocalAAMOverAMQPClient {
     }
 
     public Token login(Credentials credentials) throws SecurityHandlerException {
+        byte[] response;
+        // requesting login
         try {
             log.debug("Sending request of login for " + credentials.getUsername());
 
             RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
                     .AAM_LOGIN_QUEUE, 5000);
 
-            byte[] response = client.primitiveCall(mapper.writeValueAsString(credentials)
+            response = client.primitiveCall(mapper.writeValueAsString(credentials)
                     .getBytes());
-
-            return mapper.readValue(response, Token.class);
         } catch (Exception e) {
             log.error(e);
             throw new SecurityHandlerException(e.getMessage(), e);
+        }
+        // unpacking response
+        try {
+            // valid response
+            return mapper.readValue(response, Token.class);
+        } catch (IOException e) {
+            try {
+                // unpacking packed exception response
+                ErrorResponseContainer errorResponseContainer = mapper.readValue(response, ErrorResponseContainer.class);
+                log.error(errorResponseContainer.getErrorMessage());
+                throw new SecurityHandlerException(errorResponseContainer.getErrorMessage());
+            } catch (IOException e1) {
+                log.error(e1);
+                throw new SecurityHandlerException("Error unpacking login response", e1);
+            }
         }
     }
 
