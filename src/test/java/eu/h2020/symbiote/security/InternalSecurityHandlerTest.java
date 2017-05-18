@@ -13,7 +13,10 @@ import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -34,8 +37,7 @@ import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * This class handles the initialization from the platform. Initially created by jose
@@ -102,7 +104,6 @@ public class InternalSecurityHandlerTest {
     }
 
     @Test
-    @Ignore("do it for R3")
     public void testRequestFederatedCoreToken() {
         try {
             Token token = securityHandler.requestFederatedCoreToken("user", "password");
@@ -114,25 +115,20 @@ public class InternalSecurityHandlerTest {
     }
 
     @Test
-    @Ignore("Needs rework of security handler codes in R3")
     public void testRequestFederatedToken() {
-        try {
-            Token token = securityHandler.requestHomeToken("user", "password");
+        Token token = securityHandler.requestCoreToken("user", "password");
 
-            log.info("Test Client received this Token: " + token.toString());
+        log.info("Test Client received this Token: " + token.toString());
 
-            assertNotNull(token.getToken());
-            assertEquals(IssuingAuthorityType.PLATFORM, token.getType());
+        assertNotNull(token.getToken());
+        assertEquals(IssuingAuthorityType.CORE, token.getType());
 
-            List<AAM> aams = new ArrayList<>();
-            // stubbing a dummy platform aam
-            aams.add(new AAM(symbioteCoreInterfaceAddress, "A test platform aam", "SomePlatformAAM", new Certificate()));
-            Map<String, Token> tokens = securityHandler.requestForeignTokens(aams);
-            assert (tokens != null);
-        } catch (SecurityHandlerException e) {
-            log.error(e);
-            assert (false);
-        }
+        List<AAM> aams = new ArrayList<>();
+        // stubbing a dummy platform aam
+        aams.add(new AAM(symbioteCoreInterfaceAddress, "A test platform aam", "SomePlatformAAM", new Certificate()));
+        Map<String, Token> tokens = securityHandler.requestForeignTokens(aams);
+        assertTrue(tokens.containsKey("SomePlatformAAM"));
+        assertEquals(IssuingAuthorityType.PLATFORM, tokens.get("SomePlatformAAM").getType());
     }
 
     @Test

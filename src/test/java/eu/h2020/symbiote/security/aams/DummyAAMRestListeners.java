@@ -38,7 +38,8 @@ import java.util.List;
 
 
 /**
- * Dummy REST service mimicking exposed AAM features required by SymbIoTe users and reachable via CoreInterface in the Core and Interworking Interfaces on Platforms' side.
+ * Dummy REST service mimicking exposed AAM features required by SymbIoTe users and reachable via CoreInterface in
+ * the Core and Interworking Interfaces on Platforms' side.
  *
  * @author Mikołaj Dobski (PSNC)
  */
@@ -83,7 +84,8 @@ public class DummyAAMRestListeners {
             attributes.put("name", "test2");
             String tokenString = JWTEngine.generateJWTToken(credential.getUsername(), attributes, ks.getCertificate
                     (ALIAS).getPublicKey().getEncoded(), IssuingAuthorityType.CORE, DateUtil.addDays(new Date(), 1)
-                    .getTime(), AAMConstants.AAM_CORE_AAM_INSTANCE_ID, ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+                            .getTime(), AAMConstants.AAM_CORE_AAM_INSTANCE_ID, ks.getCertificate(ALIAS).getPublicKey(),
+                    (PrivateKey) key);
 
             Token coreToken = new Token(tokenString);
 
@@ -112,7 +114,7 @@ public class DummyAAMRestListeners {
     }
 
     /**
-     * Acts temporarily as Platform AAM
+     * Acts either as core or platform AAM depending on what token was passed.
      */
     @RequestMapping(method = RequestMethod.POST, path = AAMConstants.AAM_REQUEST_FOREIGN_TOKEN, produces =
             "application/json;charset=UTF-8", consumes = "application/json;charset=UTF-8")
@@ -131,12 +133,25 @@ public class DummyAAMRestListeners {
             federatedAttributes.put("fname3", "fvalue3");
 
             JWTClaims claimsFromRequestToken = JWTEngine.getClaimsFromToken(requestTokenString);
+            String authorityId;
+            IssuingAuthorityType authorityType;
+
+            if (IssuingAuthorityType.valueOf(claimsFromRequestToken.getTtyp()) == IssuingAuthorityType.CORE) {
+                // act as platform AAM
+                authorityId = "SomePlatformAAM";
+                authorityType = IssuingAuthorityType.PLATFORM;
+            } else {
+                // act as core AAM
+                authorityId = AAMConstants.AAM_CORE_AAM_INSTANCE_ID;
+                authorityType = IssuingAuthorityType.CORE;
+            }
+
             String tokenString = JWTEngine.generateJWTToken(
                     claimsFromRequestToken.getSub(),
                     federatedAttributes,
                     Base64.decodeBase64(claimsFromRequestToken.getSpk()),
-                    IssuingAuthorityType.PLATFORM, DateUtil.addDays(new Date(), 1).getTime
-                            (), "SomePlatformAAM", ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
+                    authorityType, DateUtil.addDays(new Date(), 1).getTime
+                            (), authorityId, ks.getCertificate(ALIAS).getPublicKey(), (PrivateKey) key);
 
             Token foreignToken = new Token(tokenString);
             HttpHeaders headers = new HttpHeaders();
@@ -144,7 +159,8 @@ public class DummyAAMRestListeners {
 
             /* Finally issues and return foreign_token */
             return new ResponseEntity<>(headers, HttpStatus.OK);
-        } catch (MalformedJWTException | KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException |
+        } catch (MalformedJWTException | KeyStoreException | NoSuchAlgorithmException | CertificateException |
+                IOException |
                 UnrecoverableKeyException | NoSuchProviderException | JWTCreationException | TokenValidationException
                 e) {
             log.error(e);
@@ -152,7 +168,8 @@ public class DummyAAMRestListeners {
         return null;
     }
 
-    @RequestMapping(value = AAMConstants.AAM_GET_AVAILABLE_AAMS, method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = AAMConstants.AAM_GET_AVAILABLE_AAMS, method = RequestMethod.GET, produces =
+            "application/json")
     public ResponseEntity<List<AAM>> getAvailableAAMs() {
         List<AAM> availableAAMs = new ArrayList<>();
         try {
@@ -162,7 +179,8 @@ public class DummyAAMRestListeners {
             String coreAAMInstanceIdentifier = "Symbiote Core";
 
             // adding core aam info to the response
-            availableAAMs.add(new AAM("https://localhost:8100", "SymbIoTe Core AAM", coreAAMInstanceIdentifier, coreCertificate));
+            availableAAMs.add(new AAM("https://localhost:8100", "SymbIoTe Core AAM", coreAAMInstanceIdentifier,
+                    coreCertificate));
 
             return new ResponseEntity<>(availableAAMs, HttpStatus.OK);
         } catch (Exception e) {
