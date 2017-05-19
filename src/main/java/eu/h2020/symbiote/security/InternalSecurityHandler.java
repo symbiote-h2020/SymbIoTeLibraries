@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.security;
 
 import eu.h2020.symbiote.security.amqp.LocalAAMOverAMQPClient;
+import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.payloads.Credentials;
@@ -59,10 +60,8 @@ public class InternalSecurityHandler extends SecurityHandler {
             homeToken = platformMessageHandler.login(credentials);
             sessionInformation.setHomeToken(homeToken);
             if (sessionInformation.getHomeToken() == null) {
-                String message = "It was not possible to validate you with the give credentials. Please " +
-                        "check them";
-                log.error(message);
-                throw new SecurityException(message);
+                log.error(AAMConstants.ERR_WRONG_CREDENTIALS);
+                throw new SecurityException(AAMConstants.ERR_WRONG_CREDENTIALS);
             }
         }
         return homeToken;
@@ -93,11 +92,8 @@ public class InternalSecurityHandler extends SecurityHandler {
             sessionInformation.setHomeToken(homeToken);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getHomeToken() == null) {
-                String message = "It was not possible to validate you with the give credentials. " +
-                        "Please " +
-                        "check them";
-                log.error(message);
-                throw new SecurityException(message);
+                log.error(AAMConstants.ERR_WRONG_CREDENTIALS);
+                throw new SecurityException(AAMConstants.ERR_WRONG_CREDENTIALS);
             }
 
         }
