@@ -3,6 +3,7 @@ package eu.h2020.symbiote.security;
 import eu.h2020.symbiote.security.certificate.CertificateValidator;
 import eu.h2020.symbiote.security.certificate.CertificateVerificationException;
 import eu.h2020.symbiote.security.certificate.ECDSAHelper;
+import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.SecurityHandlerException;
 import eu.h2020.symbiote.security.payloads.Credentials;
@@ -79,10 +80,8 @@ public class SecurityHandler {
             coreToken = coreMessageHandler.login(credentials);
             sessionInformation.setCoreToken(coreToken);
             if (sessionInformation.getCoreToken() == null) {
-                String message = "It was not possible to validate you with the give credentials. Please " +
-                        "check them";
-                log.error(message);
-                throw new SecurityException(message);
+                log.error(AAMConstants.ERR_WRONG_CREDENTIALS);
+                throw new SecurityException(AAMConstants.ERR_WRONG_CREDENTIALS);
             }
         }
         return coreToken;

@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 public class WrongCredentialsException extends AAMException {
 
     private static final long serialVersionUID = AAMConstants.serialVersionUID;
-    private final static String errorMessage = "ERR_WRONG_CREDENTIALS";
+    private final static String errorMessage = AAMConstants.ERR_WRONG_CREDENTIALS;
     private final static HttpStatus statusCode = HttpStatus.UNAUTHORIZED;
 
     public WrongCredentialsException() {
