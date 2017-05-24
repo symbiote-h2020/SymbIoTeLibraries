@@ -14,8 +14,10 @@ public class CoreResource extends Resource {
 
     private RDFFormat rdfFormat;
     private String rdf;
+    private CoreResourceType type;
 
     public CoreResource() {
+        // Empty constructor
     }
 
     public RDFFormat getRdfFormat() {
@@ -32,5 +34,13 @@ public class CoreResource extends Resource {
 
     public void setRdf(String rdf) {
         this.rdf = rdf;
+    }
+
+    public CoreResourceType getType() {
+        return type;
+    }
+
+    public void setType(CoreResourceType type) {
+        this.type = type;
     }
 }
