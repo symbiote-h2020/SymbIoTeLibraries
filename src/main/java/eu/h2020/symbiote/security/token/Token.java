@@ -3,6 +3,7 @@ package eu.h2020.symbiote.security.token;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.h2020.symbiote.security.constants.AAMConstants;
 import eu.h2020.symbiote.security.enums.IssuingAuthorityType;
+import eu.h2020.symbiote.security.enums.ValidationStatus;
 import eu.h2020.symbiote.security.exceptions.aam.TokenValidationException;
 import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import io.jsonwebtoken.Claims;
@@ -11,13 +12,14 @@ import org.springframework.data.annotation.Transient;
 
 /**
  * Class that defines the SymbIoTe JWS token
- *
- * TODO R3 unify the duplicated claims handling @{@link Claims} and @{@link eu.h2020.symbiote.security.token.jwt.JWTClaims}
+ * <p>
+ * TODO R3 unify the duplicated claims handling @{@link Claims} and
  *
  * @author Daniele Caldarola (CNIT)
  * @author Mikołaj Dobski (PSNC)
  * @author Elena Garrido (ATOS)
  * @author Nemanja Ignjatov (UNIVIE)
+ * @{@link eu.h2020.symbiote.security.token.jwt.JWTClaims}
  */
 public class Token {
     public final static String JWT_CLAIMS_TTYPE = AAMConstants.CLAIM_NAME_TOKEN_TYPE;
@@ -40,8 +42,7 @@ public class Token {
      * @param token compacted signed token string
      */
     public Token(String token) throws TokenValidationException {
-        this.token = token;
-        JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
+        this.setToken(token);
     }
 
     public String getToken() {
@@ -53,7 +54,10 @@ public class Token {
      */
     public void setToken(String token) throws TokenValidationException {
         this.token = token;
-        JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
+        ValidationStatus validationStatus = JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
+        if (validationStatus != ValidationStatus.VALID) {
+            throw new TokenValidationException("Provided token string is not valid: " + validationStatus);
+        }
     }
 
     @JsonIgnore
