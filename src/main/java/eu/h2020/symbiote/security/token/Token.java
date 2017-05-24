@@ -53,11 +53,12 @@ public class Token {
      * @param token compacted signed token string
      */
     public void setToken(String token) throws TokenValidationException {
-        this.token = token;
-        ValidationStatus validationStatus = JWTEngine.validateTokenUsingIncludedIssuersPublicKey(this);
+        ValidationStatus validationStatus = JWTEngine.validateTokenString(token);
         if (validationStatus != ValidationStatus.VALID) {
             throw new TokenValidationException("Provided token string is not valid: " + validationStatus);
         }
+        this.token = token;
+        this.setClaims(JWTEngine.getClaims(token));
     }
 
     @JsonIgnore

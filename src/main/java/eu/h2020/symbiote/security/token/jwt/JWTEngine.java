@@ -42,58 +42,44 @@ public class JWTEngine {
     }
 
     /**
-     * validates the token using the encoded issuer's public key and sets its claims
-     *
-     * @param token Token to be validated and initialized
-     * @return validation status
-     * @throws TokenValidationException on other errors
+     * Retrieves claims from given token String
+     * @param tokenString to get claims from
+     * @return claims deserialized from the token
+     * @throws TokenValidationException on parse exception.
      */
-    public static ValidationStatus validateTokenUsingIncludedIssuersPublicKey(Token token) throws
-            TokenValidationException {
+    public static Claims getClaims(String tokenString) throws TokenValidationException {
         try {
             ECDSAHelper.enableECDSAProvider();
-
-            JWTClaims claims = getClaimsFromToken(token.getToken());
+            JWTClaims claims = getClaimsFromToken(tokenString);
             //Convert IPK claim to publicKey for validation
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decodeBase64(claims.getIpk()));
             KeyFactory keyFactory = KeyFactory.getInstance("EC");
-            PublicKey pubKey = keyFactory.generatePublic(keySpec);
+            PublicKey publicKey = keyFactory.generatePublic(keySpec);
 
-            //Validate token signature
-            switch (validateToken(token, pubKey)) {
-                case VALID:
-                    return ValidationStatus.VALID;
-                case EXPIRED:
-                    return ValidationStatus.EXPIRED;
-                case REVOKED:
-                    return ValidationStatus.REVOKED;
-                case INVALID:
-                    return ValidationStatus.INVALID;
-            }
-            return ValidationStatus.INVALID;
-        } catch (MalformedJWTException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            // retrieve the claims
+            return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(tokenString).getBody();
+            // validate the token using the claims parser
+        } catch (InvalidKeySpecException | MalformedJWTException | NoSuchAlgorithmException e) {
             log.error(e);
             throw new TokenValidationException("Token could not be validated", e);
         }
     }
-
     /**
-     * Validates the token and sets its claims
+     * Validates the token string using a given public key
      *
-     * @param token     Token to be validated and initialized
-     * @param publicKey issuer's public key
+     * @param tokenString Token to be validated and initialized
+     * @param publicKey   issuer's public key
      * @return validation status
      * @throws TokenValidationException on other errors
      */
-    public static ValidationStatus validateToken(Token token, PublicKey publicKey) throws
+    public static ValidationStatus validateTokenString(String tokenString, PublicKey publicKey) throws
             TokenValidationException {
         try {
             ECDSAHelper.enableECDSAProvider();
 
-            Claims claims = Jwts.parser()
+            Jwts.parser()
                     .setSigningKey(publicKey)
-                    .parseClaimsJws(token.getToken()).getBody();
-            token.setClaims(claims);
+                    .parseClaimsJws(tokenString);
             return ValidationStatus.VALID;
         } catch (ExpiredJwtException e) {
             log.error(e);
@@ -102,6 +88,31 @@ public class JWTEngine {
             log.error(e);
             return ValidationStatus.INVALID;
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
+            log.error(e);
+            throw new TokenValidationException("Token could not be validated", e);
+        }
+    }
+
+    /**
+     * Validates the given token string
+     *
+     * @param tokenString JWT to be validated
+     * @return validation status
+     * @throws TokenValidationException on validation error
+     */
+    public static ValidationStatus validateTokenString(String tokenString) throws TokenValidationException {
+        try {
+            ECDSAHelper.enableECDSAProvider();
+            JWTClaims claims = getClaimsFromToken(tokenString);
+            //Convert IPK claim to publicKey for validation
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decodeBase64(claims.getIpk()));
+            KeyFactory keyFactory = KeyFactory.getInstance("EC");
+            PublicKey publicKey = keyFactory.generatePublic(keySpec);
+
+            // validate the token using the claims parser
+            return validateTokenString(tokenString, publicKey);
+            // validate the token using the claims parser
+        } catch (InvalidKeySpecException | MalformedJWTException | NoSuchAlgorithmException e) {
             log.error(e);
             throw new TokenValidationException("Token could not be validated", e);
         }
@@ -198,5 +209,6 @@ public class JWTEngine {
             throw new JWTCreationException(message, e);
         }
     }
+
 }
 
