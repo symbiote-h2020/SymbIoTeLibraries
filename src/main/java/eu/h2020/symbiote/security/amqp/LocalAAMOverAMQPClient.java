@@ -33,11 +33,12 @@ public class LocalAAMOverAMQPClient {
 
     public Token login(Credentials credentials) throws SecurityHandlerException {
         byte[] response;
+        RpcClient client = null;
         // requesting login
         try {
             log.debug("Sending request of login for " + credentials.getUsername());
 
-            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+            client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
                     .AAM_LOGIN_QUEUE, 5000);
 
             response = client.primitiveCall(mapper.writeValueAsString(credentials)
@@ -45,6 +46,13 @@ public class LocalAAMOverAMQPClient {
         } catch (Exception e) {
             log.error(e);
             throw new SecurityHandlerException(e.getMessage(), e);
+        } finally {
+            if (client != null)
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
         }
         // unpacking response
         try {
@@ -53,7 +61,8 @@ public class LocalAAMOverAMQPClient {
         } catch (IOException e) {
             try {
                 // unpacking packed exception response
-                ErrorResponseContainer errorResponseContainer = mapper.readValue(response, ErrorResponseContainer.class);
+                ErrorResponseContainer errorResponseContainer = mapper.readValue(response, ErrorResponseContainer
+                        .class);
                 log.error(errorResponseContainer.getErrorMessage());
                 throw new SecurityHandlerException(errorResponseContainer.getErrorMessage());
             } catch (IOException e1) {
@@ -64,8 +73,9 @@ public class LocalAAMOverAMQPClient {
     }
 
     public CheckRevocationResponse checkHomeTokenRevocation(Token token) throws SecurityHandlerException {
+        RpcClient client = null;
         try {
-            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+            client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
                     .AAM_CHECK_REVOCATION_QUEUE, 5000);
             byte[] amqpResponse = client.primitiveCall(mapper.writeValueAsString(token).getBytes());
 
@@ -74,6 +84,13 @@ public class LocalAAMOverAMQPClient {
         } catch (Exception e) {
             log.error(e);
             throw new SecurityHandlerException(e.getMessage(), e);
+        } finally {
+            if (client != null)
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
         }
     }
 }
