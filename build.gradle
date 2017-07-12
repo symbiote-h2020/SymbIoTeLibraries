@@ -2,6 +2,7 @@
 buildscript {
     ext {
         springBootVersion = '1.5.3.RELEASE'
+        swaggerAnnotationsVersion = '1.5.13'
     }
     repositories {
         mavenCentral()
@@ -72,6 +73,9 @@ dependencies {
     //from symbioteLibs
     compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7+')
     compile('org.springframework.data:spring-data-commons')
+
+    // Swagger annotations for documentation
+    compile("io.swagger:swagger-annotations:${swaggerAnnotationsVersion}")
 
     // common testing
     testCompile('junit:junit:4.+')
