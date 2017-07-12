@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.security.amqp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.RpcClient;
 import eu.h2020.symbiote.security.constants.AAMConstants;
@@ -33,12 +34,14 @@ public class LocalAAMOverAMQPClient {
 
     public Token login(Credentials credentials) throws SecurityHandlerException {
         byte[] response;
+        Connection connection = null;
         RpcClient client = null;
         // requesting login
         try {
             log.debug("Sending request of login for " + credentials.getUsername());
 
-            client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+            connection = factory.newConnection();
+            client = new RpcClient(connection.createChannel(), "", AAMConstants
                     .AAM_LOGIN_QUEUE, 5000);
 
             response = client.primitiveCall(mapper.writeValueAsString(credentials)
@@ -50,6 +53,12 @@ public class LocalAAMOverAMQPClient {
             if (client != null)
                 try {
                     client.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            if (connection != null)
+                try {
+                    connection.close();
                 } catch (IOException e) {
                     log.error(e);
                 }
@@ -73,9 +82,11 @@ public class LocalAAMOverAMQPClient {
     }
 
     public CheckRevocationResponse checkHomeTokenRevocation(Token token) throws SecurityHandlerException {
+        Connection connection = null;
         RpcClient client = null;
         try {
-            client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+            connection = factory.newConnection();
+            client = new RpcClient(connection.createChannel(), "", AAMConstants
                     .AAM_CHECK_REVOCATION_QUEUE, 5000);
             byte[] amqpResponse = client.primitiveCall(mapper.writeValueAsString(token).getBytes());
 
@@ -88,6 +99,12 @@ public class LocalAAMOverAMQPClient {
             if (client != null)
                 try {
                     client.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            if (connection != null)
+                try {
+                    connection.close();
                 } catch (IOException e) {
                     log.error(e);
                 }
