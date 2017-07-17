@@ -34,46 +34,25 @@ public class ResourceManagerTaskInfoRequest {
     public ResourceManagerTaskInfoRequest() {
     }
 
+    public String getTaskId() { return taskId; }
+    public void setTaskId(String taskId) { this.taskId = taskId; }
 
-    public String getTaskId() {
-        return taskId;
-    }
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
-    }
+    public Integer getCount() { return count; }
+    public void setCount(Integer count) { this.count = count; }
 
-    public Integer getCount() {
-        return count;
-    }
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public String getLocation() {
-        return location;
-    }
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public List<String> getObservesProperty() { return observesProperty; }
+    public void setObservesProperty(List<String> observesProperty) { this.observesProperty = observesProperty; }
 
-    public List<String> getObservesProperty() {
-        return observesProperty;
-    }
-    public void setObservesProperty(List<String> observesProperty) {
-        this.observesProperty = observesProperty;
-    }
-
-    public Integer getInterval() {
-        return interval;
-    }
-    public void setInterval(Integer interval) {
-        this.interval = interval;
-    }
+    public Integer getInterval() { return interval; }
+    public void setInterval(Integer interval) { this.interval = interval; }
 
     public Boolean getAllowCaching() { return allowCaching; }
     public void setAllowCaching(Boolean allowCaching) { this.allowCaching = allowCaching; }
 
-    public Long getCachingInterval() { return  getCachingInterval(); }
+    public Long getCachingInterval() { return  cachingInterval; }
     public void setCachingInterval(Long cachingInterval) { this.cachingInterval = cachingInterval; }
 
     public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
