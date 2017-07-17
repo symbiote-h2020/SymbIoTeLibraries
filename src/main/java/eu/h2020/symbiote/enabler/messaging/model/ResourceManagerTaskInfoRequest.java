@@ -21,14 +21,23 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("interval")
     private Integer interval;
 
+    @JsonProperty("allowCaching")
+    private Boolean allowCaching;
+
+    @JsonProperty("cachingInterval")
+    private Long cachingInterval;
+
+    @JsonProperty("informPlatformProxy")
+    private Boolean informPlatformProxy;
+
 
     public ResourceManagerTaskInfoRequest() {
     }
 
+
     public String getTaskId() {
         return taskId;
     }
-
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
@@ -36,7 +45,6 @@ public class ResourceManagerTaskInfoRequest {
     public Integer getCount() {
         return count;
     }
-
     public void setCount(Integer count) {
         this.count = count;
     }
@@ -44,7 +52,6 @@ public class ResourceManagerTaskInfoRequest {
     public String getLocation() {
         return location;
     }
-
     public void setLocation(String location) {
         this.location = location;
     }
@@ -52,7 +59,6 @@ public class ResourceManagerTaskInfoRequest {
     public List<String> getObservesProperty() {
         return observesProperty;
     }
-
     public void setObservesProperty(List<String> observesProperty) {
         this.observesProperty = observesProperty;
     }
@@ -60,8 +66,17 @@ public class ResourceManagerTaskInfoRequest {
     public Integer getInterval() {
         return interval;
     }
-
     public void setInterval(Integer interval) {
         this.interval = interval;
     }
+
+    public Boolean getAllowCaching() { return allowCaching; }
+    public void setAllowCaching(Boolean allowCaching) { this.allowCaching = allowCaching; }
+
+    public Long getCachingInterval() { return  getCachingInterval(); }
+    public void setCachingInterval(Long cachingInterval) { this.cachingInterval = cachingInterval; }
+
+    public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
+    public void setInformPlatformProxy(Boolean informPlatformProxy) { this.informPlatformProxy = informPlatformProxy; }
+
 }
