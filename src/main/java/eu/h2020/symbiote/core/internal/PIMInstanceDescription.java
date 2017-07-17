@@ -11,7 +11,10 @@ import java.util.List;
  * interworking service.
  *
  * Created by Szymon Mueller on 15/03/2017.
+ *
+ * @deprecated Integrated with {@link PIMMetaModelDescription}
  */
+@Deprecated
 public class PIMInstanceDescription extends RDFInfo {
 
     private String id;

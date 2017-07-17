@@ -11,11 +11,13 @@ public class PIMMetaModelDescription extends RDFInfo {
 
     private String uri;
 
-    public PIMMetaModelDescription() {
-    }
+    private String id;
 
-    public PIMMetaModelDescription(String uri) {
-        this.uri = uri;
+    private String name;
+
+    private String definition;
+
+    public PIMMetaModelDescription() {
     }
 
     public String getUri() {
@@ -26,4 +28,27 @@ public class PIMMetaModelDescription extends RDFInfo {
         this.uri = uri;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(String definition) {
+        this.definition = definition;
+    }
 }

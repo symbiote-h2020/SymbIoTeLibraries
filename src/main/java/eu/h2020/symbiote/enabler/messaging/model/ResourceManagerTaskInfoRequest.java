@@ -21,47 +21,41 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("interval")
     private Integer interval;
 
+    @JsonProperty("allowCaching")
+    private Boolean allowCaching;
+
+    @JsonProperty("cachingInterval")
+    private Long cachingInterval;
+
+    @JsonProperty("informPlatformProxy")
+    private Boolean informPlatformProxy;
+
 
     public ResourceManagerTaskInfoRequest() {
     }
 
-    public String getTaskId() {
-        return taskId;
-    }
+    public String getTaskId() { return taskId; }
+    public void setTaskId(String taskId) { this.taskId = taskId; }
 
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
-    }
+    public Integer getCount() { return count; }
+    public void setCount(Integer count) { this.count = count; }
 
-    public Integer getCount() {
-        return count;
-    }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+    public List<String> getObservesProperty() { return observesProperty; }
+    public void setObservesProperty(List<String> observesProperty) { this.observesProperty = observesProperty; }
 
-    public String getLocation() {
-        return location;
-    }
+    public Integer getInterval() { return interval; }
+    public void setInterval(Integer interval) { this.interval = interval; }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public Boolean getAllowCaching() { return allowCaching; }
+    public void setAllowCaching(Boolean allowCaching) { this.allowCaching = allowCaching; }
 
-    public List<String> getObservesProperty() {
-        return observesProperty;
-    }
+    public Long getCachingInterval() { return  cachingInterval; }
+    public void setCachingInterval(Long cachingInterval) { this.cachingInterval = cachingInterval; }
 
-    public void setObservesProperty(List<String> observesProperty) {
-        this.observesProperty = observesProperty;
-    }
+    public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
+    public void setInformPlatformProxy(Boolean informPlatformProxy) { this.informPlatformProxy = informPlatformProxy; }
 
-    public Integer getInterval() {
-        return interval;
-    }
-
-    public void setInterval(Integer interval) {
-        this.interval = interval;
-    }
 }
