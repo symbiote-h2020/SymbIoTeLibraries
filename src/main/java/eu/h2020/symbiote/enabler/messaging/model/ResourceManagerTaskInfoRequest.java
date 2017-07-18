@@ -1,11 +1,14 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+
 import java.util.List;
 
 
 public class ResourceManagerTaskInfoRequest {
 
+    @Id
     @JsonProperty("taskId")
     private String taskId;
 
