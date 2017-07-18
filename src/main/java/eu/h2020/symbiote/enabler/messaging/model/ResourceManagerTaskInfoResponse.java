@@ -18,13 +18,14 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
         setLocation(resourceManagerTaskInfoRequest.getLocation());
         setObservesProperty(resourceManagerTaskInfoRequest.getObservesProperty());
         setInterval(resourceManagerTaskInfoRequest.getInterval());
-
+        setAllowCaching(resourceManagerTaskInfoRequest.getAllowCaching());
+        setCachingInterval(resourceManagerTaskInfoRequest.getCachingInterval());
+        setInformPlatformProxy(resourceManagerTaskInfoRequest.getInformPlatformProxy());
     }
 
     public List<String> getResourceIds() {
         return resourceIds;
     }
-
     public void setResourceIds(List<String> resourceIds) {
         this.resourceIds = resourceIds;
     }
