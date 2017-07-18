@@ -1,17 +1,17 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vasgl on 7/18/2017.
  */
 public class CancelTaskRequest {
-    private ArrayList<String> taskIdList;
+    private List<String> taskIdList;
 
     public CancelTaskRequest() {
         // empty constructor
     }
 
-    public ArrayList<String> getTaskIdList() { return taskIdList; }
-    public void setTaskIdList(ArrayList<String> taskIdList) { this.taskIdList = taskIdList; }
+    public List<String> getTaskIdList() { return taskIdList; }
+    public void setTaskIdList(List<String> taskIdList) { this.taskIdList = taskIdList; }
 }
