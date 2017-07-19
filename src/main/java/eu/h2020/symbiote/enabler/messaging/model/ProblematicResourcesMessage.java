@@ -13,10 +13,10 @@ public class ProblematicResourcesMessage {
         problematicResourcesInfoList = new ArrayList<>();
     }
 
-    public List<ProblematicResourcesInfo> getUnavailableResourcesInfoList() {
+    public List<ProblematicResourcesInfo> getProblematicResourcesInfoList() {
         return problematicResourcesInfoList;
     }
-    public void setUnavailableResourcesInfoList(List<ProblematicResourcesInfo> problematicResourcesInfoList) {
+    public void setProblematicResourcesInfoList(List<ProblematicResourcesInfo> problematicResourcesInfoList) {
         this.problematicResourcesInfoList = problematicResourcesInfoList;
     }
 }
