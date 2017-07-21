@@ -14,11 +14,11 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
 
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
         setTaskId(resourceManagerTaskInfoRequest.getTaskId());
-        setCount(resourceManagerTaskInfoRequest.getCount());
+        setMinNoResources(resourceManagerTaskInfoRequest.getMinNoResources());
         setCoreQueryRequest(resourceManagerTaskInfoRequest.getCoreQueryRequest());
-        setInterval(resourceManagerTaskInfoRequest.getInterval());
+        setQueryInterval_ms(resourceManagerTaskInfoRequest.getQueryInterval_ms());
         setAllowCaching(resourceManagerTaskInfoRequest.getAllowCaching());
-        setCachingInterval(resourceManagerTaskInfoRequest.getCachingInterval());
+        setCachingInterval_ms(resourceManagerTaskInfoRequest.getCachingInterval_ms());
         setInformPlatformProxy(resourceManagerTaskInfoRequest.getInformPlatformProxy());
         setEnablerLogicName(resourceManagerTaskInfoRequest.getEnablerLogicName());
     }

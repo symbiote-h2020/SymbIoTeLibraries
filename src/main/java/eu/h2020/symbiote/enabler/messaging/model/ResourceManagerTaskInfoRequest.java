@@ -13,20 +13,22 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("taskId")
     private String taskId;
 
-    @JsonProperty("count")
-    private Integer count;
+    @JsonProperty("minNoResources")
+    private Integer minNoResources;
 
     @JsonProperty("coreQueryRequest")
     private CoreQueryRequest coreQueryRequest;
 
-    @JsonProperty("interval")
-    private Integer interval;
+    // Subject to change to more human friendly format
+    @JsonProperty("queryInterval_ms")
+    private Integer queryInterval_ms;
 
     @JsonProperty("allowCaching")
     private Boolean allowCaching;
 
-    @JsonProperty("cachingInterval")
-    private Long cachingInterval;
+    // Subject to change to more human friendly format
+    @JsonProperty("cachingInterval_ms")
+    private Long cachingInterval_ms;
 
     @JsonProperty("informPlatformProxy")
     private Boolean informPlatformProxy;
@@ -40,20 +42,20 @@ public class ResourceManagerTaskInfoRequest {
     public String getTaskId() { return taskId; }
     public void setTaskId(String taskId) { this.taskId = taskId; }
 
-    public Integer getCount() { return count; }
-    public void setCount(Integer count) { this.count = count; }
+    public Integer getMinNoResources() { return minNoResources; }
+    public void setMinNoResources(Integer count) { this.minNoResources = minNoResources; }
 
     public CoreQueryRequest getCoreQueryRequest() { return coreQueryRequest; }
     public void setCoreQueryRequest(CoreQueryRequest coreQueryRequest) { this.coreQueryRequest = coreQueryRequest; }
 
-    public Integer getInterval() { return interval; }
-    public void setInterval(Integer interval) { this.interval = interval; }
+    public Integer getQueryInterval_ms() { return queryInterval_ms; }
+    public void setQueryInterval_ms(Integer queryInterval_ms) { this.queryInterval_ms = queryInterval_ms; }
 
     public Boolean getAllowCaching() { return allowCaching; }
     public void setAllowCaching(Boolean allowCaching) { this.allowCaching = allowCaching; }
 
-    public Long getCachingInterval() { return  cachingInterval; }
-    public void setCachingInterval(Long cachingInterval) { this.cachingInterval = cachingInterval; }
+    public Long getCachingInterval_ms() { return  cachingInterval_ms; }
+    public void setCachingInterval_ms(Long cachingInterval_ms) { this.cachingInterval_ms = cachingInterval_ms; }
 
     public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
     public void setInformPlatformProxy(Boolean informPlatformProxy) { this.informPlatformProxy = informPlatformProxy; }
