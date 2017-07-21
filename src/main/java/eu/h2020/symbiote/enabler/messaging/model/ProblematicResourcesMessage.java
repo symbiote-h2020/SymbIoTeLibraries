@@ -18,5 +18,7 @@ public class ProblematicResourcesMessage {
     }
     public void setProblematicResourcesInfoList(List<ProblematicResourcesInfo> problematicResourcesInfoList) {
         this.problematicResourcesInfoList = problematicResourcesInfoList;
+
+
     }
 }
