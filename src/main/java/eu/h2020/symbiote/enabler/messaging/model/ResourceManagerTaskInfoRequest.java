@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
@@ -15,11 +16,8 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("count")
     private Integer count;
 
-    @JsonProperty("location")
-    private String location;   
-
-    @JsonProperty("observesProperty")
-    private List<String> observesProperty;
+    @JsonProperty("coreQueryRequest")
+    private CoreQueryRequest coreQueryRequest;
 
     @JsonProperty("interval")
     private Integer interval;
@@ -33,6 +31,8 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("informPlatformProxy")
     private Boolean informPlatformProxy;
 
+    @JsonProperty("enablerLogicName")
+    private String enablerLogicName;
 
     public ResourceManagerTaskInfoRequest() {
     }
@@ -43,11 +43,8 @@ public class ResourceManagerTaskInfoRequest {
     public Integer getCount() { return count; }
     public void setCount(Integer count) { this.count = count; }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-
-    public List<String> getObservesProperty() { return observesProperty; }
-    public void setObservesProperty(List<String> observesProperty) { this.observesProperty = observesProperty; }
+    public CoreQueryRequest getCoreQueryRequest() { return coreQueryRequest; }
+    public void setCoreQueryRequest(CoreQueryRequest coreQueryRequest) { this.coreQueryRequest = coreQueryRequest; }
 
     public Integer getInterval() { return interval; }
     public void setInterval(Integer interval) { this.interval = interval; }
@@ -61,4 +58,6 @@ public class ResourceManagerTaskInfoRequest {
     public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
     public void setInformPlatformProxy(Boolean informPlatformProxy) { this.informPlatformProxy = informPlatformProxy; }
 
+    public String getEnablerLogicName() { return enablerLogicName; }
+    public void setEnablerLogicName(String enablerLogicName) { this.enablerLogicName = enablerLogicName; }
 }
