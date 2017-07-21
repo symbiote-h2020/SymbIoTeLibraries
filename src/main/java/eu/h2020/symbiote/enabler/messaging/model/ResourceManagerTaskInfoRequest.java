@@ -43,7 +43,7 @@ public class ResourceManagerTaskInfoRequest {
     public void setTaskId(String taskId) { this.taskId = taskId; }
 
     public Integer getMinNoResources() { return minNoResources; }
-    public void setMinNoResources(Integer count) { this.minNoResources = minNoResources; }
+    public void setMinNoResources(Integer minNoResources) { this.minNoResources = minNoResources; }
 
     public CoreQueryRequest getCoreQueryRequest() { return coreQueryRequest; }
     public void setCoreQueryRequest(CoreQueryRequest coreQueryRequest) { this.coreQueryRequest = coreQueryRequest; }
