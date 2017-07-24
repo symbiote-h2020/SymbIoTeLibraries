@@ -45,5 +45,5 @@ public class PlatformProxyAcquisitionStartRequest {
     }
 
     public String getEnablerLogicName() { return enablerLogicName; }
-    public void setEnablerLogicName() {this.enablerLogicName = enablerLogicName; }
+    public void setEnablerLogicName(String enablerLogicName) {this.enablerLogicName = enablerLogicName; }
 }
