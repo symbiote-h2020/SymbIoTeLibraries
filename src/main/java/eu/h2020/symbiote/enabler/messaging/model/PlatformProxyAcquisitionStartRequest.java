@@ -12,8 +12,12 @@ public class PlatformProxyAcquisitionStartRequest {
     @JsonProperty("resources")
     private List<PlatformProxyResourceInfo> resources;
 
-    @JsonProperty("interval")
-    private Integer interval;
+    @JsonProperty("enablerLogicName")
+    private String enablerLogicName;
+
+    // Subject to change to more human friendly format
+    @JsonProperty("queryInterval_ms")
+    private Integer queryInterval_ms;
 
 
     public PlatformProxyAcquisitionStartRequest() {
@@ -22,7 +26,6 @@ public class PlatformProxyAcquisitionStartRequest {
     public String getTaskId() {
         return taskId;
     }
-
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
@@ -30,16 +33,17 @@ public class PlatformProxyAcquisitionStartRequest {
     public List<PlatformProxyResourceInfo> getResources() {
         return resources;
     }
-
     public void setResources(List<PlatformProxyResourceInfo> resources) {
         this.resources = resources;
     }
 
-    public Integer getInterval() {
-        return interval;
+    public Integer getQueryInterval_ms() {
+        return queryInterval_ms;
+    }
+    public void setQueryInterval_ms(Integer queryInterval_ms) {
+        this.queryInterval_ms = queryInterval_ms;
     }
 
-    public void setInterval(Integer interval) {
-        this.interval = interval;
-    }
+    public String getEnablerLogicName() { return enablerLogicName; }
+    public void setEnablerLogicName() {this.enablerLogicName = enablerLogicName; }
 }
