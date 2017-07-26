@@ -19,6 +19,11 @@ public class ResourcesUpdated {
         // empty constructor
     }
 
+    public ResourcesUpdated(String taskId, List<String> newResources) {
+        this.taskId = taskId;
+        this.newResources = newResources;
+    }
+
     public String getTaskId() { return taskId; }
     public void setTaskId(String taskId) { this.taskId = taskId; }
 
