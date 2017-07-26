@@ -7,16 +7,16 @@ import java.util.List;
 /**
  * Represents CIM-defined Service class.
  *
- * Created by Mael on 28/03/2017.
+ * Created by Szymon Mueller on 28/03/2017.
  */
 public class Service extends Resource {
 
     @JsonProperty("name")
     private String name;
-    @JsonProperty("outputParameter")
-    private Parameter outputParameter;
+    @JsonProperty("outputDatatype")
+    private Datatype outputDatatype;
     @JsonProperty("inputParameter")
-    private List<InputParameter> inputParameter;
+    private List<InputDatatype> inputParameter;
 
     public Service() {
     }
@@ -29,19 +29,19 @@ public class Service extends Resource {
         this.name = name;
     }
 
-    public Parameter getOutputParameter() {
-        return outputParameter;
+    public Datatype getOutputDatatype() {
+        return outputDatatype;
     }
 
-    public void setOutputParameter(Parameter outputParameter) {
-        this.outputParameter = outputParameter;
+    public void setOutputDatatype(Datatype outputDatatype) {
+        this.outputDatatype = outputDatatype;
     }
 
-    public List<InputParameter> getInputParameter() {
+    public List<InputDatatype> getInputParameter() {
         return inputParameter;
     }
 
-    public void setInputParameter(List<InputParameter> inputParameter) {
+    public void setInputParameter(List<InputDatatype> inputParameter) {
         this.inputParameter = inputParameter;
     }
 }

@@ -6,20 +6,17 @@ import eu.h2020.symbiote.core.model.Property;
 import java.util.List;
 
 /**
- * Represents CIM-defined Actuating Service class.
+ * CIM-defined Effect class.
  *
- * Created by Mael on 28/03/2017.
+ * Created by Szymon Mueller on 26/07/2017.
  */
-@Deprecated
-public class ActuatingService extends Service {
+public class Effect {
 
     @JsonProperty("actsOn")
     private FeatureOfInterest actsOn;
-    @JsonProperty("affects")
-    private List<String> affects; //Links to BIM properties - short name of the property is used
 
-    public ActuatingService() {
-    }
+    @JsonProperty("affects")
+    private List<Property> affects;
 
     public FeatureOfInterest getActsOn() {
         return actsOn;
@@ -29,11 +26,11 @@ public class ActuatingService extends Service {
         this.actsOn = actsOn;
     }
 
-    public List<String> getAffects() {
+    public List<Property> getAffects() {
         return affects;
     }
 
-    public void setAffects(List<String> affects) {
+    public void setAffects(List<Property> affects) {
         this.affects = affects;
     }
 }

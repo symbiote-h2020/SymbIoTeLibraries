@@ -9,11 +9,10 @@ import java.util.List;
  * Class to represent a resource which is both an Actuator and a Stationary Service.
  *
  * Created by Szymon Mueller on 01/05/2017.
+ *
  */
-public class StationaryDevice extends Resource {
-
-    @JsonProperty("locatedAt")
-    private Location locatedAt;
+@Deprecated
+public class StationaryDevice extends Device {
 
     @JsonProperty("capabilites")
     private List<ActuatingService> capabilities;
@@ -27,13 +26,6 @@ public class StationaryDevice extends Resource {
     public StationaryDevice() {
     }
 
-    public Location getLocatedAt() {
-        return locatedAt;
-    }
-
-    public void setLocatedAt(Location locatedAt) {
-        this.locatedAt = locatedAt;
-    }
 
     public List<ActuatingService> getCapabilities() {
         return capabilities;

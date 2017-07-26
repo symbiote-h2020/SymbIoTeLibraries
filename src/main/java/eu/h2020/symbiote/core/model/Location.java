@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.List;
+
 /**
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
  */
@@ -20,16 +22,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 abstract public class Location {
     @JsonProperty("name")
-    String label;
+    List<String> labels;
     @JsonProperty("description")
-    String comment;
+    List<String> comments;
 
 
-    public String getLabel() {
-        return label;
+    public List<String> getLabels() {
+        return labels;
     }
     
-    public String getComment() {
-        return comment;
+    public List<String> getComments() {
+        return comments;
     }
 }
