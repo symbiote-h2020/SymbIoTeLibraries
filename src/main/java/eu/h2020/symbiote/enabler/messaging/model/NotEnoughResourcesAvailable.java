@@ -17,14 +17,19 @@ public class NotEnoughResourcesAvailable {
     @JsonProperty("noResourcesAcquired")
     private Integer noResourcesAcquired;
 
+    @JsonProperty("maxNoResourcesThatCanBeAcquired")
+    private Integer maxNoResourcesThatCanBeAcquired;
+
     public NotEnoughResourcesAvailable() {
         // empty constructor
     }
 
-    public NotEnoughResourcesAvailable(String taskId, Integer minNoResources, Integer noResourcesAcquired) {
+    public NotEnoughResourcesAvailable(String taskId, Integer minNoResources,
+                                       Integer noResourcesAcquired, Integer maxNoResourcesThatCanBeAcquired) {
         this.taskId = taskId;
         this.minNoResources = minNoResources;
         this.noResourcesAcquired = noResourcesAcquired;
+        this.maxNoResourcesThatCanBeAcquired = maxNoResourcesThatCanBeAcquired;
     }
 
     public String getTaskId() { return taskId; }
@@ -35,4 +40,9 @@ public class NotEnoughResourcesAvailable {
 
     public Integer getNoResourcesAcquired() { return noResourcesAcquired; }
     public void setNoResourcesAcquired(Integer noResourcesAcquired) { this.noResourcesAcquired = noResourcesAcquired; }
+
+    public Integer getMaxNoResourcesThatCanBeAcquired() { return maxNoResourcesThatCanBeAcquired; }
+    public void setMaxNoResourcesThatCanBeAcquired(Integer maxNoResourcesThatCanBeAcquired) {
+        this.maxNoResourcesThatCanBeAcquired = maxNoResourcesThatCanBeAcquired;
+    }
 }
