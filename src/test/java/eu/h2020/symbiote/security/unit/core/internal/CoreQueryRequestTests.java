@@ -58,4 +58,61 @@ public class CoreQueryRequestTests {
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
 
     }
+
+    @Test
+    public void equalsTest() {
+        CoreQueryRequest coreQueryRequest1 = new CoreQueryRequest.Builder()
+                .platformId("pId")
+                .platformName("pName")
+                .owner("owner")
+                .name("name")
+                .id("id")
+                .description("desc")
+                .locationName("lName")
+                .locationLat(123.0)
+                .locationLong(456.0)
+                .maxDistance(10)
+                .observedProperty(Arrays.asList("p1", "p2"))
+                .resourceType("type")
+                .token("token")
+                .build();
+
+        CoreQueryRequest coreQueryRequest2 = new CoreQueryRequest.Builder()
+                .platformId("pId")
+                .platformName("pName")
+                .owner("owner")
+                .name("name")
+                .id("id")
+                .description("desc")
+                .locationName("lName")
+                .locationLat(123.0)
+                .locationLong(456.0)
+                .maxDistance(10)
+                .observedProperty(Arrays.asList("p1", "p2"))
+                .resourceType("type")
+                .token("token")
+                .build();
+
+        CoreQueryRequest coreQueryRequest3 = new CoreQueryRequest.Builder()
+                .platformId("pId")
+                .platformName("pName")
+                .owner("owner")
+                .name("name")
+                .id("id")
+                .description("desc")
+                .locationName("lName")
+                .locationLat(123.0)
+                .locationLong(456.0)
+                .maxDistance(10)
+                .observedProperty(Arrays.asList("p1", "p2", "p3"))
+                .resourceType("type")
+                .token("token")
+                .build();
+
+        assertEquals(true, coreQueryRequest1.equals(coreQueryRequest1));
+        assertEquals(true, coreQueryRequest1.equals(coreQueryRequest2));
+        assertEquals(false, coreQueryRequest1.equals(coreQueryRequest3));
+
+    }
+
 }
