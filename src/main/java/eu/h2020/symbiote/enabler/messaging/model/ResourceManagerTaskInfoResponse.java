@@ -3,6 +3,7 @@ package eu.h2020.symbiote.enabler.messaging.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,11 +24,12 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
         setCachingInterval_ms(resourceManagerTaskInfoRequest.getCachingInterval_ms());
         setInformPlatformProxy(resourceManagerTaskInfoRequest.getInformPlatformProxy());
         setEnablerLogicName(resourceManagerTaskInfoRequest.getEnablerLogicName());
+        resourceIds = new ArrayList<>();
     }
 
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoResponse resourceManagerTaskInfoResponse) {
         this((ResourceManagerTaskInfoRequest) resourceManagerTaskInfoResponse);
-        setResourceIds(resourceManagerTaskInfoResponse.getResourceIds());
+        setResourceIds(new ArrayList<>(resourceManagerTaskInfoResponse.getResourceIds()));
     }
 
     public List<String> getResourceIds() {
