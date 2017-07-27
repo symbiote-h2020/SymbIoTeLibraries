@@ -49,6 +49,24 @@ public class CoreQueryRequest {
         this.token = token;
     }
 
+    public static CoreQueryRequest newInstance(CoreQueryRequest coreQueryRequest) {
+        return new Builder()
+                .platformId(coreQueryRequest.getPlatform_id())
+                .platformName(coreQueryRequest.getPlatform_name())
+                .owner(coreQueryRequest.getOwner())
+                .name(coreQueryRequest.getName())
+                .id(coreQueryRequest.getId())
+                .description(coreQueryRequest.getDescription())
+                .locationName(coreQueryRequest.getLocation_name())
+                .locationLat(coreQueryRequest.getLocation_lat())
+                .locationLong(coreQueryRequest.getLocation_long())
+                .maxDistance(coreQueryRequest.getMax_distance())
+                .observedProperty(coreQueryRequest.getObserved_property())
+                .resourceType(coreQueryRequest.getResource_type())
+                .token(coreQueryRequest.getToken())
+                .build();
+    }
+
     public String getPlatform_id() {
         return platform_id;
     }

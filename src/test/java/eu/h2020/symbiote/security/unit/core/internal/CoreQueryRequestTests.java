@@ -112,7 +112,36 @@ public class CoreQueryRequestTests {
         assertEquals(true, coreQueryRequest1.equals(coreQueryRequest1));
         assertEquals(true, coreQueryRequest1.equals(coreQueryRequest2));
         assertEquals(false, coreQueryRequest1.equals(coreQueryRequest3));
-
     }
 
+    @Test
+    public void copyConstructorTest() {
+        CoreQueryRequest coreQueryRequest1 = new CoreQueryRequest.Builder()
+                .platformId("pId")
+                .platformName("pName")
+                .owner("owner")
+                .name("name")
+                .id("id")
+                .description("desc")
+                .locationName("lName")
+                .locationLat(123.0)
+                .locationLong(456.0)
+                .maxDistance(10)
+                .observedProperty(Arrays.asList("p1", "p2"))
+                .resourceType("type")
+                .token("token")
+                .build();
+
+        CoreQueryRequest coreQueryRequest2 = CoreQueryRequest.newInstance(coreQueryRequest1);
+        assertEquals(true, coreQueryRequest1.equals(coreQueryRequest2));
+
+        coreQueryRequest2.setObserved_property(Arrays.asList("p1", "p2", "p3"));
+        coreQueryRequest2.setName("newName");
+        coreQueryRequest2.setMax_distance(1000);
+
+        assertEquals(2, coreQueryRequest1.getObserved_property().size());
+        assertEquals("name", coreQueryRequest1.getName());
+        assertEquals(10, (int) coreQueryRequest1.getMax_distance());
+        assertEquals(false, coreQueryRequest1.equals(coreQueryRequest2));
+    }
 }
