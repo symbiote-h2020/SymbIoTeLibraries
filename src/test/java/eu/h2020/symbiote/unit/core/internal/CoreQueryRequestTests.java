@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.security.unit.core.internal;
+package eu.h2020.symbiote.unit.core.internal;
 
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -142,6 +142,13 @@ public class CoreQueryRequestTests {
         assertEquals(2, coreQueryRequest1.getObserved_property().size());
         assertEquals("name", coreQueryRequest1.getName());
         assertEquals(10, (int) coreQueryRequest1.getMax_distance());
+
+        assertEquals(3, coreQueryRequest2.getObserved_property().size());
+        assertEquals("newName", coreQueryRequest2.getName());
+        assertEquals(1000, (int) coreQueryRequest2.getMax_distance());
+
         assertEquals(false, coreQueryRequest1.equals(coreQueryRequest2));
+
+
     }
 }
