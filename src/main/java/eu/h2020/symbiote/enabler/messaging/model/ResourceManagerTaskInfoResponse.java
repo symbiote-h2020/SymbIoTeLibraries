@@ -25,6 +25,11 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
         setEnablerLogicName(resourceManagerTaskInfoRequest.getEnablerLogicName());
     }
 
+    public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoResponse resourceManagerTaskInfoResponse) {
+        this((ResourceManagerTaskInfoRequest) resourceManagerTaskInfoResponse);
+        setResourceIds(resourceManagerTaskInfoResponse.getResourceIds());
+    }
+
     public List<String> getResourceIds() {
         return resourceIds;
     }
