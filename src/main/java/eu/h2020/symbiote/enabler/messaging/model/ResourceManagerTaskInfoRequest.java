@@ -39,6 +39,17 @@ public class ResourceManagerTaskInfoRequest {
     public ResourceManagerTaskInfoRequest() {
     }
 
+    public ResourceManagerTaskInfoRequest(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
+        taskId = resourceManagerTaskInfoRequest.getTaskId();
+        minNoResources = resourceManagerTaskInfoRequest.getMinNoResources();
+        coreQueryRequest = CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest());
+        queryInterval_ms =resourceManagerTaskInfoRequest.getQueryInterval_ms();
+        allowCaching = resourceManagerTaskInfoRequest.getAllowCaching();
+        cachingInterval_ms = resourceManagerTaskInfoRequest.getCachingInterval_ms();
+        informPlatformProxy = resourceManagerTaskInfoRequest.getInformPlatformProxy();
+        enablerLogicName = resourceManagerTaskInfoRequest.getEnablerLogicName();
+    }
+
     public String getTaskId() { return taskId; }
     public void setTaskId(String taskId) { this.taskId = taskId; }
 
