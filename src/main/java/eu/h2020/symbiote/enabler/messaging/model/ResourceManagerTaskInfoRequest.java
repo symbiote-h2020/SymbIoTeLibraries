@@ -1,67 +1,76 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.internal.CoreQueryRequest;
+import org.springframework.data.annotation.Id;
+
 import java.util.List;
 
 
 public class ResourceManagerTaskInfoRequest {
 
+    @Id
     @JsonProperty("taskId")
     private String taskId;
 
-    @JsonProperty("count")
-    private Integer count;
+    @JsonProperty("minNoResources")
+    private Integer minNoResources;
 
-    @JsonProperty("location")
-    private String location;   
+    @JsonProperty("coreQueryRequest")
+    private CoreQueryRequest coreQueryRequest;
 
-    @JsonProperty("observesProperty")
-    private List<String> observesProperty;
+    // Subject to change to more human friendly format
+    @JsonProperty("queryInterval_ms")
+    private Integer queryInterval_ms;
 
-    @JsonProperty("interval")
-    private Integer interval;
+    @JsonProperty("allowCaching")
+    private Boolean allowCaching;
 
+    // Subject to change to more human friendly format
+    @JsonProperty("cachingInterval_ms")
+    private Long cachingInterval_ms;
+
+    @JsonProperty("informPlatformProxy")
+    private Boolean informPlatformProxy;
+
+    @JsonProperty("enablerLogicName")
+    private String enablerLogicName;
 
     public ResourceManagerTaskInfoRequest() {
     }
 
-    public String getTaskId() {
-        return taskId;
+    public ResourceManagerTaskInfoRequest(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
+        taskId = resourceManagerTaskInfoRequest.getTaskId();
+        minNoResources = resourceManagerTaskInfoRequest.getMinNoResources();
+        coreQueryRequest = CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest());
+        queryInterval_ms =resourceManagerTaskInfoRequest.getQueryInterval_ms();
+        allowCaching = resourceManagerTaskInfoRequest.getAllowCaching();
+        cachingInterval_ms = resourceManagerTaskInfoRequest.getCachingInterval_ms();
+        informPlatformProxy = resourceManagerTaskInfoRequest.getInformPlatformProxy();
+        enablerLogicName = resourceManagerTaskInfoRequest.getEnablerLogicName();
     }
 
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
-    }
+    public String getTaskId() { return taskId; }
+    public void setTaskId(String taskId) { this.taskId = taskId; }
 
-    public Integer getCount() {
-        return count;
-    }
+    public Integer getMinNoResources() { return minNoResources; }
+    public void setMinNoResources(Integer minNoResources) { this.minNoResources = minNoResources; }
 
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+    public CoreQueryRequest getCoreQueryRequest() { return coreQueryRequest; }
+    public void setCoreQueryRequest(CoreQueryRequest coreQueryRequest) { this.coreQueryRequest = coreQueryRequest; }
 
-    public String getLocation() {
-        return location;
-    }
+    public Integer getQueryInterval_ms() { return queryInterval_ms; }
+    public void setQueryInterval_ms(Integer queryInterval_ms) { this.queryInterval_ms = queryInterval_ms; }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public Boolean getAllowCaching() { return allowCaching; }
+    public void setAllowCaching(Boolean allowCaching) { this.allowCaching = allowCaching; }
 
-    public List<String> getObservesProperty() {
-        return observesProperty;
-    }
+    public Long getCachingInterval_ms() { return  cachingInterval_ms; }
+    public void setCachingInterval_ms(Long cachingInterval_ms) { this.cachingInterval_ms = cachingInterval_ms; }
 
-    public void setObservesProperty(List<String> observesProperty) {
-        this.observesProperty = observesProperty;
-    }
+    public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
+    public void setInformPlatformProxy(Boolean informPlatformProxy) { this.informPlatformProxy = informPlatformProxy; }
 
-    public Integer getInterval() {
-        return interval;
-    }
-
-    public void setInterval(Integer interval) {
-        this.interval = interval;
-    }
+    public String getEnablerLogicName() { return enablerLogicName; }
+    public void setEnablerLogicName(String enablerLogicName) { this.enablerLogicName = enablerLogicName; }
 }

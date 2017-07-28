@@ -13,10 +13,7 @@ import eu.h2020.symbiote.security.token.jwt.JWTEngine;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -144,6 +141,25 @@ public class InternalSecurityHandlerTest {
             assert (false);
         }
     }
+
+    @Test
+    @Ignore("Should be only unlocked when monitoring the performance")
+    public void AMQPTokenValidationTestForThreadsEvaluation() {
+        try {
+            Token token = new Token(coreTokenString);
+            ValidationStatus validationStatus = ValidationStatus.NULL;
+            for (int i = 0; i < 1000000; i++) {
+                validationStatus = securityHandler.verifyHomeToken(token);
+            }
+            assertEquals(ValidationStatus.VALID, validationStatus);
+            Assert.assertEquals("test1", token.getClaims().getSubject());
+            Assert.assertEquals("test2", token.getClaims().get(AAMConstants.SYMBIOTE_ATTRIBUTES_PREFIX + "name"));
+        } catch (TokenValidationException e) {
+            log.error(e);
+            assert (false);
+        }
+    }
+
 
     @Test
     public void testHomeTokenValidationWithError() throws TokenValidationException {

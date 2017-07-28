@@ -1,6 +1,9 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.internal.CoreQueryRequest;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -13,18 +16,18 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
     }
 
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
-        setTaskId(resourceManagerTaskInfoRequest.getTaskId());
-        setCount(resourceManagerTaskInfoRequest.getCount());
-        setLocation(resourceManagerTaskInfoRequest.getLocation());
-        setObservesProperty(resourceManagerTaskInfoRequest.getObservesProperty());
-        setInterval(resourceManagerTaskInfoRequest.getInterval());
+        super(resourceManagerTaskInfoRequest);
+        resourceIds = new ArrayList<>();
+    }
 
+    public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoResponse resourceManagerTaskInfoResponse) {
+        this((ResourceManagerTaskInfoRequest) resourceManagerTaskInfoResponse);
+        resourceIds = new ArrayList<>(resourceManagerTaskInfoResponse.getResourceIds());
     }
 
     public List<String> getResourceIds() {
         return resourceIds;
     }
-
     public void setResourceIds(List<String> resourceIds) {
         this.resourceIds = resourceIds;
     }

@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.security.amqp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.RpcClient;
 import eu.h2020.symbiote.security.constants.AAMConstants;
@@ -33,11 +34,14 @@ public class LocalAAMOverAMQPClient {
 
     public Token login(Credentials credentials) throws SecurityHandlerException {
         byte[] response;
+        Connection connection = null;
+        RpcClient client = null;
         // requesting login
         try {
             log.debug("Sending request of login for " + credentials.getUsername());
 
-            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+            connection = factory.newConnection();
+            client = new RpcClient(connection.createChannel(), "", AAMConstants
                     .AAM_LOGIN_QUEUE, 5000);
 
             response = client.primitiveCall(mapper.writeValueAsString(credentials)
@@ -45,6 +49,19 @@ public class LocalAAMOverAMQPClient {
         } catch (Exception e) {
             log.error(e);
             throw new SecurityHandlerException(e.getMessage(), e);
+        } finally {
+            if (client != null)
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            if (connection != null)
+                try {
+                    connection.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
         }
         // unpacking response
         try {
@@ -53,7 +70,8 @@ public class LocalAAMOverAMQPClient {
         } catch (IOException e) {
             try {
                 // unpacking packed exception response
-                ErrorResponseContainer errorResponseContainer = mapper.readValue(response, ErrorResponseContainer.class);
+                ErrorResponseContainer errorResponseContainer = mapper.readValue(response, ErrorResponseContainer
+                        .class);
                 log.error(errorResponseContainer.getErrorMessage());
                 throw new SecurityHandlerException(errorResponseContainer.getErrorMessage());
             } catch (IOException e1) {
@@ -64,8 +82,11 @@ public class LocalAAMOverAMQPClient {
     }
 
     public CheckRevocationResponse checkHomeTokenRevocation(Token token) throws SecurityHandlerException {
+        Connection connection = null;
+        RpcClient client = null;
         try {
-            RpcClient client = new RpcClient(factory.newConnection().createChannel(), "", AAMConstants
+            connection = factory.newConnection();
+            client = new RpcClient(connection.createChannel(), "", AAMConstants
                     .AAM_CHECK_REVOCATION_QUEUE, 5000);
             byte[] amqpResponse = client.primitiveCall(mapper.writeValueAsString(token).getBytes());
 
@@ -74,6 +95,19 @@ public class LocalAAMOverAMQPClient {
         } catch (Exception e) {
             log.error(e);
             throw new SecurityHandlerException(e.getMessage(), e);
+        } finally {
+            if (client != null)
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
+            if (connection != null)
+                try {
+                    connection.close();
+                } catch (IOException e) {
+                    log.error(e);
+                }
         }
     }
 }
