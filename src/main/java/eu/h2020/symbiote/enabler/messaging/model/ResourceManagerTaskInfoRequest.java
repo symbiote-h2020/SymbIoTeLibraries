@@ -42,7 +42,12 @@ public class ResourceManagerTaskInfoRequest {
     public ResourceManagerTaskInfoRequest(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
         taskId = resourceManagerTaskInfoRequest.getTaskId();
         minNoResources = resourceManagerTaskInfoRequest.getMinNoResources();
-        coreQueryRequest = CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest());
+
+        if (resourceManagerTaskInfoRequest.getCoreQueryRequest() != null)
+            coreQueryRequest = CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest());
+        else
+            coreQueryRequest = null;
+
         queryInterval_ms =resourceManagerTaskInfoRequest.getQueryInterval_ms();
         allowCaching = resourceManagerTaskInfoRequest.getAllowCaching();
         cachingInterval_ms = resourceManagerTaskInfoRequest.getCachingInterval_ms();
