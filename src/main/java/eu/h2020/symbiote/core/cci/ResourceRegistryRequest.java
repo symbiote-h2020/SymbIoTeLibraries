@@ -4,7 +4,7 @@ package eu.h2020.symbiote.core.cci;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.core.model.resources.Resource;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Request class for operations on JSON-described resources. Used as a payload for Cloud Core Interface's
@@ -18,17 +18,17 @@ import java.util.List;
 public class ResourceRegistryRequest {
 
     @JsonProperty("resources")
-    private List<Resource> resources;
+    private Map<String, Resource> resources;
 
     public ResourceRegistryRequest() {
         // Needed for Jackson serialization
     }
 
-    public List<Resource> getResources() {
+    public Map<String, Resource> getResources() {
         return resources;
     }
 
-    public void setResources(List<Resource> resources) {
+    public void setResources(Map<String, Resource> resources) {
         this.resources = resources;
     }
 }
