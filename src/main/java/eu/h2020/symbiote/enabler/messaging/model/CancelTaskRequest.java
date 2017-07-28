@@ -2,6 +2,7 @@ package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class CancelTaskRequest {
 
     public CancelTaskRequest() {
         // empty constructor
+        taskIdList = new ArrayList<>();
     }
 
     public List<String> getTaskIdList() { return taskIdList; }
