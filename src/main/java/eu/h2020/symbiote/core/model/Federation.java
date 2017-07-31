@@ -14,6 +14,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Federation {
 
+	public class FederationMember {
+		@JsonProperty("id")
+		private String id;
+
+		@JsonProperty("interworkingService")
+		private String interworkingService;
+
+		public FederationMember(String id, String interworkingService) {
+			this.id = id;
+			this.interworkingService = interworkingService;
+		}
+
+		public String getId() {
+			return this.id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getInterworkingService() {
+			return this.interworkingService;
+		}
+
+		public void setInterworkingService(String interworkingService) {
+			this.interworkingService = interworkingService;
+		}
+	}
+
 	@Id
 	@JsonProperty("id")
 	private String id;
@@ -28,7 +57,7 @@ public class Federation {
 	private String slaDefinition;
 
 	@JsonProperty("members")
-	private List<String> members = new ArrayList<>();
+	private List<FederationMember> members = new ArrayList<>();
 
 	public String getId() {
 		return this.id;
@@ -46,7 +75,7 @@ public class Federation {
 		return this.slaDefinition;
 	}
 
-	public List<String> getMembers() {
+	public List<FederationMember> getMembers() {
 		return this.members;
 	}
 
@@ -66,7 +95,7 @@ public class Federation {
 		this.slaDefinition = slaDefinition;
 	}
 
-	public void setMembers(List<String> members) {
+	public void setMembers(List<FederationMember> members) {
 		this.members = members;
 	}
 }
