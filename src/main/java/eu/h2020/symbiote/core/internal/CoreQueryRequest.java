@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.internal;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * POJO describing a query for resources.
@@ -46,6 +47,24 @@ public class CoreQueryRequest {
         this.observed_property = observed_property;
         this.resource_type = resource_type;
         this.token = token;
+    }
+
+    public static CoreQueryRequest newInstance(CoreQueryRequest coreQueryRequest) {
+        return new Builder()
+                .platformId(coreQueryRequest.getPlatform_id())
+                .platformName(coreQueryRequest.getPlatform_name())
+                .owner(coreQueryRequest.getOwner())
+                .name(coreQueryRequest.getName())
+                .id(coreQueryRequest.getId())
+                .description(coreQueryRequest.getDescription())
+                .locationName(coreQueryRequest.getLocation_name())
+                .locationLat(coreQueryRequest.getLocation_lat())
+                .locationLong(coreQueryRequest.getLocation_long())
+                .maxDistance(coreQueryRequest.getMax_distance())
+                .observedProperty(coreQueryRequest.getObserved_property())
+                .resourceType(coreQueryRequest.getResource_type())
+                .token(coreQueryRequest.getToken())
+                .build();
     }
 
     public String getPlatform_id() {
@@ -372,5 +391,36 @@ public class CoreQueryRequest {
                     builder_location_long, builder_max_distance, builder_observed_property,
                     builder_resource_type, builder_token);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (this == o)
+            return true;
+        
+        // null check
+        if (o == null)
+            return false;
+        
+        // type check and cast
+        if (!(o instanceof CoreQueryRequest))
+            return false;
+        
+        CoreQueryRequest coreQueryRequest = (CoreQueryRequest) o;
+        // field comparison
+        return Objects.equals(platform_id, coreQueryRequest.platform_id)
+                && Objects.equals(platform_name, coreQueryRequest.platform_name)
+                && Objects.equals(owner, coreQueryRequest.owner)
+                && Objects.equals(name, coreQueryRequest.name)
+                && Objects.equals(id, coreQueryRequest.id)
+                && Objects.equals(description, coreQueryRequest.description)
+                && Objects.equals(location_name, coreQueryRequest.location_name)
+                && Objects.equals(location_lat, coreQueryRequest.location_lat)
+                && Objects.equals(location_long, coreQueryRequest.location_long)
+                && Objects.equals(max_distance, coreQueryRequest.max_distance)
+                && Objects.equals(observed_property, coreQueryRequest.observed_property)
+                && Objects.equals(resource_type, coreQueryRequest.resource_type)
+                && Objects.equals(token, coreQueryRequest.token);
     }
 }
