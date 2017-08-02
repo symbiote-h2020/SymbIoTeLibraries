@@ -21,6 +21,7 @@ public class CoreQueryRequest {
     private List<String> observed_property;
     private String resource_type;
     private String token;
+    private Boolean should_rank;
 
     /**
      * Default empty constructor.
@@ -32,7 +33,7 @@ public class CoreQueryRequest {
     public CoreQueryRequest(String platform_id, String platform_name, String owner, String name,
                             String id, String description, String location_name, Double location_lat,
                             Double location_long, Integer max_distance, List<String> observed_property,
-                            String resource_type, String token) {
+                            String resource_type, String token, Boolean should_rank) {
         // Needed for Builder
         this.platform_id = platform_id;
         this.platform_name = platform_name;
@@ -47,6 +48,7 @@ public class CoreQueryRequest {
         this.observed_property = observed_property;
         this.resource_type = resource_type;
         this.token = token;
+        this.should_rank = should_rank;
     }
 
     public static CoreQueryRequest newInstance(CoreQueryRequest coreQueryRequest) {
@@ -64,6 +66,7 @@ public class CoreQueryRequest {
                 .observedProperty(coreQueryRequest.getObserved_property())
                 .resourceType(coreQueryRequest.getResource_type())
                 .token(coreQueryRequest.getToken())
+                .shouldRank(coreQueryRequest.isShould_rank())
                 .build();
     }
 
@@ -169,6 +172,14 @@ public class CoreQueryRequest {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Boolean isShould_rank() {
+        return should_rank;
+    }
+
+    public void setShould_rank(Boolean should_rank) {
+        this.should_rank = should_rank;
     }
 
     public String buildQuery(String symbioteCoreUrl) {
@@ -278,6 +289,15 @@ public class CoreQueryRequest {
             url = url.substring(0, url.length() - 1);
         }
 
+        if (should_rank != null ) {
+            if (isFirstParameter)
+                isFirstParameter = false;
+            else
+                url += "&";
+
+            url += "should_rank=" + should_rank;
+        }
+
         if (resource_type != null) {
             if (isFirstParameter)
                 isFirstParameter = false;
@@ -315,6 +335,7 @@ public class CoreQueryRequest {
         private List<String> builder_observed_property;
         private String builder_resource_type;
         private String builder_token;
+        private boolean builder_should_rank;
 
         public Builder() {
             // empty constructor
@@ -385,11 +406,16 @@ public class CoreQueryRequest {
             return this;
         }
 
+        public Builder shouldRank(Boolean should_rank) {
+            this.builder_should_rank = should_rank;
+            return this;
+        }
+
         public CoreQueryRequest build() {
             return new CoreQueryRequest(builder_platform_id, builder_platform_name, builder_owner, builder_name,
                     builder_id, builder_description, builder_location_name, builder_location_lat,
                     builder_location_long, builder_max_distance, builder_observed_property,
-                    builder_resource_type, builder_token);
+                    builder_resource_type, builder_token, builder_should_rank);
         }
     }
 
@@ -421,6 +447,7 @@ public class CoreQueryRequest {
                 && Objects.equals(max_distance, coreQueryRequest.max_distance)
                 && Objects.equals(observed_property, coreQueryRequest.observed_property)
                 && Objects.equals(resource_type, coreQueryRequest.resource_type)
-                && Objects.equals(token, coreQueryRequest.token);
+                && Objects.equals(token, coreQueryRequest.token)
+                && Objects.equals(should_rank,coreQueryRequest.should_rank);
     }
 }
