@@ -38,12 +38,13 @@ public class CoreQueryRequestTests {
                 .observedProperty(Arrays.asList("p1", "p2"))
                 .resourceType("type")
                 .token("token")
+                .shouldRank(Boolean.FALSE)
                 .build();
 
         String symbioteUrl = "http://example.com";
         String expectedAnswer = symbioteUrl + "/query?platform_id=pId&platform_name=pName&owner=owner&name=name"
                 + "&id=id&description=desc&location_name=lName&location_lat=123.0&location_long=456.0&max_distance=10"
-                + "&observed_property=p1,p2&resource_type=type&token=token";
+                + "&observed_property=p1,p2&should_rank=false&resource_type=type&token=token";
 
         log.info("coreQueryRequest.buildQuery(symbioteUrl) = " + coreQueryRequest.buildQuery(symbioteUrl));
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
