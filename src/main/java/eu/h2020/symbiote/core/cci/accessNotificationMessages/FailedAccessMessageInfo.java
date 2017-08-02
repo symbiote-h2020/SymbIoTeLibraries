@@ -33,6 +33,10 @@ public class FailedAccessMessageInfo extends MessageInfo {
     @JsonProperty("requestParams")
     private String requestParams;
 
+    public FailedAccessMessageInfo() {
+        // empty constructor
+    }
+
     public FailedAccessMessageInfo(String symbIoTeId, List<Date> timestamps,
                                    String code, String message, String appId, String issuer,
                                    String validationStatus, String requestParams) {

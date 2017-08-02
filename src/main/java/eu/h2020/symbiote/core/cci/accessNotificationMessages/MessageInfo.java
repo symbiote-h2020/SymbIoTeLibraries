@@ -15,6 +15,10 @@ public class MessageInfo {
     @JsonProperty("timestamp")
     protected List<Date> timestamps;
 
+    public MessageInfo() {
+        // empty constructor
+    }
+
     public String getSymbIoTeId() {
         return symbIoTeId;
     }
