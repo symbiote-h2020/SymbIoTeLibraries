@@ -335,7 +335,7 @@ public class CoreQueryRequest {
         private List<String> builder_observed_property;
         private String builder_resource_type;
         private String builder_token;
-        private boolean builder_should_rank;
+        private Boolean builder_should_rank;
 
         public Builder() {
             // empty constructor
