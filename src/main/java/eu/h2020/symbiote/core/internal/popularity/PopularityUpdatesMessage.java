@@ -2,6 +2,7 @@ package eu.h2020.symbiote.core.internal.popularity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,5 +20,12 @@ public class PopularityUpdatesMessage {
     public List<PopularityUpdate> getPopularityUpdateList() { return popularityUpdateList; }
     public void setPopularityUpdateList(List<PopularityUpdate> popularityUpdateList) {
         this.popularityUpdateList = popularityUpdateList;
+    }
+
+    public void addToPopularityUpdateList(PopularityUpdate popularityUpdate) {
+        if (popularityUpdateList == null)
+            popularityUpdateList = new ArrayList<>();
+
+        popularityUpdateList.add(popularityUpdate);
     }
 }
