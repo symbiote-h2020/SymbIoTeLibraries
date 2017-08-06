@@ -1,5 +1,8 @@
 package eu.h2020.symbiote.core.internal;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,7 +69,7 @@ public class CoreQueryRequest {
                 .observedProperty(coreQueryRequest.getObserved_property())
                 .resourceType(coreQueryRequest.getResource_type())
                 .token(coreQueryRequest.getToken())
-                .shouldRank(coreQueryRequest.isShould_rank())
+                .shouldRank(coreQueryRequest.getShould_rank())
                 .build();
     }
 
@@ -174,7 +177,7 @@ public class CoreQueryRequest {
         this.token = token;
     }
 
-    public Boolean isShould_rank() {
+    public Boolean getShould_rank() {
         return should_rank;
     }
 
@@ -186,134 +189,59 @@ public class CoreQueryRequest {
         String url = symbioteCoreUrl + "/query?";
         boolean isFirstParameter = true;
 
-        if (platform_id != null) {
-            if (isFirstParameter) {
-                isFirstParameter = false;
+        Field[] allFields = this.getClass().getDeclaredFields();
+
+
+        for (Field field : allFields) {
+            String fieldName = field.getName();
+            Class fieldType = field.getType();
+
+            if (fieldName.startsWith("$"))
+                continue;
+
+
+            if (fieldType == List.class) {
+                try {
+                    String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+                    Method getterMethod = this.getClass().getMethod(getterName, null);
+                    List<Object> listOfObjects = (List) getterMethod.invoke(this, null);
+
+                    if (listOfObjects != null && listOfObjects.size() > 0) {
+                        if (isFirstParameter)
+                            isFirstParameter = false;
+                        else {
+                            url += "&";
+                        }
+                        url += fieldName + "=";
+
+                        for (Object o : listOfObjects) {
+                            url += o + ",";
+
+                        }
+                        url = url.substring(0, url.length() - 1);
+                    }
+
+                } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                }
+
+            } else {
+                try {
+                    String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+                    Method getterMethod = this.getClass().getMethod(getterName, null);
+                    Object value = getterMethod.invoke(this, null);
+
+                    if (value != null){
+                        if (isFirstParameter)
+                            isFirstParameter = false;
+                        else {
+                            url += "&";
+                        }
+                        url += fieldName + "=" + value;
+                    }
+                } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                }
             }
 
-            url += "platform_id=" + platform_id;
-        }
-
-        if (platform_name != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "platform_name=" + platform_name;
-        }
-
-        if (owner != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "owner=" + owner;
-        }
-
-        if (name != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "name=" + name;
-        }
-
-        if (id != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "id=" + id;
-        }
-
-        if (description != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "description=" + description;
-        }
-
-        if (location_name != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "location_name=" + location_name;
-        }
-
-        if (location_lat != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "location_lat=" + location_lat;
-        }
-
-        if (location_long != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "location_long=" + location_long;
-        }
-
-        if (max_distance != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "max_distance=" + max_distance;
-        }
-
-        if (observed_property != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "observed_property=";
-
-            for (String property : observed_property)
-                url += property + ',';
-
-            url = url.substring(0, url.length() - 1);
-        }
-
-        if (should_rank != null ) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "should_rank=" + should_rank;
-        }
-
-        if (resource_type != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "resource_type=" + resource_type;
-        }
-
-        if (token != null) {
-            if (isFirstParameter)
-                isFirstParameter = false;
-            else
-                url += "&";
-
-            url += "token=" + token;
         }
 
         return url;

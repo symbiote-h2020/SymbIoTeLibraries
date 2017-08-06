@@ -44,7 +44,7 @@ public class CoreQueryRequestTests {
         String symbioteUrl = "http://example.com";
         String expectedAnswer = symbioteUrl + "/query?platform_id=pId&platform_name=pName&owner=owner&name=name"
                 + "&id=id&description=desc&location_name=lName&location_lat=123.0&location_long=456.0&max_distance=10"
-                + "&observed_property=p1,p2&should_rank=false&resource_type=type&token=token";
+                + "&observed_property=p1,p2&resource_type=type&token=token&should_rank=false";
 
         log.info("coreQueryRequest.buildQuery(symbioteUrl) = " + coreQueryRequest.buildQuery(symbioteUrl));
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
@@ -58,6 +58,21 @@ public class CoreQueryRequestTests {
         expectedAnswer = symbioteUrl + "/query?name=name&observed_property=p1,p2&token=token";
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
 
+        coreQueryRequest = new CoreQueryRequest.Builder()
+                .observedProperty(Arrays.asList("p1", "p2"))
+                .token("token")
+                .build();
+
+        expectedAnswer = symbioteUrl + "/query?observed_property=p1,p2&token=token";
+        assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
+
+        coreQueryRequest = new CoreQueryRequest.Builder()
+                .token("token")
+                .shouldRank(Boolean.FALSE)
+                .build();
+
+        expectedAnswer = symbioteUrl + "/query?token=token&should_rank=false";
+        assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
     }
 
     @Test
