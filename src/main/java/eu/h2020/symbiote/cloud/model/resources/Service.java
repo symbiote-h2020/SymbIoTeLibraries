@@ -2,8 +2,8 @@ package eu.h2020.symbiote.cloud.model.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.h2020.symbiote.cloud.model.data.parameter.Parameter;
-import eu.h2020.symbiote.core.model.resources.Datatype;
+import eu.h2020.symbiote.cloud.model.data.parameter.InputParameter;
+import eu.h2020.symbiote.core.model.resources.Parameter;
 import eu.h2020.symbiote.core.model.resources.Resource;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -21,9 +21,9 @@ public class Service extends Resource {
     @JsonProperty("name")
     private String name;
     @JsonIgnore
-    private Datatype outputDatatype;
+    private Parameter outputParameter;
     @JsonProperty("inputParameters")
-    private List<Parameter> inputParameters;
+    private List<InputParameter> inputParameters;
 
     public Service() {
     }
@@ -36,19 +36,19 @@ public class Service extends Resource {
         this.name = name;
     }
 
-    public Datatype getOutputDatatype() {
-        return outputDatatype;
+    public Parameter getOutputParameter() {
+        return outputParameter;
     }
 
-    public void setOutputDatatype(Datatype outputDatatype) {
-        this.outputDatatype = outputDatatype;
+    public void setOutputParameter(Parameter outputParameter) {
+        this.outputParameter = outputParameter;
     }
 
-    public List<Parameter> getInputParameters() {
+    public List<InputParameter> getInputParameters() {
         return inputParameters;
     }
 
-    public void setInputParameters(List<Parameter> inputParameters) {
+    public void setInputParameters(List<InputParameter> inputParameters) {
         this.inputParameters = inputParameters;
     }
 }
