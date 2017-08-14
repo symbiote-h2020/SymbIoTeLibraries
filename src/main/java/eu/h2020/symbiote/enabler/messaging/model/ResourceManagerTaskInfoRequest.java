@@ -69,7 +69,9 @@ public class ResourceManagerTaskInfoRequest {
 
     public String getQueryInterval() { return queryInterval; }
     public void setQueryInterval(String queryInterval) throws IllegalArgumentException {
-        IntervalFormatter interval = new IntervalFormatter(queryInterval);
+        if (queryInterval != null) {
+            IntervalFormatter interval = new IntervalFormatter(queryInterval);
+        }
         this.queryInterval = queryInterval;
     }
 
@@ -78,7 +80,9 @@ public class ResourceManagerTaskInfoRequest {
 
     public String getCachingInterval() { return  cachingInterval; }
     public void setCachingInterval(String cachingInterval) throws IllegalArgumentException {
-        IntervalFormatter interval = new IntervalFormatter(cachingInterval);
+        if (cachingInterval != null) {
+            IntervalFormatter interval = new IntervalFormatter(cachingInterval);
+        }
         this.cachingInterval = cachingInterval;
     }
 
