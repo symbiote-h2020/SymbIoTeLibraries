@@ -2,9 +2,8 @@ package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
+import eu.h2020.symbiote.util.IntervalFormatter;
 import org.springframework.data.annotation.Id;
-
-import java.util.List;
 
 
 public class ResourceManagerTaskInfoRequest {
@@ -19,16 +18,20 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("coreQueryRequest")
     private CoreQueryRequest coreQueryRequest;
 
-    // Subject to change to more human friendly format
-    @JsonProperty("queryInterval_ms")
-    private Integer queryInterval_ms;
+    // Use ISO-8601 alternateExtended format to specify the queryInterval below (i.e. Pyyyy-mm-ddThh:mm:ss)
+    // Fractional seconds (milliseconds) are supported
+    // http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()
+    @JsonProperty("queryInterval")
+    private String queryInterval;
 
     @JsonProperty("allowCaching")
     private Boolean allowCaching;
 
-    // Subject to change to more human friendly format
-    @JsonProperty("cachingInterval_ms")
-    private Long cachingInterval_ms;
+    // Use ISO-8601 alternateExtended format to specify the cachingInterval below (i.e. Pyyyy-mm-ddThh:mm:ss)
+    // Fractional seconds (milliseconds) are supported
+    // http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()
+    @JsonProperty("cachingInterval")
+    private String cachingInterval;
 
     @JsonProperty("informPlatformProxy")
     private Boolean informPlatformProxy;
@@ -40,19 +43,19 @@ public class ResourceManagerTaskInfoRequest {
     }
 
     public ResourceManagerTaskInfoRequest(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
-        taskId = resourceManagerTaskInfoRequest.getTaskId();
-        minNoResources = resourceManagerTaskInfoRequest.getMinNoResources();
+        setTaskId(resourceManagerTaskInfoRequest.getTaskId());
+        setMinNoResources(resourceManagerTaskInfoRequest.getMinNoResources());
 
         if (resourceManagerTaskInfoRequest.getCoreQueryRequest() != null)
-            coreQueryRequest = CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest());
+            setCoreQueryRequest(CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest()));
         else
-            coreQueryRequest = null;
+            setCoreQueryRequest(null);
 
-        queryInterval_ms =resourceManagerTaskInfoRequest.getQueryInterval_ms();
-        allowCaching = resourceManagerTaskInfoRequest.getAllowCaching();
-        cachingInterval_ms = resourceManagerTaskInfoRequest.getCachingInterval_ms();
-        informPlatformProxy = resourceManagerTaskInfoRequest.getInformPlatformProxy();
-        enablerLogicName = resourceManagerTaskInfoRequest.getEnablerLogicName();
+        setQueryInterval(resourceManagerTaskInfoRequest.getQueryInterval());
+        setAllowCaching(resourceManagerTaskInfoRequest.getAllowCaching());
+        setCachingInterval(resourceManagerTaskInfoRequest.getCachingInterval());
+        setInformPlatformProxy(resourceManagerTaskInfoRequest.getInformPlatformProxy());
+        setEnablerLogicName(resourceManagerTaskInfoRequest.getEnablerLogicName());
     }
 
     public String getTaskId() { return taskId; }
@@ -64,14 +67,20 @@ public class ResourceManagerTaskInfoRequest {
     public CoreQueryRequest getCoreQueryRequest() { return coreQueryRequest; }
     public void setCoreQueryRequest(CoreQueryRequest coreQueryRequest) { this.coreQueryRequest = coreQueryRequest; }
 
-    public Integer getQueryInterval_ms() { return queryInterval_ms; }
-    public void setQueryInterval_ms(Integer queryInterval_ms) { this.queryInterval_ms = queryInterval_ms; }
+    public String getQueryInterval() { return queryInterval; }
+    public void setQueryInterval(String queryInterval) throws IllegalArgumentException {
+        IntervalFormatter interval = new IntervalFormatter(queryInterval);
+        this.queryInterval = queryInterval;
+    }
 
     public Boolean getAllowCaching() { return allowCaching; }
     public void setAllowCaching(Boolean allowCaching) { this.allowCaching = allowCaching; }
 
-    public Long getCachingInterval_ms() { return  cachingInterval_ms; }
-    public void setCachingInterval_ms(Long cachingInterval_ms) { this.cachingInterval_ms = cachingInterval_ms; }
+    public String getCachingInterval() { return  cachingInterval; }
+    public void setCachingInterval(String cachingInterval) throws IllegalArgumentException {
+        IntervalFormatter interval = new IntervalFormatter(cachingInterval);
+        this.cachingInterval = cachingInterval;
+    }
 
     public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
     public void setInformPlatformProxy(Boolean informPlatformProxy) { this.informPlatformProxy = informPlatformProxy; }
