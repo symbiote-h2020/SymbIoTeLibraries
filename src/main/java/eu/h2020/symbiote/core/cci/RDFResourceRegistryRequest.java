@@ -12,6 +12,8 @@ public class RDFResourceRegistryRequest {
 
     private RDFInfo rdfInfo;
 
+    private String interworkingServiceUrl;
+
     public RDFResourceRegistryRequest() {
         // Needed for Jackson serialization
     }
@@ -22,5 +24,13 @@ public class RDFResourceRegistryRequest {
 
     public void setRdfInfo(RDFInfo rdfInfo) {
         this.rdfInfo = rdfInfo;
+    }
+
+    public String getInterworkingServiceUrl() {
+        return interworkingServiceUrl;
+    }
+
+    public void setInterworkingServiceUrl(String interworkingServiceUrl) {
+        this.interworkingServiceUrl = interworkingServiceUrl;
     }
 }
