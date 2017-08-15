@@ -12,6 +12,10 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
     @JsonProperty("resourceIds")
     private List<String> resourceIds;
 
+    @JsonProperty("status")
+    private List<String> status;
+
+
     public ResourceManagerTaskInfoResponse() {
     }
 
