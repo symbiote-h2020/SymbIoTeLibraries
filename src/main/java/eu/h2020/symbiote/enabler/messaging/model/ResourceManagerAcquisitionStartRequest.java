@@ -16,7 +16,6 @@ public class ResourceManagerAcquisitionStartRequest {
     public List<ResourceManagerTaskInfoRequest> getResources() {
         return resources;
     }
-
     public void setResources(List<ResourceManagerTaskInfoRequest> resources) {
         this.resources = resources;
     }

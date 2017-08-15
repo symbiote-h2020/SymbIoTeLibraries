@@ -9,10 +9,6 @@ public class ResourceManagerAcquisitionStartResponse {
     @JsonProperty("resources")
     private List<ResourceManagerTaskInfoResponse> resources;
 
-    @JsonProperty("status")
-    private ResourceManagerResponseStatus status;
-
-
     public ResourceManagerAcquisitionStartResponse() {
     }
 
@@ -22,8 +18,5 @@ public class ResourceManagerAcquisitionStartResponse {
     public void setResources(List<ResourceManagerTaskInfoResponse> resources) {
         this.resources = resources;
     }
-
-    public ResourceManagerResponseStatus getStatus() { return status; }
-    public void setStatus(ResourceManagerResponseStatus status) { this.status = status; }
 
 }

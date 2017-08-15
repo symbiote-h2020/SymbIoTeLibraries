@@ -13,7 +13,7 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
     private List<String> resourceIds;
 
     @JsonProperty("status")
-    private List<String> status;
+    private ResourceManagerResponseStatus status;
 
 
     public ResourceManagerTaskInfoResponse() {
@@ -36,4 +36,6 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
         this.resourceIds = resourceIds;
     }
 
+    public ResourceManagerResponseStatus getStatus() { return status; }
+    public void setStatus(ResourceManagerResponseStatus status) { this.status = status; }
 }
