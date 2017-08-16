@@ -21,12 +21,14 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
 
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
         super(resourceManagerTaskInfoRequest);
+        status = ResourceManagerResponseStatus.UNKNOWN;
         resourceIds = new ArrayList<>();
     }
 
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoResponse resourceManagerTaskInfoResponse) {
         this((ResourceManagerTaskInfoRequest) resourceManagerTaskInfoResponse);
-        resourceIds = new ArrayList<>(resourceManagerTaskInfoResponse.getResourceIds());
+        setStatus(resourceManagerTaskInfoResponse.getStatus());
+        setResourceIds(new ArrayList<>(resourceManagerTaskInfoResponse.getResourceIds()));
     }
 
     public List<String> getResourceIds() {
