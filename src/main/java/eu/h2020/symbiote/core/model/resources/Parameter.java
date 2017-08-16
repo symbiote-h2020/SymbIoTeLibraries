@@ -2,7 +2,6 @@ package eu.h2020.symbiote.core.model.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.h2020.symbiote.cloud.model.data.parameter.Restriction;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class Parameter {
     @JsonIgnore
     private boolean mandatory;
     @JsonIgnore
-    private List<eu.h2020.symbiote.cloud.model.data.parameter.Restriction> restrictions;
+    private List<Restriction> restrictions;
     @JsonProperty("datatype")
     private Datatype datatype;
 
@@ -38,7 +37,7 @@ public class Parameter {
         this.mandatory = mandatory;
     }
 
-    public List<eu.h2020.symbiote.cloud.model.data.parameter.Restriction> getRestrictions() {
+    public List<Restriction> getRestrictions() {
         return restrictions;
     }
 
