@@ -6,6 +6,7 @@ package eu.h2020.symbiote.enabler.messaging.model;
 public enum ResourceManagerAcquisitionStartResponseStatus {
     SUCCESS,
     PARTIAL_SUCCESS,
-    WRONG_FORMAT_INTERVAL,
+    FAILED_WRONG_FORMAT_INTERVAL,
+    FAILED,
     UNKNOWN;
 }
