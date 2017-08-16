@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * Created by Szymon Mueller on 26/07/2017.
  */
-public class RdfsDatatype {
+public class RdfsDatatype extends Datatype{
 
     @JsonProperty("datatypeName")
     private String datatypeName;
