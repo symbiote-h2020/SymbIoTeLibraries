@@ -6,5 +6,6 @@ package eu.h2020.symbiote.enabler.messaging.model;
 public enum ResourceManagerTaskInfoResponseStatus {
     SUCCESS,
     NOT_ENOUGH_RESOURCES,
+    FAILED,
     UNKNOWN;
 }
