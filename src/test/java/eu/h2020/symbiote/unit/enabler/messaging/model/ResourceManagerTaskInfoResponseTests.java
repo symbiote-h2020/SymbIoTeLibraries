@@ -1,9 +1,9 @@
 package eu.h2020.symbiote.unit.enabler.messaging.model;
 
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
-import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerResponseStatus;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoRequest;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoResponse;
+import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoResponseStatus;
 import eu.h2020.symbiote.util.IntervalFormatter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -96,7 +96,7 @@ public class ResourceManagerTaskInfoResponseTests {
         assertEquals(100, (long) new IntervalFormatter(response.getQueryInterval()).getMillis());
         assertEquals("test", response.getEnablerLogicName());
         assertEquals(0, response.getResourceIds().size());
-        assertEquals(ResourceManagerResponseStatus.UNKNOWN, response.getStatus());
+        assertEquals(ResourceManagerTaskInfoResponseStatus.UNKNOWN, response.getStatus());
 
     }
 
@@ -126,7 +126,7 @@ public class ResourceManagerTaskInfoResponseTests {
         response1.setAllowCaching(true);
         response1.setInformPlatformProxy(true);
         response1.setEnablerLogicName("enablerLogic");
-        response1.setStatus(ResourceManagerResponseStatus.SUCCESS);
+        response1.setStatus(ResourceManagerTaskInfoResponseStatus.SUCCESS);
         response1.setResourceIds(new ArrayList<>());
         try {
             response1.setQueryInterval("P0-0-0T0:0:0.01");
