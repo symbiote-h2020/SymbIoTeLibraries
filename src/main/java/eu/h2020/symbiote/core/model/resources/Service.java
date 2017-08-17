@@ -13,10 +13,10 @@ public class Service extends Resource {
 
     @JsonProperty("name")
     private String name;
-    @JsonProperty("outputDatatype")
-    private Datatype outputDatatype;
-    @JsonProperty("inputParameter")
-    private List<InputDatatype> inputParameter;
+    @JsonProperty("resultType")
+    private Datatype resultType;
+    @JsonProperty("parameters")
+    private List<Parameter> parameters;
 
     public Service() {
     }
@@ -29,19 +29,19 @@ public class Service extends Resource {
         this.name = name;
     }
 
-    public Datatype getOutputDatatype() {
-        return outputDatatype;
+    public Datatype getResultType() {
+        return resultType;
     }
 
-    public void setOutputDatatype(Datatype outputDatatype) {
-        this.outputDatatype = outputDatatype;
+    public void setResultType(Datatype resultType) {
+        this.resultType = resultType;
     }
 
-    public List<InputDatatype> getInputParameter() {
-        return inputParameter;
+    public List<Parameter> getParameters() {
+        return parameters;
     }
 
-    public void setInputParameter(List<InputDatatype> inputParameter) {
-        this.inputParameter = inputParameter;
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
     }
 }
