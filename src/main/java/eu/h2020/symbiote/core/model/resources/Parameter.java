@@ -13,17 +13,15 @@ import java.util.List;
 public class Parameter {
 
     @JsonProperty("name")
-    private final String name;
-    @JsonIgnore
+    private String name;
+    @JsonProperty("mandatory")
     private boolean mandatory;
-    @JsonIgnore
+    @JsonProperty("restrictions")
     private List<Restriction> restrictions;
     @JsonProperty("datatype")
     private Datatype datatype;
 
-    public Parameter(String name) {
-        this.name = name;
-    }
+    public Parameter() {}
 
     public String getName() {
         return name;
