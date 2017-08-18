@@ -23,6 +23,10 @@ public class Parameter {
 
     public Parameter() {}
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
