@@ -16,7 +16,7 @@ public class Effect {
     private FeatureOfInterest actsOn;
 
     @JsonProperty("affects")
-    private List<Property> affects;
+    private List<String> affects;
 
     public FeatureOfInterest getActsOn() {
         return actsOn;
@@ -26,11 +26,11 @@ public class Effect {
         this.actsOn = actsOn;
     }
 
-    public List<Property> getAffects() {
+    public List<String> getAffects() {
         return affects;
     }
 
-    public void setAffects(List<Property> affects) {
+    public void setAffects(List<String> affects) {
         this.affects = affects;
     }
 }
