@@ -5,6 +5,8 @@ import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.util.IntervalFormatter;
 import org.springframework.data.annotation.Id;
 
+import java.util.Objects;
+
 
 public class ResourceManagerTaskInfoRequest {
 
@@ -39,7 +41,24 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("enablerLogicName")
     private String enablerLogicName;
 
+    @JsonProperty("sparqlQuery")
+    private String sparqlQuery;
+
     public ResourceManagerTaskInfoRequest() {
+    }
+
+    public ResourceManagerTaskInfoRequest(String taskId, Integer minNoResources, CoreQueryRequest coreQueryRequest,
+                                          String queryInterval, Boolean allowCaching, String cachingInterval,
+                                          Boolean informPlatformProxy, String enablerLogicName, String sparqlQuery) {
+        setTaskId(taskId);
+        setMinNoResources(minNoResources);
+        setCoreQueryRequest(CoreQueryRequest.newInstance(coreQueryRequest));
+        setQueryInterval(queryInterval);
+        setAllowCaching(allowCaching);
+        setCachingInterval(cachingInterval);
+        setInformPlatformProxy(informPlatformProxy);
+        setEnablerLogicName(enablerLogicName);
+        setSparqlQuery(sparqlQuery);
     }
 
     public ResourceManagerTaskInfoRequest(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
@@ -56,6 +75,7 @@ public class ResourceManagerTaskInfoRequest {
         setCachingInterval(resourceManagerTaskInfoRequest.getCachingInterval());
         setInformPlatformProxy(resourceManagerTaskInfoRequest.getInformPlatformProxy());
         setEnablerLogicName(resourceManagerTaskInfoRequest.getEnablerLogicName());
+        setSparqlQuery(resourceManagerTaskInfoRequest.getSparqlQuery());
     }
 
     public String getTaskId() { return taskId; }
@@ -91,4 +111,34 @@ public class ResourceManagerTaskInfoRequest {
 
     public String getEnablerLogicName() { return enablerLogicName; }
     public void setEnablerLogicName(String enablerLogicName) { this.enablerLogicName = enablerLogicName; }
+
+    public String getSparqlQuery() { return sparqlQuery; }
+    public void setSparqlQuery(String sparqlQuery) { this.sparqlQuery = sparqlQuery; }
+
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (this == o)
+            return true;
+
+        // null check
+        if (o == null)
+            return false;
+
+        // type check and cast
+        if (!(o instanceof ResourceManagerTaskInfoRequest))
+            return false;
+
+        ResourceManagerTaskInfoRequest request = (ResourceManagerTaskInfoRequest) o;
+        // field comparison
+        return Objects.equals(this.getTaskId(), request.getTaskId())
+                && Objects.equals(this.getMinNoResources(), request.getMinNoResources())
+                && Objects.equals(this.getCoreQueryRequest(), request.getCoreQueryRequest())
+                && Objects.equals(this.getQueryInterval(), request.getQueryInterval())
+                && Objects.equals(this.getAllowCaching(), request.getAllowCaching())
+                && Objects.equals(this.getCachingInterval(), request.getCachingInterval())
+                && Objects.equals(this.getInformPlatformProxy(), request.getInformPlatformProxy())
+                && Objects.equals(this.getEnablerLogicName(), request.getEnablerLogicName())
+                && Objects.equals(this.getSparqlQuery(), request.getSparqlQuery());
+    }
 }
