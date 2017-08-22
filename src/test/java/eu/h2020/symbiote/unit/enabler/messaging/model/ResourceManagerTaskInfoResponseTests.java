@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.unit.enabler.messaging.model;
 
+import eu.h2020.symbiote.core.ci.SparqlQueryOutputFormat;
+import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoRequest;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoResponse;
@@ -187,10 +189,12 @@ public class ResourceManagerTaskInfoResponseTests {
         ArrayList<String> resourceIds = new ArrayList<>();
         resourceIds.add("1");
         resourceIds.add("2");
-
+        SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("response1",
+                SparqlQueryOutputFormat.COUNT);
+        
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
-                true, "TestEnablerLogic", "sparqlQuery", resourceIds,
+                true, "TestEnablerLogic", sparqlQueryRequest, resourceIds,
                 ResourceManagerTaskInfoResponseStatus.SUCCESS);
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
@@ -244,10 +248,16 @@ public class ResourceManagerTaskInfoResponseTests {
         response2.setEnablerLogicName(response1.getEnablerLogicName());
         assertEquals(true, response1.equals(response2));
 
-        response2.setSparqlQuery("newSparqlQuery");
-        assertEquals("sparqlQuery", response1.getSparqlQuery());
+        response2.getSparqlQueryRequest().setSparqlQuery("response2");
+        assertEquals("response1", response1.getSparqlQueryRequest().getSparqlQuery());
         assertEquals(false, response1.equals(response2));
-        response2.setSparqlQuery(response1.getSparqlQuery());
+        response2.getSparqlQueryRequest().setSparqlQuery(response1.getSparqlQueryRequest().getSparqlQuery());
+        assertEquals(true, response1.equals(response2));
+
+        response2.getSparqlQueryRequest().setOutputFormat(SparqlQueryOutputFormat.CSV);
+        assertEquals(SparqlQueryOutputFormat.COUNT, response1.getSparqlQueryRequest().getOutputFormat());
+        assertEquals(false, response1.equals(response2));
+        response2.getSparqlQueryRequest().setOutputFormat(response1.getSparqlQueryRequest().getOutputFormat());
         assertEquals(true, response1.equals(response2));
 
         response2.getResourceIds().add("3");

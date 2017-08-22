@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.unit.enabler.messaging.model;
 
+import eu.h2020.symbiote.core.ci.SparqlQueryOutputFormat;
+import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoRequest;
 import eu.h2020.symbiote.util.IntervalFormatter;
@@ -27,10 +29,12 @@ public class ResourceManagerTaskInfoRequestTests {
         ArrayList<String> resourceIds = new ArrayList<>();
         resourceIds.add("1");
         resourceIds.add("2");
+        SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("request1",
+                SparqlQueryOutputFormat.COUNT);
 
         ResourceManagerTaskInfoRequest request1 = new ResourceManagerTaskInfoRequest("1", 2,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
-                true, "TestEnablerLogic", "sparqlQuery");
+                true, "TestEnablerLogic", sparqlQueryRequest);
 
         ResourceManagerTaskInfoRequest request2 = new ResourceManagerTaskInfoRequest(request1);
         assertEquals(true, request1.equals(request2));
@@ -83,10 +87,16 @@ public class ResourceManagerTaskInfoRequestTests {
         request2.setEnablerLogicName(request1.getEnablerLogicName());
         assertEquals(true, request1.equals(request2));
 
-        request2.setSparqlQuery("newSparqlQuery");
-        assertEquals("sparqlQuery", request1.getSparqlQuery());
+        request2.getSparqlQueryRequest().setSparqlQuery("request2");
+        assertEquals("request1", request1.getSparqlQueryRequest().getSparqlQuery());
         assertEquals(false, request1.equals(request2));
-        request2.setSparqlQuery(request1.getSparqlQuery());
+        request2.getSparqlQueryRequest().setSparqlQuery(request1.getSparqlQueryRequest().getSparqlQuery());
+        assertEquals(true, request1.equals(request2));
+
+        request2.getSparqlQueryRequest().setOutputFormat(SparqlQueryOutputFormat.CSV);
+        assertEquals(SparqlQueryOutputFormat.COUNT, request1.getSparqlQueryRequest().getOutputFormat());
+        assertEquals(false, request1.equals(request2));
+        request2.getSparqlQueryRequest().setOutputFormat(request1.getSparqlQueryRequest().getOutputFormat());
         assertEquals(true, request1.equals(request2));
     }
 }

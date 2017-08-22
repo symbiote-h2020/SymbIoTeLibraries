@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
 
     public ResourceManagerTaskInfoResponse(String taskId, Integer minNoResources, CoreQueryRequest coreQueryRequest,
                                            String queryInterval, Boolean allowCaching, String cachingInterval,
-                                           Boolean informPlatformProxy, String enablerLogicName, String sparqlQuery,
+                                           Boolean informPlatformProxy, String enablerLogicName, SparqlQueryRequest sparqlQuery,
                                            List<String> resourceIds, ResourceManagerTaskInfoResponseStatus status) {
         super(taskId, minNoResources, coreQueryRequest, queryInterval, allowCaching, cachingInterval,
                 informPlatformProxy, enablerLogicName, sparqlQuery);
