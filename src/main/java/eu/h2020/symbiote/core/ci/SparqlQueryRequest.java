@@ -39,6 +39,10 @@ public class SparqlQueryRequest {
         this.outputFormat = outputFormat;
     }
 
+    public boolean isValid() {
+        return sparqlQuery != null && outputFormat != null;
+    }
+
     @Override
     public boolean equals(Object o) {
         // self check

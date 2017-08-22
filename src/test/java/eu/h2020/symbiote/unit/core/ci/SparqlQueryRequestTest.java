@@ -10,6 +10,22 @@ import static org.junit.Assert.*;
  * Created by vasgl on 8/22/2017.
  */
 public class SparqlQueryRequestTest {
+
+    @Test
+    public void isValid() throws Exception {
+        SparqlQueryRequest request1 = new SparqlQueryRequest("request1", SparqlQueryOutputFormat.COUNT);
+        assertEquals(true, request1.isValid());
+
+        SparqlQueryRequest request2 = new SparqlQueryRequest(null, SparqlQueryOutputFormat.COUNT);
+        assertEquals(false, request2.isValid());
+
+        SparqlQueryRequest request3 = new SparqlQueryRequest("request3", null);
+        assertEquals(false, request3.isValid());
+
+        SparqlQueryRequest request4 = new SparqlQueryRequest();
+        assertEquals(false, request4.isValid());
+    }
+
     @Test
     public void equals() throws Exception {
         SparqlQueryRequest request1 = new SparqlQueryRequest("request1", SparqlQueryOutputFormat.COUNT);
