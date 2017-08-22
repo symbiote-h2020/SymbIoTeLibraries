@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.ci;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 /**
@@ -39,6 +41,7 @@ public class SparqlQueryRequest {
         this.outputFormat = outputFormat;
     }
 
+    @JsonIgnore
     public boolean isValid() {
         return sparqlQuery != null && outputFormat != null;
     }
