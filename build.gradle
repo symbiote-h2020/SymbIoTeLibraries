@@ -33,7 +33,7 @@ apply plugin: 'com.cinnober.gradle.semver-git'
 apply plugin: 'maven-publish'
 
 // XXX please change with your commits according to http://semver.org/
-project.version = '1.0.0'
+project.version = '1.0.1'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -73,6 +73,7 @@ dependencies {
     //from symbioteLibs
     compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7+')
     compile('org.springframework.data:spring-data-commons')
+    compile('joda-time:joda-time:2.9.9')
 
     // Swagger annotations for documentation
     compile("io.swagger:swagger-annotations:${swaggerAnnotationsVersion}")
