@@ -18,6 +18,7 @@ public class QueryResourceResult {
     private Double locationAltitude;
     private List<String> observedProperties;
     private List<String> resourceType;
+    private Float ranking;
 
     /**
      * Default empty constructor.
@@ -121,4 +122,8 @@ public class QueryResourceResult {
     public void setResourceType(List<String> resourceType) {
         this.resourceType = resourceType;
     }
+
+    public Float getRanking() { return ranking; }
+
+    public void setRanking(Float ranking) { this.ranking = ranking; }
 }

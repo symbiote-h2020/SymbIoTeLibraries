@@ -73,6 +73,7 @@ dependencies {
     //from symbioteLibs
     compile('com.fasterxml.jackson.core:jackson-annotations:2.8.7+')
     compile('org.springframework.data:spring-data-commons')
+    compile('joda-time:joda-time:2.9.9')
 
     // Swagger annotations for documentation
     compile("io.swagger:swagger-annotations:${swaggerAnnotationsVersion}")

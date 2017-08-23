@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class SuccessfulPushesMessageInfo extends MessageInfo{
 
+    public SuccessfulPushesMessageInfo() {
+        // empty constructor
+    }
+
     public SuccessfulPushesMessageInfo(String symbIoTeId, List<Date> timestamps) {
         this.symbIoTeId = symbIoTeId;
         this.timestamps = timestamps;

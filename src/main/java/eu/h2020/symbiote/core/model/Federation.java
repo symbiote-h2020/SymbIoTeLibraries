@@ -14,12 +14,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Federation {
 
-	public class FederationMember {
+	public static class FederationMember {
 		@JsonProperty("platformId")
 		private String platformId;
 
 		@JsonProperty("interworkingServiceURL")
 		private String interworkingServiceURL;
+
+		public FederationMember() {
+		}
 
 		public FederationMember(String platformId, String interworkingServiceURL) {
 			this.platformId = platformId;

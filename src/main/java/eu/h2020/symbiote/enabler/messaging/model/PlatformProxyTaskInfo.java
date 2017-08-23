@@ -18,7 +18,7 @@ public class PlatformProxyTaskInfo {
 
     // Subject to change to more human friendly format
     @JsonProperty("queryInterval_ms")
-    private Integer queryInterval_ms;
+    private Long queryInterval_ms;
 
 
     public PlatformProxyTaskInfo() {
@@ -38,10 +38,10 @@ public class PlatformProxyTaskInfo {
         this.resources = resources;
     }
 
-    public Integer getQueryInterval_ms() {
+    public Long getQueryInterval_ms() {
         return queryInterval_ms;
     }
-    public void setQueryInterval_ms(Integer queryInterval_ms) {
+    public void setQueryInterval_ms(Long queryInterval_ms) {
         this.queryInterval_ms = queryInterval_ms;
     }
 
