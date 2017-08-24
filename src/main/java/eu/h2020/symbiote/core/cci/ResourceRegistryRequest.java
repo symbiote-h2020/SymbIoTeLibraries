@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class ResourceRegistryRequest {
 
+    //TOKEN ??
+
     @JsonProperty("resources")
     private Map<String, Resource> resources;
 
