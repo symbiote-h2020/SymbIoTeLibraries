@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by vasgl on 8/24/2017.
  */
-public class Resource {
+public class InnkeeperResource {
 
     @Id
     @JsonProperty("id")
@@ -24,18 +24,18 @@ public class Resource {
     @JsonProperty("observesProperty")
     private List<String> observesProperty;
 
-    public Resource() {
+    public InnkeeperResource() {
         // empty constructor
     }
 
-    public Resource(String id, String hash, DeviceDescriptor deviceDescriptor, List<String> observesProperty) {
+    public InnkeeperResource(String id, String hash, DeviceDescriptor deviceDescriptor, List<String> observesProperty) {
         setId(id);
         setHash(hash);
         setDeviceDescriptor(deviceDescriptor);
         setObservesProperty(new ArrayList<>(observesProperty));
     }
 
-    public Resource(Resource resource) {
+    public InnkeeperResource(InnkeeperResource resource) {
         setId(resource.getId());
         setHash(resource.getHash());
         setDeviceDescriptor(resource.getDeviceDescriptor());
