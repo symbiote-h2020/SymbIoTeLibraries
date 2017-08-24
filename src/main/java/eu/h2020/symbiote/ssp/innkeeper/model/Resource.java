@@ -1,15 +1,17 @@
 package eu.h2020.symbiote.ssp.innkeeper.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by vasgl on 8/23/2017.
+ * Created by vasgl on 8/24/2017.
  */
-public class JoinRequest {
+public class Resource {
 
+    @Id
     @JsonProperty("id")
     private String id;
 
@@ -22,15 +24,22 @@ public class JoinRequest {
     @JsonProperty("observesProperty")
     private List<String> observesProperty;
 
-    public JoinRequest() {
+    public Resource() {
         // empty constructor
     }
 
-    public JoinRequest(String id, String hash, DeviceDescriptor deviceDescriptor, List<String> observesProperty) {
+    public Resource(String id, String hash, DeviceDescriptor deviceDescriptor, List<String> observesProperty) {
         setId(id);
         setHash(hash);
         setDeviceDescriptor(deviceDescriptor);
         setObservesProperty(new ArrayList<>(observesProperty));
+    }
+
+    public Resource(Resource resource) {
+        setId(resource.getId());
+        setHash(resource.getHash());
+        setDeviceDescriptor(resource.getDeviceDescriptor());
+        setObservesProperty(resource.getObservesProperty());
     }
 
     public String getId() { return id; }
@@ -45,5 +54,3 @@ public class JoinRequest {
     public List<String> getObservesProperty() { return observesProperty; }
     public void setObservesProperty(List<String> observesProperty) { this.observesProperty = observesProperty; }
 }
-
-
