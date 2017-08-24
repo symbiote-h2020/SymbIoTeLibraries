@@ -51,5 +51,9 @@ public class DeviceDescriptor {
     public void setAgentType(AgentType agentType) { this.agentType = agentType; }
 
     public Integer getReadingInterval() { return readingInterval; }
-    public void setReadingInterval(Integer readingInterval) { this.readingInterval = readingInterval; }
+    public void setReadingInterval(Integer readingInterval) {
+        if (readingInterval < 0)
+            this.readingInterval = 0;
+        else
+            this.readingInterval = readingInterval; }
 }
