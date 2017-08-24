@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.ssp.innkeeper.model;
+package eu.h2020.symbiote.ssp.innkeeper.communication.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

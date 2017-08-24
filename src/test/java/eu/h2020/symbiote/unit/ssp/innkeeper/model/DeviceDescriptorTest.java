@@ -1,8 +1,8 @@
 package eu.h2020.symbiote.unit.ssp.innkeeper.model;
 
-import eu.h2020.symbiote.ssp.innkeeper.model.AgentType;
-import eu.h2020.symbiote.ssp.innkeeper.model.DeviceDescriptor;
-import eu.h2020.symbiote.ssp.innkeeper.model.exception.InvalidMacAddressException;
+import eu.h2020.symbiote.ssp.innkeeper.communication.rest.AgentType;
+import eu.h2020.symbiote.ssp.innkeeper.communication.rest.DeviceDescriptor;
+import eu.h2020.symbiote.ssp.innkeeper.InvalidMacAddressException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

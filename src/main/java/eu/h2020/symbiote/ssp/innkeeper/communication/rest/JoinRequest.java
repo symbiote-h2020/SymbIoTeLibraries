@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.ssp.innkeeper.model;
+package eu.h2020.symbiote.ssp.innkeeper.communication.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by vasgl on 8/24/2017.
  */
-public class InnkeeperResource {
+public class JoinRequest {
 
     @Id
     @JsonProperty("id")
@@ -24,22 +24,22 @@ public class InnkeeperResource {
     @JsonProperty("observesProperty")
     private List<String> observesProperty;
 
-    public InnkeeperResource() {
+    public JoinRequest() {
         // empty constructor
     }
 
-    public InnkeeperResource(String id, String hash, DeviceDescriptor deviceDescriptor, List<String> observesProperty) {
+    public JoinRequest(String id, String hash, DeviceDescriptor deviceDescriptor, List<String> observesProperty) {
         setId(id);
         setHash(hash);
         setDeviceDescriptor(deviceDescriptor);
         setObservesProperty(new ArrayList<>(observesProperty));
     }
 
-    public InnkeeperResource(InnkeeperResource resource) {
-        setId(resource.getId());
-        setHash(resource.getHash());
-        setDeviceDescriptor(resource.getDeviceDescriptor());
-        setObservesProperty(resource.getObservesProperty());
+    public JoinRequest(JoinRequest joinRequest) {
+        setId(joinRequest.getId());
+        setHash(joinRequest.getHash());
+        setDeviceDescriptor(joinRequest.getDeviceDescriptor());
+        setObservesProperty(joinRequest.getObservesProperty());
     }
 
     public String getId() { return id; }
