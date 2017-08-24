@@ -5,6 +5,7 @@ package eu.h2020.symbiote.ssp.communication.rest;
  */
 public enum JoinResponseResult {
     OK,
+    INVALID_MAC_ADDRESS_FORMAT,
     REJECT,
     ALREADY_REGISTERED;
 }
