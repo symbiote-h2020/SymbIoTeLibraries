@@ -1,10 +1,12 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
+import eu.h2020.symbiote.util.IntervalFormatter;
 import org.springframework.data.annotation.Id;
 
-import java.util.List;
+import java.util.Objects;
 
 
 public class ResourceManagerTaskInfoRequest {
@@ -19,16 +21,20 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("coreQueryRequest")
     private CoreQueryRequest coreQueryRequest;
 
-    // Subject to change to more human friendly format
-    @JsonProperty("queryInterval_ms")
-    private Integer queryInterval_ms;
+    // Use ISO-8601 alternateExtended format to specify the queryInterval below (i.e. Pyyyy-mm-ddThh:mm:ss)
+    // Fractional seconds (milliseconds) are supported
+    // http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()
+    @JsonProperty("queryInterval")
+    private String queryInterval;
 
     @JsonProperty("allowCaching")
     private Boolean allowCaching;
 
-    // Subject to change to more human friendly format
-    @JsonProperty("cachingInterval_ms")
-    private Long cachingInterval_ms;
+    // Use ISO-8601 alternateExtended format to specify the cachingInterval below (i.e. Pyyyy-mm-ddThh:mm:ss)
+    // Fractional seconds (milliseconds) are supported
+    // http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()
+    @JsonProperty("cachingInterval")
+    private String cachingInterval;
 
     @JsonProperty("informPlatformProxy")
     private Boolean informPlatformProxy;
@@ -36,23 +42,50 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("enablerLogicName")
     private String enablerLogicName;
 
+    @JsonProperty("sparqlQueryRequest")
+    private SparqlQueryRequest sparqlQueryRequest;
+
     public ResourceManagerTaskInfoRequest() {
     }
 
+    public ResourceManagerTaskInfoRequest(String taskId, Integer minNoResources, CoreQueryRequest coreQueryRequest,
+                                          String queryInterval, Boolean allowCaching, String cachingInterval,
+                                          Boolean informPlatformProxy, String enablerLogicName,
+                                          SparqlQueryRequest sparqlQueryRequest) {
+        setTaskId(taskId);
+        setMinNoResources(minNoResources);
+        setCoreQueryRequest(CoreQueryRequest.newInstance(coreQueryRequest));
+        setQueryInterval(queryInterval);
+        setAllowCaching(allowCaching);
+        setCachingInterval(cachingInterval);
+        setInformPlatformProxy(informPlatformProxy);
+        setEnablerLogicName(enablerLogicName);
+
+        if (sparqlQueryRequest != null)
+            setSparqlQueryRequest(new SparqlQueryRequest(sparqlQueryRequest));
+        else
+            setSparqlQueryRequest(null);
+    }
+
     public ResourceManagerTaskInfoRequest(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
-        taskId = resourceManagerTaskInfoRequest.getTaskId();
-        minNoResources = resourceManagerTaskInfoRequest.getMinNoResources();
+        setTaskId(resourceManagerTaskInfoRequest.getTaskId());
+        setMinNoResources(resourceManagerTaskInfoRequest.getMinNoResources());
 
         if (resourceManagerTaskInfoRequest.getCoreQueryRequest() != null)
-            coreQueryRequest = CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest());
+            setCoreQueryRequest(CoreQueryRequest.newInstance(resourceManagerTaskInfoRequest.getCoreQueryRequest()));
         else
-            coreQueryRequest = null;
+            setCoreQueryRequest(null);
 
-        queryInterval_ms =resourceManagerTaskInfoRequest.getQueryInterval_ms();
-        allowCaching = resourceManagerTaskInfoRequest.getAllowCaching();
-        cachingInterval_ms = resourceManagerTaskInfoRequest.getCachingInterval_ms();
-        informPlatformProxy = resourceManagerTaskInfoRequest.getInformPlatformProxy();
-        enablerLogicName = resourceManagerTaskInfoRequest.getEnablerLogicName();
+        setQueryInterval(resourceManagerTaskInfoRequest.getQueryInterval());
+        setAllowCaching(resourceManagerTaskInfoRequest.getAllowCaching());
+        setCachingInterval(resourceManagerTaskInfoRequest.getCachingInterval());
+        setInformPlatformProxy(resourceManagerTaskInfoRequest.getInformPlatformProxy());
+        setEnablerLogicName(resourceManagerTaskInfoRequest.getEnablerLogicName());
+
+        if (resourceManagerTaskInfoRequest.getSparqlQueryRequest() != null)
+            setSparqlQueryRequest((new SparqlQueryRequest(resourceManagerTaskInfoRequest.getSparqlQueryRequest())));
+        else
+            setSparqlQueryRequest(null);
     }
 
     public String getTaskId() { return taskId; }
@@ -64,18 +97,58 @@ public class ResourceManagerTaskInfoRequest {
     public CoreQueryRequest getCoreQueryRequest() { return coreQueryRequest; }
     public void setCoreQueryRequest(CoreQueryRequest coreQueryRequest) { this.coreQueryRequest = coreQueryRequest; }
 
-    public Integer getQueryInterval_ms() { return queryInterval_ms; }
-    public void setQueryInterval_ms(Integer queryInterval_ms) { this.queryInterval_ms = queryInterval_ms; }
+    public String getQueryInterval() { return queryInterval; }
+    public void setQueryInterval(String queryInterval) throws IllegalArgumentException {
+        if (queryInterval != null) {
+            IntervalFormatter interval = new IntervalFormatter(queryInterval);
+        }
+        this.queryInterval = queryInterval;
+    }
 
     public Boolean getAllowCaching() { return allowCaching; }
     public void setAllowCaching(Boolean allowCaching) { this.allowCaching = allowCaching; }
 
-    public Long getCachingInterval_ms() { return  cachingInterval_ms; }
-    public void setCachingInterval_ms(Long cachingInterval_ms) { this.cachingInterval_ms = cachingInterval_ms; }
+    public String getCachingInterval() { return  cachingInterval; }
+    public void setCachingInterval(String cachingInterval) throws IllegalArgumentException {
+        if (cachingInterval != null) {
+            IntervalFormatter interval = new IntervalFormatter(cachingInterval);
+        }
+        this.cachingInterval = cachingInterval;
+    }
 
     public Boolean getInformPlatformProxy() { return  informPlatformProxy; }
     public void setInformPlatformProxy(Boolean informPlatformProxy) { this.informPlatformProxy = informPlatformProxy; }
 
     public String getEnablerLogicName() { return enablerLogicName; }
     public void setEnablerLogicName(String enablerLogicName) { this.enablerLogicName = enablerLogicName; }
+
+    public SparqlQueryRequest getSparqlQueryRequest() { return sparqlQueryRequest; }
+    public void setSparqlQueryRequest(SparqlQueryRequest sparqlQueryRequest) { this.sparqlQueryRequest = sparqlQueryRequest; }
+
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (this == o)
+            return true;
+
+        // null check
+        if (o == null)
+            return false;
+
+        // type check and cast
+        if (!(o instanceof ResourceManagerTaskInfoRequest))
+            return false;
+
+        ResourceManagerTaskInfoRequest request = (ResourceManagerTaskInfoRequest) o;
+        // field comparison
+        return Objects.equals(this.getTaskId(), request.getTaskId())
+                && Objects.equals(this.getMinNoResources(), request.getMinNoResources())
+                && Objects.equals(this.getCoreQueryRequest(), request.getCoreQueryRequest())
+                && Objects.equals(this.getQueryInterval(), request.getQueryInterval())
+                && Objects.equals(this.getAllowCaching(), request.getAllowCaching())
+                && Objects.equals(this.getCachingInterval(), request.getCachingInterval())
+                && Objects.equals(this.getInformPlatformProxy(), request.getInformPlatformProxy())
+                && Objects.equals(this.getEnablerLogicName(), request.getEnablerLogicName())
+                && Objects.equals(this.getSparqlQueryRequest(), request.getSparqlQueryRequest());
+    }
 }
