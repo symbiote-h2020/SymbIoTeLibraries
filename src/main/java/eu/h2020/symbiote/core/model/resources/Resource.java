@@ -18,11 +18,12 @@ import java.util.List;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Actuator.class, name = "Actuator"),
         @JsonSubTypes.Type(value = Service.class, name = "Service"),
-        @JsonSubTypes.Type(value = ActuatingService.class, name = "ActuatingService"),
+        @JsonSubTypes.Type(value = Device.class, name = "Device"),
+//        @JsonSubTypes.Type(value = ActuatingService.class, name = "ActuatingService"),
         @JsonSubTypes.Type(value = StationarySensor.class, name = "StationarySensor"),
         @JsonSubTypes.Type(value = MobileSensor.class, name = "MobileSensor"),
-        @JsonSubTypes.Type(value = MobileDevice.class, name = "MobileDevice"),
-        @JsonSubTypes.Type(value = StationaryDevice.class, name = "StationaryDevice")
+//        @JsonSubTypes.Type(value = MobileDevice.class, name = "MobileDevice"),
+//        @JsonSubTypes.Type(value = StationaryDevice.class, name = "StationaryDevice")
 })
 @ApiModel(description = "Description of a Resource. " +
         "Can be one of following subclasses: Actuator, Service, ActuatingService, StationarySensor, StationaryDevice, MobileSensor, MobileDevice " +

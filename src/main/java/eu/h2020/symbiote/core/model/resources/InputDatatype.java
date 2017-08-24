@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * Represents CIM-defined InputParameter parameter class
+ * Represents CIM-defined InputDatatype parameter class
  *
  * Created by Mael on 28/03/2017.
  */
-public class InputParameter extends Parameter {
+public class InputDatatype extends Datatype {
 
     @JsonProperty("name")
     private String name;
@@ -18,7 +18,7 @@ public class InputParameter extends Parameter {
     @JsonProperty("restrictions")
     private List<Restriction> restrictions;
 
-    public InputParameter() {
+    public InputDatatype() {
     }
 
     public String getName() {

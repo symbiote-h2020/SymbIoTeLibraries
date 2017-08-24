@@ -10,22 +10,12 @@ import java.util.List;
  *
  * Created by Mael on 28/03/2017.
  */
-public class MobileSensor extends Resource {
+public class MobileSensor extends Device {
 
-    @JsonProperty("locatedAt")
-    private Location locatedAt;
     @JsonProperty("observesProperty")
     private List<String> observesProperty;
 
     public MobileSensor() {
-    }
-
-    public Location getLocatedAt() {
-        return locatedAt;
-    }
-
-    public void setLocatedAt(Location locatedAt) {
-        this.locatedAt = locatedAt;
     }
 
     public List<String> getObservesProperty() {

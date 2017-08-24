@@ -20,7 +20,7 @@ public class InputParameter extends Parameter {
     @JsonProperty("value")
     private String value;
 
-    
+
     public InputParameter(String name) {
         this.name = name;
     }
@@ -44,7 +44,7 @@ public class InputParameter extends Parameter {
     public void setRestrictions(List<Restriction> restrictions) {
         this.restrictions = restrictions;
     }
-    
+
     public void setValue(String value) {
         this.value = value;
     }

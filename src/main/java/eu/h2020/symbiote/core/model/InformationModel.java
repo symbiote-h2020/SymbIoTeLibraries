@@ -17,6 +17,16 @@ public class InformationModel extends RDFInfo {
      */
     private String uri;
 
+    /**
+     * Name of the information model
+     */
+    private String name;
+
+    /**
+     * Owner (creator) of the information model.
+     */
+    private String owner;
+
     public InformationModel() {
     }
 
@@ -36,4 +46,19 @@ public class InformationModel extends RDFInfo {
         this.uri = uri;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 }

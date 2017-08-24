@@ -1,5 +1,4 @@
 package eu.h2020.symbiote.core.cci;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.core.model.resources.Resource;
 

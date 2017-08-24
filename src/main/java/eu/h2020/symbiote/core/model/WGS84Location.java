@@ -8,6 +8,8 @@ package eu.h2020.symbiote.core.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  *
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
@@ -25,14 +27,14 @@ public class WGS84Location extends Location {
     public WGS84Location(@JsonProperty("longitude") double longitude, 
                          @JsonProperty("latitude") double latitude, 
                          @JsonProperty("altitude") double altitude, 
-                         @JsonProperty("name") String label, 
-                         @JsonProperty("description") String comment) {
+                         @JsonProperty("name") List<String> labels,
+                         @JsonProperty("description") List<String> comments) {
         //super(label, comment);
         this.longitude = longitude;
         this.latitude = latitude;
         this.altitude = altitude;
-        this.label = label;
-        this.comment = comment;
+        this.labels = labels;
+        this.comments = comments;
     }
 
     public double getLongitude() {

@@ -1,35 +1,57 @@
 package eu.h2020.symbiote.core.model.resources;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
- * Represents CIM-defined Parameter class (named Parameter in CIM v0.5).
+ * Represents CIM-defined InputDatatype parameter class
  *
  * Created by Mael on 28/03/2017.
  */
 public class Parameter {
 
-    @JsonProperty("isArray")
-    private boolean isArray;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("mandatory")
+    private boolean mandatory;
+    @JsonProperty("restrictions")
+    private List<Restriction> restrictions;
     @JsonProperty("datatype")
-    private String datatype;
+    private Datatype datatype;
 
-    public Parameter() {
+    public Parameter() {}
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean isArray() {
-        return isArray;
+    public String getName() {
+        return name;
     }
 
-    public void setArray(boolean array) {
-        isArray = array;
+    public boolean isMandatory() {
+        return mandatory;
     }
 
-    public String getDatatype() {
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    public List<Restriction> getRestrictions() {
+        return restrictions;
+    }
+
+    public void setRestrictions(List<Restriction> restrictions) {
+        this.restrictions = restrictions;
+    }
+
+    public Datatype getDatatype() {
         return datatype;
     }
 
-    public void setDatatype(String datatype) {
+    public void setDatatype(Datatype datatype) {
         this.datatype = datatype;
     }
 }

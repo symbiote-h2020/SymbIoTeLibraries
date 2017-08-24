@@ -10,6 +10,7 @@ import java.util.List;
  *
  * Created by Mael on 28/03/2017.
  */
+@Deprecated
 public class MobileDevice extends Resource {
 
     @JsonProperty("locatedAt")

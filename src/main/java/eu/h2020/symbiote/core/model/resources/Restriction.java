@@ -12,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = EnumRestriction.class, name = "EnumRestriction"),
         @JsonSubTypes.Type(value = LengthRestriction.class, name = "LengthRestriction"),
-        @JsonSubTypes.Type(value = RangeRestriction.class, name = "RangeRestriction")
+        @JsonSubTypes.Type(value = RangeRestriction.class, name = "RangeRestriction"),
+        @JsonSubTypes.Type(value = RegExRestriction.class, name = "RegExRestriction"),
+        @JsonSubTypes.Type(value = InstanceOfRestriction.class, name = "InstanceOfRestriction")
 })
 public abstract class Restriction {
 
