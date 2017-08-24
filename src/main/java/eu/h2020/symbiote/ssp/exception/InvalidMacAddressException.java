@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.ssp.innkeeper.exception;
+package eu.h2020.symbiote.ssp.exception;
 
 /**
  * Created by vasgl on 8/23/2017.

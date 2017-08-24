@@ -1,8 +1,8 @@
-package eu.h2020.symbiote.ssp.innkeeper.communication.rest;
+package eu.h2020.symbiote.ssp.communication.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import eu.h2020.symbiote.ssp.innkeeper.exception.InvalidMacAddressException;
+import eu.h2020.symbiote.ssp.exception.InvalidMacAddressException;
 
 /**
  * Created by vasgl on 8/23/2017.

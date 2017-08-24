@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.ssp.innkeeper.communication.rest;
+package eu.h2020.symbiote.ssp.communication.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;

@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.ssp.innkeeper.communication.rest;
+package eu.h2020.symbiote.ssp.communication.rest;
 
 /**
  * Created by vasgl on 8/23/2017.
