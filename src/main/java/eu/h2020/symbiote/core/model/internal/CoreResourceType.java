@@ -9,10 +9,8 @@ public enum CoreResourceType {
 
     ACTUATOR,
     SERVICE,
-    ACTUATING_SERVICE,
+    DEVICE,
     STATIONARY_SENSOR,
-    MOBILE_SENSOR,
-    MOBILE_DEVICE,
-    STATIONARY_DEVICE
+    MOBILE_SENSOR
 
 }
