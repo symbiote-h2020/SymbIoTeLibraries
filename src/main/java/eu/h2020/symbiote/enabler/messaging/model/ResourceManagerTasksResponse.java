@@ -7,23 +7,32 @@ import java.util.List;
 
 public class ResourceManagerTasksResponse {
 
-    @JsonProperty("resources")
-    private List<ResourceManagerTaskInfoResponse> resources;
+    @JsonProperty("tasks")
+    private List<ResourceManagerTaskInfoResponse> tasks;
 
     @JsonProperty("status")
     private ResourceManagerTasksStatus status;
 
+    @JsonProperty("message")
+    private String message;
+
     public ResourceManagerTasksResponse() {
     }
 
-    public List<ResourceManagerTaskInfoResponse> getResources() {
-        return resources;
+    public ResourceManagerTasksResponse(List<ResourceManagerTaskInfoResponse> tasks,
+                                        ResourceManagerTasksStatus status,
+                                        String message) {
+        setTasks(tasks);
+        setStatus(status);
+        setMessage(message);
     }
-    public void setResources(List<ResourceManagerTaskInfoResponse> resources) {
-        this.resources = resources;
-    }
+
+    public List<ResourceManagerTaskInfoResponse> getTasks() { return tasks; }
+    public void setTasks(List<ResourceManagerTaskInfoResponse> tasks) { this.tasks = tasks; }
 
     public ResourceManagerTasksStatus getStatus() { return status; }
     public void setStatus(ResourceManagerTasksStatus status) { this.status = status; }
 
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
 }

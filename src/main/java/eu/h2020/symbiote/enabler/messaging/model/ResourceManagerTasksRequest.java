@@ -7,18 +7,17 @@ import java.util.List;
 
 public class ResourceManagerTasksRequest {
 
-    @JsonProperty("resources")
-    private List<ResourceManagerTaskInfoRequest> resources;
+    @JsonProperty("tasks")
+    private List<ResourceManagerTaskInfoRequest> tasks;
 
 
     public ResourceManagerTasksRequest() {
     }
 
-    public List<ResourceManagerTaskInfoRequest> getResources() {
-        return resources;
-    }
-    public void setResources(List<ResourceManagerTaskInfoRequest> resources) {
-        this.resources = resources;
+    public ResourceManagerTasksRequest(List<ResourceManagerTaskInfoRequest> tasks) {
+        setTasks(tasks);
     }
 
+    public List<ResourceManagerTaskInfoRequest> getTasks() { return tasks; }
+    public void setTasks(List<ResourceManagerTaskInfoRequest> tasks) { this.tasks = tasks; }
 }
