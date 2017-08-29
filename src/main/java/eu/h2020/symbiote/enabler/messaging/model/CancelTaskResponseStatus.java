@@ -6,6 +6,6 @@ package eu.h2020.symbiote.enabler.messaging.model;
  */
 public enum CancelTaskResponseStatus {
     SUCCESS,
-    PARTIAL_SUCCESS,
+    NOT_ALL_TASKS_EXIST,
     FAILED;
 }
