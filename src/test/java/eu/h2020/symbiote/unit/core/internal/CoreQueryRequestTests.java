@@ -1,11 +1,7 @@
 package eu.h2020.symbiote.unit.core.internal;
 
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by vasgl on 7/21/2017.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 public class CoreQueryRequestTests {
 
     private static Logger log = LoggerFactory

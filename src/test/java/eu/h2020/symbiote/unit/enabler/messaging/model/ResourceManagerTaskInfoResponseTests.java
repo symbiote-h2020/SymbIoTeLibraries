@@ -8,8 +8,6 @@ import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoResponse
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoResponseStatus;
 import eu.h2020.symbiote.util.IntervalFormatter;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +17,6 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by vasgl on 7/27/2017.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 public class ResourceManagerTaskInfoResponseTests {
     
     @Test
