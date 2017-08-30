@@ -1,40 +1,26 @@
 package eu.h2020.symbiote.core.cci;
 
+import eu.h2020.symbiote.core.model.AbstractResponse;
 import eu.h2020.symbiote.core.model.InformationModel;
 
 /**
  * Created by mateuszl on 11.08.2017.
  */
-public class InformationModelResponse {
-
-    private int status;
-    private String message;
-    private InformationModel informationModel;
+public class InformationModelResponse extends AbstractResponse<InformationModel> {
 
     public InformationModelResponse() {
+        // Needed for Jackson serialization
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public InformationModelResponse(int status, String message, InformationModel body) {
+        super(status, message, body);
     }
 
     public InformationModel getInformationModel() {
-        return informationModel;
+        return super.getBody();
     }
 
     public void setInformationModel(InformationModel informationModel) {
-        this.informationModel = informationModel;
+        super.setBody(informationModel);
     }
 }

@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.core.model.Federation;
+import eu.h2020.symbiote.core.model.AbstractResponse;
 
 import java.util.List;
 
@@ -9,9 +10,10 @@ import java.util.List;
  *
  * Created by mateuszl on 22.08.2017.
  */
-public class FederationListResponse extends StatusResponse<List<Federation>> {
+public class FederationListResponse extends AbstractResponse<List<Federation>> {
 
     public FederationListResponse() {
+        // Needed for Jackson serialization
     }
 
     public FederationListResponse(int status, String message, List<Federation> body) {

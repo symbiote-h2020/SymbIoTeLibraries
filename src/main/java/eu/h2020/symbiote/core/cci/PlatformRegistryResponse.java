@@ -1,41 +1,26 @@
 package eu.h2020.symbiote.core.cci;
 
+import eu.h2020.symbiote.core.model.AbstractResponse;
 import eu.h2020.symbiote.core.model.Platform;
 
 /**
  * Created by mateuszl on 07.08.2017.
  */
-public class PlatformRegistryResponse {
+public class PlatformRegistryResponse extends AbstractResponse<Platform> {
 
-    private int status;
-    private String message;
-    private Platform platform;
-
-    public int getStatus() {
-        return status;
+    public PlatformRegistryResponse() {
+        // Needed for Jackson serialization
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public PlatformRegistryResponse(int status, String message, Platform body) {
+        super(status, message, body);
     }
 
     public Platform getPlatform() {
-        return platform;
+        return super.getBody();
     }
 
     public void setPlatform(Platform platform) {
-        this.platform = platform;
-    }
-
-    public PlatformRegistryResponse() {
-        //Empty constructor
+        super.setBody(platform);
     }
 }

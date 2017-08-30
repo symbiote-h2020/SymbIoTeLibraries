@@ -1,33 +1,29 @@
 package eu.h2020.symbiote.core.internal;
 
+import eu.h2020.symbiote.core.model.AbstractRequest;
 import eu.h2020.symbiote.core.model.Federation;
 
 /**
  * Payload model used in Federations CRUD requests to Registry.
- *
+ * <p>
  * Created by mateuszl on 22.08.2017.
  */
-public class FederationRegistryRequest {
+public class FederationRegistryRequest extends AbstractRequest<Federation> {
 
-    private String token;
-    private Federation federation;
 
     public FederationRegistryRequest() {
+        // Needed for Jackson serialization
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public FederationRegistryRequest(String token, Federation body) {
+        super(token, body);
     }
 
     public Federation getFederation() {
-        return federation;
+        return super.getBody();
     }
 
     public void setFederation(Federation federation) {
-        this.federation = federation;
+        super.setBody(federation);
     }
 }

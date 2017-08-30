@@ -1,30 +1,26 @@
 package eu.h2020.symbiote.core.internal;
 
+import eu.h2020.symbiote.core.model.AbstractRequest;
+
 /**
  * Payload of internal Core communication message for registry operation on resources (both RDF and JSON).
  * Used in communication between CloudCoreInterface and Registry.
- *
+ * <p>
  * Created by Szymon Mueller on 31/03/2017.
  */
-public class CoreResourceRegistryRequest {
-
-    private String token;
+public class CoreResourceRegistryRequest extends AbstractRequest<String> {
 
     private DescriptionType descriptionType;
-
-    private String body;
-
     private String platformId;
 
     public CoreResourceRegistryRequest() {
+        // Needed for Jackson serialization
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public CoreResourceRegistryRequest(String token, String body, DescriptionType descriptionType, String platformId) {
+        super(token, body);
+        this.descriptionType = descriptionType;
+        this.platformId = platformId;
     }
 
     public DescriptionType getDescriptionType() {
@@ -36,11 +32,11 @@ public class CoreResourceRegistryRequest {
     }
 
     public String getBody() {
-        return body;
+        return super.getBody();
     }
 
     public void setBody(String body) {
-        this.body = body;
+        super.setBody(body);
     }
 
     public String getPlatformId() {

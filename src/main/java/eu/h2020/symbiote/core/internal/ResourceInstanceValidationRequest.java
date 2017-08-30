@@ -1,9 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.core.model.RDFInfo;
-import eu.h2020.symbiote.core.model.internal.CoreResource;
-
-import java.util.Map;
 
 /**
  * Resource Instance validation request for RDFs
@@ -15,7 +12,7 @@ public class ResourceInstanceValidationRequest extends RDFInfo {
     private String informationModelId;
 
     public ResourceInstanceValidationRequest() {
-
+        // Needed for Jackson serialization
     }
 
     public String getInformationModelId() {

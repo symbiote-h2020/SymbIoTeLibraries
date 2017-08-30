@@ -1,32 +1,28 @@
 package eu.h2020.symbiote.core.internal;
 
+import eu.h2020.symbiote.core.model.AbstractRequest;
+
 import java.util.List;
 
 /**
  * POJO describing a request for resources' Interworking Interface URLs.
  */
-public class ResourceUrlsRequest {
-    private List<String> idList;
-    private String token;
-    /**
-     * Default empty constructor.
-     */
+public class ResourceUrlsRequest extends AbstractRequest<List<String>> {
+
+    public ResourceUrlsRequest(String token, List<String> body) {
+        super(token, body);
+    }
+
     public ResourceUrlsRequest() {
+        // Needed for Jackson serialization
     }
 
     public List<String> getIdList() {
-        return idList;
+        return super.getBody();
     }
 
     public void setIdList(List<String> idList) {
-        this.idList = idList;
+        super.setBody(idList);
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

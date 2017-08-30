@@ -1,18 +1,19 @@
-package eu.h2020.symbiote.core.internal;
+package eu.h2020.symbiote.core.model;
 
 /**
  * Created by mateuszl on 09.08.2017.
  */
-public abstract class StatusResponse<T> {
+public abstract class AbstractResponse<T> {
 
     private int status;
     private String message;
     private T body;
 
-    public StatusResponse() {
+    public AbstractResponse() {
+        // Needed for Jackson serialization
     }
 
-    public StatusResponse(int status, String message, T body) {
+    public AbstractResponse(int status, String message, T body) {
         this.status = status;
         this.message = message;
         this.body = body;

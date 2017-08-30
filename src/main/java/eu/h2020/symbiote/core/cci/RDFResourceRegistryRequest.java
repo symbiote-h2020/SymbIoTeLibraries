@@ -1,29 +1,32 @@
 package eu.h2020.symbiote.core.cci;
 
+import eu.h2020.symbiote.core.model.AbstractRequest;
 import eu.h2020.symbiote.core.model.RDFInfo;
 
 /**
  * Request class for operations on RDF-described resources. Used as a payload for Cloud Core Interface's
  * resource registration and modification.
- *
+ * <p>
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class RDFResourceRegistryRequest {
+public class RDFResourceRegistryRequest extends AbstractRequest<RDFInfo> {
 
-    private RDFInfo rdfInfo;
+    public RDFResourceRegistryRequest(String token, RDFInfo body, String interworkingServiceUrl) {
+        super(token, body);
+        this.interworkingServiceUrl = interworkingServiceUrl;
+    }
+
+    public RDFResourceRegistryRequest() {
+    }
 
     private String interworkingServiceUrl;
 
-    public RDFResourceRegistryRequest() {
-        // Needed for Jackson serialization
-    }
-
     public RDFInfo getRdfInfo() {
-        return rdfInfo;
+        return super.getBody();
     }
 
     public void setRdfInfo(RDFInfo rdfInfo) {
-        this.rdfInfo = rdfInfo;
+        super.setBody(rdfInfo);
     }
 
     public String getInterworkingServiceUrl() {

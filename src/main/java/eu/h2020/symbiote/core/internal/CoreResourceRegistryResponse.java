@@ -1,41 +1,27 @@
 package eu.h2020.symbiote.core.internal;
 
+import eu.h2020.symbiote.core.model.AbstractResponse;
+
 /**
  * Payload of responses to internal Core communication message for registry operation on resources (both RDF and JSON).
  * Used in communication between CloudCoreInterface and Registry.
  *
  * Created by Szymon Mueller on 31/03/2017.
  */
-public class CoreResourceRegistryResponse {
-
-    /**
-     * HTTP status of the request
-     */
-    private int status;
-
-    private String message;
+public class CoreResourceRegistryResponse extends AbstractResponse<String> {
 
     private DescriptionType descriptionType;
 
     private String body;
 
     public CoreResourceRegistryResponse() {
+        // Needed for Jackson serialization
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public CoreResourceRegistryResponse(int status, String message, String body, DescriptionType descriptionType, String body1) {
+        super(status, message, body);
+        this.descriptionType = descriptionType;
+        this.body = body1;
     }
 
     public DescriptionType getDescriptionType() {
@@ -47,10 +33,10 @@ public class CoreResourceRegistryResponse {
     }
 
     public String getBody() {
-        return body;
+        return super.getBody();
     }
 
     public void setBody(String body) {
-        this.body = body;
+        super.setBody(body);
     }
 }

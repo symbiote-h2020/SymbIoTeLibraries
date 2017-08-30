@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.core.cci;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.core.model.AbstractRequest;
 import eu.h2020.symbiote.core.model.resources.Resource;
 
 import java.util.Map;
@@ -15,22 +15,21 @@ import java.util.Map;
  *
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class ResourceRegistryRequest {
+public class ResourceRegistryRequest extends AbstractRequest<Map<String, Resource>> {
 
-    //TOKEN ??
-
-    @JsonProperty("resources")
-    private Map<String, Resource> resources;
+    public ResourceRegistryRequest(String token, Map<String, Resource> body) {
+        super(token, body);
+    }
 
     public ResourceRegistryRequest() {
         // Needed for Jackson serialization
     }
 
     public Map<String, Resource> getResources() {
-        return resources;
+        return super.getBody();
     }
 
     public void setResources(Map<String, Resource> resources) {
-        this.resources = resources;
+        super.setBody(resources);
     }
 }

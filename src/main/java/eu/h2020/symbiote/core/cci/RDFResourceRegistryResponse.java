@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
+import eu.h2020.symbiote.core.model.AbstractResponse;
 import eu.h2020.symbiote.core.model.RDFInfo;
 
 /**
@@ -8,29 +9,21 @@ import eu.h2020.symbiote.core.model.RDFInfo;
  * <p>
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class RDFResourceRegistryResponse {
-
-    private String message;
-
-    private RDFInfo rdfInfo;
+public class RDFResourceRegistryResponse extends AbstractResponse<RDFInfo> {
 
     public RDFResourceRegistryResponse() {
         // Needed for Jackson serialization
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public RDFResourceRegistryResponse(int status, String message, RDFInfo body) {
+        super(status, message, body);
     }
 
     public RDFInfo getRdfInfo() {
-        return rdfInfo;
+        return super.getBody();
     }
 
     public void setRdfInfo(RDFInfo rdfInfo) {
-        this.rdfInfo = rdfInfo;
+        super.setBody(rdfInfo);
     }
 }
