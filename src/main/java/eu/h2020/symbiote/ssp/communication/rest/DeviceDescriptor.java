@@ -12,6 +12,12 @@ public class DeviceDescriptor {
     @JsonProperty("mac")
     private String mac;
 
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("description")
+    private String description;
+
     @JsonProperty("sleeping")
     private Boolean sleeping;
 
@@ -25,10 +31,12 @@ public class DeviceDescriptor {
         // empty Constructor
     }
 
-    public DeviceDescriptor(String mac, Boolean sleeping, AgentType agentType, Integer readingInterval)
+    public DeviceDescriptor(String mac, String name, String description,
+                            Boolean sleeping, AgentType agentType, Integer readingInterval)
             throws InvalidMacAddressException {
-
         setMac(mac);
+        setName(name);
+        setDescription(description);
         setSleeping(sleeping);
         setAgentType(agentType);
         setReadingInterval(readingInterval);
@@ -43,6 +51,13 @@ public class DeviceDescriptor {
         else
             throw new InvalidMacAddressException(mac);
     }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) {
+        this.description = description; }
 
     public Boolean getSleeping() { return sleeping; }
     public void setSleeping(Boolean sleeping) { this.sleeping = sleeping; }
