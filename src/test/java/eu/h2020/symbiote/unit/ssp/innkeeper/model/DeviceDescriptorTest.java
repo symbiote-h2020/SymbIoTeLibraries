@@ -18,7 +18,7 @@ public class DeviceDescriptorTest {
         DeviceDescriptor deviceDescriptor;
 
         try {
-            deviceDescriptor = new DeviceDescriptor("7A:0b:1c:7A:0b:1c", "name", "description",
+            deviceDescriptor = new DeviceDescriptor("7A:0b:1c:7A:0b:1c", "http://url.com", "name", "description",
                     true, AgentType.SDEV, 1000);
             assertEquals("7A:0b:1c:7A:0b:1c", deviceDescriptor.getMac());
             assertEquals("name", deviceDescriptor.getName());
@@ -33,7 +33,7 @@ public class DeviceDescriptorTest {
 
         deviceDescriptor = null;
         try {
-            deviceDescriptor = new DeviceDescriptor("7A:0b:1c:7A-0b:1c", "name", "description",
+            deviceDescriptor = new DeviceDescriptor("7A:0b:1c:7A-0b:1c", "http://url.com", "name", "description",
                     true, AgentType.SDEV, 1000);
             fail("A InvalidMacAddressException should have been thrown");
         } catch (InvalidMacAddressException e) {
