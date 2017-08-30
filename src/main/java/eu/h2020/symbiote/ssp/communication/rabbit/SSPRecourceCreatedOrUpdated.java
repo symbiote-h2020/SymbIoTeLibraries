@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Created by vasgl on 8/30/2017.
  */
-public class SSPRecourceCreated {
+public class SSPRecourceCreatedOrUpdated {
 
     @JsonProperty("id")
     private String id;
@@ -13,10 +13,10 @@ public class SSPRecourceCreated {
     @JsonProperty("url")
     private String url;
 
-    public SSPRecourceCreated() {
+    public SSPRecourceCreatedOrUpdated() {
     }
 
-    public SSPRecourceCreated(String id, String url) {
+    public SSPRecourceCreatedOrUpdated(String id, String url) {
         setId(id);
         setUrl(url);
     }
