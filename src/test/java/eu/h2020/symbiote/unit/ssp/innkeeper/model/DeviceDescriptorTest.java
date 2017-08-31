@@ -21,6 +21,7 @@ public class DeviceDescriptorTest {
             deviceDescriptor = new DeviceDescriptor("7A:0b:1c:7A:0b:1c", "http://url.com", "name", "description",
                     true, AgentType.SDEV, 1000);
             assertEquals("7A:0b:1c:7A:0b:1c", deviceDescriptor.getMac());
+            assertEquals("http://url.com", deviceDescriptor.getUrl());
             assertEquals("name", deviceDescriptor.getName());
             assertEquals("description", deviceDescriptor.getDescription());
             assertEquals(true, deviceDescriptor.getSleeping());
