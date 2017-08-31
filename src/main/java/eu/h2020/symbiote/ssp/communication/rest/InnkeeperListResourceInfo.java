@@ -18,6 +18,9 @@ public class InnkeeperListResourceInfo {
     @JsonProperty("description")
     private String description;
 
+    @JsonProperty("url")
+    private String url;
+
     @JsonProperty("status")
     private InnkeeperResourceStatus status;
 
@@ -28,11 +31,12 @@ public class InnkeeperListResourceInfo {
         // empty constructor
     }
 
-    public InnkeeperListResourceInfo(String id, String name, String description,
+    public InnkeeperListResourceInfo(String id, String name, String description, String url,
                                      InnkeeperResourceStatus status, List<String> observesProperty) {
         setId(id);
         setName(name);
         setDescription(description);
+        setUrl(url);
         setStatus(status);
         setObservesProperty(observesProperty);
     }
@@ -45,6 +49,9 @@ public class InnkeeperListResourceInfo {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 
     public InnkeeperResourceStatus getStatus() { return status; }
     public void setStatus(InnkeeperResourceStatus status) { this.status = status; }
