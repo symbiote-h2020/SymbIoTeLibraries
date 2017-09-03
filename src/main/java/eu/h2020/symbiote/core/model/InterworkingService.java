@@ -38,4 +38,8 @@ public class InterworkingService {
         this.informationModelId = informationModelId;
     }
 
+    @Override
+    public String toString() {
+        return "{url: " + getUrl() + ", id: " + getInformationModelId() + "}";
+    }
 }
