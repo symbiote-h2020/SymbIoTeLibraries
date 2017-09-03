@@ -1,6 +1,9 @@
 package eu.h2020.symbiote.core.model;
 
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  * Represents the Interworking Service of the platform.
  *
@@ -12,11 +15,14 @@ public class InterworkingService {
      * URL where Interworking Service (Interworking Interface or other component on platform side that will answer
      * calls from the Core).
      */
+    @NotNull
+    @Pattern(regexp="^(https:\\/\\/www\\.|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$")
     private String url;
 
     /**
      * SymbioteId of this service's information model.
      */
+    @NotNull
     private String informationModelId;
 
     public InterworkingService() {
