@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractResponse;
+import eu.h2020.symbiote.core.model.AbstractResponseSecured;
 import eu.h2020.symbiote.core.model.resources.Resource;
 
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * <p>
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class ResourceRegistryResponse extends AbstractResponse<Map<String, Resource>> {
+public class ResourceRegistryResponse extends AbstractResponseSecured<Map<String, Resource>> {
 
     public ResourceRegistryResponse() {
         // Needed for Jackson serialization

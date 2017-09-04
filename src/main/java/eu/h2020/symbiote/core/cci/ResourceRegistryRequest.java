@@ -1,8 +1,9 @@
 package eu.h2020.symbiote.core.cci;
 
 
-import eu.h2020.symbiote.core.model.AbstractRequest;
+import eu.h2020.symbiote.core.model.AbstractRequestSecured;
 import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 import java.util.Map;
 
@@ -15,10 +16,10 @@ import java.util.Map;
  *
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class ResourceRegistryRequest extends AbstractRequest<Map<String, Resource>> {
+public class ResourceRegistryRequest extends AbstractRequestSecured<Map<String, Resource>> {
 
-    public ResourceRegistryRequest(String token, Map<String, Resource> body) {
-        super(token, body);
+    public ResourceRegistryRequest(SecurityRequest securityRequest, Map<String, Resource> body) {
+        super(securityRequest, body);
     }
 
     public ResourceRegistryRequest() {

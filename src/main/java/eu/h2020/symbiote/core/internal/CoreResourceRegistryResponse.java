@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.AbstractResponse;
+import eu.h2020.symbiote.core.model.AbstractResponseSecured;
 
 /**
  * Payload of responses to internal Core communication message for registry operation on resources (both RDF and JSON).
@@ -8,7 +8,7 @@ import eu.h2020.symbiote.core.model.AbstractResponse;
  *
  * Created by Szymon Mueller on 31/03/2017.
  */
-public class CoreResourceRegistryResponse extends AbstractResponse<String> {
+public class CoreResourceRegistryResponse extends AbstractResponseSecured<String> {
 
     private DescriptionType descriptionType;
 

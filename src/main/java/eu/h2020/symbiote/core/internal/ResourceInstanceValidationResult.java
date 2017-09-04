@@ -12,7 +12,7 @@ import java.util.Map;
 public class ResourceInstanceValidationResult extends ValidationResult<Map<String, CoreResource>> {
 
     public ResourceInstanceValidationResult() {
-
+        // Needed for Jackson serialization
     }
 
     public ResourceInstanceValidationResult(boolean success, String description, String modelToBeValidated, String modelValidatedAgainst, Map<String, CoreResource> objectDescription) {

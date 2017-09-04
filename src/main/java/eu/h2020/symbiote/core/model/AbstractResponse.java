@@ -1,7 +1,10 @@
 package eu.h2020.symbiote.core.model;
 
-/**
- * Created by mateuszl on 09.08.2017.
+/** Basic payload content for Responses used in core communication. With no security content attached.
+ * For Secured version of payload look at {@link AbstractResponseSecured} implementations.
+ *
+ * @param <T> Type of class used in payload.
+ * Created by mateuszl on 04.09.2017.
  */
 public abstract class AbstractResponse<T> {
 

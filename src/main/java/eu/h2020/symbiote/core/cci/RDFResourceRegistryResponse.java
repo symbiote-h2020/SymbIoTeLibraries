@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractResponse;
+import eu.h2020.symbiote.core.model.AbstractResponseSecured;
 import eu.h2020.symbiote.core.model.RDFInfo;
 
 /**
@@ -9,7 +9,7 @@ import eu.h2020.symbiote.core.model.RDFInfo;
  * <p>
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class RDFResourceRegistryResponse extends AbstractResponse<RDFInfo> {
+public class RDFResourceRegistryResponse extends AbstractResponseSecured<RDFInfo> {
 
     public RDFResourceRegistryResponse() {
         // Needed for Jackson serialization

@@ -1,28 +1,25 @@
 package eu.h2020.symbiote.core.model;
 
 /**
+ * Abstract class extended by Requests payload models. Consists of Business content of type @param
+ * For Secured version of payload look at {@link AbstractRequestSecured} implementations.
+ * <p>
+ * @param <T> Type of class used in payload.
  * Created by mateuszl on 30.08.2017.
  */
-abstract public class AbstractRequest<T> {
+public class AbstractRequest<T> {
 
-    private String token;
     private T body;
 
-    public AbstractRequest(String token, T body) {
-        this.token = token;
+    /**
+     * @param body Business content of payload in given Type.
+     */
+    public AbstractRequest(T body) {
         this.body = body;
     }
 
     public AbstractRequest() {
         // Needed for Jackson serialization
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public T getBody() {

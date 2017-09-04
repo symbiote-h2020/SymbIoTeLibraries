@@ -1,16 +1,17 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.AbstractRequest;
+import eu.h2020.symbiote.core.model.AbstractRequestSecured;
+import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 import java.util.List;
 
 /**
  * POJO describing a request for resources' Interworking Interface URLs.
  */
-public class ResourceUrlsRequest extends AbstractRequest<List<String>> {
+public class ResourceUrlsRequest extends AbstractRequestSecured<List<String>> {
 
-    public ResourceUrlsRequest(String token, List<String> body) {
-        super(token, body);
+    public ResourceUrlsRequest(SecurityRequest securityRequest, List<String> body) {
+        super(securityRequest, body);
     }
 
     public ResourceUrlsRequest() {
@@ -24,5 +25,4 @@ public class ResourceUrlsRequest extends AbstractRequest<List<String>> {
     public void setIdList(List<String> idList) {
         super.setBody(idList);
     }
-
 }

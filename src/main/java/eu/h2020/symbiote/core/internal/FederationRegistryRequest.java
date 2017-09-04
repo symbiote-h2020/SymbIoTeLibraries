@@ -10,13 +10,12 @@ import eu.h2020.symbiote.core.model.Federation;
  */
 public class FederationRegistryRequest extends AbstractRequest<Federation> {
 
-
     public FederationRegistryRequest() {
         // Needed for Jackson serialization
     }
 
-    public FederationRegistryRequest(String token, Federation body) {
-        super(token, body);
+    public FederationRegistryRequest(Federation body) {
+        super(body);
     }
 
     public Federation getFederation() {

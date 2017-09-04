@@ -1,7 +1,8 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractRequest;
+import eu.h2020.symbiote.core.model.AbstractRequestSecured;
 import eu.h2020.symbiote.core.model.RDFInfo;
+import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 /**
  * Request class for operations on RDF-described resources. Used as a payload for Cloud Core Interface's
@@ -9,10 +10,10 @@ import eu.h2020.symbiote.core.model.RDFInfo;
  * <p>
  * Created by Szymon Mueller on 30/03/2017.
  */
-public class RDFResourceRegistryRequest extends AbstractRequest<RDFInfo> {
+public class RDFResourceRegistryRequest extends AbstractRequestSecured<RDFInfo> {
 
-    public RDFResourceRegistryRequest(String token, RDFInfo body, String interworkingServiceUrl) {
-        super(token, body);
+    public RDFResourceRegistryRequest(SecurityRequest securityRequest, RDFInfo body, String interworkingServiceUrl) {
+        super(securityRequest, body);
         this.interworkingServiceUrl = interworkingServiceUrl;
     }
 

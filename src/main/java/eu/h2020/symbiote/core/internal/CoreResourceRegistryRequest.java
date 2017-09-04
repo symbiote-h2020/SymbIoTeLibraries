@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.AbstractRequest;
+import eu.h2020.symbiote.core.model.AbstractRequestSecured;
+import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 /**
  * Payload of internal Core communication message for registry operation on resources (both RDF and JSON).
@@ -8,19 +9,22 @@ import eu.h2020.symbiote.core.model.AbstractRequest;
  * <p>
  * Created by Szymon Mueller on 31/03/2017.
  */
-public class CoreResourceRegistryRequest extends AbstractRequest<String> {
+public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> {
 
     private DescriptionType descriptionType;
-    private String platformId;
 
     public CoreResourceRegistryRequest() {
         // Needed for Jackson serialization
     }
 
-    public CoreResourceRegistryRequest(String token, String body, DescriptionType descriptionType, String platformId) {
-        super(token, body);
+    /**
+     * @param securityRequest
+     * @param body
+     * @param descriptionType
+     */
+    public CoreResourceRegistryRequest(SecurityRequest securityRequest, String body, DescriptionType descriptionType) {
+        super(securityRequest, body);
         this.descriptionType = descriptionType;
-        this.platformId = platformId;
     }
 
     public DescriptionType getDescriptionType() {
@@ -31,19 +35,11 @@ public class CoreResourceRegistryRequest extends AbstractRequest<String> {
         this.descriptionType = descriptionType;
     }
 
-    public String getBody() {
+    public String getPlatformId() {
         return super.getBody();
     }
 
-    public void setBody(String body) {
-        super.setBody(body);
-    }
-
-    public String getPlatformId() {
-        return platformId;
-    }
-
     public void setPlatformId(String platformId) {
-        this.platformId = platformId;
+        super.setBody(platformId);
     }
 }
