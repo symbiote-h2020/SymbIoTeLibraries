@@ -1,13 +1,12 @@
 package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.core.ci.SparqlQueryOutputFormat;
-import eu.h2020.symbiote.core.model.AbstractRequestSecured;
-import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
+import eu.h2020.symbiote.core.model.AbstractRequest;
 
 /**
  * POJO describing a sparql query for resources.
  */
-public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
+public class CoreSparqlQueryRequest extends AbstractRequest<String> {
     private SparqlQueryOutputFormat outputFormat;
 
     /**
@@ -17,8 +16,8 @@ public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
         // Needed for Jackson serialization
     }
 
-    public CoreSparqlQueryRequest(SecurityRequest securityRequest, String body, SparqlQueryOutputFormat outputFormat) {
-        super(securityRequest, body);
+    public CoreSparqlQueryRequest(String body, SparqlQueryOutputFormat outputFormat) {
+        super(body);
         this.outputFormat = outputFormat;
     }
 
