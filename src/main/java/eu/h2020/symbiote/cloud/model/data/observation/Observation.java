@@ -44,14 +44,18 @@ public class Observation {
     
     public Observation(Observation other) {
     	this.resourceId=other.resourceId;
-    	this.location=new Location(other.location);
+    	this.location=other.location==null ? null : new Location(other.location);
     	this.resultTime=other.resultTime;
     	this.samplingTime=other.samplingTime;
-    	this.obsValues=new ArrayList<ObservationValue>();
-    	
-    	for (ObservationValue obsValue : other.obsValues) {
-    		ObservationValue newOV=new ObservationValue(obsValue);
-    		this.obsValues.add(newOV);
+    	if (other.obsValues==null) {
+    		this.obsValues=null;
+    	} else {
+	    	this.obsValues=new ArrayList<ObservationValue>();
+	    	
+	    	for (ObservationValue obsValue : other.obsValues) {
+	    		ObservationValue newOV=obsValue==null ? null : new ObservationValue(obsValue);
+	    		this.obsValues.add(newOV);
+	    	}
     	}
     	
     }
