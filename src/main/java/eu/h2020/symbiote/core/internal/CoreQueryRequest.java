@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.internal;
 
+import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,7 +25,7 @@ public class CoreQueryRequest {
     private Integer max_distance;
     private List<String> observed_property;
     private String resource_type;
-    private String token;
+    private SecurityRequest securityRequest;
     private Boolean should_rank;
 
     /**
@@ -36,7 +38,7 @@ public class CoreQueryRequest {
     public CoreQueryRequest(String platform_id, String platform_name, String owner, String name,
                             String id, String description, String location_name, Double location_lat,
                             Double location_long, Integer max_distance, List<String> observed_property,
-                            String resource_type, String token, Boolean should_rank) {
+                            String resource_type, SecurityRequest securityRequest, Boolean should_rank) {
         // Needed for Builder
         this.platform_id = platform_id;
         this.platform_name = platform_name;
@@ -50,7 +52,7 @@ public class CoreQueryRequest {
         this.max_distance = max_distance;
         this.observed_property = observed_property;
         this.resource_type = resource_type;
-        this.token = token;
+        this.securityRequest = securityRequest;
         this.should_rank = should_rank;
     }
 
@@ -68,7 +70,7 @@ public class CoreQueryRequest {
                 .maxDistance(coreQueryRequest.getMax_distance())
                 .observedProperty(coreQueryRequest.getObserved_property())
                 .resourceType(coreQueryRequest.getResource_type())
-                .token(coreQueryRequest.getToken())
+                .securityRequest(coreQueryRequest.getSecurityRequest())
                 .shouldRank(coreQueryRequest.getShould_rank())
                 .build();
     }
@@ -169,12 +171,12 @@ public class CoreQueryRequest {
         this.resource_type = resource_type;
     }
 
-    public String getToken() {
-        return token;
+    public SecurityRequest getSecurityRequest() {
+        return securityRequest;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setSecurityRequest(SecurityRequest securityRequest) {
+        this.securityRequest = securityRequest;
     }
 
     public Boolean getShould_rank() {
@@ -262,7 +264,7 @@ public class CoreQueryRequest {
         private Integer builder_max_distance;
         private List<String> builder_observed_property;
         private String builder_resource_type;
-        private String builder_token;
+        private SecurityRequest builder_securityRequest;
         private Boolean builder_should_rank;
 
         public Builder() {
@@ -329,8 +331,8 @@ public class CoreQueryRequest {
             return this;
         }
 
-        public Builder token(String token) {
-            this.builder_token = token;
+        public Builder securityRequest(SecurityRequest securityRequest) {
+            this.builder_securityRequest = securityRequest;
             return this;
         }
 
@@ -343,7 +345,7 @@ public class CoreQueryRequest {
             return new CoreQueryRequest(builder_platform_id, builder_platform_name, builder_owner, builder_name,
                     builder_id, builder_description, builder_location_name, builder_location_lat,
                     builder_location_long, builder_max_distance, builder_observed_property,
-                    builder_resource_type, builder_token, builder_should_rank);
+                    builder_resource_type, builder_securityRequest, builder_should_rank);
         }
     }
 
@@ -375,7 +377,7 @@ public class CoreQueryRequest {
                 && Objects.equals(max_distance, coreQueryRequest.max_distance)
                 && Objects.equals(observed_property, coreQueryRequest.observed_property)
                 && Objects.equals(resource_type, coreQueryRequest.resource_type)
-                && Objects.equals(token, coreQueryRequest.token)
+                && Objects.equals(securityRequest, coreQueryRequest.securityRequest)
                 && Objects.equals(should_rank,coreQueryRequest.should_rank);
     }
 }
