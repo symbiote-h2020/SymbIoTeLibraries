@@ -49,7 +49,25 @@ public class TestUnitOfMeasurement {
 		assertEquals(u.hashCode(), 0);
 		
 		u=new UnitOfMeasurement("label", null, null);
-		assertNotEquals(u.hashCode(), 0);
+		assertNotEquals(u.hashCode(), 0);		
+	}
+	
+	@Test
+	public void testCopyConstructor() {
+		
+		// Just see if something breaks with all null
+		UnitOfMeasurement u=new UnitOfMeasurement(null, null, null);
+		UnitOfMeasurement u2=new UnitOfMeasurement(u);
+		
+		assertEquals(u, u2);
+
+		// Does all copy?
+		u=new UnitOfMeasurement("1", "2", "3");
+		u2=new UnitOfMeasurement(u);
+		
+		assertEquals(u, u2);
+		
+		
 		
 	}
 

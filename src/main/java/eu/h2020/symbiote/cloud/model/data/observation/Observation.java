@@ -7,7 +7,10 @@ package eu.h2020.symbiote.cloud.model.data.observation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -38,6 +41,20 @@ public class Observation {
         this.samplingTime = samplingTime;
         this.obsValues = obsValues;
     }
+    
+    public Observation(Observation other) {
+    	this.resourceId=other.resourceId;
+    	this.location=new Location(other.location);
+    	this.resultTime=other.resultTime;
+    	this.samplingTime=other.samplingTime;
+    	this.obsValues=new ArrayList<ObservationValue>();
+    	
+    	for (ObservationValue obsValue : other.obsValues) {
+    		ObservationValue newOV=new ObservationValue(obsValue);
+    		this.obsValues.add(newOV);
+    	}
+    	
+    }
 
     public String getResourceId() {
         return resourceId;
@@ -61,32 +78,7 @@ public class Observation {
     
     // Helper
     
-    /**
-     * This is a drop in replacement of a routine that is availabe on later java versions (Objects.areEqual).
-     * It can be removed when the compiler version for this code is set to 1.8 or higher.
-     * @param o1
-     * @param o2
-     * @return
-     */
-    private static boolean areEqual(Object o1, Object o2) {
-    	if ( (o1==null) && (o2==null))
-    		return true;
-    	
-    	if ((o1==null) && (o2!=null))
-    		return false;
-    	
-    	return o1.equals(o2);
-    }
     
-    // See areEqual above
-    private static int hashCodeFor(Object o1) {
-    	if (o1==null)
-    		return 0;
-    	
-    	return o1.hashCode();
-    }
-    
-
     @Override
     public String toString() {
     	StringBuffer buffer=new StringBuffer();
@@ -121,19 +113,19 @@ public class Observation {
     	Observation obs=(Observation)o;
     	
     	
-    	if (!areEqual(this.resourceId, obs.resourceId))
+    	if (!Objects.equals(this.resourceId, obs.resourceId))
     		return false;
     	
-    	if (!areEqual(this.resultTime, obs.resultTime))
+    	if (!Objects.equals(this.resultTime, obs.resultTime))
     		return false;
     	
-    	if (!areEqual(this.samplingTime, obs.samplingTime))
+    	if (!Objects.equals(this.samplingTime, obs.samplingTime))
     		return false;
     	
-    	if (!areEqual(this.location, obs.location))
+    	if (!Objects.equals(this.location, obs.location))
     		return false;
     	
-    	if (!areEqual(this.obsValues, obs.obsValues))
+    	if (!Objects.equals(this.obsValues, obs.obsValues))
     		return false;
     	
     	return true;
@@ -143,11 +135,11 @@ public class Observation {
     public int hashCode() {
     	int result=42;
     	
-    	result+=hashCodeFor(this.resourceId)*3;
-    	result+=hashCodeFor(this.resultTime)*5;
-    	result+=hashCodeFor(this.samplingTime)*7;
-    	result+=hashCodeFor(this.location)*11;
-    	result+=hashCodeFor(this.obsValues)*13;
+    	result+=Objects.hashCode(this.resourceId)*3;
+    	result+=Objects.hashCode(this.resultTime)*5;
+    	result+=Objects.hashCode(this.samplingTime)*7;
+    	result+=Objects.hashCode(this.location)*11;
+    	result+=Objects.hashCode(this.obsValues)*13;
     	
     	return result;
     }

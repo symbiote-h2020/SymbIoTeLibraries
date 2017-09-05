@@ -29,6 +29,12 @@ public class UnitOfMeasurement {
         this.label = label;
         this.comment = comment;
     }
+    
+    public UnitOfMeasurement(UnitOfMeasurement other) {
+    	this.symbol=other.symbol;
+    	this.label=other.label;
+    	this.comment=other.comment;
+    }
 
     public String getSymbol() {
         return symbol;

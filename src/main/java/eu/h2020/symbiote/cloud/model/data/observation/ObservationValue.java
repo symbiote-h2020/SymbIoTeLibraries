@@ -5,6 +5,8 @@
  */
 package eu.h2020.symbiote.cloud.model.data.observation;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,6 +31,19 @@ public class ObservationValue {
         this.uom = uom;
     }
 
+    
+    public ObservationValue(ObservationValue other) {
+    	this.value=other.value;
+    	if (other.uom!=null)
+    		this.uom=new UnitOfMeasurement(other.uom);
+    	else
+    		this.uom=null;
+    	if (other.obsProperty!=null)
+    		this.obsProperty=new Property(other.obsProperty);
+    	else
+    		this.obsProperty=null;
+    }
+    
     public String getValue() {
         return value;
     }
@@ -43,34 +58,6 @@ public class ObservationValue {
 
     
     // Helper
-    
-    
-    /**
-     * This is a drop in replacement of a routine that is availabe on later java versions (Objects.areEqual).
-     * It can be removed when the compiler version for this code is set to 1.8 or higher.
-     * @param o1
-     * @param o2
-     * @return
-     */
-    private static boolean areEqual(Object o1, Object o2) {
-    	if ( (o1==null) && (o2==null))
-    		return true;
-    	
-    	if ((o1==null) && (o2!=null))
-    		return false;
-    	
-    	return o1.equals(o2);
-    }
-    
-    // See areEqual above
-    private static int hashCodeFor(Object o1) {
-    	if (o1==null)
-    		return 0;
-    	
-    	return o1.hashCode();
-    }
-    
-
     
     @Override
     public String toString() {
@@ -98,13 +85,13 @@ public class ObservationValue {
     	
     	ObservationValue ov=(ObservationValue)o;
     	
-    	if (!areEqual(this.value, ov.value))
+    	if (!Objects.equals(this.value, ov.value))
     		return false;
     	
-    	if (!areEqual(this.uom, ov.uom))
+    	if (!Objects.equals(this.uom, ov.uom))
     		return false;
     	
-    	if (!areEqual(this.obsProperty, ov.obsProperty))
+    	if (!Objects.equals(this.obsProperty, ov.obsProperty))
     		return false;
     	
     	return true;
@@ -113,10 +100,11 @@ public class ObservationValue {
     @Override
     public int hashCode() {
     	int result=42;
-    	result+=3*hashCodeFor(this.value);
-    	result+=5*hashCodeFor(this.uom);
-    	result+=5*hashCodeFor(this.obsProperty);
+    	result+=3*Objects.hashCode(this.value);
+    	result+=5*Objects.hashCode(this.uom);
+    	result+=5*Objects.hashCode(this.obsProperty);
     	
     	return result;
     }
+
 }

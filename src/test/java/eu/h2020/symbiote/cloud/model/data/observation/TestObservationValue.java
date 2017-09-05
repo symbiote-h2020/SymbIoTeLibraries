@@ -62,5 +62,22 @@ public class TestObservationValue {
 		
 	}
 
+	
+	@Test
+	public void testCopyConstructor() {
+		ObservationValue v=new ObservationValue(null, null, null);
+		ObservationValue v1=new ObservationValue(v);
+
+		assertEquals(v, v1);
+		
+		v=new ObservationValue("1", new Property("1", "2"), new UnitOfMeasurement("A", "B", "C"));
+		v1=new ObservationValue(v);
+
+		assertEquals(v, v1);
+
+		assertFalse(v.getObsProperty()==v1.getObsProperty()); // Equals but not same. It's a deep copy
+		assertFalse(v.getUom()==v1.getUom());
+		
+	}
 
 }
