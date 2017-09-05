@@ -1,6 +1,5 @@
 package eu.h2020.symbiote.cloud.model.data.observation;
 
-import org.assertj.core.util.Objects;
 import org.springframework.data.annotation.Id;
 
 
@@ -86,6 +85,32 @@ public class Location extends AbstractLocation {
     }
     
     // Some little helper
+    
+    /**
+     * This is a drop in replacement of a routine that is availabe on later java routines (Objects.areEqual).
+     * It can be removed when the compiler version for this code is set to 1.8 or higher.
+     * @param o1
+     * @param o2
+     * @return
+     */
+    boolean areEqual(Object o1, Object o2) {
+    	if ( (o1==null) && (o2==null))
+    		return true;
+    	
+    	if ((o1==null) && (o2!=null))
+    		return false;
+    	
+    	return o1.equals(o2);
+    }
+    
+    // See areEqual above
+    int hashCodeFor(Object o1) {
+    	if (o1==null)
+    		return 0;
+    	
+    	return o1.hashCode();
+    }
+    
     @Override
     public String toString() {
     	StringBuffer buffer=new StringBuffer();
@@ -110,10 +135,10 @@ public class Location extends AbstractLocation {
     	
     	Location ol=(Location)other;
     	
-    	if (!Objects.areEqual(this.id, ol.id))
+    	if (!areEqual(this.id, ol.id))
     		return false;
     	
-    	if (!Objects.areEqual(this.name, ol.name))
+    	if (!areEqual(this.name, ol.name))
     		return false;
     	
     	if (this.latitude!=ol.latitude)
@@ -141,8 +166,8 @@ public class Location extends AbstractLocation {
     @Override
 	public int hashCode() {
     	int result=42;	// We have to start somewhere, don't we. And can you imagine some better suited then THE ANSWER? :-)
-    	result+=Objects.hashCodeFor(this.id)*3;
-    	result+=Objects.hashCodeFor(this.name)*5;
+    	result+=hashCodeFor(this.id)*3;
+    	result+=hashCodeFor(this.name)*5;
     	result+=7*(int)(this.longitude*1000);	// *1000 to reduce the risk of to locations nearby being rounded to the same int. 
     	result+=11*(int)(this.latitude*1000);
     	result+=13*(int)this.altitude;
