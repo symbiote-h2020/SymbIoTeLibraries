@@ -12,6 +12,7 @@ import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> {
 
     private DescriptionType descriptionType;
+    private String platformId;
 
     public CoreResourceRegistryRequest() {
         // Needed for Jackson serialization
@@ -22,9 +23,10 @@ public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> 
      * @param body
      * @param descriptionType
      */
-    public CoreResourceRegistryRequest(SecurityRequest securityRequest, String body, DescriptionType descriptionType) {
+    public CoreResourceRegistryRequest(SecurityRequest securityRequest, String body, DescriptionType descriptionType, String platformId) {
         super(securityRequest, body);
         this.descriptionType = descriptionType;
+        this.platformId = platformId;
     }
 
     public DescriptionType getDescriptionType() {
@@ -36,10 +38,18 @@ public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> 
     }
 
     public String getPlatformId() {
-        return super.getBody();
+        return platformId;
     }
 
     public void setPlatformId(String platformId) {
-        super.setBody(platformId);
+        this.platformId = platformId;
+    }
+
+    public String getBody() {
+        return super.getBody();
+    }
+
+    public void setBody(String body) {
+        super.setBody(body);
     }
 }
