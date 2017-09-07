@@ -17,12 +17,4 @@ public class FederationRegistryRequest extends AbstractRequest<Federation> {
     public FederationRegistryRequest(Federation body) {
         super(body);
     }
-
-    public Federation getFederation() {
-        return super.getBody();
-    }
-
-    public void setFederation(Federation federation) {
-        super.setBody(federation);
-    }
 }

@@ -17,12 +17,4 @@ public class ResourceUrlsRequest extends AbstractRequestSecured<List<String>> {
     public ResourceUrlsRequest() {
         // Needed for Jackson serialization
     }
-
-    public List<String> getIdList() {
-        return super.getBody();
-    }
-
-    public void setIdList(List<String> idList) {
-        super.setBody(idList);
-    }
 }

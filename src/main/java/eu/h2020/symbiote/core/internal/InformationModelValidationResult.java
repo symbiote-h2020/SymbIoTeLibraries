@@ -14,5 +14,4 @@ public class InformationModelValidationResult extends ValidationResult<Informati
     public InformationModelValidationResult(boolean success, String description, String modelToBeValidated, String modelValidatedAgainst, InformationModel objectDescription) {
         super(success, description, modelToBeValidated, modelValidatedAgainst, objectDescription);
     }
-
 }

@@ -15,12 +15,4 @@ public class PlatformRegistryResponse extends AbstractResponse<Platform> {
     public PlatformRegistryResponse(int status, String message, Platform body) {
         super(status, message, body);
     }
-
-    public Platform getPlatform() {
-        return super.getBody();
-    }
-
-    public void setPlatform(Platform platform) {
-        super.setBody(platform);
-    }
 }

@@ -15,12 +15,4 @@ public class InformationModelRequest extends AbstractRequest<InformationModel> {
     public InformationModelRequest() {
         // Needed for Jackson serialization
     }
-
-    public InformationModel getInformationModel() {
-        return super.getBody();
-    }
-
-    public void setInformationModel(InformationModel informationModel) {
-        super.setBody(informationModel);
-    }
 }

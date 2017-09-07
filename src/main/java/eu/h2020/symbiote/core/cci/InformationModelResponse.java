@@ -15,12 +15,4 @@ public class InformationModelResponse extends AbstractResponse<InformationModel>
     public InformationModelResponse(int status, String message, InformationModel body) {
         super(status, message, body);
     }
-
-    public InformationModel getInformationModel() {
-        return super.getBody();
-    }
-
-    public void setInformationModel(InformationModel informationModel) {
-        super.setBody(informationModel);
-    }
 }

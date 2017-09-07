@@ -44,12 +44,4 @@ public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> 
     public void setPlatformId(String platformId) {
         this.platformId = platformId;
     }
-
-    public String getBody() {
-        return super.getBody();
-    }
-
-    public void setBody(String body) {
-        super.setBody(body);
-    }
 }

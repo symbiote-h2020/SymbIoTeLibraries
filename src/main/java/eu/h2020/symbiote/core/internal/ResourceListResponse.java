@@ -19,12 +19,4 @@ public class ResourceListResponse extends AbstractResponseSecured<List<Resource>
     public ResourceListResponse(int status, String message, List<Resource> body) {
         super(status, message, body);
     }
-
-    public List<Resource> getResources() {
-        return super.getBody();
-    }
-
-    public void setResources(List<Resource> resources) {
-        super.setBody(resources);
-    }
 }

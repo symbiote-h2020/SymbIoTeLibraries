@@ -19,12 +19,4 @@ public class FederationListResponse extends AbstractResponse<List<Federation>> {
     public FederationListResponse(int status, String message, List<Federation> body) {
         super(status, message, body);
     }
-
-    public List<Federation> getFederations() {
-        return super.getBody();
-    }
-
-    public void setFederations(List<Federation> federations) {
-        super.setBody(federations);
-    }
 }

@@ -17,12 +17,4 @@ public class FederationRegistryResponse extends AbstractResponse<Federation> {
     public FederationRegistryResponse(int status, String message, Federation body) {
         super(status, message, body);
     }
-
-    public Federation getFederation() {
-        return super.getBody();
-    }
-
-    public void setFederation(Federation federation) {
-        super.setBody(federation);
-    }
 }

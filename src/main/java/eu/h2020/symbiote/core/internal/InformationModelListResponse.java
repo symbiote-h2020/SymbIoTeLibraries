@@ -19,12 +19,4 @@ public class InformationModelListResponse extends AbstractResponse<List<Informat
     public InformationModelListResponse(int status, String message, List<InformationModel> body) {
         super(status, message, body);
     }
-
-    public void setInformationModels(List<InformationModel> informationModels){
-        super.setBody(informationModels);
-    }
-
-    public List<InformationModel> getInformationModels(){
-        return super.getBody();
-    }
 }

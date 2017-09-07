@@ -15,12 +15,4 @@ public class PlatformRegistryRequest extends AbstractRequest<Platform> {
     public PlatformRegistryRequest() {
         // Needed for Jackson serialization
     }
-
-    public Platform getPlatform() {
-        return super.getBody();
-    }
-
-    public void setPlatform(Platform platform) {
-        super.setBody(platform);
-    }
 }

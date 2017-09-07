@@ -24,12 +24,4 @@ public class ResourceRegistryRequest extends AbstractRequest<Map<String, Resourc
     public ResourceRegistryRequest() {
         // Needed for Jackson serialization
     }
-
-    public Map<String, Resource> getResources() {
-        return super.getBody();
-    }
-
-    public void setResources(Map<String, Resource> resources) {
-        super.setBody(resources);
-    }
 }

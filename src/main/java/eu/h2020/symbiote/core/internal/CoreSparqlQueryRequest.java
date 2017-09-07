@@ -8,6 +8,7 @@ import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
  * POJO describing a sparql query for resources.
  */
 public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
+
     private SparqlQueryOutputFormat outputFormat;
 
     /**
@@ -20,14 +21,6 @@ public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
     public CoreSparqlQueryRequest(SecurityRequest securityRequest, String body, SparqlQueryOutputFormat outputFormat) {
         super(securityRequest, body);
         this.outputFormat = outputFormat;
-    }
-
-    public String getQuery() {
-        return super.getBody();
-    }
-
-    public void setQuery(String query) {
-        this.setBody(query);
     }
 
     public SparqlQueryOutputFormat getOutputFormat() {

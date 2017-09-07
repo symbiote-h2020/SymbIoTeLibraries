@@ -18,12 +18,4 @@ public class RDFResourceRegistryResponse extends AbstractResponse<RDFInfo> {
     public RDFResourceRegistryResponse(int status, String message, RDFInfo body) {
         super(status, message, body);
     }
-
-    public RDFInfo getRdfInfo() {
-        return super.getBody();
-    }
-
-    public void setRdfInfo(RDFInfo rdfInfo) {
-        super.setBody(rdfInfo);
-    }
 }

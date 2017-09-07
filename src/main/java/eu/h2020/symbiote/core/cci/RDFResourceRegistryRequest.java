@@ -21,14 +21,6 @@ public class RDFResourceRegistryRequest extends AbstractRequest<RDFInfo> {
 
     private String interworkingServiceUrl;
 
-    public RDFInfo getRdfInfo() {
-        return super.getBody();
-    }
-
-    public void setRdfInfo(RDFInfo rdfInfo) {
-        super.setBody(rdfInfo);
-    }
-
     public String getInterworkingServiceUrl() {
         return interworkingServiceUrl;
     }

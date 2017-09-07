@@ -20,12 +20,4 @@ public class ResourceRegistryResponse extends AbstractResponse<Map<String, Resou
     public ResourceRegistryResponse(int status, String message, Map<String, Resource> body) {
         super(status, message, body);
     }
-
-    public Map<String, Resource> getResources() {
-        return super.getBody();
-    }
-
-    public void setResources(Map<String, Resource> resources) {
-        super.setBody(resources);
-    }
 }
