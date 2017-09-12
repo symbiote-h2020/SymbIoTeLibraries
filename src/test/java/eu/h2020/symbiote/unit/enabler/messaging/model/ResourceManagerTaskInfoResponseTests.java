@@ -6,6 +6,7 @@ import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoRequest;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoResponse;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoResponseStatus;
+import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 import eu.h2020.symbiote.util.IntervalFormatter;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class ResourceManagerTaskInfoResponseTests {
                 .maxDistance(10)
                 .observedProperty(Arrays.asList("p1", "p2"))
                 .resourceType("type")
-                .token("token")
+                .securityRequest(new SecurityRequest("token"))
                 .build();
 
         ResourceManagerTaskInfoRequest request = new ResourceManagerTaskInfoRequest();
@@ -115,7 +116,7 @@ public class ResourceManagerTaskInfoResponseTests {
                 .maxDistance(10)
                 .observedProperty(Arrays.asList("p1", "p2"))
                 .resourceType("type")
-                .token("token")
+                .securityRequest(new SecurityRequest("token"))
                 .build();
 
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse();
