@@ -7,7 +7,10 @@ package eu.h2020.symbiote.cloud.model.data.observation;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -38,6 +41,24 @@ public class Observation {
         this.samplingTime = samplingTime;
         this.obsValues = obsValues;
     }
+    
+    public Observation(Observation other) {
+    	this.resourceId=other.resourceId;
+    	this.location=other.location==null ? null : new Location(other.location);
+    	this.resultTime=other.resultTime;
+    	this.samplingTime=other.samplingTime;
+    	if (other.obsValues==null) {
+    		this.obsValues=null;
+    	} else {
+	    	this.obsValues=new ArrayList<ObservationValue>();
+	    	
+	    	for (ObservationValue obsValue : other.obsValues) {
+	    		ObservationValue newOV=obsValue==null ? null : new ObservationValue(obsValue);
+	    		this.obsValues.add(newOV);
+	    	}
+    	}
+    	
+    }
 
     public String getResourceId() {
         return resourceId;
@@ -59,5 +80,71 @@ public class Observation {
         return obsValues;
     }
     
+    // Helper
     
+    
+    @Override
+    public String toString() {
+    	StringBuffer buffer=new StringBuffer();
+    	
+    	buffer.append("Observation by ").append(this.resourceId).append("@").append(this.location).append("\n");
+    	buffer.append("Made at ").append(samplingTime).append("for ").append(resultTime).append("\n");
+    	
+    	buffer.append("ObservationValues:");
+    	if (this.obsValues==null) {
+    		buffer.append("null");
+    	} else {
+	    	buffer.append(this.obsValues.subList(0, 3)).append("\n");
+	    	if (this.obsValues.size()>3)
+	    		buffer.append("... (").append(this.obsValues.size()-3).append("more values\n");
+    	}
+    	
+    	return buffer.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+    	
+    	if (o==null)
+    		return false;
+    	
+    	if (this==o)
+    		return true;
+    	
+    	if (!(o instanceof Observation))
+    		return false;
+    	
+    	Observation obs=(Observation)o;
+    	
+    	
+    	if (!Objects.equals(this.resourceId, obs.resourceId))
+    		return false;
+    	
+    	if (!Objects.equals(this.resultTime, obs.resultTime))
+    		return false;
+    	
+    	if (!Objects.equals(this.samplingTime, obs.samplingTime))
+    		return false;
+    	
+    	if (!Objects.equals(this.location, obs.location))
+    		return false;
+    	
+    	if (!Objects.equals(this.obsValues, obs.obsValues))
+    		return false;
+    	
+    	return true;
+    }
+    
+    @Override
+    public int hashCode() {
+    	int result=42;
+    	
+    	result+=Objects.hashCode(this.resourceId)*3;
+    	result+=Objects.hashCode(this.resultTime)*5;
+    	result+=Objects.hashCode(this.samplingTime)*7;
+    	result+=Objects.hashCode(this.location)*11;
+    	result+=Objects.hashCode(this.obsValues)*13;
+    	
+    	return result;
+    }
 }

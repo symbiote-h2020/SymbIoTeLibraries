@@ -21,7 +21,7 @@ public class InputParameter extends Parameter {
     private String value;
 
 
-    public InputParameter(String name) {
+    public InputParameter(@JsonProperty("name") String name) {
         this.name = name;
     }
 

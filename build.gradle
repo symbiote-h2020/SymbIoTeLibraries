@@ -58,6 +58,7 @@ dependencies {
 
     //from symbioteLibs
     compile('joda-time:joda-time:2.9.9')
+    compile('javax.validation:validation-api:2.0.0.Final')
 
     // Swagger annotations for documentation
     compile("io.swagger:swagger-annotations:${swaggerAnnotationsVersion}")
