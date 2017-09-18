@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class CloudResource  {
@@ -19,7 +20,8 @@ public class CloudResource  {
     //ip address of the host. Needed by Monitoring component
     @JsonProperty("cloudMonitoringHost")
     private String cloudMonitoringHost;
-    
+    @JsonProperty("singleTokenAccessPolicy")
+    private SingleTokenAccessPolicySpecifier singleTokenAccessPolicy;
     @JsonProperty("resource")
     Resource resource;
 
@@ -52,6 +54,14 @@ public class CloudResource  {
 
     public void setCloudMonitoringHost(String cloudMonitoringHost) {
             this.cloudMonitoringHost = cloudMonitoringHost;
+    }
+    
+    public void setSingleTokenAccessPolicy(SingleTokenAccessPolicySpecifier singleToken) {
+        this.singleTokenAccessPolicy = singleToken;
+    }
+    
+    public SingleTokenAccessPolicySpecifier getSingleTokenAccessPolicy() {
+        return singleTokenAccessPolicy;
     }
 
     public Resource getResource() {
