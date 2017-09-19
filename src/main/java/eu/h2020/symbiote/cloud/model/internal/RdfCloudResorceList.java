@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class RdfCloudResorceList {
   
-  private Map<String, String> idMappings = new HashMap<>();
+  private Map<String, CloudResource> idMappings = new HashMap<>();
   private RDFInfo rdfInfo;
   
-  public Map<String, String> getIdMappings() {
+  public Map<String, CloudResource> getIdMappings() {
     return idMappings;
   }
   
-  public void setIdMappings(Map<String, String> idMappings) {
+  public void setIdMappings(Map<String, CloudResource> idMappings) {
     this.idMappings = idMappings;
   }
   
