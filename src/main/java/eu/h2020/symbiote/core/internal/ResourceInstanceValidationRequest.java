@@ -11,6 +11,8 @@ public class ResourceInstanceValidationRequest extends RDFInfo {
 
     private String informationModelId;
 
+    private String interworkingServiceURL;
+
     public ResourceInstanceValidationRequest() {
         // Needed for Jackson serialization
     }
@@ -25,5 +27,13 @@ public class ResourceInstanceValidationRequest extends RDFInfo {
 
     public void setInformationModelId(String informationModelId) {
         this.informationModelId = informationModelId;
+    }
+
+    public String getInterworkingServiceURL() {
+        return interworkingServiceURL;
+    }
+
+    public void setInterworkingServiceURL(String interworkingServiceURL) {
+        this.interworkingServiceURL = interworkingServiceURL;
     }
 }
