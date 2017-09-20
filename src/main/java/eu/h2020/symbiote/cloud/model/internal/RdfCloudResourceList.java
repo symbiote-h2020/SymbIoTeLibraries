@@ -5,7 +5,7 @@ import eu.h2020.symbiote.core.model.RDFInfo;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RdfCloudResorceList {
+public class RdfCloudResourceList {
   
   private Map<String, CloudResource> idMappings = new HashMap<>();
   private RDFInfo rdfInfo;
