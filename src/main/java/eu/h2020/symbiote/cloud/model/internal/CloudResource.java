@@ -1,13 +1,13 @@
 package eu.h2020.symbiote.cloud.model.internal;
 
-import eu.h2020.symbiote.cloud.model.CloudResourceParams;
-import org.springframework.data.annotation.Id;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import eu.h2020.symbiote.cloud.model.CloudResourceParams;
 import eu.h2020.symbiote.core.model.resources.Resource;
 import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
+
+import org.springframework.data.annotation.Id;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class CloudResource  {
