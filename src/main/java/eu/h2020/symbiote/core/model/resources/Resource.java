@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This is the most generic resource representation. Each specific resource type from CIM (StationarySensor, Actuator etc) should extend this class.
@@ -71,5 +72,28 @@ public class Resource {
 
     public void setInterworkingServiceURL(String interworkingServiceURL) {
         this.interworkingServiceURL = interworkingServiceURL;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (this == o)
+            return true;
+
+        // null check
+        if (o == null)
+            return false;
+
+        // type check and cast
+        if (!(o instanceof Resource))
+            return false;
+
+        Resource resource = (Resource) o;
+
+        // field comparison
+        return Objects.equals(this.id, resource.getId())
+                && Objects.equals(this.labels, resource.getLabels())
+                && Objects.equals(this.comments, resource.getComments())
+                && Objects.equals(this.interworkingServiceURL, resource.getInterworkingServiceURL());
     }
 }
