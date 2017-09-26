@@ -95,6 +95,8 @@ public class Observation {
     		buffer.append("null");
     	} else {
     		int l=this.obsValues.size();
+    		if (l>3)
+    			l=3;
 	    	buffer.append(this.obsValues.subList(0, l)).append("\n");
 	    	if (this.obsValues.size()>3)
 	    		buffer.append("... (").append(this.obsValues.size()-3).append("more values\n");
