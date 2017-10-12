@@ -27,17 +27,5 @@ public class CloudMonitoringPlatform {
 
 	public void setDevices(CloudMonitoringDevice[] devices) {
 		this.devices = devices;
-	}
-
-//	public Token getCoreToken() {
-//		return coreToken;
-//	}
-//
-//	public void setCoreToken(Token coreToken) {
-//		this.coreToken = coreToken;
-//	}
-	
-	
-	
-	
+	}	
 }
