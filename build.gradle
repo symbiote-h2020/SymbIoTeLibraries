@@ -52,9 +52,9 @@ repositories {
 
 dependencies {
     // Symbiote Security section
-    compile('com.github.symbiote-h2020:SymbIoTeSecurity:21.3+'){ changing = true }
+    compile('com.github.symbiote-h2020:SymbIoTeSecurity:22.+'){ changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
-    compile('com.github.symbiote-h2020:SymbIoTeSecurity:21.3+:sources'){ changing = true }
+    compile('com.github.symbiote-h2020:SymbIoTeSecurity:22.+:sources'){ changing = true }
 
     //from symbioteLibs
     compile('joda-time:joda-time:2.9.9')
