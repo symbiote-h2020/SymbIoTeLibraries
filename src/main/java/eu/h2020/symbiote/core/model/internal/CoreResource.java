@@ -2,6 +2,7 @@ package eu.h2020.symbiote.core.model.internal;
 
 import eu.h2020.symbiote.core.model.RDFFormat;
 import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.security.accesspolicies.IAccessPolicy;
 
 /**
  * Core layer internal representation of the resource. Extends the generic Resource description with RDF representation of the resource.
@@ -15,6 +16,7 @@ public class CoreResource extends Resource {
     private RDFFormat rdfFormat;
     private String rdf;
     private CoreResourceType type;
+    private IAccessPolicy policy;
 
     public CoreResource() {
         // Empty constructor
@@ -42,5 +44,13 @@ public class CoreResource extends Resource {
 
     public void setType(CoreResourceType type) {
         this.type = type;
+    }
+
+    public IAccessPolicy getPolicy() {
+        return policy;
+    }
+
+    public void setPolicy(IAccessPolicy policy) {
+        this.policy = policy;
     }
 }

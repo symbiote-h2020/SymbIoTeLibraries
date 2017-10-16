@@ -3,6 +3,7 @@ package eu.h2020.symbiote.core.cci;
 
 import eu.h2020.symbiote.core.model.AbstractRequest;
 import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
 
 import java.util.Map;
 
@@ -17,11 +18,22 @@ import java.util.Map;
  */
 public class ResourceRegistryRequest extends AbstractRequest<Map<String, Resource>> {
 
+
+    private Map<String,SingleTokenAccessPolicySpecifier> filteringPolicies;
+
     public ResourceRegistryRequest(Map<String, Resource> body) {
         super(body);
     }
 
     public ResourceRegistryRequest() {
         // Needed for Jackson serialization
+    }
+
+    public Map<String, SingleTokenAccessPolicySpecifier> getFilteringPolicies() {
+        return filteringPolicies;
+    }
+
+    public void setFilteringPolicies(Map<String, SingleTokenAccessPolicySpecifier> filteringPolicies) {
+        this.filteringPolicies = filteringPolicies;
     }
 }
