@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.core.internal;
+package eu.h2020.symbiote.core.internal.cram;
 
 import eu.h2020.symbiote.core.model.AbstractResponseSecured;
 import java.util.HashMap;
