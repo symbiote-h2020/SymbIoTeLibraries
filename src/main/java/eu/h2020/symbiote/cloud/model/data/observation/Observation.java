@@ -8,6 +8,8 @@ package eu.h2020.symbiote.cloud.model.data.observation;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import eu.h2020.symbiote.model.cim.Location;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +46,7 @@ public class Observation {
     
     public Observation(Observation other) {
     	this.resourceId=other.resourceId;
-    	this.location=other.location==null ? null : new Location(other.location);
+    	this.location=Location.makeCopy(other.location);
     	this.resultTime=other.resultTime;
     	this.samplingTime=other.samplingTime;
     	if (other.obsValues==null) {
