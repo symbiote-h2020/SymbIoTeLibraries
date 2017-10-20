@@ -1,21 +1,50 @@
 package eu.h2020.symbiote.cloud.monitoring.model;
 
 import java.util.Date;
-
+/**
+ * 
+ * This class contained the device data to be monitored by the platform, contains Metrics  
+ *  
+ * @author: Fernando Campos
+ * @version: 20/10/2017
+ * 
+ * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringPlatform 
+ * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringMetrics
+ */
 public class CloudMonitoringDevice {
 
 	//symbioteID
+	/**
+	 * is the Device Id
+	 */
 	private String id; 
-	
-	//unused in r4
-	private int availability;
-	//unused in r4
-	private int load;
-	//unused in r4
-	private String timestamp;
 
+	/**
+	 * Unused in r4, is the availability value to device. 
+	 * @deprecated 
+	 */
+	private int availability;
+
+	/**
+	 * Unused in r4, is the load value to device. 
+	 * @deprecated 
+	 */
+	private int load;
+
+	/**
+	 * Unused in r4, is the date and time of the device metric in string format 
+	 * @deprecated 
+	 */
+	private String timestamp;
+	
+	/**
+	 * Is the date and time of the device metric.
+	 */
 	private Date timemetric;
 	
+	/**
+	 * Array Data, is the class that includes metrics data details, in a metric list in a generic and flexible format (Tag, Value)
+	 */
 	private CloudMonitoringMetrics[] metrics;
 	
 	public CloudMonitoringDevice(){
