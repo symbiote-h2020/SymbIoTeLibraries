@@ -1,11 +1,19 @@
 package eu.h2020.symbiote.cloud.monitoring.model;
 
+import java.util.Date;
+
 public class CloudMonitoringPlatform {
 
 	//platformID
 	private String internalId;
+	
+	private Date timePlatform;
+	
+	private Date timeRegister;
+	
+	private int avaiPlatform;
 
-//	private Token coreToken;
+	private int loadPlatform;
 
 	private CloudMonitoringDevice[] devices;
 	
@@ -29,15 +37,37 @@ public class CloudMonitoringPlatform {
 		this.devices = devices;
 	}
 
-//	public Token getCoreToken() {
-//		return coreToken;
-//	}
-//
-//	public void setCoreToken(Token coreToken) {
-//		this.coreToken = coreToken;
-//	}
-	
-	
-	
+	public Date getTimePlatform() {
+		return timePlatform;
+	}
+
+	public void setTimePlatform(Date timePlatform) {
+		this.timePlatform = timePlatform;
+	}
+
+	public Date getTimeRegister() {
+		return timeRegister;
+	}
+
+	public void setTimeRegister(Date timeRegister) {
+		this.timeRegister = timeRegister;
+	}
+
+	public int getAvaiPlatform() {
+		return avaiPlatform;
+	}
+
+	public void setAvaiPlatform(int avaiPlatform) {
+		this.avaiPlatform = avaiPlatform;
+	}
+
+	public int getLoadPlatform() {
+		return loadPlatform;
+	}
+
+	public void setLoadPlatform(int loadPlatform) {
+		this.loadPlatform = loadPlatform;
+	}
+
 	
 }
