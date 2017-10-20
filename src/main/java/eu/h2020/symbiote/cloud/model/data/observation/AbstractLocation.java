@@ -5,7 +5,6 @@
  */
 package eu.h2020.symbiote.cloud.model.data.observation;
 
-import eu.h2020.symbiote.core.model.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

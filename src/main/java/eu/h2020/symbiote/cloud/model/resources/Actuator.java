@@ -1,7 +1,8 @@
 package eu.h2020.symbiote.cloud.model.resources;
 
-import eu.h2020.symbiote.core.model.resources.*;
 import java.util.List;
+
+import eu.h2020.symbiote.model.cim.Resource;
 import org.springframework.data.annotation.Id;
 
 /**

@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.AbstractRequestSecured;
+import eu.h2020.symbiote.core.cci.AbstractRequestSecured;
 import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
 import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 

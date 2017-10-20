@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractRequest;
-import eu.h2020.symbiote.core.model.RDFInfo;
+import eu.h2020.symbiote.core.internal.RDFInfo;
 import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
 
 import java.util.Map;

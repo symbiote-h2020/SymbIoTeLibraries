@@ -3,8 +3,8 @@ package eu.h2020.symbiote.cloud.model.resources;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.cloud.model.data.parameter.InputParameter;
-import eu.h2020.symbiote.core.model.resources.Parameter;
-import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.model.cim.Parameter;
+import eu.h2020.symbiote.model.cim.Resource;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 

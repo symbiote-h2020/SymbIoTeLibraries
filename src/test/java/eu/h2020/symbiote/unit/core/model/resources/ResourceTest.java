@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.unit.core.model.resources;
 
-import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.model.cim.Resource;
 import org.junit.Test;
 
 import java.util.Arrays;

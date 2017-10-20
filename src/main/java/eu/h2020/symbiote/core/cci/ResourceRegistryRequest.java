@@ -1,8 +1,7 @@
 package eu.h2020.symbiote.core.cci;
 
 
-import eu.h2020.symbiote.core.model.AbstractRequest;
-import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
 
 import java.util.Map;

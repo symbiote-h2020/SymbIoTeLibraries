@@ -5,8 +5,8 @@
  */
 package eu.h2020.symbiote.cloud.model.resources;
 
-import eu.h2020.symbiote.core.model.Observation;
-import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.model.cim.Observation;
+import eu.h2020.symbiote.model.cim.Resource;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 

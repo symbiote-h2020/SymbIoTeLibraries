@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractResponse;
-import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.model.cim.Resource;
 
 import java.util.Map;
 
