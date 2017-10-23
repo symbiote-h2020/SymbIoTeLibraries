@@ -19,6 +19,8 @@ public class ObservationValue {
     private final String value;
     @JsonProperty("obsProperty")
     private final Property obsProperty;
+    @JsonProperty("featureOfInterest")
+    private FeatureOfInterest featureOfInterest;
     @JsonProperty("uom")
     private final UnitOfMeasurement uom;
 
@@ -34,12 +36,12 @@ public class ObservationValue {
     public ObservationValue(ObservationValue other) {
         this.value = other.value;
         if (other.uom != null) {
-            this.uom = new UnitOfMeasurement(other.uom);
+            this.uom = new UnitOfMeasurement(other.getUom());
         } else {
             this.uom = null;
         }
         if (other.obsProperty != null) {
-            this.obsProperty = new Property(other.obsProperty);
+            this.obsProperty = new Property(other.getObsProperty());
         } else {
             this.obsProperty = null;
         }
@@ -63,9 +65,9 @@ public class ObservationValue {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append("ObservationValue:");
-        buffer.append("value=").append(value).append(",");
-        buffer.append("uom=").append(uom).append(",");
-        buffer.append("obsProp=").append(obsProperty);
+        buffer.append("value=").append(getValue()).append(",");
+        buffer.append("uom=").append(getUom()).append(",");
+        buffer.append("obsProp=").append(getObsProperty());
 
         return buffer.toString();
     }
@@ -105,11 +107,25 @@ public class ObservationValue {
     @Override
     public int hashCode() {
         int result = 42;
-        result += 3 * Objects.hashCode(this.value);
-        result += 5 * Objects.hashCode(this.uom);
-        result += 5 * Objects.hashCode(this.obsProperty);
+        result += 3 * Objects.hashCode(this.getValue());
+        result += 5 * Objects.hashCode(this.getUom());
+        result += 5 * Objects.hashCode(this.getObsProperty());
 
         return result;
+    }
+
+    /**
+     * @return the featureOfInterest
+     */
+    public FeatureOfInterest getFeatureOfInterest() {
+        return featureOfInterest;
+    }
+
+    /**
+     * @param featureOfInterest the featureOfInterest to set
+     */
+    public void setFeatureOfInterest(FeatureOfInterest featureOfInterest) {
+        this.featureOfInterest = featureOfInterest;
     }
 
 }

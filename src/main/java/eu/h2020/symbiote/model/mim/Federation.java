@@ -10,95 +10,62 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author RuggenthalerC
  *
- *         Main object to represent one federation.
+ * Main object to represent one federation.
  */
 public class Federation {
+    @Id
+    @JsonProperty("id")
+    private String id;
 
-	public static class FederationMember {
-		@JsonProperty("platformId")
-		private String platformId;
+    @JsonProperty("name")
+    private String name;
 
-		@JsonProperty("interworkingServiceURL")
-		private String interworkingServiceURL;
+    @JsonProperty("public")
+    private boolean isPublic = true;
 
-		public FederationMember() {
-		}
+    @JsonProperty("slaDefinition")
+    private String slaDefinition;
 
-		public FederationMember(String platformId, String interworkingServiceURL) {
-			this.platformId = platformId;
-			this.interworkingServiceURL = interworkingServiceURL;
-		}
+    @JsonProperty("members")
+    private List<FederationMember> members = new ArrayList<>();
 
-		public String getPlatformId() {
-			return this.platformId;
-		}
+    public String getId() {
+        return this.id;
+    }
 
-		public void setPlatformId(String platformId) {
-			this.platformId = platformId;
-		}
+    public String getName() {
+        return this.name;
+    }
 
-		public String getInterworkingServiceURL() {
-			return this.interworkingServiceURL;
-		}
+    public boolean isPublic() {
+        return this.isPublic;
+    }
 
-		public void setInterworkingServiceURL(String interworkingServiceURL) {
-			this.interworkingServiceURL = interworkingServiceURL;
-		}
-	}
+    public String getSlaDefinition() {
+        return this.slaDefinition;
+    }
 
-	@Id
-	@JsonProperty("id")
-	private String id;
+    public List<FederationMember> getMembers() {
+        return this.members;
+    }
 
-	@JsonProperty("name")
-	private String name;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	@JsonProperty("public")
-	private boolean isPublic = true;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@JsonProperty("slaDefinition")
-	private String slaDefinition;
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+    }
 
-	@JsonProperty("members")
-	private List<FederationMember> members = new ArrayList<>();
+    public void setSlaDefinition(String slaDefinition) {
+        this.slaDefinition = slaDefinition;
+    }
 
-	public String getId() {
-		return this.id;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public boolean isPublic() {
-		return this.isPublic;
-	}
-
-	public String getSlaDefinition() {
-		return this.slaDefinition;
-	}
-
-	public List<FederationMember> getMembers() {
-		return this.members;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}
-
-	public void setSlaDefinition(String slaDefinition) {
-		this.slaDefinition = slaDefinition;
-	}
-
-	public void setMembers(List<FederationMember> members) {
-		this.members = members;
-	}
+    public void setMembers(List<FederationMember> members) {
+        this.members = members;
+    }
 }

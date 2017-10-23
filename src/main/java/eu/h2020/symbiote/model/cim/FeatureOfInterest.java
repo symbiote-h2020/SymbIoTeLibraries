@@ -12,7 +12,7 @@ import java.util.List;
 public class FeatureOfInterest {
 
     @JsonProperty("name")
-    private List<String> name;
+    private String name;
     @JsonProperty("description")
     private List<String> description;
     @JsonProperty("hasProperty")
@@ -21,11 +21,11 @@ public class FeatureOfInterest {
     public FeatureOfInterest() {
     }
 
-    public List<String> getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(List<String> name) {
+    public void setName(String name) {
         this.name = name;
     }
 
