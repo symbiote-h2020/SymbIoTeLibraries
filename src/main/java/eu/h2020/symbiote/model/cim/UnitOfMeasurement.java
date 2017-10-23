@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
  */
 public class UnitOfMeasurement {
-    
+
     @JsonProperty("symbol")
     private final String symbol;
     @JsonProperty("label")
@@ -22,12 +22,18 @@ public class UnitOfMeasurement {
     private final String comment;
 
     @JsonCreator
-    public UnitOfMeasurement(@JsonProperty("symbol") String symbol, 
-                             @JsonProperty("label") String label, 
-                             @JsonProperty("comment") String comment) {
+    public UnitOfMeasurement(@JsonProperty("symbol") String symbol,
+            @JsonProperty("label") String label,
+            @JsonProperty("comment") String comment) {
         this.symbol = symbol;
         this.label = label;
         this.comment = comment;
+    }
+
+    public UnitOfMeasurement(UnitOfMeasurement other) {
+        this.symbol = other.symbol;
+        this.label = other.label;
+        this.comment = other.comment;
     }
 
     public String getSymbol() {
@@ -41,5 +47,48 @@ public class UnitOfMeasurement {
     public String getComment() {
         return comment;
     }
-    
+
+    // Helper
+    @Override
+    public String toString() {
+        return symbol == null ? "null" : symbol.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof UnitOfMeasurement)) {
+            return false;
+        }
+
+        UnitOfMeasurement ou = (UnitOfMeasurement) o;
+
+        if (this.symbol == null && ou.symbol == null) {
+            return true;
+        }
+
+        if (this.symbol == null) // We already know, the other is not null
+        {
+            return false;
+        }
+
+        return this.symbol.equals(ou.symbol);
+    }
+
+    @Override
+    public int hashCode() {
+        if (this.symbol == null) {
+            return 0;
+        }
+
+        return this.symbol.hashCode();
+    }
+
 }

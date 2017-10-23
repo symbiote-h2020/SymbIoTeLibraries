@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.cloud.model.data.observation;
+package eu.h2020.symbiote.model.cim;
 
 import static org.junit.Assert.*;
 
