@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.model.cim;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,11 @@ public class WKTLocation extends Location {
     private String value;
 
     public WKTLocation() {
+    }
+
+    public WKTLocation(String value, List<String> labels, List<String> comments) {
+    	super(labels, comments);
+    	this.value=value;
     }
 
     public WKTLocation(WKTLocation l) {

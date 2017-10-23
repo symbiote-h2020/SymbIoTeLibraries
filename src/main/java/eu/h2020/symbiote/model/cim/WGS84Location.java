@@ -44,6 +44,7 @@ public class WGS84Location extends Location {
     	this.altitude=l.altitude;    	
 	}
 
+    
 	public double getLongitude() {
         return longitude;
     }
@@ -80,7 +81,7 @@ public class WGS84Location extends Location {
     	
     	WGS84Location o=(WGS84Location)other;
     	
-    	if (this.latitude!=o.longitude)
+    	if (this.latitude!=o.latitude)
     		return false;
     	
     	if (this.longitude!=o.longitude)

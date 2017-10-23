@@ -64,7 +64,7 @@ public class TestObservation {
 		List<ObservationValue> theList=new ArrayList<ObservationValue>();
 		theList.add(new ObservationValue("1", null, null));
 		
-		o=new Observation("ID", new Location(0, 0, 0, null, null), "A", "B", theList);
+		o=new Observation("ID", new eu.h2020.symbiote.model.cim.WGS84Location(0, 0, 0, null, null), "A", "B", theList);
 		o1=new Observation(o);
 		
 		assertEquals(o, o1);	// Note: equals but not the same.

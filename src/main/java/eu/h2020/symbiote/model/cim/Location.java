@@ -40,11 +40,14 @@ abstract public class Location {
         return labels;
     }
     
+    public void setLables(List<String> l) {
+    	this.labels=l;
+    }
+    
     public List<String> getComments() {
         return comments;
     }
 
-    
     public static Location makeCopy(Location l) {
 		Location result=null;
 

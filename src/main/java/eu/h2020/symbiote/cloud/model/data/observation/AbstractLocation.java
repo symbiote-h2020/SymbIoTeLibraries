@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import eu.h2020.symbiote.model.cim.WGS84Location;
+
 /**
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
  */
