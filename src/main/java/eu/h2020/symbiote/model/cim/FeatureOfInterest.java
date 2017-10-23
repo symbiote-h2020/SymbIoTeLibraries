@@ -11,30 +11,30 @@ import java.util.List;
  */
 public class FeatureOfInterest {
 
-    @JsonProperty("labels")
-    private List<String> labels;
-    @JsonProperty("comments")
-    private List<String> comments;
+    @JsonProperty("name")
+    private List<String> name;
+    @JsonProperty("description")
+    private List<String> description;
     @JsonProperty("hasProperty")
     private List<String> hasProperty;
 
     public FeatureOfInterest() {
     }
 
-    public List<String> getLabels() {
-        return labels;
+    public List<String> getName() {
+        return name;
     }
 
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
+    public void setName(List<String> name) {
+        this.name = name;
     }
 
-    public List<String> getComments() {
-        return comments;
+    public List<String> getDescription() {
+        return description;
     }
 
-    public void setComments(List<String> comments) {
-        this.comments = comments;
+    public void setDescription(List<String> description) {
+        this.description = description;
     }
 
     public List<String> getHasProperty() {

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class TestUnitOfMeasurement {
 
 	@Test
@@ -37,7 +39,7 @@ public class TestUnitOfMeasurement {
 		u2=new UnitOfMeasurement("symbol", null, null);
 		assertEquals(u, u2);
 		
-		u=new UnitOfMeasurement("symbol", "label", "comment");
+		u=new UnitOfMeasurement("symbol", "label", Arrays.asList("comment"));
 		assertEquals(u, u2);	// albel and Comment not relevant for equals!!
 		
 	}
@@ -62,7 +64,7 @@ public class TestUnitOfMeasurement {
 		assertEquals(u, u2);
 
 		// Does all copy?
-		u=new UnitOfMeasurement("1", "2", "3");
+		u=new UnitOfMeasurement("1", "2", Arrays.asList("3"));
 		u2=new UnitOfMeasurement(u);
 		
 		assertEquals(u, u2);

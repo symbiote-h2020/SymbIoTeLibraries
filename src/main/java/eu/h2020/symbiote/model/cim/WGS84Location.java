@@ -27,18 +27,18 @@ public class WGS84Location extends Location {
     public WGS84Location(@JsonProperty("longitude") double longitude, 
                          @JsonProperty("latitude") double latitude, 
                          @JsonProperty("altitude") double altitude, 
-                         @JsonProperty("name") List<String> labels,
-                         @JsonProperty("description") List<String> comments) {
+                         @JsonProperty("name") String name,
+                         @JsonProperty("description") List<String> description) {
         //super(label, comment);
         this.longitude = longitude;
         this.latitude = latitude;
         this.altitude = altitude;
-        this.labels = labels;
-        this.comments = comments;
+        this.name = name;
+        this.description = description;
     }
 
     public WGS84Location(WGS84Location l) {
-    	super(l.labels, l.comments);
+    	super(l.name, l.description);
     	this.longitude=l.longitude;
     	this.latitude=l.latitude;
     	this.altitude=l.altitude;    	

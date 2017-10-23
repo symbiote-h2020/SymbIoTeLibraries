@@ -23,32 +23,36 @@ import java.util.Objects;
 })
 abstract public class Location {
     @JsonProperty("name")
-    List<String> labels;
+    String name;
     @JsonProperty("description")
-    List<String> comments;
+    List<String> description;
 
     
     public Location() {	// Jackson needs an empty constructor (or a real complicated one :-) )
     }
 
-    public Location(List<String> l, List<String> c) {
-    	this.labels=l;
-    	this.comments=c;
+    public Location(String n, List<String> d) {
+    	this.name = n;
+    	this.description = d;
     }
 
-    public List<String> getLabels() {
-        return labels;
-    }
-    
-    public void setLables(List<String> l) {
-    	this.labels=l;
-    }
-    
-    public List<String> getComments() {
-        return comments;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public static Location makeCopy(Location l) {
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<String> getDescription() {
+		return description;
+	}
+
+	public void setDescription(List<String> description) {
+		this.description = description;
+	}
+
+	public static Location makeCopy(Location l) {
 		Location result=null;
 
     	if (l instanceof WGS84Location) {
@@ -71,8 +75,8 @@ abstract public class Location {
     public String toString() {
     	StringBuffer b=new StringBuffer();
     	
-    	b.append("labels are ").append(labels).append("\n");
-    	b.append("Comments are ").append(comments);
+    	b.append("Name is ").append(name).append("\n");
+    	b.append("Description is ").append(description);
     	
     	return b.toString();
     }
@@ -91,7 +95,7 @@ abstract public class Location {
 
     	Location o=(Location)other;
     	
-    	if (!Objects.equals(this.labels, o.labels))
+    	if (!Objects.equals(this.name, o.name))
     		return false;
 
 //		Check for comments commented out. We have not forgotten this field but think it's not a criteria for equality.
@@ -104,9 +108,9 @@ abstract public class Location {
     @Override
     public int hashCode() {
     	// Note: comments are not part of the hashCode on purpose. Also see "equals".
-    	if (labels==null)
+    	if (name==null)
     		return 42;
-    	return labels.hashCode();
+    	return name.hashCode();
     }
     
 }

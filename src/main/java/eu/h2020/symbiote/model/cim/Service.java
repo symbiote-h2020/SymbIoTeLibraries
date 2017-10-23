@@ -11,22 +11,12 @@ import java.util.List;
  */
 public class Service extends Resource {
 
-    @JsonProperty("name")
-    private String name;
     @JsonProperty("resultType")
     private Datatype resultType;
     @JsonProperty("parameters")
     private List<Parameter> parameters;
 
     public Service() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Datatype getResultType() {

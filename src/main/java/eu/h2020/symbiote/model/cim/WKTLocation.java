@@ -18,13 +18,13 @@ public class WKTLocation extends Location {
     public WKTLocation() {
     }
 
-    public WKTLocation(String value, List<String> labels, List<String> comments) {
-    	super(labels, comments);
+    public WKTLocation(String value, String name, List<String> description) {
+    	super(name,description);
     	this.value=value;
     }
 
     public WKTLocation(WKTLocation l) {
-    	super(l.labels, l.comments);
+    	super(l.name, l.description);
     	this.value=l.value;
 	}
 

@@ -8,7 +8,10 @@ import java.util.List;
  * Represents CIM-defined InputDatatype parameter class
  *
  * Created by Mael on 28/03/2017.
+ *
+ * @deprecated Not in CIM 2.0
  */
+@Deprecated
 public class InputDatatype extends Datatype {
 
     @JsonProperty("name")

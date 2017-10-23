@@ -7,6 +7,8 @@ package eu.h2020.symbiote.model.cim;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,29 +17,29 @@ import java.util.Objects;
  */
 public class Property {
 
-    @JsonProperty("label")
-    private final String label;
-    @JsonProperty("comment")
-    private final String comment;
+    @JsonProperty("name")
+    private final String name;
+    @JsonProperty("description")
+    private final List<String> description;
 
     @JsonCreator
-    public Property(@JsonProperty("label") String label,
-            @JsonProperty("comment") String comment) {
-        this.label = label;
-        this.comment = comment;
+    public Property(@JsonProperty("name") String name,
+            @JsonProperty("description") List<String> description) {
+        this.name = name;
+        this.description = description;
     }
 
     public Property(Property p) {
-        this.label = p.label;
-        this.comment = p.comment;
+        this.name = p.getName();
+        this.description = p.getDescription();
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
-    public String getComment() {
-        return comment;
+    public List<String> getDescription() {
+        return description;
     }
 
     // Helper
@@ -46,8 +48,8 @@ public class Property {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append("Property:");
-        buffer.append("label=").append(label).append(",");
-        buffer.append("comment=").append(comment);
+        buffer.append("name=").append(name).append(",");
+        buffer.append("description=").append(description);
 
         return buffer.toString();
     }
@@ -68,7 +70,7 @@ public class Property {
 
         Property op = (Property) o;
 
-        if (!Objects.equals(this.label, op.label)) {
+        if (!Objects.equals(this.name, op.name)) {
             return false;
         }
 
@@ -79,7 +81,7 @@ public class Property {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.label);
+        return Objects.hashCode(this.name);
     }
 
 }

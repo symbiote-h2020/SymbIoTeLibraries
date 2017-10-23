@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ComplexDatatype.class, name = "ComplexDatatype"),
-        @JsonSubTypes.Type(value = RdfsDatatype.class, name = "RdfsDatatype")
+        @JsonSubTypes.Type(value = PrimitiveDatatype.class, name = "PrimitiveDatatype")
 
 })
 public class Datatype {

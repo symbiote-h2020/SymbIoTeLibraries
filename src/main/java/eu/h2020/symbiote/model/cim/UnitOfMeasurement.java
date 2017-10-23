@@ -8,6 +8,8 @@ package eu.h2020.symbiote.model.cim;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  *
  * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
@@ -16,36 +18,36 @@ public class UnitOfMeasurement {
 
     @JsonProperty("symbol")
     private final String symbol;
-    @JsonProperty("label")
-    private final String label;
-    @JsonProperty("comment")
-    private final String comment;
+    @JsonProperty("name")
+    private final String name;
+    @JsonProperty("description")
+    private final List<String> description;
 
     @JsonCreator
     public UnitOfMeasurement(@JsonProperty("symbol") String symbol,
-            @JsonProperty("label") String label,
-            @JsonProperty("comment") String comment) {
+            @JsonProperty("name") String name,
+            @JsonProperty("description") List<String> description) {
         this.symbol = symbol;
-        this.label = label;
-        this.comment = comment;
+        this.name = name;
+        this.description = description;
     }
 
     public UnitOfMeasurement(UnitOfMeasurement other) {
         this.symbol = other.symbol;
-        this.label = other.label;
-        this.comment = other.comment;
+        this.name = other.name;
+        this.description = other.description;
     }
 
     public String getSymbol() {
         return symbol;
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
-    public String getComment() {
-        return comment;
+    public List<String> getDescription() {
+        return description;
     }
 
     // Helper

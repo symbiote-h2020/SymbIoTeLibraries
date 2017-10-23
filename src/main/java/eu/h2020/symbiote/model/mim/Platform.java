@@ -13,8 +13,8 @@ public class Platform extends RDFInfo {
 
     @Id
     private String id;
-    private List<String> labels;
-    private List<String> comments;
+    private String name;
+    private List<String> description;
     private List<InterworkingService> interworkingServices;
     private boolean enabler = false;
 
@@ -30,20 +30,20 @@ public class Platform extends RDFInfo {
         this.id = id;
     }
 
-    public List<String> getLabels() {
-        return labels;
+    public String getName() {
+        return name;
     }
 
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<String> getComments() {
-        return comments;
+    public List<String> getDescription() {
+        return description;
     }
 
-    public void setComments(List<String> comments) {
-        this.comments = comments;
+    public void setDescription(List<String> description) {
+        this.description = description;
     }
 
     public List<InterworkingService> getInterworkingServices() {

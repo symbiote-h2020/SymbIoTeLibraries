@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class TestProperty {
 
 	@Test
@@ -37,9 +39,9 @@ public class TestProperty {
 		p2=new Property("label", null);
 		assertEquals(p, p2);
 		
-		p=new Property("label", "Comment");	
+		p=new Property("label", Arrays.asList("Comment"));
 		assertEquals(p, p2);	// Comment not relevant for equals!!
-		p2=new Property("label", "Comment");
+		p2=new Property("label", Arrays.asList("Comment"));
 		assertEquals(p, p2);
 		
 	}
@@ -57,16 +59,16 @@ public class TestProperty {
 		p2=new Property("label", null);
 		assertEquals(p.hashCode(), p2.hashCode());
 		
-		p=new Property("label", "Comment");
+		p=new Property("label", Arrays.asList("Comment"));
 		assertEquals(p.hashCode(), p2.hashCode());
-		p2=new Property("label", "Comment");
+		p2=new Property("label", Arrays.asList("Comment"));
 		assertEquals(p.hashCode(), p2.hashCode());
 		
 	}
 
 	@Test
 	public void testCopyConstructor() {
-		Property p=new Property("id", "Comment");
+		Property p=new Property("id", Arrays.asList("Comment"));
 		
 		Property p2=new Property(p);
 

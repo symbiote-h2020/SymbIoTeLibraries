@@ -59,7 +59,7 @@ public class TestWGS84Location {
 		wgs2=(WGS84Location) Location.makeCopy(wgs1);
 		assertTrue(wgs1.equals(wgs2));
 		
-		wgs1=new WGS84Location(0.0, 0, 0, new ArrayList<String>(), null);
+		wgs1=new WGS84Location(0.0, 0, 0, new String(), null);
 		assertFalse(wgs1.equals(wgs2));
 		wgs2=(WGS84Location) Location.makeCopy(wgs1);
 		assertTrue(wgs1.equals(wgs2));
@@ -77,10 +77,11 @@ public class TestWGS84Location {
 	 */
 	@Test
 	public void testJSON() throws IOException {
-		List<String> labels  =Arrays.asList(new String[] {"l1", "l2"});
+//		List<String> labels  =Arrays.asList(new String[] {"l1", "l2"});
+		String label = "l1";
 		List<String> comments=Arrays.asList(new String[] {"c1", "c2"});
 		
-		WGS84Location wgs1=new WGS84Location(10, 20,30, labels, comments);
+		WGS84Location wgs1=new WGS84Location(10, 20,30, label, comments);
 
         ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(wgs1);

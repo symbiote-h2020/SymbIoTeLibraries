@@ -9,18 +9,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PrimitiveProperty extends DataProperty {
 
-    @JsonProperty("rdfsDatatype")
-    private RdfsDatatype rdfsDatatype;
+    @JsonProperty("primitiveDatatype")
+    private PrimitiveDatatype primitiveDatatype;
 
     @JsonProperty("basedOnProperty")
     private String basedOnProperty;
 
-    public RdfsDatatype getRdfsDatatype() {
-        return rdfsDatatype;
+    public PrimitiveDatatype getPrimitiveDatatype() {
+        return primitiveDatatype;
     }
 
-    public void setRdfsDatatype(RdfsDatatype rdfsDatatype) {
-        this.rdfsDatatype = rdfsDatatype;
+    public void setPrimitiveDatatype(PrimitiveDatatype primitiveDatatype) {
+        this.primitiveDatatype = primitiveDatatype;
     }
 
     public String getBasedOnProperty() {

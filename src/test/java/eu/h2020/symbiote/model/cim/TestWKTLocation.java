@@ -48,7 +48,7 @@ public class TestWKTLocation {
 		wkt2=(WKTLocation) Location.makeCopy(wkt1);
 		assertTrue(wkt1.equals(wkt2));
 		
-		wkt1=new WKTLocation(null, Arrays.asList(new String[] {"l1"}), null);
+		wkt1=new WKTLocation(null, "l1", null);
 		assertFalse(wkt1.equals(wkt2));
 		wkt2=(WKTLocation) Location.makeCopy(wkt1);
 		assertTrue(wkt1.equals(wkt2));
@@ -66,10 +66,11 @@ public class TestWKTLocation {
 	 */
 	@Test
 	public void testJSON() throws IOException {
-		List<String> labels  =Arrays.asList(new String[] {"l1", "l2"});
+//		List<String> labels  =Arrays.asList(new String[] {"l1", "l2"});
+		String label = "11";
 		List<String> comments=Arrays.asList(new String[] {"c1", "c2"});
 		
-		WKTLocation wkt1=new WKTLocation("Some String", labels, comments);
+		WKTLocation wkt1=new WKTLocation("Some String", label, comments);
 
         ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(wkt1);

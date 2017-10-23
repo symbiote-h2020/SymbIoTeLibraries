@@ -14,7 +14,7 @@ public class SymbolicLocation extends Location {
 	
 	
 	public SymbolicLocation(SymbolicLocation l) {
-		super(l.labels, l.comments);
+		super(l.name, l.description);
 	}
 
 

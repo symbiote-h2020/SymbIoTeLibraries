@@ -20,11 +20,8 @@ import java.util.Objects;
         @JsonSubTypes.Type(value = Actuator.class, name = "Actuator"),
         @JsonSubTypes.Type(value = Service.class, name = "Service"),
         @JsonSubTypes.Type(value = Device.class, name = "Device"),
-//        @JsonSubTypes.Type(value = ActuatingService.class, name = "ActuatingService"),
         @JsonSubTypes.Type(value = StationarySensor.class, name = "StationarySensor"),
-        @JsonSubTypes.Type(value = MobileSensor.class, name = "MobileSensor"),
-//        @JsonSubTypes.Type(value = MobileDevice.class, name = "MobileDevice"),
-//        @JsonSubTypes.Type(value = StationaryDevice.class, name = "StationaryDevice")
+        @JsonSubTypes.Type(value = MobileSensor.class, name = "MobileSensor")
 })
 @ApiModel(description = "Description of a Resource. " +
         "Can be one of following subclasses: Actuator, Service, ActuatingService, StationarySensor, StationaryDevice, MobileSensor, MobileDevice " +
@@ -32,10 +29,10 @@ import java.util.Objects;
 public class Resource {
     @JsonProperty("id")
     private String id;
-    @JsonProperty("labels")
-    private List<String> labels;
-    @JsonProperty("comments")
-    private List<String> comments;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("description")
+    private List<String> description;
     @JsonProperty("interworkingServiceURL")
     private String interworkingServiceURL;
 
@@ -50,20 +47,20 @@ public class Resource {
         this.id = id;
     }
 
-    public List<String> getLabels() {
-        return labels;
+    public String getName() {
+        return name;
     }
 
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<String> getComments() {
-        return comments;
+    public List<String> getDescription() {
+        return description;
     }
 
-    public void setComments(List<String> comments) {
-        this.comments = comments;
+    public void setDescription(List<String> description) {
+        this.description = description;
     }
 
     public String getInterworkingServiceURL() {
@@ -92,8 +89,8 @@ public class Resource {
 
         // field comparison
         return Objects.equals(this.id, resource.getId())
-                && Objects.equals(this.labels, resource.getLabels())
-                && Objects.equals(this.comments, resource.getComments())
+                && Objects.equals(this.name, resource.getName())
+                && Objects.equals(this.description, resource.getDescription())
                 && Objects.equals(this.interworkingServiceURL, resource.getInterworkingServiceURL());
     }
 }
