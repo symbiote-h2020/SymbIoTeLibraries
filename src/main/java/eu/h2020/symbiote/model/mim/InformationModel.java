@@ -9,24 +9,9 @@ import eu.h2020.symbiote.core.internal.RDFInfo;
  */
 public class InformationModel extends RDFInfo {
 
-    /**
-     * Symbiote Id of information model
-     */
     private String id;
-
-    /**
-     * Unique URI of the information model
-     */
     private String uri;
-
-    /**
-     * Name of the information model
-     */
     private String name;
-
-    /**
-     * Owner (creator) of the information model.
-     */
     private String owner;
 
     public InformationModel() {

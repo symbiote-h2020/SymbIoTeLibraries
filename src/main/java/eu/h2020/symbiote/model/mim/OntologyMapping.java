@@ -8,16 +8,10 @@ package eu.h2020.symbiote.model.mim;
 public class OntologyMapping {
 
     private String id;
-
     private String name;
-
     private String sourceModelId;
-
     private String destinationModelId;
-
     private String definition;
-
-    private OntologyMappingFormat definitionFormat;
 
     public OntologyMapping() {
     }
@@ -60,13 +54,5 @@ public class OntologyMapping {
 
     public void setDefinition(String definition) {
         this.definition = definition;
-    }
-
-    public OntologyMappingFormat getDefinitionFormat() {
-        return definitionFormat;
-    }
-
-    public void setDefinitionFormat(OntologyMappingFormat definitionFormat) {
-        this.definitionFormat = definitionFormat;
     }
 }
