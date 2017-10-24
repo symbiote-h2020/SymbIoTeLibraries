@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.AbstractResponseSecured;
+import eu.h2020.symbiote.core.cci.AbstractResponseSecured;
 
 /**
  * Payload of responses to internal Core communication message for registry operation on resources (both RDF and JSON).

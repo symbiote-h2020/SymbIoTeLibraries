@@ -1,7 +1,5 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.RDFInfo;
-
 /**
  * Resource Instance validation request for RDFs
  * <p>

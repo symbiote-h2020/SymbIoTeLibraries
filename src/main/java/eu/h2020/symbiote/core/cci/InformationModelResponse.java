@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractResponse;
-import eu.h2020.symbiote.core.model.InformationModel;
+import eu.h2020.symbiote.model.mim.InformationModel;
 
 /**
  * Created by mateuszl on 11.08.2017.

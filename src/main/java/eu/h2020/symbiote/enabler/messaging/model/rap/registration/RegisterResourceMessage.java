@@ -7,7 +7,7 @@ package eu.h2020.symbiote.enabler.messaging.model.rap.registration;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.h2020.symbiote.core.model.resources.Resource;
+import eu.h2020.symbiote.model.cim.Resource;
 
 
 /**

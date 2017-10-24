@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.cloud.model.internal;
 
-import eu.h2020.symbiote.core.model.RDFInfo;
+import eu.h2020.symbiote.core.internal.RDFInfo;
 
 import java.util.HashMap;
 import java.util.Map;

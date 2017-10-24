@@ -5,7 +5,7 @@
  */
 package eu.h2020.symbiote.cloud.monitoring.model;
 
-import eu.h2020.symbiote.core.model.AbstractRequestSecured;
+import eu.h2020.symbiote.core.cci.AbstractRequestSecured;
 import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 /**

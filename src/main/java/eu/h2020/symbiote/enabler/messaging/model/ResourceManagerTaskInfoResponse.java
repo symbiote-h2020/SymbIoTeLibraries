@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequest{
+public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequest {
 
     @JsonProperty("resourceIds")
     private List<String> resourceIds;
@@ -17,30 +17,36 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
     @JsonProperty("status")
     private ResourceManagerTaskInfoResponseStatus status;
 
+    @JsonProperty("message")
+    private String message;
 
     public ResourceManagerTaskInfoResponse() {
     }
 
     public ResourceManagerTaskInfoResponse(String taskId, Integer minNoResources, CoreQueryRequest coreQueryRequest,
                                            String queryInterval, Boolean allowCaching, String cachingInterval,
-                                           Boolean informPlatformProxy, String enablerLogicName, SparqlQueryRequest sparqlQuery,
-                                           List<String> resourceIds, ResourceManagerTaskInfoResponseStatus status) {
+                                           Boolean informPlatformProxy, String enablerLogicName,
+                                           SparqlQueryRequest sparqlQuery, List<String> resourceIds,
+                                           ResourceManagerTaskInfoResponseStatus status, String message) {
         super(taskId, minNoResources, coreQueryRequest, queryInterval, allowCaching, cachingInterval,
                 informPlatformProxy, enablerLogicName, sparqlQuery);
         setResourceIds(resourceIds);
         setStatus(status);
+        setMessage(message);
     }
 
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
         super(resourceManagerTaskInfoRequest);
-        status = ResourceManagerTaskInfoResponseStatus.UNKNOWN;
-        resourceIds = new ArrayList<>();
+        setStatus(ResourceManagerTaskInfoResponseStatus.UNKNOWN);
+        setResourceIds(new ArrayList<>());
+        setMessage("");
     }
 
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoResponse resourceManagerTaskInfoResponse) {
         this((ResourceManagerTaskInfoRequest) resourceManagerTaskInfoResponse);
         setStatus(resourceManagerTaskInfoResponse.getStatus());
         setResourceIds(new ArrayList<>(resourceManagerTaskInfoResponse.getResourceIds()));
+        setMessage(resourceManagerTaskInfoResponse.getMessage());
     }
 
     public List<String> getResourceIds() {
@@ -52,6 +58,9 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
 
     public ResourceManagerTaskInfoResponseStatus getStatus() { return status; }
     public void setStatus(ResourceManagerTaskInfoResponseStatus status) { this.status = status; }
+
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
 
     @Override
     public boolean equals(Object o) {
@@ -73,6 +82,7 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
         // field comparison
         return super.equals(request)
                 && Objects.equals(this.getResourceIds(), response.getResourceIds())
-                && Objects.equals(this.getStatus(), response.getStatus());
+                && Objects.equals(this.getStatus(), response.getStatus())
+                && Objects.equals(this.getMessage(), response.getMessage());
     }
 }
