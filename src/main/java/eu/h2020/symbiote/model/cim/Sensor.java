@@ -12,19 +12,13 @@ import java.util.List;
  * @author Michael Jacoby <michael.jacoby@iosb.fraunhofer.de>
  */
 public class Sensor extends Device {
-    private List<Observation> observesProperty;
+    private List<String> observesProperty;
 
-    /**
-     * @return the observesProperty
-     */
-    public List<Observation> getObservesProperty() {
+    public List<String> getObservesProperty() {
         return observesProperty;
     }
 
-    /**
-     * @param observesProperty the observesProperty to set
-     */
-    public void setObservesProperty(List<Observation> observesProperty) {
+    public void setObservesProperty(List<String> observesProperty) {
         this.observesProperty = observesProperty;
     }
 }
