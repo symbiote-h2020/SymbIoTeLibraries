@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.InterworkingService;
-import eu.h2020.symbiote.core.model.RDFInfo;
+import eu.h2020.symbiote.model.mim.InterworkingService;
 
 import java.util.ArrayList;
 import java.util.List;

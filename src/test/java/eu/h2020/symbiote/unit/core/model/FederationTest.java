@@ -11,8 +11,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import eu.h2020.symbiote.core.model.Federation;
-import eu.h2020.symbiote.core.model.Federation.FederationMember;
+import eu.h2020.symbiote.model.mim.Federation;
+import eu.h2020.symbiote.model.mim.FederationMember;
+
 
 public class FederationTest {
 
@@ -25,7 +26,7 @@ public class FederationTest {
 		fed.setPublic(false);
 		fed.setSlaDefinition("FedSla");
 
-		List<FederationMember> members = new ArrayList<Federation.FederationMember>();
+		List<FederationMember> members = new ArrayList<FederationMember>();
 		members.add(new FederationMember("123", "/url/123"));
 		members.add(new FederationMember("456", "/url/456"));
 

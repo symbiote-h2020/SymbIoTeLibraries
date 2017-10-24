@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractResponse;
-import eu.h2020.symbiote.core.model.RDFInfo;
+import eu.h2020.symbiote.core.internal.RDFInfo;
 
 /**
  * Response class for describing results of operations on RDF-described resources. Used in responses from Cloud Core Interface's

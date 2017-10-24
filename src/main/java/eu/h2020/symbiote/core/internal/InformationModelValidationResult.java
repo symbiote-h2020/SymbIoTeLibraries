@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.InformationModel;
+import eu.h2020.symbiote.model.mim.InformationModel;
 
 /**
  * Created by mateuszl on 14.08.2017.

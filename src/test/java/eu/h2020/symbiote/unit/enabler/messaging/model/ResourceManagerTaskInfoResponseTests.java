@@ -123,10 +123,12 @@ public class ResourceManagerTaskInfoResponseTests {
         response1.setTaskId("1");
         response1.setMinNoResources(5);
         response1.setCoreQueryRequest(coreQueryRequest);
+        response1.setSparqlQueryRequest(new SparqlQueryRequest("sparqlQuery", SparqlQueryOutputFormat.JSON));
         response1.setAllowCaching(true);
         response1.setInformPlatformProxy(true);
         response1.setEnablerLogicName("enablerLogic");
         response1.setStatus(ResourceManagerTaskInfoResponseStatus.SUCCESS);
+        response1.setMessage("success");
         response1.setResourceIds(new ArrayList<>());
         try {
             response1.setQueryInterval("P0-0-0T0:0:0.01");
@@ -145,11 +147,15 @@ public class ResourceManagerTaskInfoResponseTests {
         assertEquals(response1.getTaskId(), response2.getTaskId());
         assertEquals(response1.getMinNoResources(), response2.getMinNoResources());
         assertEquals(true, response2.getCoreQueryRequest().equals(response1.getCoreQueryRequest()));
+        assertEquals(true, response2.getSparqlQueryRequest().equals(response1.getSparqlQueryRequest()));
         assertEquals(response1.getQueryInterval(), response2.getQueryInterval());
         assertEquals(response1.getAllowCaching(), response2.getAllowCaching());
         assertEquals(response1.getCachingInterval(), response2.getCachingInterval());
         assertEquals(response1.getInformPlatformProxy(), response2.getInformPlatformProxy());
         assertEquals(response1.getEnablerLogicName(), response2.getEnablerLogicName());
+        assertEquals(response1.getMessage(), response2.getMessage());
+        assertEquals(response1.getResourceIds(), response2.getResourceIds());
+        assertEquals(response1.getStatus(), response2.getStatus());
 
         response2.getCoreQueryRequest().setObserved_property(Arrays.asList("p1", "p2", "p3"));
         response2.setAllowCaching(false);
@@ -193,7 +199,7 @@ public class ResourceManagerTaskInfoResponseTests {
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
                 true, "TestEnablerLogic", sparqlQueryRequest, resourceIds,
-                ResourceManagerTaskInfoResponseStatus.SUCCESS);
+                ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
         assertEquals(true, response1.equals(response2));
@@ -268,6 +274,12 @@ public class ResourceManagerTaskInfoResponseTests {
         assertEquals(ResourceManagerTaskInfoResponseStatus.SUCCESS, response1.getStatus());
         assertEquals(false, response1.equals(response2));
         response2.setStatus(response1.getStatus());
+        assertEquals(true, response1.equals(response2));
+
+        response2.setMessage("failed");
+        assertEquals("success", response1.getMessage());
+        assertEquals(false, response1.equals(response2));
+        response2.setMessage(response1.getMessage());
         assertEquals(true, response1.equals(response2));
     }
 }

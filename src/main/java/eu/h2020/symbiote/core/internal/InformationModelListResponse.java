@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.core.internal;
 
-import eu.h2020.symbiote.core.model.AbstractResponse;
-import eu.h2020.symbiote.core.model.InformationModel;
+import eu.h2020.symbiote.core.cci.AbstractResponse;
+import eu.h2020.symbiote.model.mim.InformationModel;
 
 import java.util.List;
 
