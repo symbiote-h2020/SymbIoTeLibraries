@@ -1,8 +1,5 @@
 package eu.h2020.symbiote.core.ci;
 
-import eu.h2020.symbiote.core.model.RDFFormat;
-import eu.h2020.symbiote.core.model.resources.Resource;
-
 /**
  * Enum containing possible resource types
  *

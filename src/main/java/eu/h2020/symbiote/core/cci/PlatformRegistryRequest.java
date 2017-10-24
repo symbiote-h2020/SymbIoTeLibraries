@@ -1,7 +1,6 @@
 package eu.h2020.symbiote.core.cci;
 
-import eu.h2020.symbiote.core.model.AbstractRequest;
-import eu.h2020.symbiote.core.model.Platform;
+import eu.h2020.symbiote.model.mim.Platform;
 
 /**
  * Created by mateuszl on 07.08.2017.

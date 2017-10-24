@@ -2,7 +2,7 @@ package eu.h2020.symbiote.enabler.messaging.model;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.h2020.symbiote.cloud.model.data.observation.Observation;
+import eu.h2020.symbiote.model.cim.Observation;
 
 
 /**
