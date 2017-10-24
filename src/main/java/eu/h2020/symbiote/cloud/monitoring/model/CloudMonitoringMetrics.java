@@ -44,7 +44,10 @@ public class CloudMonitoringMetrics {
 	 * In case inform accumulated data value, is the maximum value of the query range 
 	 */
 	private int valuemax;
-	
+	/**
+	 * In case inform accumulated data value, is the count value of the query range 
+	 */
+	private int count;	
 	
 	public String getTag() {
 		return tag;
@@ -81,6 +84,12 @@ public class CloudMonitoringMetrics {
 	}
 	public void setValuemax(int valuemax) {
 		this.valuemax = valuemax;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 	
