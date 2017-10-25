@@ -25,7 +25,7 @@ public class Observation {
     private final String resultTime;
     @JsonProperty("samplingTime")
     private final String samplingTime;
-    @JsonProperty("obsValue")
+    @JsonProperty("obsValues")
     private final List<ObservationValue> obsValues;
 
     @JsonCreator
