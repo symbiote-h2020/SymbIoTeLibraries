@@ -29,6 +29,16 @@ public class CloudMonitoringPlatform {
 	 * Simple Data, is date time when monitoring component registered the object
 	 */
 	private Date timeRegister;
+	/**
+	 * Simple Data, is the Federation internal Id
+	 */
+	private String federationId;
+	
+	/**
+	 * Simple Data, is date time send by the platform
+	 */
+	private Date dateFederation;
+	
 	
 	/**
 	 * Accumulated Data, is the percentage value of available devices (availability=1) contained in this class
@@ -44,6 +54,12 @@ public class CloudMonitoringPlatform {
 	 * Array Data, is the class that includes device data details, in a device list
 	 */
 	private CloudMonitoringDevice[] devices;
+	
+	/**
+	 * Array Data, is the class that includes metrics data details, in a metric list in a generic and flexible format (Tag, Value)
+	 * Including group segment in tag. group.metric.x, where group=group of devices.
+	 */
+	private CloudMonitoringMetrics[] metrics;
 	
 	public CloudMonitoringPlatform(){
 		
@@ -104,6 +120,30 @@ public class CloudMonitoringPlatform {
 
 	public void setLoadPlatform(int loadPlatform) {
 		this.loadPlatform = loadPlatform;
+	}
+
+	public String getFederationId() {
+		return federationId;
+	}
+
+	public void setFederationId(String federationId) {
+		this.federationId = federationId;
+	}
+
+	public Date getDateFederation() {
+		return dateFederation;
+	}
+
+	public void setDateFederation(Date dateFederation) {
+		this.dateFederation = dateFederation;
+	}
+
+	public CloudMonitoringMetrics[] getMetrics() {
+		return metrics;
+	}
+
+	public void setMetrics(CloudMonitoringMetrics[] metrics) {
+		this.metrics = metrics;
 	}
 
 	

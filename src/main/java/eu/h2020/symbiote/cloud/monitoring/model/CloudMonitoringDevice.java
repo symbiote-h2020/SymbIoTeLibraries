@@ -18,7 +18,10 @@ public class CloudMonitoringDevice {
 	 * is the Device Id
 	 */
 	private String id; 
-
+	/**
+	 * is the Device Id
+	 */
+	private String type; 
 	/**
 	 * Unused in r4, is the availability value to device. 
 	 * @deprecated 
@@ -36,7 +39,7 @@ public class CloudMonitoringDevice {
 	 * @deprecated 
 	 */
 	private String timestamp;
-	
+		
 	/**
 	 * Is the date and time of the device metric.
 	 */
@@ -97,6 +100,14 @@ public class CloudMonitoringDevice {
 
 	public void setTimemetric(Date timemetric) {
 		this.timemetric = timemetric;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 
