@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
- * @author Michael Jacoby <michael.jacoby@iosb.fraunhofer.de>
+ * @author <a href="mailto:michael.jacoby@iosb.fraunhofer.de">Michael Jacoby</a>
  */
 public class FederationMember {
 

@@ -13,7 +13,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
+ * @author <a href="mailto:aleksandar.antonic@fer.hr">Aleksandar Antonic</a>
  */
 public class Observation {
 

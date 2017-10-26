@@ -39,30 +39,14 @@ public class ResourceManagerTaskInfoResponseTests {
                 .securityRequest(new SecurityRequest("token"))
                 .build();
 
-        ResourceManagerTaskInfoRequest request = new ResourceManagerTaskInfoRequest();
-        request.setTaskId("1");
-        request.setMinNoResources(5);
-        request.setCoreQueryRequest(coreQueryRequest);
-        request.setAllowCaching(true);
-        request.setInformPlatformProxy(true);
-        request.setEnablerLogicName("enablerLogic");
-
-        try {
-            request.setQueryInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            request.setCachingInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        ResourceManagerTaskInfoRequest request = new ResourceManagerTaskInfoRequest("1", 5, coreQueryRequest, "P0-0-0T0:0:0.01",
+                true, "P0-0-0T0:0:0.01", true, "enablerLogic", null);
 
         ResourceManagerTaskInfoResponse response = new ResourceManagerTaskInfoResponse(request);
-        
+
         assertEquals(request.getTaskId(), response.getTaskId());
         assertEquals(request.getMinNoResources(), response.getMinNoResources());
+        assertEquals(request.getMaxNoResources(), response.getMaxNoResources());
         assertEquals(true, response.getCoreQueryRequest().equals(request.getCoreQueryRequest()));
         assertEquals(request.getQueryInterval(), response.getQueryInterval());
         assertEquals(request.getAllowCaching(), response.getAllowCaching());
@@ -119,28 +103,10 @@ public class ResourceManagerTaskInfoResponseTests {
                 .securityRequest(new SecurityRequest("token"))
                 .build();
 
-        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse();
-        response1.setTaskId("1");
-        response1.setMinNoResources(5);
-        response1.setCoreQueryRequest(coreQueryRequest);
-        response1.setSparqlQueryRequest(new SparqlQueryRequest("sparqlQuery", SparqlQueryOutputFormat.JSON));
-        response1.setAllowCaching(true);
-        response1.setInformPlatformProxy(true);
-        response1.setEnablerLogicName("enablerLogic");
-        response1.setStatus(ResourceManagerTaskInfoResponseStatus.SUCCESS);
-        response1.setMessage("success");
-        response1.setResourceIds(new ArrayList<>());
-        try {
-            response1.setQueryInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            response1.setCachingInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 5, coreQueryRequest,
+                "P0-0-0T0:0:0.01", true, "P0-0-0T0:0:0.01", true,
+                "enablerLogic", new SparqlQueryRequest(), new ArrayList<>(),
+                ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
 
@@ -200,6 +166,7 @@ public class ResourceManagerTaskInfoResponseTests {
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
                 true, "TestEnablerLogic", sparqlQueryRequest, resourceIds,
                 ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
+        response1.setMaxNoResources(6);
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
         assertEquals(true, response1.equals(response2));

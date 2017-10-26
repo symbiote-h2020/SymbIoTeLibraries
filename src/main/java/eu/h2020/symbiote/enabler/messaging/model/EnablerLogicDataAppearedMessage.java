@@ -6,7 +6,7 @@ import eu.h2020.symbiote.model.cim.Observation;
 
 
 /**
-* @author PetarKrivic <petar.krivic@fer.hr>
+* @author <a href="mailto:petar.krivic@fer.hr">Petar Krivic</a>
 */
 public class EnablerLogicDataAppearedMessage {
 

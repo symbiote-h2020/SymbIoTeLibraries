@@ -10,7 +10,7 @@ import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 /**
  *
- * @author Matteo Pardi <m.pardi@nextworks.it>
+ * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
  */
 public class CloudMonitoringPlatformRequest extends AbstractRequestSecured<CloudMonitoringPlatform> {
 
