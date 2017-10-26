@@ -23,7 +23,7 @@ public class ResourceManagerTaskInfoRequest {
     private Integer minNoResources;
 
     @JsonProperty("maxNoResources")
-    private Integer maxNoResources;
+    private Integer maxNoResources = ALL_AVAILABLE_RESOURCES;
 
     @JsonProperty("coreQueryRequest")
     private CoreQueryRequest coreQueryRequest;
@@ -89,7 +89,6 @@ public class ResourceManagerTaskInfoRequest {
 
         setTaskId(taskId);
         setMinNoResources(minNoResources);
-        setMaxNoResources(ALL_AVAILABLE_RESOURCES);
         setCoreQueryRequest(CoreQueryRequest.newInstance(coreQueryRequest));
         setQueryInterval(queryInterval);
         setAllowCaching(allowCaching);
@@ -129,12 +128,16 @@ public class ResourceManagerTaskInfoRequest {
     public void setTaskId(String taskId) { this.taskId = taskId; }
 
     public Integer getMinNoResources() { return minNoResources; }
-    public void setMinNoResources(Integer minNoResources) { this.minNoResources = minNoResources; }
+    public void setMinNoResources(Integer minNoResources) {
+        if (this.maxNoResources != ALL_AVAILABLE_RESOURCES && this.maxNoResources < minNoResources)
+            throw new IllegalArgumentException("minNoResources should not be greater than maxNoResources");
+        this.minNoResources = minNoResources;
+    }
 
     public Integer getMaxNoResources() { return maxNoResources; }
     public void setMaxNoResources(Integer maxNoResources) throws  IllegalArgumentException {
-        if (maxNoResources != ALL_AVAILABLE_RESOURCES && maxNoResources < minNoResources)
-            throw new IllegalArgumentException("minNoResources should not be greater than minNoResources");
+        if (maxNoResources != ALL_AVAILABLE_RESOURCES && maxNoResources < this.minNoResources)
+            throw new IllegalArgumentException("minNoResources should not be greater than maxNoResources");
         this.maxNoResources = maxNoResources;
     }
 
