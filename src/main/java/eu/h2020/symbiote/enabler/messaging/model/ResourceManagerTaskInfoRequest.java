@@ -1,6 +1,5 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
@@ -53,6 +52,11 @@ public class ResourceManagerTaskInfoRequest {
     @JsonProperty("sparqlQueryRequest")
     private SparqlQueryRequest sparqlQueryRequest;
 
+
+    public ResourceManagerTaskInfoRequest() {
+        // empty constructor
+    }
+
     /**
      *
      * @param taskId                the id of the requested task
@@ -73,7 +77,6 @@ public class ResourceManagerTaskInfoRequest {
      * @throws IllegalArgumentException if queryInterval/cachingInterval has wrong format or both sparqlQueryRequest and coreQueryRequest are null
      * @see                         <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()">ISO-8601 alternateExtended format</a>
      */
-    @JsonCreator
     public ResourceManagerTaskInfoRequest(String taskId, Integer minNoResources,
                                           CoreQueryRequest coreQueryRequest, String queryInterval,
                                           Boolean allowCaching, String cachingInterval,
