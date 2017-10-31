@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.unit.enabler.messaging.model;
 
+import eu.h2020.symbiote.core.ci.QueryResourceResult;
+import eu.h2020.symbiote.core.ci.QueryResponse;
 import eu.h2020.symbiote.core.ci.SparqlQueryOutputFormat;
 import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
@@ -105,7 +107,7 @@ public class ResourceManagerTaskInfoResponseTests {
 
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 5, coreQueryRequest,
                 "P0-0-0T0:0:0.01", true, "P0-0-0T0:0:0.01", true,
-                "enablerLogic", new SparqlQueryRequest(), new ArrayList<>(),
+                "enablerLogic", new SparqlQueryRequest(), new ArrayList<>(), new ArrayList<>(),
                 ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
@@ -121,6 +123,7 @@ public class ResourceManagerTaskInfoResponseTests {
         assertEquals(response1.getEnablerLogicName(), response2.getEnablerLogicName());
         assertEquals(response1.getMessage(), response2.getMessage());
         assertEquals(response1.getResourceIds(), response2.getResourceIds());
+        assertEquals(response1.getResourceDescriptions(), response2.getResourceDescriptions());
         assertEquals(response1.getStatus(), response2.getStatus());
 
         response2.getCoreQueryRequest().setObserved_property(Arrays.asList("p1", "p2", "p3"));
@@ -156,15 +159,25 @@ public class ResourceManagerTaskInfoResponseTests {
                 .locationName("Zurich")
                 .observedProperty(Arrays.asList("temperature", "humidity"))
                 .build();
+
         ArrayList<String> resourceIds = new ArrayList<>();
         resourceIds.add("1");
         resourceIds.add("2");
+
+        ArrayList<QueryResourceResult> resourceDescriptions = new ArrayList<>();
+        QueryResourceResult result1 = new QueryResourceResult();
+        result1.setId("1");
+        QueryResourceResult result2 = new QueryResourceResult();
+        result2.setId("2");
+        resourceDescriptions.add(result1);
+        resourceDescriptions.add(result2);
+
         SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("response1",
                 SparqlQueryOutputFormat.COUNT);
         
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
-                true, "TestEnablerLogic", sparqlQueryRequest, resourceIds,
+                true, "TestEnablerLogic", sparqlQueryRequest, resourceIds, resourceDescriptions,
                 ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
         response1.setMaxNoResources(6);
 
@@ -231,10 +244,16 @@ public class ResourceManagerTaskInfoResponseTests {
         response2.getSparqlQueryRequest().setOutputFormat(response1.getSparqlQueryRequest().getOutputFormat());
         assertEquals(true, response1.equals(response2));
 
-        response2.getResourceIds().add("3");
+        response2.getResourceIds().set(0, "3");
         assertEquals(2, response1.getResourceIds().size());
         assertEquals(false, response1.equals(response2));
-        response2.setResourceIds(response1.getResourceIds());
+        response2.getResourceIds().set(0, "1");
+        assertEquals(true, response1.equals(response2));
+
+        response2.getResourceDescriptions().get(0).setId("3");
+        assertEquals(2, response1.getResourceIds().size());
+        assertEquals(false, response1.equals(response2));
+        response2.getResourceDescriptions().get(0).setId("1");
         assertEquals(true, response1.equals(response2));
 
         response2.setStatus(ResourceManagerTaskInfoResponseStatus.FAILED);

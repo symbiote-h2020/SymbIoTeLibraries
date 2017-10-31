@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.core.ci;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,22 @@ public class QueryResourceResult {
      */
     public QueryResourceResult() {
         //Needed for Jackson serialization
+    }
+
+    public QueryResourceResult(QueryResourceResult queryResourceResult) {
+        setPlatformId(queryResourceResult.getPlatformId());
+        setPlatformName(queryResourceResult.getPlatformName());
+        setOwner(queryResourceResult.getOwner());
+        setName(queryResourceResult.getName());
+        setId(queryResourceResult.getId());
+        setDescription(queryResourceResult.getDescription());
+        setLocationName(queryResourceResult.getLocationName());
+        setLocationLatitude(queryResourceResult.getLocationLatitude());
+        setLocationLongitude(queryResourceResult.getLocationLongitude());
+        setLocationAltitude(queryResourceResult.getLocationAltitude());
+        setObservedProperties(queryResourceResult.getObservedProperties());
+        setResourceType(queryResourceResult.getResourceType());
+        setRanking(queryResourceResult.getRanking());
     }
 
     public String getPlatformId() {
@@ -112,7 +129,10 @@ public class QueryResourceResult {
     }
 
     public void setObservedProperties(List<String> observedProperties) {
-        this.observedProperties = observedProperties;
+        if (observedProperties == null)
+            this.observedProperties = null;
+        else
+            this.observedProperties = new ArrayList<>(observedProperties);
     }
 
     public List<String> getResourceType() {
@@ -120,10 +140,62 @@ public class QueryResourceResult {
     }
 
     public void setResourceType(List<String> resourceType) {
-        this.resourceType = resourceType;
+        if (resourceType == null)
+            this.resourceType = null;
+        else
+            this.resourceType = new ArrayList<>(resourceType);
     }
 
     public Float getRanking() { return ranking; }
 
     public void setRanking(Float ranking) { this.ranking = ranking; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof QueryResourceResult)) return false;
+
+        QueryResourceResult result = (QueryResourceResult) o;
+
+        if (getPlatformId() != null ? !getPlatformId().equals(result.getPlatformId()) : result.getPlatformId() != null)
+            return false;
+        if (getPlatformName() != null ? !getPlatformName().equals(result.getPlatformName()) : result.getPlatformName() != null)
+            return false;
+        if (getOwner() != null ? !getOwner().equals(result.getOwner()) : result.getOwner() != null) return false;
+        if (getName() != null ? !getName().equals(result.getName()) : result.getName() != null) return false;
+        if (getId() != null ? !getId().equals(result.getId()) : result.getId() != null) return false;
+        if (getDescription() != null ? !getDescription().equals(result.getDescription()) : result.getDescription() != null)
+            return false;
+        if (getLocationName() != null ? !getLocationName().equals(result.getLocationName()) : result.getLocationName() != null)
+            return false;
+        if (getLocationLatitude() != null ? !getLocationLatitude().equals(result.getLocationLatitude()) : result.getLocationLatitude() != null)
+            return false;
+        if (getLocationLongitude() != null ? !getLocationLongitude().equals(result.getLocationLongitude()) : result.getLocationLongitude() != null)
+            return false;
+        if (getLocationAltitude() != null ? !getLocationAltitude().equals(result.getLocationAltitude()) : result.getLocationAltitude() != null)
+            return false;
+        if (getObservedProperties() != null ? !getObservedProperties().equals(result.getObservedProperties()) : result.getObservedProperties() != null)
+            return false;
+        if (getResourceType() != null ? !getResourceType().equals(result.getResourceType()) : result.getResourceType() != null)
+            return false;
+        return getRanking() != null ? getRanking().equals(result.getRanking()) : result.getRanking() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getPlatformId() != null ? getPlatformId().hashCode() : 0;
+        result = 31 * result + (getPlatformName() != null ? getPlatformName().hashCode() : 0);
+        result = 31 * result + (getOwner() != null ? getOwner().hashCode() : 0);
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+        result = 31 * result + (getLocationName() != null ? getLocationName().hashCode() : 0);
+        result = 31 * result + (getLocationLatitude() != null ? getLocationLatitude().hashCode() : 0);
+        result = 31 * result + (getLocationLongitude() != null ? getLocationLongitude().hashCode() : 0);
+        result = 31 * result + (getLocationAltitude() != null ? getLocationAltitude().hashCode() : 0);
+        result = 31 * result + (getObservedProperties() != null ? getObservedProperties().hashCode() : 0);
+        result = 31 * result + (getResourceType() != null ? getResourceType().hashCode() : 0);
+        result = 31 * result + (getRanking() != null ? getRanking().hashCode() : 0);
+        return result;
+    }
 }
