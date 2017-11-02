@@ -17,4 +17,12 @@ public class QueryResponse extends AbstractResponseSecured<List<QueryResourceRes
     public QueryResponse(int status, String message, List<QueryResourceResult> body) {
         super(status, message, body);
     }
+
+    public List<QueryResourceResult> getResources() {
+        return getBody();
+    }
+
+    public void setResources(List<QueryResourceResult> resources) {
+        setBody(resources);
+    }
 }
