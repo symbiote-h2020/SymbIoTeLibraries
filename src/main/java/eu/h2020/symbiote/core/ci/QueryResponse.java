@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.core.ci;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import eu.h2020.symbiote.core.cci.AbstractResponseSecured;
 
 import java.util.ArrayList;
@@ -18,11 +19,9 @@ public class QueryResponse extends AbstractResponseSecured<List<QueryResourceRes
         super(status, message, body);
     }
 
+    @JsonIgnore
     public List<QueryResourceResult> getResources() {
         return getBody();
     }
 
-    public void setResources(List<QueryResourceResult> resources) {
-        setBody(resources);
-    }
 }
