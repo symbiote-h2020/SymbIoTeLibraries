@@ -8,6 +8,11 @@ public class CloudResourceParams {
 	private String type;
 
 	/**
+	 * Is the Resource is included in Core.
+	 */
+	private boolean isCore;
+
+	/**
 	 * Is the list of Federations where Device is included and the date since the device activity
 	 * must be monitored
 	 */
@@ -31,6 +36,14 @@ public class CloudResourceParams {
 
 	public void setListFederations(CloudResourceFederation[] listFederations) {
 		this.listFederations = listFederations;
+	}
+
+	public boolean isCore() {
+		return isCore;
+	}
+
+	public void setCore(boolean isCore) {
+		this.isCore = isCore;
 	}
 	
 }
