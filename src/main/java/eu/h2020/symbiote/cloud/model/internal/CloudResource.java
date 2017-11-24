@@ -17,13 +17,12 @@ public class CloudResource  {
     private String internalId;
     @JsonProperty("pluginId")
     private String pluginId;
-    //ip address of the host. Needed by Monitoring component
-    @JsonProperty("cloudMonitoringHost")
-    private String cloudMonitoringHost;
+
     @JsonProperty("singleTokenAccessPolicy")
     private SingleTokenAccessPolicySpecifier singleTokenAccessPolicy;
     @JsonProperty("singleTokenFilteringPolicy")
     private SingleTokenAccessPolicySpecifier singleTokenFilteringPolicy;
+    
     @JsonProperty("resource")
     Resource resource;
 
@@ -48,14 +47,6 @@ public class CloudResource  {
     
     public void setPluginId(String pluginId) {
         this.pluginId = pluginId;
-    }
-   
-    public String getCloudMonitoringHost() {
-            return cloudMonitoringHost;
-    }
-
-    public void setCloudMonitoringHost(String cloudMonitoringHost) {
-            this.cloudMonitoringHost = cloudMonitoringHost;
     }
     
     public void setSingleTokenAccessPolicy(SingleTokenAccessPolicySpecifier singleToken) {
