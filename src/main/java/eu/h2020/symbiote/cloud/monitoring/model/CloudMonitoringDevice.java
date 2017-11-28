@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.cloud.monitoring.model;
 
-import java.util.Date;
+import java.util.List;
+
 /**
  * 
  * This class contained the device data to be monitored by the platform, contains Metrics  
@@ -21,34 +22,12 @@ public class CloudMonitoringDevice {
 	/**
 	 * is the Device Id
 	 */
-	private String type; 
-	/**
-	 * Unused in r4, is the availability value to device. 
-	 * @deprecated 
-	 */
-	private int availability;
-
-	/**
-	 * Unused in r4, is the load value to device. 
-	 * @deprecated 
-	 */
-	private int load;
-
-	/**
-	 * Unused in r4, is the date and time of the device metric in string format 
-	 * @deprecated 
-	 */
-	private String timestamp;
-		
-	/**
-	 * Is the date and time of the device metric.
-	 */
-	private Date timemetric;
+	private String type;
 	
 	/**
 	 * Array Data, is the class that includes metrics data details, in a metric list in a generic and flexible format (Tag, Value)
 	 */
-	private CloudMonitoringMetrics[] metrics;
+	private List<Metric> metrics;
 	
 	public CloudMonitoringDevice(){
 		
@@ -61,55 +40,14 @@ public class CloudMonitoringDevice {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 
-	public int getAvailability() {
-		return availability;
-	}
-
-	public void setAvailability(int availability) {
-		this.availability = availability;
-	}
-
-	public int getLoad() {
-		return load;
-	}
-
-	public void setLoad(int load) {
-		this.load = load;
-	}
-
-	public String getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public CloudMonitoringMetrics[] getMetrics() {
+	public List<Metric> getMetrics() {
 		return metrics;
 	}
 
-	public void setMetrics(CloudMonitoringMetrics[] metrics) {
+	public void setMetrics(List<Metric> metrics) {
 		this.metrics = metrics;
 	}
-
-	public Date getTimemetric() {
-		return timemetric;
-	}
-
-	public void setTimemetric(Date timemetric) {
-		this.timemetric = timemetric;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-
 
 }

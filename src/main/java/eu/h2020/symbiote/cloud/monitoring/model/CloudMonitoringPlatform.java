@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.cloud.monitoring.model;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -10,139 +10,44 @@ import java.util.Date;
  * @author: Fernando Campos
  * @version: 20/10/2017
  * 
- * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringDevice 
- * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringMetrics
+ * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringDevice
  */
 public class CloudMonitoringPlatform {
 
 	/**
 	 * Simple Data, is the Platform internal Id
 	 */
-	private String internalId;
+	private String platformId;
 	
-	/**
-	 * Simple Data, is date time send by the platform
-	 */
-	private Date timePlatform;
-
-	/**
-	 * Simple Data, is date time when monitoring component registered the object
-	 */
-	private Date timeRegister;
-	/**
-	 * Simple Data, is the Federation internal Id
-	 */
-	private String federationId;
-	
-	/**
-	 * Simple Data, is date time send by the platform
-	 */
-	private Date dateFederation;
-	
-	
-	/**
-	 * Accumulated Data, is the percentage value of available devices (availability=1) contained in this class
-	 */
-	private int avaiPlatform;
-	
-	/**
-	 * Accumulated Data, is the load media value of all devices (load=%value) contained in this class
-	 */
-	private int loadPlatform;
-
 	/**
 	 * Array Data, is the class that includes device data details, in a device list
 	 */
-	private CloudMonitoringDevice[] devices;
+	private List<CloudMonitoringDevice> metrics;
 	
-	/**
-	 * Array Data, is the class that includes metrics data details, in a metric list in a generic and flexible format (Tag, Value)
-	 * Including group segment in tag. group.metric.x, where group=group of devices.
-	 */
-	private CloudMonitoringMetrics[] metrics;
-	
-	public CloudMonitoringPlatform(){
-		
-	}
 	
 	/**
 	 * Simple Data, is the Platform internal Id
-	 * @return Platform internalId
+	 * @return Platform platformId
 	 */
-	public String getInternalId() {
-		return internalId;
+	public String getPlatformId() {
+		return platformId;
 	}
 
 
 	/**
-	 * {@link CloudMonitoringPlatform#getInternalId}
-	 * @param internalId internalId send from the Platform
+	 * {@link CloudMonitoringPlatform#getPlatformId}
+	 * @param platformId platformId send from the Platform
 	 */
-	public void setInternalId(String internalId) {
-		this.internalId = internalId;
+	public void setPlatformId(String platformId) {
+		this.platformId = platformId;
 	}
 
-	public CloudMonitoringDevice[] getDevices() {
-		return devices;
-	}
-
-	public void setDevices(CloudMonitoringDevice[] devices) {
-		this.devices = devices;
-	}
-
-	public Date getTimePlatform() {
-		return timePlatform;
-	}
-
-	public void setTimePlatform(Date timePlatform) {
-		this.timePlatform = timePlatform;
-	}
-
-	public Date getTimeRegister() {
-		return timeRegister;
-	}
-
-	public void setTimeRegister(Date timeRegister) {
-		this.timeRegister = timeRegister;
-	}
-
-	public int getAvaiPlatform() {
-		return avaiPlatform;
-	}
-
-	public void setAvaiPlatform(int avaiPlatform) {
-		this.avaiPlatform = avaiPlatform;
-	}
-
-	public int getLoadPlatform() {
-		return loadPlatform;
-	}
-
-	public void setLoadPlatform(int loadPlatform) {
-		this.loadPlatform = loadPlatform;
-	}
-
-	public String getFederationId() {
-		return federationId;
-	}
-
-	public void setFederationId(String federationId) {
-		this.federationId = federationId;
-	}
-
-	public Date getDateFederation() {
-		return dateFederation;
-	}
-
-	public void setDateFederation(Date dateFederation) {
-		this.dateFederation = dateFederation;
-	}
-
-	public CloudMonitoringMetrics[] getMetrics() {
+	
+	public List<CloudMonitoringDevice> getMetrics() {
 		return metrics;
 	}
 
-	public void setMetrics(CloudMonitoringMetrics[] metrics) {
+	public void setMetrics(List<CloudMonitoringDevice> metrics) {
 		this.metrics = metrics;
 	}
 
