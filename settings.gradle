@@ -1,1 +1,3 @@
 rootProject.name = 'SymbIoTeLibraries'
+include ':SymbIoTeSecurity'
+project(':SymbIoTeSecurity').projectDir = new File(settingsDir, '../SymbIoTeSecurity')

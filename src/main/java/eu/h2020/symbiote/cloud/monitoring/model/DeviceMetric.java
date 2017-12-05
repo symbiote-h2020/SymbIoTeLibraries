@@ -12,4 +12,5 @@ public class DeviceMetric extends Metric {
   public void setDeviceId(String deviceId) {
     this.deviceId = deviceId;
   }
+  
 }

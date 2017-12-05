@@ -9,8 +9,7 @@ import java.util.List;
  * @author: Fernando Campos
  * @version: 20/10/2017
  * 
- * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringPlatform 
- * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringMetrics
+ * @see eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringPlatform
  */
 public class CloudMonitoringDevice {
 
@@ -41,7 +40,14 @@ public class CloudMonitoringDevice {
 		this.id = id;
 	}
 	
-
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	public List<Metric> getMetrics() {
 		return metrics;
 	}
@@ -49,5 +55,7 @@ public class CloudMonitoringDevice {
 	public void setMetrics(List<Metric> metrics) {
 		this.metrics = metrics;
 	}
+	
+	
 
 }
