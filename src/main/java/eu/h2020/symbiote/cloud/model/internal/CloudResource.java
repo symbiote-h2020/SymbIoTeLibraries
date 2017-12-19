@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import eu.h2020.symbiote.cloud.model.CloudResourceParams;
 import eu.h2020.symbiote.model.cim.Resource;
-import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
+import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 
 import org.springframework.data.annotation.Id;
 
@@ -20,10 +20,8 @@ public class CloudResource  {
     //ip address of the host. Needed by Monitoring component
     @JsonProperty("cloudMonitoringHost")
     private String cloudMonitoringHost;
-    @JsonProperty("singleTokenAccessPolicy")
-    private SingleTokenAccessPolicySpecifier singleTokenAccessPolicy;
-    @JsonProperty("singleTokenFilteringPolicy")
-    private SingleTokenAccessPolicySpecifier singleTokenFilteringPolicy;
+    @JsonProperty("accessPolicy")
+    private IAccessPolicySpecifier accessPolicy;
     @JsonProperty("resource")
     Resource resource;
 
@@ -41,53 +39,45 @@ public class CloudResource  {
     public void setInternalId(String internalId) {
         this.internalId = internalId;
     }
-    
+
     public String getPluginId() {
         return pluginId;
     }
-    
+
     public void setPluginId(String pluginId) {
         this.pluginId = pluginId;
     }
-   
+
     public String getCloudMonitoringHost() {
-            return cloudMonitoringHost;
+        return cloudMonitoringHost;
     }
 
     public void setCloudMonitoringHost(String cloudMonitoringHost) {
-            this.cloudMonitoringHost = cloudMonitoringHost;
+        this.cloudMonitoringHost = cloudMonitoringHost;
     }
-    
-    public void setSingleTokenAccessPolicy(SingleTokenAccessPolicySpecifier singleToken) {
-        this.singleTokenAccessPolicy = singleToken;
+
+    public void setAccessPolicy(IAccessPolicySpecifier accessPolicySpecifier) {
+        this.accessPolicy = accessPolicy;
     }
-    
-    public SingleTokenAccessPolicySpecifier getSingleTokenAccessPolicy() {
-        return singleTokenAccessPolicy;
+
+    public IAccessPolicySpecifier getAccessPolicy() {
+        return accessPolicy;
     }
-    
-    public SingleTokenAccessPolicySpecifier getSingleTokenFilteringPolicy() {
-        return singleTokenFilteringPolicy;
-    }
-    
-    public void setSingleTokenFilteringPolicy(SingleTokenAccessPolicySpecifier singleTokenFilteringPolicy) {
-        this.singleTokenFilteringPolicy = singleTokenFilteringPolicy;
-    }
-    
+
     public Resource getResource() {
-            return resource;
+        return resource;
     }
 
     public void setResource(Resource resource) {
-            this.resource = resource;
+        this.resource = resource;
     }
 
     public CloudResourceParams getParams() {
-            return params;
+        return params;
     }
 
     public void setParams(CloudResourceParams params) {
-            this.params = params;
-    }  
-    
+        this.params = params;
+    }
+
 }
