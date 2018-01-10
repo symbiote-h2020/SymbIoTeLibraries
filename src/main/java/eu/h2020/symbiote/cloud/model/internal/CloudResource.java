@@ -25,7 +25,7 @@ public class CloudResource  {
     
     @JsonProperty("resource")
     Resource resource;
-
+    
     //Needed by Monitoring component
     @JsonProperty("params")
     CloudResourceParams params;
@@ -79,6 +79,5 @@ public class CloudResource  {
 
     public void setParams(CloudResourceParams params) {
             this.params = params;
-    }  
-    
+    }
 }

@@ -17,11 +17,7 @@ public class CloudMonitoringDevice {
 	/**
 	 * is the Device Id
 	 */
-	private String id; 
-	/**
-	 * is the Device Id
-	 */
-	private String type;
+	private String id;
 	
 	/**
 	 * Array Data, is the class that includes metrics data details, in a metric list in a generic and flexible format (Tag, Value)
@@ -38,14 +34,6 @@ public class CloudMonitoringDevice {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
-	public void setType(String type) {
-		this.type = type;
 	}
 	
 	public List<Metric> getMetrics() {
