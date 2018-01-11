@@ -2,7 +2,9 @@ package eu.h2020.symbiote.cloud.model;
 
 import eu.h2020.symbiote.cloud.model.internal.CloudResource;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FederatedResource {
 	
@@ -12,11 +14,11 @@ public class FederatedResource {
 	private String idFederation;
 
 	/*
-	 * Is the date in which the resource was shared with the federation
+	 * Is the date in which the resources was shared with the federation
 	 */
 	private Date sharingDate;
 	
-	private CloudResource resource;
+	private List<CloudResource> resources = new ArrayList<>();
 
 	
 	public String getIdFederation() {
@@ -32,11 +34,11 @@ public class FederatedResource {
 		this.sharingDate = sharingDate;
 	}
 	
-	public CloudResource getResource() {
-		return resource;
+	public List<CloudResource> getResources() {
+		return resources;
 	}
 	
-	public void setResource(CloudResource resource) {
-		this.resource = resource;
+	public void setResources(List<CloudResource> resources) {
+		this.resources = resources;
 	}
 }
