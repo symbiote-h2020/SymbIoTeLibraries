@@ -199,4 +199,13 @@ public class ResourceManagerTaskInfoRequest {
                 && Objects.equals(this.getEnablerLogicName(), request.getEnablerLogicName())
                 && Objects.equals(this.getSparqlQueryRequest(), request.getSparqlQueryRequest());
     }
+
+	@Override
+	public String toString() {
+		return "ResourceManagerTaskInfoRequest [taskId=" + taskId + ", minNoResources=" + minNoResources
+				+ ", maxNoResources=" + maxNoResources + ", coreQueryRequest=" + coreQueryRequest + ", queryInterval="
+				+ queryInterval + ", allowCaching=" + allowCaching + ", cachingInterval=" + cachingInterval
+				+ ", informPlatformProxy=" + informPlatformProxy + ", enablerLogicName=" + enablerLogicName
+				+ ", sparqlQueryRequest=" + sparqlQueryRequest + "]";
+	}
 }

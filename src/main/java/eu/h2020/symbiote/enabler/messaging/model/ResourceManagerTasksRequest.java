@@ -20,4 +20,10 @@ public class ResourceManagerTasksRequest {
 
     public List<ResourceManagerTaskInfoRequest> getTasks() { return tasks; }
     public void setTasks(List<ResourceManagerTaskInfoRequest> tasks) { this.tasks = tasks; }
+
+    
+	@Override
+	public String toString() {
+		return "ResourceManagerTasksRequest [tasks=" + tasks + "]";
+	}
 }
