@@ -11,7 +11,7 @@ import eu.h2020.symbiote.model.cim.Resource;
 
 /**
  *
- * @author Matteo Pardi <m.pardi@nextworks.it>
+ * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
  */
 public class UpdateResourceMessage extends ResourceRegistrationMessage {
     @JsonProperty("host")

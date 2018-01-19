@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Michael Jacoby <michael.jacoby@iosb.fraunhofer.de>
+ * @author <a href="mailto:michael.jacoby@iosb.fraunhofer.de">Michael Jacoby</a>
  */
 public class Sensor extends Device {
     private List<String> observesProperty;
