@@ -1,11 +1,11 @@
 package eu.h2020.symbiote.model.mim;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.data.annotation.Id;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author RuggenthalerC
@@ -23,8 +23,8 @@ public class Federation {
     @JsonProperty("public")
     private boolean isPublic = true;
 
-    @JsonProperty("slaDefinition")
-    private String slaDefinition;
+    @JsonProperty("slaConstraints")
+    private List<QoSConstraint> slaConstraints;
 
     @JsonProperty("members")
     private List<FederationMember> members = new ArrayList<>();
@@ -41,8 +41,8 @@ public class Federation {
         return this.isPublic;
     }
 
-    public String getSlaDefinition() {
-        return this.slaDefinition;
+    public List<QoSConstraint> getSlaConstraints() {
+        return this.slaConstraints;
     }
 
     public List<FederationMember> getMembers() {
@@ -61,8 +61,8 @@ public class Federation {
         this.isPublic = isPublic;
     }
 
-    public void setSlaDefinition(String slaDefinition) {
-        this.slaDefinition = slaDefinition;
+    public void setSlaConstraints(List<QoSConstraint> slaConstraints) {
+        this.slaConstraints = slaConstraints;
     }
 
     public void setMembers(List<FederationMember> members) {
