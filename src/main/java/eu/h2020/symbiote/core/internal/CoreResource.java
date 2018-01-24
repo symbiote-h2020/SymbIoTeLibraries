@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.model.cim.Resource;
-import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
+import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 
 /**
  * Core layer internal representation of the resource. Extends the generic Resource description with RDF representation of the resource.
@@ -15,7 +15,7 @@ public class CoreResource extends Resource {
     private RDFFormat rdfFormat;
     private String rdf;
     private CoreResourceType type;
-    private SingleTokenAccessPolicySpecifier policySpecifier;
+    private IAccessPolicySpecifier policySpecifier;
 
     public CoreResource() {
         // Empty constructor
@@ -45,11 +45,11 @@ public class CoreResource extends Resource {
         this.type = type;
     }
 
-    public SingleTokenAccessPolicySpecifier getPolicySpecifier() {
+    public IAccessPolicySpecifier getPolicySpecifier() {
         return policySpecifier;
     }
 
-    public void setPolicySpecifier(SingleTokenAccessPolicySpecifier policySpecifier) {
+    public void setPolicySpecifier(IAccessPolicySpecifier policySpecifier) {
         this.policySpecifier = policySpecifier;
     }
 }

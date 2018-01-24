@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.core.cci;
 
 import eu.h2020.symbiote.core.internal.RDFInfo;
-import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
+import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class RDFResourceRegistryRequest extends AbstractRequest<RDFInfo> {
 
     private String interworkingServiceUrl;
 
-    private Map<String,SingleTokenAccessPolicySpecifier> filteringPolicies;
+    private Map<String, IAccessPolicySpecifier> filteringPolicies;
 
     public RDFResourceRegistryRequest(RDFInfo body, String interworkingServiceUrl) {
         super(body);
@@ -39,11 +39,11 @@ public class RDFResourceRegistryRequest extends AbstractRequest<RDFInfo> {
         this.interworkingServiceUrl = interworkingServiceUrl;
     }
 
-    public Map<String, SingleTokenAccessPolicySpecifier> getFilteringPolicies() {
+    public Map<String, IAccessPolicySpecifier> getFilteringPolicies() {
         return filteringPolicies;
     }
 
-    public void setFilteringPolicies(Map<String, SingleTokenAccessPolicySpecifier> filteringPolicies) {
+    public void setFilteringPolicies(Map<String, IAccessPolicySpecifier> filteringPolicies) {
         this.filteringPolicies = filteringPolicies;
     }
 }

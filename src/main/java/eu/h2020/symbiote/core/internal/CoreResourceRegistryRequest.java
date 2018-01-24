@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.core.cci.AbstractRequestSecured;
-import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
+import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 import java.util.Map;
@@ -17,13 +17,13 @@ public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> 
     private DescriptionType descriptionType;
     private String platformId;
 
-    private Map<String,SingleTokenAccessPolicySpecifier> filteringPolicies;
+    private Map<String, IAccessPolicySpecifier> filteringPolicies;
 
     public CoreResourceRegistryRequest() {
         // Needed for Jackson serialization
     }
 
-    public CoreResourceRegistryRequest(SecurityRequest securityRequest, String body, DescriptionType descriptionType, String platformId, Map<String,SingleTokenAccessPolicySpecifier> filteringPolicies ) {
+    public CoreResourceRegistryRequest(SecurityRequest securityRequest, String body, DescriptionType descriptionType, String platformId, Map<String, IAccessPolicySpecifier> filteringPolicies) {
         super(securityRequest, body);
         this.descriptionType = descriptionType;
         this.platformId = platformId;
@@ -46,11 +46,11 @@ public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> 
         this.platformId = platformId;
     }
 
-    public Map<String, SingleTokenAccessPolicySpecifier> getFilteringPolicies() {
+    public Map<String, IAccessPolicySpecifier> getFilteringPolicies() {
         return filteringPolicies;
     }
 
-    public void setFilteringPolicies(Map<String, SingleTokenAccessPolicySpecifier> filteringPolicies) {
+    public void setFilteringPolicies(Map<String, IAccessPolicySpecifier> filteringPolicies) {
         this.filteringPolicies = filteringPolicies;
     }
 }

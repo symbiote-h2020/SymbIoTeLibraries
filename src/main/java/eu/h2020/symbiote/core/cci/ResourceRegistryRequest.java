@@ -2,7 +2,7 @@ package eu.h2020.symbiote.core.cci;
 
 
 import eu.h2020.symbiote.model.cim.Resource;
-import eu.h2020.symbiote.security.accesspolicies.common.singletoken.SingleTokenAccessPolicySpecifier;
+import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 
 import java.util.Map;
 
@@ -18,7 +18,7 @@ import java.util.Map;
 public class ResourceRegistryRequest extends AbstractRequest<Map<String, Resource>> {
 
 
-    private Map<String,SingleTokenAccessPolicySpecifier> filteringPolicies;
+    private Map<String, IAccessPolicySpecifier> filteringPolicies;
 
     public ResourceRegistryRequest(Map<String, Resource> body) {
         super(body);
@@ -28,11 +28,11 @@ public class ResourceRegistryRequest extends AbstractRequest<Map<String, Resourc
         // Needed for Jackson serialization
     }
 
-    public Map<String, SingleTokenAccessPolicySpecifier> getFilteringPolicies() {
+    public Map<String, IAccessPolicySpecifier> getFilteringPolicies() {
         return filteringPolicies;
     }
 
-    public void setFilteringPolicies(Map<String, SingleTokenAccessPolicySpecifier> filteringPolicies) {
+    public void setFilteringPolicies(Map<String, IAccessPolicySpecifier> filteringPolicies) {
         this.filteringPolicies = filteringPolicies;
     }
 }
