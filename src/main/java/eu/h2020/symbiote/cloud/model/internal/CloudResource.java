@@ -17,14 +17,16 @@ public class CloudResource  {
     private String internalId;
     @JsonProperty("pluginId")
     private String pluginId;
+
     //ip address of the host. Needed by Monitoring component
     @JsonProperty("cloudMonitoringHost")
     private String cloudMonitoringHost;
     @JsonProperty("accessPolicy")
     private IAccessPolicySpecifier accessPolicy;
+
     @JsonProperty("resource")
     Resource resource;
-
+    
     //Needed by Monitoring component
     @JsonProperty("params")
     CloudResourceParams params;

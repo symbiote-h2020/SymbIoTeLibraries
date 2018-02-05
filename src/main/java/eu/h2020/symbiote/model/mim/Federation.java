@@ -10,62 +10,73 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author RuggenthalerC
  *
- * Main object to represent one federation.
+ *         Main object to represent one federation.
  */
 public class Federation {
-    @Id
-    @JsonProperty("id")
-    private String id;
+	@Id
+	@JsonProperty("id")
+	private String id;
 
-    @JsonProperty("name")
-    private String name;
+	@JsonProperty("name")
+	private String name;
 
-    @JsonProperty("public")
-    private boolean isPublic = true;
+	@JsonProperty("public")
+	private boolean isPublic = true;
 
-    @JsonProperty("slaDefinition")
-    private String slaDefinition;
+	@JsonProperty("informationModel")
+	private InformationModel informationModel;
 
-    @JsonProperty("members")
-    private List<FederationMember> members = new ArrayList<>();
+	@JsonProperty("slaConstraints")
+	private List<QoSConstraint> slaConstraints;
 
-    public String getId() {
-        return this.id;
-    }
+	@JsonProperty("members")
+	private List<FederationMember> members = new ArrayList<>();
 
-    public String getName() {
-        return this.name;
-    }
+	public String getId() {
+		return this.id;
+	}
 
-    public boolean isPublic() {
-        return this.isPublic;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public String getSlaDefinition() {
-        return this.slaDefinition;
-    }
+	public boolean isPublic() {
+		return this.isPublic;
+	}
 
-    public List<FederationMember> getMembers() {
-        return this.members;
-    }
+	public List<QoSConstraint> getSlaConstraints() {
+		return this.slaConstraints;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public List<FederationMember> getMembers() {
+		return this.members;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setPublic(boolean isPublic) {
-        this.isPublic = isPublic;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setSlaDefinition(String slaDefinition) {
-        this.slaDefinition = slaDefinition;
-    }
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
 
-    public void setMembers(List<FederationMember> members) {
-        this.members = members;
-    }
+	public void setSlaConstraints(List<QoSConstraint> slaConstraints) {
+		this.slaConstraints = slaConstraints;
+	}
+
+	public void setMembers(List<FederationMember> members) {
+		this.members = members;
+	}
+
+	public InformationModel getInformationModel() {
+		return this.informationModel;
+	}
+
+	public void setInformationModel(InformationModel informationModel) {
+		this.informationModel = informationModel;
+	}
 }

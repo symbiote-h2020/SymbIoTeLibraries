@@ -16,6 +16,9 @@ public class Capability {
 
     @JsonProperty("effects")
     private List<Effect> effects;
+    
+    @JsonProperty("name")
+    private String name;
 
     public List<Parameter> getParameters() {
         return parameters;
@@ -32,4 +35,13 @@ public class Capability {
     public void setEffects(List<Effect> effects) {
         this.effects = effects;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }

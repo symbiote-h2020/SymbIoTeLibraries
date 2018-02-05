@@ -1,18 +1,21 @@
 package eu.h2020.symbiote.unit.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import eu.h2020.symbiote.model.mim.Comparator;
 import eu.h2020.symbiote.model.mim.Federation;
 import eu.h2020.symbiote.model.mim.FederationMember;
+import eu.h2020.symbiote.model.mim.QoSConstraint;
+import eu.h2020.symbiote.model.mim.QoSMetric;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class FederationTest {
@@ -24,7 +27,16 @@ public class FederationTest {
 		fed.setId("fedId");
 		fed.setName("fedName");
 		fed.setPublic(false);
-		fed.setSlaDefinition("FedSla");
+		
+		List<QoSConstraint> constraints = new ArrayList<>();
+		
+		QoSConstraint availability = new QoSConstraint();
+		availability.setMetric(QoSMetric.availability);
+		availability.setComparator(Comparator.greaterThanOrEqual);
+		availability.setThreshold(90.0);
+		constraints.add(availability);
+		
+		fed.setSlaConstraints(constraints);
 
 		List<FederationMember> members = new ArrayList<FederationMember>();
 		members.add(new FederationMember("123", "/url/123"));
@@ -38,13 +50,20 @@ public class FederationTest {
 		Assert.assertTrue(serialFed.endsWith("}"));
 		Assert.assertTrue(serialFed.contains("\"id\":" + "\"" + fed.getId() + "\""));
 		Assert.assertTrue(serialFed.contains("\"name\":" + "\"" + fed.getName() + "\""));
-		Assert.assertTrue(serialFed.contains("\"slaDefinition\":" + "\"" + fed.getSlaDefinition() + "\""));
+		Assert.assertTrue(serialFed.contains("\"slaConstraints\":"));
 		Assert.assertTrue(serialFed.contains("\"public\":" + fed.isPublic()));
 
 		fed.getMembers().forEach(member -> {
 			Assert.assertTrue(serialFed
 					.contains("\"platformId\":\"" + member.getPlatformId() + "\",\"interworkingServiceURL\":\"" + member.getInterworkingServiceURL() + "\"}"));
 		});
+		
+		fed.getSlaConstraints().forEach(constraint -> {
+			Assert.assertTrue(serialFed.contains("\"metric\":\"" + constraint.getMetric().toString() + "\""));
+			Assert.assertTrue(serialFed.contains("\"comparator\":\"" + constraint.getComparator().toString() + "\""));
+			Assert.assertTrue(serialFed.contains("\"threshold\":" + constraint.getThreshold()));
+		});
+		
 		Assert.assertEquals(2, fed.getMembers().size());
 	}
 
