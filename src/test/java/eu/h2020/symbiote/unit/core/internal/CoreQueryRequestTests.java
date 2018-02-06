@@ -2,7 +2,6 @@ package eu.h2020.symbiote.unit.core.internal;
 
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,7 @@ public class CoreQueryRequestTests {
                 .locationLat(123.0)
                 .locationLong(456.0)
                 .maxDistance(10)
-                .observedProperty(Arrays.asList("p1", "p2"))
+                .observedProperty(Arrays.asList("p1 2", "p2"))
                 .resourceType("type")
                 .shouldRank(Boolean.FALSE)
                 .build();
@@ -40,18 +39,18 @@ public class CoreQueryRequestTests {
         String symbioteUrl = "http://example.com";
         String expectedAnswer = symbioteUrl + "/query?platform_id=pId&platform_name=pName&owner=owner&name=name"
                 + "&id=id&description=desc&location_name=lName&location_lat=123.0&location_long=456.0&max_distance=10"
-                + "&observed_property=p1,p2&resource_type=type&should_rank=false";
+                + "&observed_property=p1%202,p2&resource_type=type&should_rank=false";
 
         log.info("coreQueryRequest.buildQuery(symbioteUrl) = " + coreQueryRequest.buildQuery(symbioteUrl));
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
 
         coreQueryRequest = new CoreQueryRequest.Builder()
                 .name("name")
-                .observedProperty(Arrays.asList("p1", "p2"))
+                .observedProperty(Arrays.asList("p1 ", "p2"))
                 .shouldRank(Boolean.FALSE)
                 .build();
 
-        expectedAnswer = symbioteUrl + "/query?name=name&observed_property=p1,p2&should_rank=false";
+        expectedAnswer = symbioteUrl + "/query?name=name&observed_property=p1%20,p2&should_rank=false";
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
 
         coreQueryRequest = new CoreQueryRequest.Builder()

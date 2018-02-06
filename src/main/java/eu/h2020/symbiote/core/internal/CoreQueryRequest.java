@@ -188,7 +188,8 @@ public class CoreQueryRequest {
     }
 
     public String buildQuery(String symbioteCoreUrl) {
-        String url = symbioteCoreUrl + "/query?";
+        StringBuilder url = new StringBuilder(symbioteCoreUrl);
+        url.append("/query?");
         boolean isFirstParameter = true;
 
         Field[] allFields = this.getClass().getDeclaredFields();
@@ -212,18 +213,19 @@ public class CoreQueryRequest {
                         if (isFirstParameter)
                             isFirstParameter = false;
                         else {
-                            url += "&";
+                            url.append("&");
                         }
-                        url += fieldName + "=";
+                        url.append(fieldName).append("=");
 
                         for (Object o : listOfObjects) {
-                            url += o + ",";
+                            url.append(o).append(",");
 
                         }
-                        url = url.substring(0, url.length() - 1);
+                        url.deleteCharAt(url.length() - 1);
                     }
 
                 } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                    e.printStackTrace();
                 }
 
             } else {
@@ -236,17 +238,18 @@ public class CoreQueryRequest {
                         if (isFirstParameter)
                             isFirstParameter = false;
                         else {
-                            url += "&";
+                            url.append("&");
                         }
-                        url += fieldName + "=" + value;
+                        url.append(fieldName).append("=").append(value);
                     }
                 } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                    e.printStackTrace();
                 }
             }
 
         }
 
-        return url;
+        return url.toString().replaceAll(" ", "%20");
     }
 
 
