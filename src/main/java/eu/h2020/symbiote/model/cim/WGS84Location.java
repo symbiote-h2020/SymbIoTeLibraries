@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
+ * @author <a href="mailto:aleksandar.antonic@fer.hr">Aleksandar Antonic</a>
  */
 public class WGS84Location extends Location {
     

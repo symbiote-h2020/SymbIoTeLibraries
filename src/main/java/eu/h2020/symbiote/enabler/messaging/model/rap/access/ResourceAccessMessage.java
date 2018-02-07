@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 /**
  *
- * @author Matteo Pardi <m.pardi@nextworks.it>
+ * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
  * 
  * Class modeling a message exchanged on the queue from the RAP to the plugin-RAP
  * in order to access to a resource through the platform layer

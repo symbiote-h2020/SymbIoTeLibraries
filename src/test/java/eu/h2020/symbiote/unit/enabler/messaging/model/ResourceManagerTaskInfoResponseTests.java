@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.unit.enabler.messaging.model;
 
+import eu.h2020.symbiote.core.ci.QueryResourceResult;
+import eu.h2020.symbiote.core.ci.QueryResponse;
 import eu.h2020.symbiote.core.ci.SparqlQueryOutputFormat;
 import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
@@ -39,30 +41,14 @@ public class ResourceManagerTaskInfoResponseTests {
                 .securityRequest(new SecurityRequest("token"))
                 .build();
 
-        ResourceManagerTaskInfoRequest request = new ResourceManagerTaskInfoRequest();
-        request.setTaskId("1");
-        request.setMinNoResources(5);
-        request.setCoreQueryRequest(coreQueryRequest);
-        request.setAllowCaching(true);
-        request.setInformPlatformProxy(true);
-        request.setEnablerLogicName("enablerLogic");
-
-        try {
-            request.setQueryInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            request.setCachingInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        ResourceManagerTaskInfoRequest request = new ResourceManagerTaskInfoRequest("1", 5, coreQueryRequest, "P0-0-0T0:0:0.01",
+                true, "P0-0-0T0:0:0.01", true, "enablerLogic", null);
 
         ResourceManagerTaskInfoResponse response = new ResourceManagerTaskInfoResponse(request);
-        
+
         assertEquals(request.getTaskId(), response.getTaskId());
         assertEquals(request.getMinNoResources(), response.getMinNoResources());
+        assertEquals(request.getMaxNoResources(), response.getMaxNoResources());
         assertEquals(true, response.getCoreQueryRequest().equals(request.getCoreQueryRequest()));
         assertEquals(request.getQueryInterval(), response.getQueryInterval());
         assertEquals(request.getAllowCaching(), response.getAllowCaching());
@@ -119,28 +105,10 @@ public class ResourceManagerTaskInfoResponseTests {
                 .securityRequest(new SecurityRequest("token"))
                 .build();
 
-        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse();
-        response1.setTaskId("1");
-        response1.setMinNoResources(5);
-        response1.setCoreQueryRequest(coreQueryRequest);
-        response1.setSparqlQueryRequest(new SparqlQueryRequest("sparqlQuery", SparqlQueryOutputFormat.JSON));
-        response1.setAllowCaching(true);
-        response1.setInformPlatformProxy(true);
-        response1.setEnablerLogicName("enablerLogic");
-        response1.setStatus(ResourceManagerTaskInfoResponseStatus.SUCCESS);
-        response1.setMessage("success");
-        response1.setResourceIds(new ArrayList<>());
-        try {
-            response1.setQueryInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            response1.setCachingInterval("P0-0-0T0:0:0.01");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 5, coreQueryRequest,
+                "P0-0-0T0:0:0.01", true, "P0-0-0T0:0:0.01", true,
+                "enablerLogic", new SparqlQueryRequest(), new ArrayList<>(), new ArrayList<>(),
+                ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
 
@@ -155,6 +123,7 @@ public class ResourceManagerTaskInfoResponseTests {
         assertEquals(response1.getEnablerLogicName(), response2.getEnablerLogicName());
         assertEquals(response1.getMessage(), response2.getMessage());
         assertEquals(response1.getResourceIds(), response2.getResourceIds());
+        assertEquals(response1.getResourceDescriptions(), response2.getResourceDescriptions());
         assertEquals(response1.getStatus(), response2.getStatus());
 
         response2.getCoreQueryRequest().setObserved_property(Arrays.asList("p1", "p2", "p3"));
@@ -190,16 +159,27 @@ public class ResourceManagerTaskInfoResponseTests {
                 .locationName("Zurich")
                 .observedProperty(Arrays.asList("temperature", "humidity"))
                 .build();
+
         ArrayList<String> resourceIds = new ArrayList<>();
         resourceIds.add("1");
         resourceIds.add("2");
+
+        ArrayList<QueryResourceResult> resourceDescriptions = new ArrayList<>();
+        QueryResourceResult result1 = new QueryResourceResult();
+        result1.setId("1");
+        QueryResourceResult result2 = new QueryResourceResult();
+        result2.setId("2");
+        resourceDescriptions.add(result1);
+        resourceDescriptions.add(result2);
+
         SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("response1",
                 SparqlQueryOutputFormat.COUNT);
         
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
-                true, "TestEnablerLogic", sparqlQueryRequest, resourceIds,
+                true, "TestEnablerLogic", sparqlQueryRequest, resourceIds, resourceDescriptions,
                 ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
+        response1.setMaxNoResources(6);
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
         assertEquals(true, response1.equals(response2));
@@ -264,10 +244,16 @@ public class ResourceManagerTaskInfoResponseTests {
         response2.getSparqlQueryRequest().setOutputFormat(response1.getSparqlQueryRequest().getOutputFormat());
         assertEquals(true, response1.equals(response2));
 
-        response2.getResourceIds().add("3");
+        response2.getResourceIds().set(0, "3");
         assertEquals(2, response1.getResourceIds().size());
         assertEquals(false, response1.equals(response2));
-        response2.setResourceIds(response1.getResourceIds());
+        response2.getResourceIds().set(0, "1");
+        assertEquals(true, response1.equals(response2));
+
+        response2.getResourceDescriptions().get(0).setId("3");
+        assertEquals(2, response1.getResourceIds().size());
+        assertEquals(false, response1.equals(response2));
+        response2.getResourceDescriptions().get(0).setId("1");
         assertEquals(true, response1.equals(response2));
 
         response2.setStatus(ResourceManagerTaskInfoResponseStatus.FAILED);

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
- * @author Matteo Pardi <m.pardi@nextworks.it>
+ * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
  */
 public class RegisterPluginMessage extends PluginRegistrationMessage {
     @JsonProperty("hasFilters")

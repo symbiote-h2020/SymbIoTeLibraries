@@ -23,11 +23,6 @@ public class CoreResourceRegistryRequest extends AbstractRequestSecured<String> 
         // Needed for Jackson serialization
     }
 
-    /**
-     * @param securityRequest
-     * @param body
-     * @param descriptionType
-     */
     public CoreResourceRegistryRequest(SecurityRequest securityRequest, String body, DescriptionType descriptionType, String platformId, Map<String,SingleTokenAccessPolicySpecifier> filteringPolicies ) {
         super(securityRequest, body);
         this.descriptionType = descriptionType;

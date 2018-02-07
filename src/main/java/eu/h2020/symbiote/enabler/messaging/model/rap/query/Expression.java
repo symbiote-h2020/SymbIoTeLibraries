@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
  *
- * @author Matteo Pardi <m.pardi@nextworks.it>
+ * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
  */
 public class Expression extends Query {
 

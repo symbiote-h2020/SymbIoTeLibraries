@@ -9,7 +9,7 @@ import eu.h2020.symbiote.core.cci.AbstractResponseSecured;
 
 /**
  *
- * @author Matteo Pardi <m.pardi@nextworks.it>
+ * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
  */
 public class CloudMonitoringPlatformResponse extends AbstractResponseSecured<CloudMonitoringPlatform> {
 

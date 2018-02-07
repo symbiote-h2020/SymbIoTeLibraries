@@ -22,6 +22,8 @@ public class CloudResource  {
     private String cloudMonitoringHost;
     @JsonProperty("singleTokenAccessPolicy")
     private SingleTokenAccessPolicySpecifier singleTokenAccessPolicy;
+    @JsonProperty("singleTokenFilteringPolicy")
+    private SingleTokenAccessPolicySpecifier singleTokenFilteringPolicy;
     @JsonProperty("resource")
     Resource resource;
 
@@ -63,7 +65,15 @@ public class CloudResource  {
     public SingleTokenAccessPolicySpecifier getSingleTokenAccessPolicy() {
         return singleTokenAccessPolicy;
     }
-
+    
+    public SingleTokenAccessPolicySpecifier getSingleTokenFilteringPolicy() {
+        return singleTokenFilteringPolicy;
+    }
+    
+    public void setSingleTokenFilteringPolicy(SingleTokenAccessPolicySpecifier singleTokenFilteringPolicy) {
+        this.singleTokenFilteringPolicy = singleTokenFilteringPolicy;
+    }
+    
     public Resource getResource() {
             return resource;
     }

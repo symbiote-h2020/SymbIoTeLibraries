@@ -13,7 +13,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Aleksandar Antonic <aleksandar.antonic@fer.hr>
+ * @author <a href="mailto:aleksandar.antonic@fer.hr">Aleksandar Antonic</a>
  */
 public class Observation {
 
@@ -25,7 +25,7 @@ public class Observation {
     private final String resultTime;
     @JsonProperty("samplingTime")
     private final String samplingTime;
-    @JsonProperty("obsValue")
+    @JsonProperty("obsValues")
     private final List<ObservationValue> obsValues;
 
     @JsonCreator

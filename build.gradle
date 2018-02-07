@@ -71,7 +71,15 @@ dependencies {
 // code quality below
 task generateJavaDocs(type: Javadoc) {
     source = sourceSets.main.allJava
+    classpath = configurations.compileClasspath
     destinationDir = reporting.file("javadocs")
+
+    options {
+        setMemberLevel JavadocMemberLevel.PUBLIC
+        setAuthor true
+
+        links "https://docs.oracle.com/javase/8/docs/api/"
+    }
 }
 
 // jacoco configuration section

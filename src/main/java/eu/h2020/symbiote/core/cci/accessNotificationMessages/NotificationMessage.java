@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author Luca Tomaselli <l.tomaselli@nextworks.it>
+ * @author <a href="mailto:l.tomaselli@nextworks.it">Luca Tomaselli</a>
  */
 public class NotificationMessage {
     @JsonProperty("successfulAttempts")

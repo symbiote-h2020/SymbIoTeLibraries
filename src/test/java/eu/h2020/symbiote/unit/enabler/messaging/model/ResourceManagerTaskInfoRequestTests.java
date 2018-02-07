@@ -5,9 +5,9 @@ import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTaskInfoRequest;
 import eu.h2020.symbiote.util.IntervalFormatter;
+
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -23,16 +23,14 @@ public class ResourceManagerTaskInfoRequestTests {
                 .locationName("Zurich")
                 .observedProperty(Arrays.asList("temperature", "humidity"))
                 .build();
-        ArrayList<String> resourceIds = new ArrayList<>();
-        resourceIds.add("1");
-        resourceIds.add("2");
+
         SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("request1",
                 SparqlQueryOutputFormat.COUNT);
 
         ResourceManagerTaskInfoRequest request1 = new ResourceManagerTaskInfoRequest("1", 2,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
                 true, "TestEnablerLogic", sparqlQueryRequest);
-
+        request1.setMaxNoResources(6);
         ResourceManagerTaskInfoRequest request2 = new ResourceManagerTaskInfoRequest(request1);
         assertEquals(true, request1.equals(request2));
 
@@ -46,6 +44,12 @@ public class ResourceManagerTaskInfoRequestTests {
         assertEquals(2, (int) request1.getMinNoResources());
         assertEquals(false, request1.equals(request2));
         request2.setMinNoResources(request1.getMinNoResources());
+        assertEquals(true, request1.equals(request2));
+
+        request2.setMaxNoResources(5);
+        assertEquals(6, (int) request1.getMaxNoResources());
+        assertEquals(false, request1.equals(request2));
+        request2.setMaxNoResources(request1.getMaxNoResources());
         assertEquals(true, request1.equals(request2));
 
         request2.getCoreQueryRequest().setLocation_name("Athens");

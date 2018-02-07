@@ -11,7 +11,7 @@ import eu.h2020.symbiote.cloud.model.internal.CloudResource;
 
 /**
  *
- * @author Matteo Pardi <m.pardi@nextworks.it>
+ * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
  */
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)

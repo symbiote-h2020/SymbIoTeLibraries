@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Represents return value from using service resource.
  * 
- * @author Mario Kušek <mario.kusek@fer.hr>
+ * @author <a href="mailto:mario.kusek@fer.hr">Mario Kušek</a>
  *
  * @param <D> concrete result of service
  */
