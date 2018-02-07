@@ -24,6 +24,7 @@ public class CoreQueryRequest {
     private Double location_long;
     private Integer max_distance;
     private List<String> observed_property;
+    private List<String> observed_property_iri;
     private String resource_type;
     private SecurityRequest securityRequest;
     private Boolean should_rank;
@@ -38,6 +39,7 @@ public class CoreQueryRequest {
     public CoreQueryRequest(String platform_id, String platform_name, String owner, String name,
                             String id, String description, String location_name, Double location_lat,
                             Double location_long, Integer max_distance, List<String> observed_property,
+                            List<String> observed_property_iri,
                             String resource_type, SecurityRequest securityRequest, Boolean should_rank) {
         // Needed for Builder
         this.platform_id = platform_id;
@@ -51,6 +53,7 @@ public class CoreQueryRequest {
         this.location_long = location_long;
         this.max_distance = max_distance;
         this.observed_property = observed_property;
+        this.observed_property_iri = observed_property_iri;
         this.resource_type = resource_type;
         this.securityRequest = securityRequest;
         this.should_rank = should_rank;
@@ -69,6 +72,7 @@ public class CoreQueryRequest {
                 .locationLong(coreQueryRequest.getLocation_long())
                 .maxDistance(coreQueryRequest.getMax_distance())
                 .observedProperty(coreQueryRequest.getObserved_property())
+                .observedPropertyIri(coreQueryRequest.getObserved_property_iri())
                 .resourceType(coreQueryRequest.getResource_type())
                 .securityRequest(coreQueryRequest.getSecurityRequest())
                 .shouldRank(coreQueryRequest.getShould_rank())
@@ -153,6 +157,14 @@ public class CoreQueryRequest {
 
     public void setMax_distance(Integer max_distance) {
         this.max_distance = max_distance;
+    }
+
+    public List<String> getObserved_property_iri() {
+        return observed_property_iri;
+    }
+
+    public void setObserved_property_iri(List<String> observed_property_iri) {
+        this.observed_property_iri = observed_property_iri;
     }
 
     public List<String> getObserved_property() {
@@ -266,6 +278,7 @@ public class CoreQueryRequest {
         private Double builder_location_long;
         private Integer builder_max_distance;
         private List<String> builder_observed_property;
+        private List<String> builder_observed_property_iri;
         private String builder_resource_type;
         private SecurityRequest builder_securityRequest;
         private Boolean builder_should_rank;
@@ -329,6 +342,11 @@ public class CoreQueryRequest {
             return this;
         }
 
+        public Builder observedPropertyIri(List<String> observed_property_iri) {
+            this.builder_observed_property_iri = observed_property_iri;
+            return this;
+        }
+
         public Builder resourceType(String resource_type) {
             this.builder_resource_type = resource_type;
             return this;
@@ -347,7 +365,7 @@ public class CoreQueryRequest {
         public CoreQueryRequest build() {
             return new CoreQueryRequest(builder_platform_id, builder_platform_name, builder_owner, builder_name,
                     builder_id, builder_description, builder_location_name, builder_location_lat,
-                    builder_location_long, builder_max_distance, builder_observed_property,
+                    builder_location_long, builder_max_distance, builder_observed_property, builder_observed_property_iri,
                     builder_resource_type, builder_securityRequest, builder_should_rank);
         }
     }
@@ -379,6 +397,7 @@ public class CoreQueryRequest {
                 && Objects.equals(location_long, coreQueryRequest.location_long)
                 && Objects.equals(max_distance, coreQueryRequest.max_distance)
                 && Objects.equals(observed_property, coreQueryRequest.observed_property)
+                && Objects.equals(observed_property_iri, coreQueryRequest.observed_property_iri)
                 && Objects.equals(resource_type, coreQueryRequest.resource_type)
                 && Objects.equals(securityRequest, coreQueryRequest.securityRequest)
                 && Objects.equals(should_rank,coreQueryRequest.should_rank);
