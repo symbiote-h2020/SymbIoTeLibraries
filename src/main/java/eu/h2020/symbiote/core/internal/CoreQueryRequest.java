@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * POJO describing a query for resources.
@@ -39,24 +40,24 @@ public class CoreQueryRequest {
     public CoreQueryRequest(String platform_id, String platform_name, String owner, String name,
                             String id, String description, String location_name, Double location_lat,
                             Double location_long, Integer max_distance, List<String> observed_property,
-                            List<String> observed_property_iri,
-                            String resource_type, SecurityRequest securityRequest, Boolean should_rank) {
+                            List<String> observed_property_iri, String resource_type,
+                            SecurityRequest securityRequest, Boolean should_rank) {
         // Needed for Builder
-        this.platform_id = platform_id;
-        this.platform_name = platform_name;
-        this.owner = owner;
-        this.name = name;
-        this.id = id;
-        this.description = description;
-        this.location_name = location_name;
-        this.location_lat = location_lat;
-        this.location_long = location_long;
-        this.max_distance = max_distance;
-        this.observed_property = observed_property;
-        this.observed_property_iri = observed_property_iri;
-        this.resource_type = resource_type;
-        this.securityRequest = securityRequest;
-        this.should_rank = should_rank;
+        setPlatform_id(platform_id);
+        setPlatform_name(platform_name);
+        setOwner(owner);
+        setName(name);
+        setId(id);
+        setDescription(description);
+        setLocation_name(location_name);
+        setLocation_lat(location_lat);
+        setLocation_long(location_long);
+        setMax_distance(max_distance);
+        setObserved_property(observed_property);
+        setObserved_property_iri(observed_property_iri);
+        setResource_type(resource_type);
+        setSecurityRequest(securityRequest);
+        setShould_rank(should_rank);
     }
 
     public static CoreQueryRequest newInstance(CoreQueryRequest coreQueryRequest) {
@@ -82,7 +83,6 @@ public class CoreQueryRequest {
     public String getPlatform_id() {
         return platform_id;
     }
-
     public void setPlatform_id(String platform_id) {
         this.platform_id = platform_id;
     }
@@ -90,7 +90,6 @@ public class CoreQueryRequest {
     public String getPlatform_name() {
         return platform_name;
     }
-
     public void setPlatform_name(String platform_name) {
         this.platform_name = platform_name;
     }
@@ -98,7 +97,6 @@ public class CoreQueryRequest {
     public String getOwner() {
         return owner;
     }
-
     public void setOwner(String owner) {
         this.owner = owner;
     }
@@ -106,7 +104,6 @@ public class CoreQueryRequest {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -114,7 +111,6 @@ public class CoreQueryRequest {
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -122,7 +118,6 @@ public class CoreQueryRequest {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -130,7 +125,6 @@ public class CoreQueryRequest {
     public String getLocation_name() {
         return location_name;
     }
-
     public void setLocation_name(String location_name) {
         this.location_name = location_name;
     }
@@ -138,7 +132,6 @@ public class CoreQueryRequest {
     public Double getLocation_lat() {
         return location_lat;
     }
-
     public void setLocation_lat(Double location_lat) {
         this.location_lat = location_lat;
     }
@@ -146,7 +139,6 @@ public class CoreQueryRequest {
     public Double getLocation_long() {
         return location_long;
     }
-
     public void setLocation_long(Double location_long) {
         this.location_long = location_long;
     }
@@ -154,7 +146,6 @@ public class CoreQueryRequest {
     public Integer getMax_distance() {
         return max_distance;
     }
-
     public void setMax_distance(Integer max_distance) {
         this.max_distance = max_distance;
     }
@@ -162,7 +153,6 @@ public class CoreQueryRequest {
     public List<String> getObserved_property_iri() {
         return observed_property_iri;
     }
-
     public void setObserved_property_iri(List<String> observed_property_iri) {
         this.observed_property_iri = observed_property_iri;
     }
@@ -170,7 +160,6 @@ public class CoreQueryRequest {
     public List<String> getObserved_property() {
         return observed_property;
     }
-
     public void setObserved_property(List<String> observed_property) {
         this.observed_property = observed_property;
     }
@@ -178,7 +167,6 @@ public class CoreQueryRequest {
     public String getResource_type() {
         return resource_type;
     }
-
     public void setResource_type(String resource_type) {
         this.resource_type = resource_type;
     }
@@ -186,7 +174,6 @@ public class CoreQueryRequest {
     public SecurityRequest getSecurityRequest() {
         return securityRequest;
     }
-
     public void setSecurityRequest(SecurityRequest securityRequest) {
         this.securityRequest = securityRequest;
     }
@@ -194,7 +181,6 @@ public class CoreQueryRequest {
     public Boolean getShould_rank() {
         return should_rank;
     }
-
     public void setShould_rank(Boolean should_rank) {
         this.should_rank = should_rank;
     }
@@ -261,7 +247,7 @@ public class CoreQueryRequest {
 
         }
 
-        return url.toString().replaceAll(" ", "%20");
+        return url.toString().replaceAll(" ", "%20").replaceAll("#", "%23");
     }
 
 

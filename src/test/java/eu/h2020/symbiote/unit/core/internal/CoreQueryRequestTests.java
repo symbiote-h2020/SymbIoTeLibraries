@@ -32,6 +32,7 @@ public class CoreQueryRequestTests {
                 .locationLong(456.0)
                 .maxDistance(10)
                 .observedProperty(Arrays.asList("p1 2", "p2"))
+                .observedPropertyIri(Arrays.asList("http://test1#test", "http://test2%23test"))
                 .resourceType("type")
                 .shouldRank(Boolean.FALSE)
                 .build();
@@ -39,7 +40,8 @@ public class CoreQueryRequestTests {
         String symbioteUrl = "http://example.com";
         String expectedAnswer = symbioteUrl + "/query?platform_id=pId&platform_name=pName&owner=owner&name=name"
                 + "&id=id&description=desc&location_name=lName&location_lat=123.0&location_long=456.0&max_distance=10"
-                + "&observed_property=p1%202,p2&resource_type=type&should_rank=false";
+                + "&observed_property=p1%202,p2&observed_property_iri=http://test1%23test,http://test2%23test"
+                + "&resource_type=type&should_rank=false";
 
         log.info("coreQueryRequest.buildQuery(symbioteUrl) = " + coreQueryRequest.buildQuery(symbioteUrl));
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
@@ -83,6 +85,7 @@ public class CoreQueryRequestTests {
                 .locationLong(456.0)
                 .maxDistance(10)
                 .observedProperty(Arrays.asList("p1", "p2"))
+                .observedPropertyIri(Arrays.asList("http://test1#test", "http://test2#test"))
                 .resourceType("type")
                 .securityRequest(new SecurityRequest("token"))
                 .build();
@@ -99,6 +102,7 @@ public class CoreQueryRequestTests {
                 .locationLong(456.0)
                 .maxDistance(10)
                 .observedProperty(Arrays.asList("p1", "p2"))
+                .observedPropertyIri(Arrays.asList("http://test1#test", "http://test2#test"))
                 .resourceType("type")
                 .securityRequest(new SecurityRequest("token"))
                 .build();
