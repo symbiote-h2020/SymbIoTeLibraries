@@ -2,12 +2,13 @@ package eu.h2020.symbiote.core.internal;
 
 import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * POJO describing a query for resources.
@@ -195,7 +196,7 @@ public class CoreQueryRequest {
 
         for (Field field : allFields) {
             String fieldName = field.getName();
-            Class fieldType = field.getType();
+            Class<?> fieldType = field.getType();
 
             if (fieldName.startsWith("$"))
                 continue;
@@ -204,8 +205,9 @@ public class CoreQueryRequest {
             if (fieldType == List.class) {
                 try {
                     String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-                    Method getterMethod = this.getClass().getMethod(getterName, null);
-                    List<Object> listOfObjects = (List) getterMethod.invoke(this, null);
+                    Method getterMethod = this.getClass().getMethod(getterName, (Class<?>[])null);
+                    @SuppressWarnings("unchecked")
+					List<Object> listOfObjects = (List<Object>) getterMethod.invoke(this, (Object[])null);
 
                     if (listOfObjects != null && listOfObjects.size() > 0) {
                         if (isFirstParameter)
@@ -216,7 +218,13 @@ public class CoreQueryRequest {
                         url.append(fieldName).append("=");
 
                         for (Object o : listOfObjects) {
-                            url.append(o).append(",");
+                        	String encodedObject=null;
+                        	try {
+                            	encodedObject=URLEncoder.encode(o.toString(), "UTF-8");
+    						} catch (UnsupportedEncodingException e) {
+    							throw new IllegalArgumentException("When trying to encode the URL:", e);	// Should only be triggered when UTF-8 is misspelled :-)
+    						}
+                            url.append(encodedObject).append(",");
 
                         }
                         url.deleteCharAt(url.length() - 1);
@@ -229,8 +237,8 @@ public class CoreQueryRequest {
             } else {
                 try {
                     String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-                    Method getterMethod = this.getClass().getMethod(getterName, null);
-                    Object value = getterMethod.invoke(this, null);
+                    Method getterMethod = this.getClass().getMethod(getterName, (Class<?>[])null);
+                    Object value = getterMethod.invoke(this, (Object[])null);
 
                     if (value != null){
                         if (isFirstParameter)
@@ -238,16 +246,31 @@ public class CoreQueryRequest {
                         else {
                             url.append("&");
                         }
-                        url.append(fieldName).append("=").append(value);
+                        try {
+							url.append(fieldName).append("=").append(URLEncoder.encode(value.toString(), "UTF-8"));
+							/* URL encoding, the forgotten art?
+							 * Note, that when you encode a complete URL you will also encode special char's like 
+							 * & or ?. They have a special meaning in URLs so you might have a certain interest to keep them as they are.
+							 * But when they come by in a payload they shall NOT have that special meaning. So you have to URNEncode 
+							 * your payload but not the complete URL.
+							 * Why use URLEncode and not some hand made thingy?
+							 * 'cause there are a few more char's than you think about. 
+							 * Look at the specs of something so simple as an URL :-)
+							 * 
+							 */
+						} catch (UnsupportedEncodingException e) {
+							throw new IllegalArgumentException("When trying to encode the URL:", e);	// Should only be triggered when UTF-8 is misspelled :-)
+																										// Throw something that does not need any declaration.
+						}
                     }
                 } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    e.printStackTrace();	// Really? Don't we have a logging concept? This will most probably end in nirwana when logged to stdout so it#s only good during an interactive debug session
                 }
             }
 
         }
 
-        return url.toString().replaceAll(" ", "%20").replaceAll("#", "%23");
+        return url.toString();
     }
 
 
