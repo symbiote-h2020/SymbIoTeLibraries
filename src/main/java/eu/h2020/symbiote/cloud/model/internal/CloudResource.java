@@ -2,11 +2,9 @@ package eu.h2020.symbiote.cloud.model.internal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import eu.h2020.symbiote.cloud.model.CloudResourceParams;
 import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
-
 import org.springframework.data.annotation.Id;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
@@ -21,12 +19,15 @@ public class CloudResource  {
     //ip address of the host. Needed by Monitoring component
     @JsonProperty("cloudMonitoringHost")
     private String cloudMonitoringHost;
+
     @JsonProperty("accessPolicy")
     private IAccessPolicySpecifier accessPolicy;
+    @JsonProperty("filteringPolicy")
+    private IAccessPolicySpecifier filteringPolicy;
 
     @JsonProperty("resource")
     Resource resource;
-    
+
     //Needed by Monitoring component
     @JsonProperty("params")
     CloudResourceParams params;
@@ -58,12 +59,20 @@ public class CloudResource  {
         this.cloudMonitoringHost = cloudMonitoringHost;
     }
 
-    public void setAccessPolicy(IAccessPolicySpecifier accessPolicySpecifier) {
-        this.accessPolicy = accessPolicy;
-    }
-
     public IAccessPolicySpecifier getAccessPolicy() {
         return accessPolicy;
+    }
+
+    public void setAccessPolicy(IAccessPolicySpecifier accessPolicySpecifier) {
+        this.accessPolicy = accessPolicySpecifier;
+    }
+
+    public IAccessPolicySpecifier getFilteringPolicy() {
+        return filteringPolicy;
+    }
+
+    public void setFilteringPolicy(IAccessPolicySpecifier filteringPolicySpecifier) {
+        this.filteringPolicy = filteringPolicySpecifier;
     }
 
     public Resource getResource() {
@@ -81,5 +90,4 @@ public class CloudResource  {
     public void setParams(CloudResourceParams params) {
         this.params = params;
     }
-
 }
