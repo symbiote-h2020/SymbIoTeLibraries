@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.ci;
 
+import eu.h2020.symbiote.model.cim.Property;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class QueryResourceResult {
     private Double locationLatitude;
     private Double locationLongitude;
     private Double locationAltitude;
-    private List<String> observedProperties;
+    private List<Property> observedProperties;
     private List<String> resourceType;
     private Float ranking;
 
@@ -124,11 +126,11 @@ public class QueryResourceResult {
         this.locationAltitude = locationAltitude;
     }
 
-    public List<String> getObservedProperties() {
+    public List<Property> getObservedProperties() {
         return observedProperties;
     }
 
-    public void setObservedProperties(List<String> observedProperties) {
+    public void setObservedProperties(List<Property> observedProperties) {
         if (observedProperties == null)
             this.observedProperties = null;
         else

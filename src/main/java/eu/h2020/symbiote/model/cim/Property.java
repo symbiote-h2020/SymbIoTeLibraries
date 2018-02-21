@@ -19,24 +19,31 @@ public class Property {
 
     @JsonProperty("name")
     private final String name;
+    @JsonProperty("iri")
+    private final String iri;
     @JsonProperty("description")
     private final List<String> description;
 
     @JsonCreator
     public Property(@JsonProperty("name") String name,
+                    @JsonProperty("iri") String iri,
             @JsonProperty("description") List<String> description) {
         this.name = name;
+        this.iri = iri;
         this.description = description;
     }
 
     public Property(Property p) {
         this.name = p.getName();
+        this.iri = p.getIri();
         this.description = p.getDescription();
     }
 
     public String getName() {
         return name;
     }
+
+    public String getIri() { return iri; }
 
     public List<String> getDescription() {
         return description;
@@ -70,7 +77,7 @@ public class Property {
 
         Property op = (Property) o;
 
-        if (!Objects.equals(this.name, op.name)) {
+        if (!Objects.equals(this.iri, op.iri)) {
             return false;
         }
 
@@ -81,7 +88,7 @@ public class Property {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.name);
+        return Objects.hashCode(this.iri);
     }
 
 }

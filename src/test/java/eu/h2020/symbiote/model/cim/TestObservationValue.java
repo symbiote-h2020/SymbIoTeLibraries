@@ -39,14 +39,14 @@ public class TestObservationValue {
 		v2=new ObservationValue("value", null, null);
 		assertEquals(v, v2);
 		
-		v=new ObservationValue("value", new Property("prop", null), null);
+		v=new ObservationValue("value", new Property("prop", "https://www.symbioteh2020.eu/ontology/prop#prop",null), null);
 		assertNotEquals(v, v2);
-		v2=new ObservationValue("value", new Property("prop", null), null);
+		v2=new ObservationValue("value", new Property("prop", "https://www.symbioteh2020.eu/ontology/prop#prop", null), null);
 		assertEquals(v, v2);
 		
-		v=new ObservationValue("value", new Property("prop", null), new UnitOfMeasurement("sym", null, null));
+		v=new ObservationValue("value", new Property("prop", "https://www.symbioteh2020.eu/ontology/prop#prop", null), new UnitOfMeasurement("sym", null, "https://www.symbioteh2020.eu/ontology/uom#uom", null));
 		assertNotEquals(v, v2);
-		v2=new ObservationValue("value", new Property("prop", null), new UnitOfMeasurement("sym", null, null));
+		v2=new ObservationValue("value", new Property("prop", "https://www.symbioteh2020.eu/ontology/prop#prop", null), new UnitOfMeasurement("sym", null, "https://www.symbioteh2020.eu/ontology/uom#uom",null));
 		assertEquals(v, v2);
 		
 	}
@@ -59,7 +59,7 @@ public class TestObservationValue {
 		assertEquals(v.hashCode(), 42);
 		
 		// Main thing tested here: It will not break and has another value than with pure nulls.
-		v=new ObservationValue("value", new Property("prop", null), new UnitOfMeasurement("sym", null, null));
+		v=new ObservationValue("value", new Property("prop", "https://www.symbioteh2020.eu/ontology/prop#prop", null), new UnitOfMeasurement("sym", null, "https://www.symbioteh2020.eu/ontology/uom#uom", null));
 		assertNotEquals(v.hashCode(), 42);
 		
 	}
@@ -72,7 +72,7 @@ public class TestObservationValue {
 
 		assertEquals(v, v1);
 		
-		v=new ObservationValue("1", new Property("1", Arrays.asList("2")), new UnitOfMeasurement("A", "B", Arrays.asList("C")));
+		v=new ObservationValue("1", new Property("1", "https://www.symbioteh2020.eu/ontology/prop#prop", Arrays.asList("2")), new UnitOfMeasurement("A", "B", "https://www.symbioteh2020.eu/ontology/uom#uom", Arrays.asList("C")));
 		v1=new ObservationValue(v);
 
 		assertEquals(v, v1);
