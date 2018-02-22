@@ -31,9 +31,6 @@ public class CloudResource  {
     //For backwards compatibility, core registration remains here
     Resource resource;
 
-    @JsonProperty("federationIds")
-    private Map<String, String> federationIds;
-
     //Needed by Monitoring component
     @JsonProperty("params")
     CloudResourceParams params;
