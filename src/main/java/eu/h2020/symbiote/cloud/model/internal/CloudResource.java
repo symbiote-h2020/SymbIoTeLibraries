@@ -7,6 +7,8 @@ import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 import org.springframework.data.annotation.Id;
 
+import java.util.Map;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
 public class CloudResource  {
 
@@ -26,7 +28,11 @@ public class CloudResource  {
     private IAccessPolicySpecifier filteringPolicy;
 
     @JsonProperty("resource")
+    //For backwards compatibility, core registration remains here
     Resource resource;
+
+    @JsonProperty("federationIds")
+    private Map<String, String> federationIds;
 
     //Needed by Monitoring component
     @JsonProperty("params")
