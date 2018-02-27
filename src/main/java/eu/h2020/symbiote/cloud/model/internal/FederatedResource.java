@@ -21,16 +21,16 @@ public class FederatedResource {
     private String federationId;
     private Boolean bartered;
 
-    public FederatedResource(Resource resource, String federationId, Boolean bartered) {
-        this.id = resource.getId();
+    public FederatedResource(Resource resource, String id, String federationId, Boolean bartered) {
+        this.id = id;
         this.resource = resource;
         this.federationId = federationId;
         this.bartered = bartered;
 
         // Todo: Consider actual Resource validation here
         if (resource.getInterworkingServiceURL() != null) {
-            this.oDataUrl = createUrl(UrlType.ODATA);
-            this.restUrl = createUrl(UrlType.REST);
+            this.oDataUrl = createUrl(UrlType.ODATA, id);
+            this.restUrl = createUrl(UrlType.REST, id);
         }
     }
 
@@ -50,8 +50,8 @@ public class FederatedResource {
                              @JsonProperty(value = "resource") Resource resource,
                              @JsonProperty(value = "oDataUrl") String oDataUrl,
                              @JsonProperty(value = "restUrl") String restUrl,
-                             @JsonProperty("federationId") String federationId,
-                             @JsonProperty("bartered") Boolean bartered) {
+                             @JsonProperty(value = "federationId") String federationId,
+                             @JsonProperty(value = "bartered") Boolean bartered) {
         this.id = id;
         this.resource = resource;
         this.oDataUrl = oDataUrl;
@@ -78,21 +78,21 @@ public class FederatedResource {
     public Boolean getBartered() { return bartered; }
     public void setBartered(Boolean bartered) { this.bartered = bartered; }
 
-    private String createUrl(UrlType urlType) {
+    private String createUrl(UrlType urlType, String id) {
         if (resource instanceof Actuator)
-            return createUrl(urlType, "Actuator");
+            return createUrl(urlType, "Actuator", id);
         else if (resource instanceof Service)
-            return createUrl(urlType, "Service");
+            return createUrl(urlType, "Service", id);
         else
-            return createUrl(urlType, "Sensor");
+            return createUrl(urlType, "Sensor", id);
     }
 
-    private String createUrl(UrlType urlType, String resourceTypeName) {
+    private String createUrl(UrlType urlType, String resourceTypeName, String id) {
         return urlType == UrlType.ODATA ?
                 resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "")
-                        +  "/rap/" + resourceTypeName + "s('" + resource.getId() + "')" :
+                        +  "/rap/" + resourceTypeName + "s('" + id + "')" :
                 resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "")
-                        +  "/rap/" + resourceTypeName + "/" + resource.getId();
+                        +  "/rap/" + resourceTypeName + "/" + id;
     }
 
     private enum UrlType {
