@@ -54,6 +54,7 @@ public class Property {
     public String toString() {
         StringBuffer buffer = new StringBuffer();
 
+        buffer.append("iri=").append(iri).append(",");
         buffer.append("Property:");
         buffer.append("name=").append(name).append(",");
         buffer.append("description=").append(description);
