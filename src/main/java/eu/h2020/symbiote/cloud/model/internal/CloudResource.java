@@ -7,6 +7,7 @@ import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 import org.springframework.data.annotation.Id;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)
@@ -32,7 +33,7 @@ public class CloudResource  {
     Resource resource;
 
     @JsonProperty("federationIds")
-    private Map<String, ResourceSharingInformation> federationInfo;
+    private Map<String, ResourceSharingInformation> federationInfo = new HashMap<>();
 
     //Needed by Monitoring component
     @JsonProperty("params")
