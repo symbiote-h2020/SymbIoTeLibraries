@@ -7,29 +7,47 @@ import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 /**
  * @author RuggenthalerC
  *
  *         Main object to represent one federation.
  */
 public class Federation {
+
 	@Id
 	@JsonProperty("id")
+    @Pattern(regexp="^[\\w-]{4,}$")
+    @Size(max=30)
+    @NotNull
 	private String id;
 
 	@JsonProperty("name")
-	private String name;
+    @Size(min=3, max=30)
+    @NotNull
+    private String name;
 
 	@JsonProperty("public")
-	private boolean isPublic = true;
+    @NotNull
+	private Boolean isPublic = true;
 
 	@JsonProperty("informationModel")
+    @Valid
+    @NotNull
 	private InformationModel informationModel;
 
 	@JsonProperty("slaConstraints")
+    @Valid
+    @NotNull
 	private List<QoSConstraint> slaConstraints;
 
 	@JsonProperty("members")
+    @Valid
+    @NotNull
 	private List<FederationMember> members = new ArrayList<>();
 
 	public String getId() {
