@@ -19,82 +19,80 @@ import javax.validation.constraints.Size;
  */
 public class Federation {
 
-	@Id
-	@JsonProperty("id")
-    @Pattern(regexp="^[\\w-]{4,}$")
+    @Id
+    @JsonProperty("id")
+    @Pattern(regexp="^(\\Z|[\\w-]{4,})$")
     @Size(max=30)
-    @NotNull
-	private String id;
+    private String id;
 
-	@JsonProperty("name")
+    @JsonProperty("name")
     @Size(min=3, max=30)
     @NotNull
     private String name;
 
-	@JsonProperty("public")
+    @JsonProperty("public")
     @NotNull
-	private Boolean isPublic = true;
+    private Boolean isPublic = true;
 
-	@JsonProperty("informationModel")
+    @JsonProperty("informationModel")
     @Valid
     @NotNull
-	private InformationModel informationModel;
+    private InformationModel informationModel;
 
-	@JsonProperty("slaConstraints")
+    @JsonProperty("slaConstraints")
+    @Valid
+    private List<QoSConstraint> slaConstraints;
+
+    @JsonProperty("members")
     @Valid
     @NotNull
-	private List<QoSConstraint> slaConstraints;
+    private List<FederationMember> members = new ArrayList<>();
 
-	@JsonProperty("members")
-    @Valid
-    @NotNull
-	private List<FederationMember> members = new ArrayList<>();
+    public String getId() {
+        return this.id;
+    }
 
-	public String getId() {
-		return this.id;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public boolean isPublic() {
+        return this.isPublic;
+    }
 
-	public boolean isPublic() {
-		return this.isPublic;
-	}
+    public List<QoSConstraint> getSlaConstraints() {
+        return this.slaConstraints;
+    }
 
-	public List<QoSConstraint> getSlaConstraints() {
-		return this.slaConstraints;
-	}
+    public List<FederationMember> getMembers() {
+        return this.members;
+    }
 
-	public List<FederationMember> getMembers() {
-		return this.members;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+    }
 
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}
+    public void setSlaConstraints(List<QoSConstraint> slaConstraints) {
+        this.slaConstraints = slaConstraints;
+    }
 
-	public void setSlaConstraints(List<QoSConstraint> slaConstraints) {
-		this.slaConstraints = slaConstraints;
-	}
+    public void setMembers(List<FederationMember> members) {
+        this.members = members;
+    }
 
-	public void setMembers(List<FederationMember> members) {
-		this.members = members;
-	}
+    public InformationModel getInformationModel() {
+        return this.informationModel;
+    }
 
-	public InformationModel getInformationModel() {
-		return this.informationModel;
-	}
-
-	public void setInformationModel(InformationModel informationModel) {
-		this.informationModel = informationModel;
-	}
+    public void setInformationModel(InformationModel informationModel) {
+        this.informationModel = informationModel;
+    }
 }
