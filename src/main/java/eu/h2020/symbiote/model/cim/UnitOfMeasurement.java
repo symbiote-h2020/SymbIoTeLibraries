@@ -20,21 +20,26 @@ public class UnitOfMeasurement {
     private final String symbol;
     @JsonProperty("name")
     private final String name;
+    @JsonProperty("iri")
+    private final String iri;
     @JsonProperty("description")
     private final List<String> description;
 
     @JsonCreator
     public UnitOfMeasurement(@JsonProperty("symbol") String symbol,
             @JsonProperty("name") String name,
+            @JsonProperty("iri") String iri,
             @JsonProperty("description") List<String> description) {
         this.symbol = symbol;
         this.name = name;
+        this.iri = iri;
         this.description = description;
     }
 
     public UnitOfMeasurement(UnitOfMeasurement other) {
         this.symbol = other.symbol;
         this.name = other.name;
+        this.iri = other.iri;
         this.description = other.description;
     }
 
@@ -45,6 +50,8 @@ public class UnitOfMeasurement {
     public String getName() {
         return name;
     }
+
+    public String getIri() { return iri; }
 
     public List<String> getDescription() {
         return description;
@@ -72,25 +79,25 @@ public class UnitOfMeasurement {
 
         UnitOfMeasurement ou = (UnitOfMeasurement) o;
 
-        if (this.symbol == null && ou.symbol == null) {
+        if (this.iri == null && ou.iri == null) {
             return true;
         }
 
-        if (this.symbol == null) // We already know, the other is not null
+        if (this.iri == null) // We already know, the other is not null
         {
             return false;
         }
 
-        return this.symbol.equals(ou.symbol);
+        return this.iri.equals(ou.iri);
     }
 
     @Override
     public int hashCode() {
-        if (this.symbol == null) {
+        if (this.iri == null) {
             return 0;
         }
 
-        return this.symbol.hashCode();
+        return this.iri.hashCode();
     }
 
 }
