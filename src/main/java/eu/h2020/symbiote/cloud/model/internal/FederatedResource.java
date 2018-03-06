@@ -46,12 +46,12 @@ public class FederatedResource {
      */
     @PersistenceConstructor
     @JsonCreator
-    public FederatedResource(@JsonProperty(value = "id") String id,
-                             @JsonProperty(value = "resource") Resource resource,
-                             @JsonProperty(value = "oDataUrl") String oDataUrl,
-                             @JsonProperty(value = "restUrl") String restUrl,
-                             @JsonProperty(value = "federationId") String federationId,
-                             @JsonProperty(value = "bartered") Boolean bartered) {
+    public FederatedResource(@JsonProperty("id") String id,
+                             @JsonProperty("resource") Resource resource,
+                             @JsonProperty("oDataUrl") String oDataUrl,
+                             @JsonProperty("restUrl") String restUrl,
+                             @JsonProperty("federationId") String federationId,
+                             @JsonProperty("bartered") Boolean bartered) {
         this.id = id;
         this.resource = resource;
         this.oDataUrl = oDataUrl;
