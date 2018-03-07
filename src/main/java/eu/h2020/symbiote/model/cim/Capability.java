@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class Capability {
 
+    @JsonProperty("name")
+    private String name;
+    
     @JsonProperty("parameters")
     private List<Parameter> parameters;
 
@@ -20,6 +23,14 @@ public class Capability {
     @JsonProperty("name")
     private String name;
 
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }   
+    
     public List<Parameter> getParameters() {
         return parameters;
     }
