@@ -33,6 +33,9 @@ public class CloudResource  {
     Resource resource;
 
     @JsonProperty("federationIds")
+    /**
+     * This map is
+     */
     private Map<String, ResourceSharingInformation> federationInfo = new HashMap<>();
 
     //Needed by Monitoring component
