@@ -10,7 +10,7 @@ public interface CRMRestService {
 	
 	@RequestLine("POST " + ClientConstants.PUBLISH_MONITORING_DATA)
 	@Headers("Content-Type: application/json")
-    public String doPost2Crm(
+    public void doPost2Crm(
     		@Param("platformId") String platformId, 
     		CloudMonitoringPlatform platform);
 
