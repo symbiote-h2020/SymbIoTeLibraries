@@ -10,9 +10,6 @@ import java.util.List;
  * Created by Szymon Mueller on 26/07/2017.
  */
 public class Capability {
-
-    @JsonProperty("name")
-    private String name;
     
     @JsonProperty("parameters")
     private List<Parameter> parameters;
@@ -23,14 +20,6 @@ public class Capability {
     @JsonProperty("name")
     private String name;
 
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }   
-    
     public List<Parameter> getParameters() {
         return parameters;
     }
