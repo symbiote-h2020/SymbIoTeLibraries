@@ -93,14 +93,6 @@ public class CloudResource  {
         this.resource = resource;
     }
 
-    public Map<String, ResourceSharingInformation> getFederationInfo() {
-        return federationInfo;
-    }
-
-    public void setFederationInfo(Map<String, ResourceSharingInformation> federationInfo) {
-        this.federationInfo = federationInfo;
-    }
-
     public CloudResourceParams getParams() {
         return params;
     }

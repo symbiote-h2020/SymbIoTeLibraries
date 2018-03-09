@@ -2,6 +2,9 @@ package eu.h2020.symbiote.model.mim;
 
 import eu.h2020.symbiote.core.internal.RDFInfo;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  * Representation of the Information Model from the CIM.
  *
@@ -9,6 +12,8 @@ import eu.h2020.symbiote.core.internal.RDFInfo;
  */
 public class InformationModel extends RDFInfo {
 
+    @NotNull
+    @Pattern(regexp="^[\\w-]{4,}$")
     private String id;
     private String uri;
     private String name;

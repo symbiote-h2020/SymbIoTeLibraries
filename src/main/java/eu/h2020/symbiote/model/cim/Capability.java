@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Szymon Mueller on 26/07/2017.
  */
 public class Capability {
-
+    
     @JsonProperty("parameters")
     private List<Parameter> parameters;
 
