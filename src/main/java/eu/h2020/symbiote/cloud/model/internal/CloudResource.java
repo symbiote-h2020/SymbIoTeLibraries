@@ -32,10 +32,13 @@ public class CloudResource  {
     //For backwards compatibility, core registration remains here
     Resource resource;
 
-    @JsonProperty("federationIds")
     /**
-     * This map is
+     * This map contains information about the federations in which this resource has been shared.
+     * The key is the federation ID
+     * The value is the information of this resource in that federation such as:
+     * unique symbioteId, date in which it was shared, access policies, etc.
      */
+    @JsonProperty("federationIds")
     private Map<String, ResourceSharingInformation> federationInfo = new HashMap<>();
 
     //Needed by Monitoring component

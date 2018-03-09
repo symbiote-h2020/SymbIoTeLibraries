@@ -38,7 +38,6 @@ public class ResourceSharingInformation {
     public void setBartering(Boolean bartering) {
         this.bartering = bartering;
     }
-<<<<<<< HEAD
 
     public IAccessPolicySpecifier getAccessPolicy() {
         return accessPolicy;
@@ -55,6 +54,4 @@ public class ResourceSharingInformation {
     public void setFilteringPolicy(IAccessPolicySpecifier filteringPolicy) {
         this.filteringPolicy = filteringPolicy;
     }
-=======
->>>>>>> remotes/origin/develop
 }
