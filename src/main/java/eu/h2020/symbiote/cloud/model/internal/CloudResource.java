@@ -38,7 +38,7 @@ public class CloudResource  {
      * The value is the information of this resource in that federation such as:
      * unique symbioteId, date in which it was shared, access policies, etc.
      */
-    @JsonProperty("federationIds")
+    @JsonProperty("federationInfo")
     private Map<String, ResourceSharingInformation> federationInfo = new HashMap<>();
 
     //Needed by Monitoring component
