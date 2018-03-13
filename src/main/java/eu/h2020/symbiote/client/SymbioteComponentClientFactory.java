@@ -110,10 +110,14 @@ public class SymbioteComponentClientFactory {
                 .encoder(new JacksonEncoder());
 
         if (securityConfiguration != null) {
+            String finalClientId = securityConfiguration.getClientId();
+            if (!finalClientId.contains("@")) {
+                finalClientId = securityConfiguration.getClientId() + "@" + securityConfiguration.getPlatformId();
+            }
             IComponentSecurityHandler secHandler = ComponentSecurityHandlerFactory
                     .getComponentSecurityHandler(securityConfiguration.getKeystorePath(),
                             securityConfiguration.getKeystorePassword(),
-                            securityConfiguration.getClientId()+"@"+securityConfiguration.getPlatformId(),
+                            finalClientId,
                             securityConfiguration.getLocalAAMAddress(),
                             securityConfiguration.getComponentOwnerUsername(),
                             securityConfiguration.getComponentOwnerPassword()
