@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class FederationInfoBean {
 
-    @JsonProperty("symbIoTeId")
+    @JsonProperty("symbioteId")
     private String symbioteId;
 
     /**
      * This map contains information about the federations in which this resource has been shared.
      * The key is the federation ID
      * The value is the information of this resource in that federation such as:
-     * unique symbioteId, date in which it was shared, access policies, etc.
+     * date in which it was shared, access policies, etc.
      */
     @JsonProperty("federationInfo")
     private Map<String, ResourceSharingInformation> sharingInformation = new HashMap<>();
