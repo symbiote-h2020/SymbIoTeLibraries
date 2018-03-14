@@ -6,7 +6,7 @@ import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 import java.util.Date;
 
 public class ResourceSharingInformation {
-    private String symbioteId;
+
     private Date sharingDate;
     private Boolean bartering;
 
@@ -14,14 +14,6 @@ public class ResourceSharingInformation {
     private IAccessPolicySpecifier accessPolicy;
     @JsonProperty("filteringPolicy")
     private IAccessPolicySpecifier filteringPolicy;
-
-    public String getSymbioteId() {
-        return symbioteId;
-    }
-
-    public void setSymbioteId(String symbioteId) {
-        this.symbioteId = symbioteId;
-    }
 
     public Date getSharingDate() {
         return sharingDate;

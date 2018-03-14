@@ -32,14 +32,7 @@ public class CloudResource  {
     //For backwards compatibility, core registration remains here
     Resource resource;
 
-    /**
-     * This map contains information about the federations in which this resource has been shared.
-     * The key is the federation ID
-     * The value is the information of this resource in that federation such as:
-     * unique symbioteId, date in which it was shared, access policies, etc.
-     */
-    @JsonProperty("federationInfo")
-    private Map<String, ResourceSharingInformation> federationInfo = new HashMap<>();
+    private FederationInfoBean federationInfo;
 
     //Needed by Monitoring component
     @JsonProperty("params")
@@ -104,7 +97,7 @@ public class CloudResource  {
         this.params = params;
     }
 
-    public Map<String, ResourceSharingInformation> getFederationInfo() { return federationInfo; }
+    public FederationInfoBean getFederationInfo() { return federationInfo; }
 
-    public void setFederationInfo(Map<String, ResourceSharingInformation> federationInfo) { this.federationInfo = federationInfo; }
+    public void setFederationInfo(FederationInfoBean federationInfo) { this.federationInfo = federationInfo; }
 }
