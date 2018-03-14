@@ -16,7 +16,7 @@ public class FederationInfoBean {
      * The value is the information of this resource in that federation such as:
      * date in which it was shared, access policies, etc.
      */
-    @JsonProperty("federationInfo")
+    @JsonProperty("sharingInformation")
     private Map<String, ResourceSharingInformation> sharingInformation = new HashMap<>();
 
     public String getSymbioteId() {
