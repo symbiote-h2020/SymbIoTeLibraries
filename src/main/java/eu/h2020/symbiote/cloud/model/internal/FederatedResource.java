@@ -7,6 +7,8 @@ import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.model.cim.Service;
 import org.springframework.data.annotation.PersistenceConstructor;
 
+import java.util.Map;
+
 /**
  * This class is used for storing and retrieving information of federated platform resources from the Platform Registry.
  *
@@ -18,20 +20,18 @@ public class FederatedResource {
     private Resource resource;
     private String oDataUrl;
     private String restUrl;
-    private String federationId;
-    private Boolean bartered;
+    private Map<String, Boolean> barteringInfo;
 
-    public FederatedResource(Resource resource, String id, String federationId, Boolean bartered) {
+
+    public FederatedResource(String id, Resource resource, Map<String, Boolean> barteringInfo) {
         this.id = id;
         this.resource = resource;
-        this.federationId = federationId;
-        this.bartered = bartered;
-
-        // Todo: Consider actual Resource validation here
+        this.barteringInfo = barteringInfo;
         if (resource.getInterworkingServiceURL() != null) {
-            this.oDataUrl = createUrl(UrlType.ODATA, id);
-            this.restUrl = createUrl(UrlType.REST, id);
+            this.oDataUrl = this.createUrl(UrlType.ODATA, id);
+            this.restUrl = this.createUrl(UrlType.REST, id);
         }
+
     }
 
     /**
@@ -41,8 +41,8 @@ public class FederatedResource {
      * @param resource the resource description
      * @param oDataUrl the OData resource url
      * @param restUrl the Rest resource url
-     * @param federationId the federation id of the resource
-     * @param bartered indicated if the resource is bartered or not
+     * @param barteringInfo the key is the federation id and the value shows if the resource is bartered in the
+     *                      respective federation
      */
     @PersistenceConstructor
     @JsonCreator
@@ -50,52 +50,67 @@ public class FederatedResource {
                              @JsonProperty("resource") Resource resource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("federationId") String federationId,
-                             @JsonProperty("bartered") Boolean bartered) {
+                             @JsonProperty("barteringInfo") Map<String, Boolean> barteringInfo) {
         this.id = id;
         this.resource = resource;
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
-        this.federationId = federationId;
-        this.bartered = bartered;
+        this.barteringInfo = barteringInfo;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return this.id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public Resource getResource() { return resource; }
-    public void setResource(Resource resource) { this.resource = resource; }
+    public Resource getResource() {
+        return this.resource;
+    }
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
 
-    public String getoDataUrl() { return oDataUrl; }
-    public void setoDataUrl(String oDataUrl) { this.oDataUrl = oDataUrl; }
+    public String getoDataUrl() {
+        return this.oDataUrl;
+    }
+    public void setoDataUrl(String oDataUrl) {
+        this.oDataUrl = oDataUrl;
+    }
 
-    public String getRestUrl() { return restUrl; }
-    public void setRestUrl(String restUrl) { this.restUrl = restUrl; }
+    public String getRestUrl() {
+        return this.restUrl;
+    }
+    public void setRestUrl(String restUrl) {
+        this.restUrl = restUrl;
+    }
 
-    public String getFederationId() { return federationId; }
-    public void setFederationId(String federationId) { this.federationId = federationId; }
+    public Map<String, Boolean> getBarteringInfo() { return barteringInfo; }
+    public void setBarteringInfo(Map<String, Boolean> barteringInfo) { this.barteringInfo = barteringInfo; }
 
-    public Boolean getBartered() { return bartered; }
-    public void setBartered(Boolean bartered) { this.bartered = bartered; }
 
     private String createUrl(UrlType urlType, String id) {
-        if (resource instanceof Actuator)
-            return createUrl(urlType, "Actuator", id);
-        else if (resource instanceof Service)
-            return createUrl(urlType, "Service", id);
-        else
-            return createUrl(urlType, "Sensor", id);
+        if (this.resource instanceof Actuator) {
+            return this.createUrl(urlType, "Actuator", id);
+        } else {
+            return this.resource instanceof Service ? this.createUrl(urlType, "Service", id) : this.createUrl(urlType, "Sensor", id);
+        }
     }
 
     private String createUrl(UrlType urlType, String resourceTypeName, String id) {
         return urlType == UrlType.ODATA ?
-                resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "")
-                        +  "/rap/" + resourceTypeName + "s('" + id + "')" :
-                resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "")
-                        +  "/rap/" + resourceTypeName + "/" + id;
+                this.resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "") + "/rap/"
+                        + resourceTypeName + "s('" + id + "')" :
+                this.resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "") + "/rap/"
+                        + resourceTypeName + "/" + id;
     }
 
-    private enum UrlType {
-        ODATA, REST
+    private static enum UrlType {
+        ODATA,
+        REST;
+
+        private UrlType() {
+        }
     }
 }

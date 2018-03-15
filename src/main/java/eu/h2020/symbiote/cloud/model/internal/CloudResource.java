@@ -30,7 +30,7 @@ public class CloudResource  {
 
     @JsonProperty("resource")
     //For backwards compatibility, core registration remains here
-    Resource resource;
+    private Resource resource;
 
     private FederationInfoBean federationInfo;
 
