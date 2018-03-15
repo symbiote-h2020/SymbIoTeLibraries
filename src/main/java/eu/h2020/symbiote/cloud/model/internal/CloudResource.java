@@ -19,10 +19,6 @@ public class CloudResource  {
     @JsonProperty("pluginId")
     private String pluginId;
 
-    //ip address of the host. Needed by Monitoring component
-    @JsonProperty("cloudMonitoringHost")
-    private String cloudMonitoringHost;
-
     @JsonProperty("accessPolicy")
     private IAccessPolicySpecifier accessPolicy;
     @JsonProperty("filteringPolicy")
@@ -33,10 +29,6 @@ public class CloudResource  {
     private Resource resource;
 
     private FederationInfoBean federationInfo;
-
-    //Needed by Monitoring component
-    @JsonProperty("params")
-    CloudResourceParams params;
 
     public CloudResource() {
     }
@@ -55,14 +47,6 @@ public class CloudResource  {
 
     public void setPluginId(String pluginId) {
         this.pluginId = pluginId;
-    }
-
-    public String getCloudMonitoringHost() {
-        return cloudMonitoringHost;
-    }
-
-    public void setCloudMonitoringHost(String cloudMonitoringHost) {
-        this.cloudMonitoringHost = cloudMonitoringHost;
     }
 
     public IAccessPolicySpecifier getAccessPolicy() {
@@ -87,14 +71,6 @@ public class CloudResource  {
 
     public void setResource(Resource resource) {
         this.resource = resource;
-    }
-
-    public CloudResourceParams getParams() {
-        return params;
-    }
-
-    public void setParams(CloudResourceParams params) {
-        this.params = params;
     }
 
     public FederationInfoBean getFederationInfo() { return federationInfo; }
