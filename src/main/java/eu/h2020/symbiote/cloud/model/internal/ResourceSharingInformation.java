@@ -10,11 +10,6 @@ public class ResourceSharingInformation {
     private Date sharingDate;
     private Boolean bartering;
 
-    @JsonProperty("accessPolicy")
-    private IAccessPolicySpecifier accessPolicy;
-    @JsonProperty("filteringPolicy")
-    private IAccessPolicySpecifier filteringPolicy;
-
     public Date getSharingDate() {
         return sharingDate;
     }
@@ -31,19 +26,4 @@ public class ResourceSharingInformation {
         this.bartering = bartering;
     }
 
-    public IAccessPolicySpecifier getAccessPolicy() {
-        return accessPolicy;
-    }
-
-    public void setAccessPolicy(IAccessPolicySpecifier accessPolicy) {
-        this.accessPolicy = accessPolicy;
-    }
-
-    public IAccessPolicySpecifier getFilteringPolicy() {
-        return filteringPolicy;
-    }
-
-    public void setFilteringPolicy(IAccessPolicySpecifier filteringPolicy) {
-        this.filteringPolicy = filteringPolicy;
-    }
 }
