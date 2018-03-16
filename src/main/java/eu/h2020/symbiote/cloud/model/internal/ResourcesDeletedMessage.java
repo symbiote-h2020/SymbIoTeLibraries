@@ -20,7 +20,7 @@ public class ResourcesDeletedMessage {
     /**
      * Construct an instance using the provided arguments.
      *
-     * @param deletedFederatedResourcesMap a map in which the id is the federatedResource id and the value
+     * @param deletedFederatedResourcesMap a map in which the key is the federatedResource id and the value
      *                                     the federation ids in which the resource was unshared
      */
     @JsonCreator

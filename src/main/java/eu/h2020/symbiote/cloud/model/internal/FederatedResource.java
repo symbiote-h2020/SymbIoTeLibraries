@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.model.cim.Actuator;
 import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.model.cim.Service;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class is used for storing and retrieving information of federated platform resources from the Platform Registry.
@@ -16,101 +18,120 @@ import java.util.Map;
  * @since 2/22/2018.
  */
 public class FederatedResource {
-    private String id;
-    private Resource resource;
+
+    @Id
+    private String symbioteId;
+    private CloudResource cloudResource;
     private String oDataUrl;
     private String restUrl;
-    private Map<String, Boolean> barteringInfo;
 
+    // Todo: Remove this field since this information is available in cloudResource.getFederationInfo.getSharingInformation
+    // This field is just use for conveniently getting the federations where the resource is exposed
+    private Set<String> federations;
 
-    public FederatedResource(String id, Resource resource, Map<String, Boolean> barteringInfo) {
-        this.id = id;
-        this.resource = resource;
-        this.barteringInfo = barteringInfo;
-        if (resource.getInterworkingServiceURL() != null) {
-            this.oDataUrl = this.createUrl(UrlType.ODATA, id);
-            this.restUrl = this.createUrl(UrlType.REST, id);
+    public FederatedResource(CloudResource cloudResource) {
+        this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
+    }
+
+    public FederatedResource(String symbioteId, CloudResource cloudResource) {
+
+        this.symbioteId = symbioteId;
+        this.cloudResource = cloudResource;
+        if (cloudResource.getResource().getInterworkingServiceURL() != null) {
+            this.oDataUrl = this.createUrl(UrlType.ODATA, symbioteId);
+            this.restUrl = this.createUrl(UrlType.REST, symbioteId);
         }
 
+        if (cloudResource.getFederationInfo() == null || cloudResource.getFederationInfo().getSharingInformation() == null) {
+            this.federations = new HashSet<>();
+        } else
+            this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
+
     }
+
 
     /**
      * Construct an instance using the provided arguments.
      *
-     * @param id the id identifying a resource inside a federation
-     * @param resource the resource description
-     * @param oDataUrl the OData resource url
-     * @param restUrl the Rest resource url
-     * @param barteringInfo the key is the federation id and the value shows if the resource is bartered in the
-     *                      respective federation
+     * @param symbioteId the symbioteId identifying a cloudResource inside a federation
+     * @param cloudResource the cloudResource description
+     * @param oDataUrl the OData cloudResource url
+     * @param restUrl the Rest cloudResource url
+     * @param federations the list of federations where the resource is currently exposed
      */
     @PersistenceConstructor
     @JsonCreator
-    public FederatedResource(@JsonProperty("id") String id,
-                             @JsonProperty("resource") Resource resource,
+    public FederatedResource(@JsonProperty("symbioteId") String symbioteId,
+                             @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("barteringInfo") Map<String, Boolean> barteringInfo) {
-        this.id = id;
-        this.resource = resource;
+                             @JsonProperty("federations") Set<String> federations) {
+
+        this.symbioteId = symbioteId;
+        this.cloudResource = cloudResource;
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
-        this.barteringInfo = barteringInfo;
+        this.federations = federations;
     }
 
-    public String getId() {
-        return this.id;
-    }
-    public void setId(String id) {
-        this.id = id;
+    public void clearPrivateInfo() {
+        cloudResource.setInternalId(null);
+        cloudResource.setFederationInfo(null);
+        cloudResource.setPluginId(null);
+
     }
 
-    public Resource getResource() {
-        return this.resource;
-    }
-    public void setResource(Resource resource) {
-        this.resource = resource;
+    public void shareToNewFederation(String federationId, Boolean barteringStatus) {
+        ResourceSharingInformation resourceSharingInformation = new ResourceSharingInformation();
+        resourceSharingInformation.setBartering(barteringStatus);
+        cloudResource.getFederationInfo().getSharingInformation().put(federationId, resourceSharingInformation);
+
+        federations.add(federationId);
     }
 
-    public String getoDataUrl() {
-        return this.oDataUrl;
-    }
-    public void setoDataUrl(String oDataUrl) {
-        this.oDataUrl = oDataUrl;
+    public void unshareFromFederation(String federationId) {
+        cloudResource.getFederationInfo().getSharingInformation().remove(federationId);
+        federations.remove(federationId);
     }
 
-    public String getRestUrl() {
-        return this.restUrl;
-    }
-    public void setRestUrl(String restUrl) {
-        this.restUrl = restUrl;
-    }
+    public String getSymbioteId() { return this.symbioteId; }
+    public void setSymbioteId(String symbioteId) { this.symbioteId = symbioteId; }
 
-    public Map<String, Boolean> getBarteringInfo() { return barteringInfo; }
-    public void setBarteringInfo(Map<String, Boolean> barteringInfo) { this.barteringInfo = barteringInfo; }
+    public CloudResource getCloudResource() { return this.cloudResource; }
+    public void setCloudResource(CloudResource cloudResource) { this.cloudResource = cloudResource; }
+
+    public String getoDataUrl() { return this.oDataUrl; }
+    public void setoDataUrl(String oDataUrl) { this.oDataUrl = oDataUrl; }
+
+    public String getRestUrl() { return this.restUrl; }
+    public void setRestUrl(String restUrl) { this.restUrl = restUrl; }
+
+    public Set<String> getFederations() { return federations; }
+    public void setFederations(Set<String> federations) { this.federations = federations; }
 
 
     private String createUrl(UrlType urlType, String id) {
-        if (this.resource instanceof Actuator) {
-            return this.createUrl(urlType, "Actuator", id);
+        Resource resource = cloudResource.getResource();
+        if (resource instanceof Actuator) {
+            return createUrl(urlType, "Actuator", id);
         } else {
-            return this.resource instanceof Service ? this.createUrl(urlType, "Service", id) : this.createUrl(urlType, "Sensor", id);
+            return resource instanceof Service ?
+                    createUrl(urlType, "Service", id) :
+                    createUrl(urlType, "Sensor", id);
         }
     }
 
     private String createUrl(UrlType urlType, String resourceTypeName, String id) {
+        String interworkingServiceUrl = cloudResource.getResource().getInterworkingServiceURL();
         return urlType == UrlType.ODATA ?
-                this.resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "") + "/rap/"
+                interworkingServiceUrl.replaceAll("(/rap)?/*$", "") + "/rap/"
                         + resourceTypeName + "s('" + id + "')" :
-                this.resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "") + "/rap/"
+                interworkingServiceUrl.replaceAll("(/rap)?/*$", "") + "/rap/"
                         + resourceTypeName + "/" + id;
     }
 
-    private static enum UrlType {
+    private enum UrlType {
         ODATA,
-        REST;
-
-        private UrlType() {
-        }
+        REST
     }
 }
