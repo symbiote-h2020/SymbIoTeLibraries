@@ -110,10 +110,14 @@ public class SymbioteComponentClientFactory {
                 .encoder(new JacksonEncoder());
 
         if (securityConfiguration != null) {
+            String finalClientId = securityConfiguration.getClientId();
+            if (!finalClientId.contains("@")) {
+                finalClientId = securityConfiguration.getClientId() + "@" + securityConfiguration.getPlatformId();
+            }
             IComponentSecurityHandler secHandler = ComponentSecurityHandlerFactory
                     .getComponentSecurityHandler(securityConfiguration.getKeystorePath(),
                             securityConfiguration.getKeystorePassword(),
-                            securityConfiguration.getClientId()+"@"+securityConfiguration.getPlatformId(),
+                            finalClientId,
                             securityConfiguration.getLocalAAMAddress(),
                             securityConfiguration.getComponentOwnerUsername(),
                             securityConfiguration.getComponentOwnerPassword()
@@ -121,7 +125,7 @@ public class SymbioteComponentClientFactory {
 
             Client client = new SymbioteAuthorizationClient(
                     secHandler,
-                    securityConfiguration.getComponentId() , securityConfiguration.getLocalAAMAddress(),
+                    securityConfiguration.getComponentId() , securityConfiguration.getPlatformId(),
                     new Client.Default(null, null));
 
             logger.debug("Will use " + baseUrl + " to access to interworking interface");

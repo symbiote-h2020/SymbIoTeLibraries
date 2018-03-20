@@ -20,7 +20,7 @@ public class FederationSearchResult {
     }
 
     @JsonCreator
-    public FederationSearchResult(@JsonProperty(value = "resources") List<FederatedResource> resources) {
+    public FederationSearchResult(@JsonProperty("resources") List<FederatedResource> resources) {
         if (resources != null)
             this.resources = resources;
         else

@@ -1,19 +1,14 @@
 package eu.h2020.symbiote.cloud.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
+
 import java.util.Date;
 
 public class ResourceSharingInformation {
-    private String symbioteId;
+
     private Date sharingDate;
     private Boolean bartering;
-
-    public String getSymbioteId() {
-        return symbioteId;
-    }
-
-    public void setSymbioteId(String symbioteId) {
-        this.symbioteId = symbioteId;
-    }
 
     public Date getSharingDate() {
         return sharingDate;
@@ -30,4 +25,5 @@ public class ResourceSharingInformation {
     public void setBartering(Boolean bartering) {
         this.bartering = bartering;
     }
+
 }

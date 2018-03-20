@@ -73,6 +73,6 @@ public interface RegistrationHandlerClient {
 
     @RequestLine("DELETE " + ClientConstants.RH_LOCAL_RESOURCES_SHARE_PATH)
     @Headers("Content-Type: application/json")
-    Map<String, List<String>> unshareResources(Map<String, List<String>> input);
+    Map<String, List<CloudResource>> unshareResources(Map<String, List<String>> input);
 
 }

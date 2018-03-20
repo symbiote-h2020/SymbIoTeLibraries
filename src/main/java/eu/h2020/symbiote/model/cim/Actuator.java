@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Actuator extends Device {
 
-    @JsonProperty("capabilites")
+    @JsonProperty("capabilities")
     private List<Capability> capabilities;
 
     public Actuator() {

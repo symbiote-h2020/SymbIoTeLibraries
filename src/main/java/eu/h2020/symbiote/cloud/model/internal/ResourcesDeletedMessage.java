@@ -3,7 +3,8 @@ package eu.h2020.symbiote.cloud.model.internal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class is used for information exchange between Platform Registry and Subscription Manager regarding
@@ -14,18 +15,23 @@ import java.util.List;
  */
 public class ResourcesDeletedMessage {
 
-    private List<String> deletedIds;
+    private Map<String, Set<String>> deletedFederatedResourcesMap;
 
     /**
      * Construct an instance using the provided arguments.
      *
-     * @param deletedIds a list of federation ids of the newly deleted resources
+     * @param deletedFederatedResourcesMap a map in which the key is the federatedResource id and the value
+     *                                     the federation ids in which the resource was unshared
      */
     @JsonCreator
-    public ResourcesDeletedMessage(@JsonProperty(value = "deletedIds") List<String> deletedIds) {
-        this.deletedIds = deletedIds;
+    public ResourcesDeletedMessage(@JsonProperty(value = "deletedFederatedResourcesMap")
+                                               Map<String, Set<String>> deletedFederatedResourcesMap) {
+        this.deletedFederatedResourcesMap = deletedFederatedResourcesMap;
     }
 
-    public List<String> getDeletedIds() { return deletedIds; }
-    public void setDeletedIds(List<String> deletedIds) { this.deletedIds = deletedIds; }
+
+    public Map<String, Set<String>> getDeletedFederatedResourcesMap() { return deletedFederatedResourcesMap; }
+    public void setDeletedFederatedResourcesMap(Map<String, Set<String>> deletedFederatedResourcesMap) {
+        this.deletedFederatedResourcesMap = deletedFederatedResourcesMap;
+    }
 }

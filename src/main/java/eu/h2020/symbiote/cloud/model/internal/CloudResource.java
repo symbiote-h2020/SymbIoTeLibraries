@@ -19,10 +19,6 @@ public class CloudResource  {
     @JsonProperty("pluginId")
     private String pluginId;
 
-    //ip address of the host. Needed by Monitoring component
-    @JsonProperty("cloudMonitoringHost")
-    private String cloudMonitoringHost;
-
     @JsonProperty("accessPolicy")
     private IAccessPolicySpecifier accessPolicy;
     @JsonProperty("filteringPolicy")
@@ -30,14 +26,10 @@ public class CloudResource  {
 
     @JsonProperty("resource")
     //For backwards compatibility, core registration remains here
-    Resource resource;
+    private Resource resource;
 
-    @JsonProperty("federationIds")
-    private Map<String, ResourceSharingInformation> federationInfo = new HashMap<>();
-
-    //Needed by Monitoring component
-    @JsonProperty("params")
-    CloudResourceParams params;
+    @JsonProperty("federationInfo")
+    private FederationInfoBean federationInfo;
 
     public CloudResource() {
     }
@@ -56,14 +48,6 @@ public class CloudResource  {
 
     public void setPluginId(String pluginId) {
         this.pluginId = pluginId;
-    }
-
-    public String getCloudMonitoringHost() {
-        return cloudMonitoringHost;
-    }
-
-    public void setCloudMonitoringHost(String cloudMonitoringHost) {
-        this.cloudMonitoringHost = cloudMonitoringHost;
     }
 
     public IAccessPolicySpecifier getAccessPolicy() {
@@ -90,19 +74,7 @@ public class CloudResource  {
         this.resource = resource;
     }
 
-    public Map<String, ResourceSharingInformation> getFederationInfo() {
-        return federationInfo;
-    }
+    public FederationInfoBean getFederationInfo() { return federationInfo; }
 
-    public void setFederationInfo(Map<String, ResourceSharingInformation> federationInfo) {
-        this.federationInfo = federationInfo;
-    }
-
-    public CloudResourceParams getParams() {
-        return params;
-    }
-
-    public void setParams(CloudResourceParams params) {
-        this.params = params;
-    }
+    public void setFederationInfo(FederationInfoBean federationInfo) { this.federationInfo = federationInfo; }
 }

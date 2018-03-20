@@ -5,7 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.model.cim.Actuator;
 import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.model.cim.Service;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class is used for storing and retrieving information of federated platform resources from the Platform Registry.
@@ -14,88 +20,154 @@ import org.springframework.data.annotation.PersistenceConstructor;
  * @since 2/22/2018.
  */
 public class FederatedResource {
-    private String id;
-    private Resource resource;
+
+    @Id
+    private String symbioteId;
+    private CloudResource cloudResource;
     private String oDataUrl;
     private String restUrl;
-    private String federationId;
-    private Boolean bartered;
 
-    public FederatedResource(Resource resource, String id, String federationId, Boolean bartered) {
-        this.id = id;
-        this.resource = resource;
-        this.federationId = federationId;
-        this.bartered = bartered;
+    // Todo: Remove this field since this information is available in cloudResource.getFederationInfo.getSharingInformation
+    // This field is just use for conveniently getting the federations where the resource is exposed
+    private Set<String> federations;
 
-        // Todo: Consider actual Resource validation here
-        if (resource.getInterworkingServiceURL() != null) {
-            this.oDataUrl = createUrl(UrlType.ODATA, id);
-            this.restUrl = createUrl(UrlType.REST, id);
-        }
+    public FederatedResource(CloudResource cloudResource) {
+        this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
     }
+
+    public FederatedResource(String symbioteId, CloudResource cloudResource)
+            throws IllegalArgumentException {
+
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (!m.find())
+            throw new IllegalArgumentException("The symbioteId is malformed");
+
+        if (cloudResource.getResource().getInterworkingServiceURL() == null)
+            throw new IllegalArgumentException("cloudResource.getResource().getInterworkingServiceURL() == null");
+
+        this.symbioteId = symbioteId;
+        this.cloudResource = cloudResource;
+        if (cloudResource.getResource().getInterworkingServiceURL() != null) {
+            this.oDataUrl = this.createUrl(UrlType.ODATA, symbioteId);
+            this.restUrl = this.createUrl(UrlType.REST, symbioteId);
+        }
+
+        if (cloudResource.getFederationInfo() == null || cloudResource.getFederationInfo().getSharingInformation() == null) {
+            this.federations = new HashSet<>();
+        } else
+            this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
+
+    }
+
 
     /**
      * Construct an instance using the provided arguments.
      *
-     * @param id the id identifying a resource inside a federation
-     * @param resource the resource description
-     * @param oDataUrl the OData resource url
-     * @param restUrl the Rest resource url
-     * @param federationId the federation id of the resource
-     * @param bartered indicated if the resource is bartered or not
+     * @param symbioteId the symbioteId identifying a cloudResource inside a federation
+     * @param cloudResource the cloudResource description
+     * @param oDataUrl the OData cloudResource url
+     * @param restUrl the Rest cloudResource url
+     * @param federations the list of federations where the resource is currently exposed
      */
     @PersistenceConstructor
     @JsonCreator
-    public FederatedResource(@JsonProperty("id") String id,
-                             @JsonProperty("resource") Resource resource,
+    public FederatedResource(@JsonProperty("symbioteId") String symbioteId,
+                             @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("federationId") String federationId,
-                             @JsonProperty("bartered") Boolean bartered) {
-        this.id = id;
-        this.resource = resource;
+                             @JsonProperty("federations") Set<String> federations)
+    throws IllegalArgumentException {
+
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (!m.find())
+            throw new IllegalArgumentException("The symbioteId is malformed");
+
+        this.symbioteId = symbioteId;
+        this.cloudResource = cloudResource;
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
-        this.federationId = federationId;
-        this.bartered = bartered;
+        this.federations = federations;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public void clearPrivateInfo() {
+        cloudResource.setInternalId(null);
+        cloudResource.setFederationInfo(null);
+        cloudResource.setPluginId(null);
 
-    public Resource getResource() { return resource; }
-    public void setResource(Resource resource) { this.resource = resource; }
+    }
 
-    public String getoDataUrl() { return oDataUrl; }
+    public void shareToNewFederation(String federationId, Boolean barteringStatus) {
+        ResourceSharingInformation resourceSharingInformation = new ResourceSharingInformation();
+        resourceSharingInformation.setBartering(barteringStatus);
+        cloudResource.getFederationInfo().getSharingInformation().put(federationId, resourceSharingInformation);
+
+        federations.add(federationId);
+    }
+
+    public void unshareFromFederation(String federationId) {
+        cloudResource.getFederationInfo().getSharingInformation().remove(federationId);
+        federations.remove(federationId);
+    }
+
+    public String getSymbioteId() { return this.symbioteId; }
+    public void setSymbioteId(String symbioteId) throws IllegalArgumentException {
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (!m.find())
+            throw new IllegalArgumentException("The symbioteId is malformed");
+
+        this.symbioteId = symbioteId;
+    }
+
+    public CloudResource getCloudResource() { return this.cloudResource; }
+    public void setCloudResource(CloudResource cloudResource) { this.cloudResource = cloudResource; }
+
+    public String getoDataUrl() { return this.oDataUrl; }
     public void setoDataUrl(String oDataUrl) { this.oDataUrl = oDataUrl; }
 
-    public String getRestUrl() { return restUrl; }
+    public String getRestUrl() { return this.restUrl; }
     public void setRestUrl(String restUrl) { this.restUrl = restUrl; }
 
-    public String getFederationId() { return federationId; }
-    public void setFederationId(String federationId) { this.federationId = federationId; }
+    public Set<String> getFederations() { return federations; }
+    public void setFederations(Set<String> federations) { this.federations = federations; }
 
-    public Boolean getBartered() { return bartered; }
-    public void setBartered(Boolean bartered) { this.bartered = bartered; }
+    public String getPlatformId() throws IllegalArgumentException {
+
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (m.find())
+            return m.group(2);
+        throw new IllegalArgumentException("The symbioteId is malformed");
+    }
 
     private String createUrl(UrlType urlType, String id) {
-        if (resource instanceof Actuator)
+        Resource resource = cloudResource.getResource();
+        if (resource instanceof Actuator) {
             return createUrl(urlType, "Actuator", id);
-        else if (resource instanceof Service)
-            return createUrl(urlType, "Service", id);
-        else
-            return createUrl(urlType, "Sensor", id);
+        } else {
+            return resource instanceof Service ?
+                    createUrl(urlType, "Service", id) :
+                    createUrl(urlType, "Sensor", id);
+        }
     }
 
     private String createUrl(UrlType urlType, String resourceTypeName, String id) {
+        String interworkingServiceUrl = cloudResource.getResource().getInterworkingServiceURL();
         return urlType == UrlType.ODATA ?
-                resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "")
-                        +  "/rap/" + resourceTypeName + "s('" + id + "')" :
-                resource.getInterworkingServiceURL().replaceAll("(/rap)?/*$", "")
-                        +  "/rap/" + resourceTypeName + "/" + id;
+                interworkingServiceUrl.replaceAll("(/rap)?/*$", "") + "/rap/"
+                        + resourceTypeName + "s('" + id + "')" :
+                interworkingServiceUrl.replaceAll("(/rap)?/*$", "") + "/rap/"
+                        + resourceTypeName + "/" + id;
     }
 
     private enum UrlType {
-        ODATA, REST
+        ODATA,
+        REST
     }
 }
