@@ -10,6 +10,8 @@ import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class is used for storing and retrieving information of federated platform resources from the Platform Registry.
@@ -33,7 +35,17 @@ public class FederatedResource {
         this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
     }
 
-    public FederatedResource(String symbioteId, CloudResource cloudResource) {
+    public FederatedResource(String symbioteId, CloudResource cloudResource)
+            throws IllegalArgumentException {
+
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (!m.find())
+            throw new IllegalArgumentException("The symbioteId is malformed");
+
+        if (cloudResource.getResource().getInterworkingServiceURL() == null)
+            throw new IllegalArgumentException("cloudResource.getResource().getInterworkingServiceURL() == null");
 
         this.symbioteId = symbioteId;
         this.cloudResource = cloudResource;
@@ -65,7 +77,14 @@ public class FederatedResource {
                              @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("federations") Set<String> federations) {
+                             @JsonProperty("federations") Set<String> federations)
+    throws IllegalArgumentException {
+
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (!m.find())
+            throw new IllegalArgumentException("The symbioteId is malformed");
 
         this.symbioteId = symbioteId;
         this.cloudResource = cloudResource;
@@ -95,7 +114,15 @@ public class FederatedResource {
     }
 
     public String getSymbioteId() { return this.symbioteId; }
-    public void setSymbioteId(String symbioteId) { this.symbioteId = symbioteId; }
+    public void setSymbioteId(String symbioteId) throws IllegalArgumentException {
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (!m.find())
+            throw new IllegalArgumentException("The symbioteId is malformed");
+
+        this.symbioteId = symbioteId;
+    }
 
     public CloudResource getCloudResource() { return this.cloudResource; }
     public void setCloudResource(CloudResource cloudResource) { this.cloudResource = cloudResource; }
@@ -109,6 +136,15 @@ public class FederatedResource {
     public Set<String> getFederations() { return federations; }
     public void setFederations(Set<String> federations) { this.federations = federations; }
 
+    public String getPlatformId() throws IllegalArgumentException {
+
+        Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
+        Matcher m = p.matcher(symbioteId);
+
+        if (m.find())
+            return m.group(2);
+        throw new IllegalArgumentException("The symbioteId is malformed");
+    }
 
     private String createUrl(UrlType urlType, String id) {
         Resource resource = cloudResource.getResource();
