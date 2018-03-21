@@ -7,6 +7,7 @@ package eu.h2020.symbiote.model.cim;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class WGS84Location extends Location {
     private final double altitude;
 
     @JsonCreator
+    @PersistenceConstructor
     public WGS84Location(@JsonProperty("longitude") double longitude, 
                          @JsonProperty("latitude") double latitude, 
                          @JsonProperty("altitude") double altitude, 

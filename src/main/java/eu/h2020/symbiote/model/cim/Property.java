@@ -7,6 +7,7 @@ package eu.h2020.symbiote.model.cim;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,9 +26,10 @@ public class Property {
     private final List<String> description;
 
     @JsonCreator
+    @PersistenceConstructor
     public Property(@JsonProperty("name") String name,
                     @JsonProperty("iri") String iri,
-            @JsonProperty("description") List<String> description) {
+                    @JsonProperty("description") List<String> description) {
         this.name = name;
         this.iri = iri;
         this.description = description;

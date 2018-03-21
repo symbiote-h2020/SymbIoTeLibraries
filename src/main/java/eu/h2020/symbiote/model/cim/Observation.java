@@ -30,10 +30,10 @@ public class Observation {
 
     @JsonCreator
     public Observation(@JsonProperty("resourceId") String resourceId,
-            @JsonProperty("location") Location location,
-            @JsonProperty("resultTime") String resultTime,
-            @JsonProperty("samplingTime") String samplingTime,
-            @JsonProperty("obsValues") List<ObservationValue> obsValues) {
+                       @JsonProperty("location") Location location,
+                       @JsonProperty("resultTime") String resultTime,
+                       @JsonProperty("samplingTime") String samplingTime,
+                       @JsonProperty("obsValues") List<ObservationValue> obsValues) {
         this.resourceId = resourceId;
         this.location = location;
         this.resultTime = resultTime;
