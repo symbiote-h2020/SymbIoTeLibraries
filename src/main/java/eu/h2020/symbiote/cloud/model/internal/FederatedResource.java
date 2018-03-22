@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.cloud.model.internal;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.model.cim.Actuator;
 import eu.h2020.symbiote.model.cim.Resource;
@@ -8,6 +9,7 @@ import eu.h2020.symbiote.model.cim.Service;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -95,9 +97,11 @@ public class FederatedResource {
 
     public void clearPrivateInfo() {
         cloudResource.setInternalId(null);
-        cloudResource.setFederationInfo(null);
         cloudResource.setPluginId(null);
-
+        FederationInfoBean federationInfoBean = new FederationInfoBean();
+        federationInfoBean.setSharingInformation(new HashMap<>());
+        cloudResource.setFederationInfo(federationInfoBean);
+        federations.clear();
     }
 
     public void shareToNewFederation(String federationId, Boolean barteringStatus) {
@@ -136,6 +140,7 @@ public class FederatedResource {
     public Set<String> getFederations() { return federations; }
     public void setFederations(Set<String> federations) { this.federations = federations; }
 
+    @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
