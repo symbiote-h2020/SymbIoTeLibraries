@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 public class InformationModel extends RDFInfo {
 
     @NotNull
-    @Pattern(regexp="^[\\w-]{4,}$")
+    @Pattern(regexp="^[\\w-]+$")
     private String id;
     private String uri;
     private String name;
