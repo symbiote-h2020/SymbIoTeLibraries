@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
@@ -7,6 +8,7 @@ import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.util.IntervalFormatter;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.util.Objects;
 
@@ -16,46 +18,31 @@ public class ResourceManagerTaskInfoRequest {
     public static final int ALL_AVAILABLE_RESOURCES = -1;
 
     @Id
-    @JsonProperty("taskId")
     private String taskId;
 
-    @JsonProperty("minNoResources")
     private Integer minNoResources;
 
-    @JsonProperty("maxNoResources")
     private Integer maxNoResources = ALL_AVAILABLE_RESOURCES;
 
-    @JsonProperty("coreQueryRequest")
     private CoreQueryRequest coreQueryRequest;
 
     // Use ISO-8601 alternateExtended format to specify the queryInterval below (i.e. Pyyyy-mm-ddThh:mm:ss)
     // Fractional seconds (milliseconds) are supported
     // http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()
-    @JsonProperty("queryInterval")
     private String queryInterval;
 
-    @JsonProperty("allowCaching")
     private Boolean allowCaching;
 
     // Use ISO-8601 alternateExtended format to specify the cachingInterval below (i.e. Pyyyy-mm-ddThh:mm:ss)
     // Fractional seconds (milliseconds) are supported
     // http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()
-    @JsonProperty("cachingInterval")
     private String cachingInterval;
 
-    @JsonProperty("informPlatformProxy")
     private Boolean informPlatformProxy;
 
-    @JsonProperty("enablerLogicName")
     private String enablerLogicName;
 
-    @JsonProperty("sparqlQueryRequest")
     private SparqlQueryRequest sparqlQueryRequest;
-
-
-    public ResourceManagerTaskInfoRequest() {
-        // empty constructor
-    }
 
     /**
      *
@@ -77,11 +64,51 @@ public class ResourceManagerTaskInfoRequest {
      * @throws IllegalArgumentException if queryInterval/cachingInterval has wrong format or both sparqlQueryRequest and coreQueryRequest are null
      * @see                         <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()">ISO-8601 alternateExtended format</a>
      */
-    public ResourceManagerTaskInfoRequest(String taskId, Integer minNoResources,
-                                          CoreQueryRequest coreQueryRequest, String queryInterval,
-                                          Boolean allowCaching, String cachingInterval,
-                                          Boolean informPlatformProxy, String enablerLogicName,
-                                          SparqlQueryRequest sparqlQueryRequest)
+    public ResourceManagerTaskInfoRequest(String taskId,
+                                          Integer minNoResources,
+                                          CoreQueryRequest coreQueryRequest,
+                                          String queryInterval,
+                                          Boolean allowCaching,
+                                          String cachingInterval,
+                                          Boolean informPlatformProxy,
+                                          String enablerLogicName,
+                                          SparqlQueryRequest sparqlQueryRequest) {
+        this(taskId, minNoResources, ALL_AVAILABLE_RESOURCES, coreQueryRequest, queryInterval, allowCaching,
+                cachingInterval, informPlatformProxy, enablerLogicName, sparqlQueryRequest);
+    }
+
+    /**
+     *
+     * @param taskId                the id of the requested task
+     * @param minNoResources        the minimum number of required resources.
+     * @param maxNoResources        the maximum number of resources
+     * @param coreQueryRequest      the request which is propagated to the core
+     * @param queryInterval         the query interval in ISO-8601 alternateExtended format that is propagated to the
+     *                              Platform Proxy
+     * @param allowCaching          if the results gotten from search are allowed to be cached for faster responses
+     *                              in case of failing resources
+     * @param cachingInterval       the caching interval of tasks resources in ISO-8601 alternateExtended format
+     * @param informPlatformProxy   if Platform Proxy needs to be informed. If you want to receive back data set to true.
+     *                              Otherwise, if you just need to query the Core for getting back the resource
+     *                              descriptions, set to false
+     * @param enablerLogicName      the enabler logic component which owns this task and it will receive updates for it
+     * @param sparqlQueryRequest    the request in SPARQL. Set to null if you use CoreQueryRequest. If set overwrites
+     *                              the CoreQueryRequest
+     * @throws IllegalArgumentException if queryInterval/cachingInterval has wrong format or both sparqlQueryRequest and coreQueryRequest are null
+     * @see                         <a href="http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISOPeriodFormat.html#alternateExtended()">ISO-8601 alternateExtended format</a>
+     */
+    @PersistenceConstructor
+    @JsonCreator
+    public ResourceManagerTaskInfoRequest(@JsonProperty("taskId") String taskId,
+                                          @JsonProperty("minNoResources") Integer minNoResources,
+                                          @JsonProperty("maxNoResources") Integer maxNoResources,
+                                          @JsonProperty("coreQueryRequest") CoreQueryRequest coreQueryRequest,
+                                          @JsonProperty("queryInterval") String queryInterval,
+                                          @JsonProperty("allowCaching") Boolean allowCaching,
+                                          @JsonProperty("cachingInterval") String cachingInterval,
+                                          @JsonProperty("informPlatformProxy") Boolean informPlatformProxy,
+                                          @JsonProperty("enablerLogicName") String enablerLogicName,
+                                          @JsonProperty("sparqlQueryRequest") SparqlQueryRequest sparqlQueryRequest)
             throws IllegalArgumentException {
 
         if (sparqlQueryRequest == null && coreQueryRequest == null)
@@ -89,6 +116,7 @@ public class ResourceManagerTaskInfoRequest {
 
         setTaskId(taskId);
         setMinNoResources(minNoResources);
+        setMaxNoResources(maxNoResources);
         setCoreQueryRequest(CoreQueryRequest.newInstance(coreQueryRequest));
         setQueryInterval(queryInterval);
         setAllowCaching(allowCaching);

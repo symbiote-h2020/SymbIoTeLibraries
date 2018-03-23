@@ -105,7 +105,8 @@ public class ResourceManagerTaskInfoResponseTests {
                 .securityRequest(new SecurityRequest("token"))
                 .build();
 
-        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 5, coreQueryRequest,
+        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse(
+                "1", 5, 10, coreQueryRequest,
                 "P0-0-0T0:0:0.01", true, "P0-0-0T0:0:0.01", true,
                 "enablerLogic", new SparqlQueryRequest(), new ArrayList<>(), new ArrayList<>(),
                 ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
@@ -175,7 +176,7 @@ public class ResourceManagerTaskInfoResponseTests {
         SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("response1",
                 SparqlQueryOutputFormat.COUNT);
         
-        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2,
+        ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2, 10,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
                 true, "TestEnablerLogic", sparqlQueryRequest, resourceIds, resourceDescriptions,
                 ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
