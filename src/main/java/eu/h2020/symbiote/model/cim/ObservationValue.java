@@ -26,8 +26,8 @@ public class ObservationValue {
 
     @JsonCreator
     public ObservationValue(@JsonProperty("value") String value,
-            @JsonProperty("obsProperty") Property obsProperty,
-            @JsonProperty("uom") UnitOfMeasurement uom) {
+                            @JsonProperty("obsProperty") Property obsProperty,
+                            @JsonProperty("uom") UnitOfMeasurement uom) {
         this.value = value;
         this.obsProperty = obsProperty;
         this.uom = uom;

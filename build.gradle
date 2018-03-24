@@ -52,9 +52,9 @@ repositories {
 
 dependencies {
     // Symbiote Security section
-    compile('com.github.symbiote-h2020:SymbIoTeSecurity:[24.2,24.999]'){ changing = true }
+    compile('com.github.symbiote-h2020:SymbIoTeSecurity:[25.2,25.999]'){ changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
-	compile('com.github.symbiote-h2020:SymbIoTeSecurity:[24.2,24.999]:sources'){ changing = true }
+	compile('com.github.symbiote-h2020:SymbIoTeSecurity:[25.2,25.999]:sources'){ changing = true }
 	//compile project(':SymbIoTeSecurity')
 
     //from symbioteLibs

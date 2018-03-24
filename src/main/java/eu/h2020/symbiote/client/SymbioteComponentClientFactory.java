@@ -2,10 +2,12 @@ package eu.h2020.symbiote.client;
 
 import eu.h2020.symbiote.security.ComponentSecurityHandlerFactory;
 import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
+import eu.h2020.symbiote.security.communication.ApacheCommonsLogger4Feign;
 import eu.h2020.symbiote.security.communication.SymbioteAuthorizationClient;
 import eu.h2020.symbiote.security.handler.IComponentSecurityHandler;
 import feign.Client;
 import feign.Feign;
+import feign.Logger;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
@@ -107,7 +109,9 @@ public class SymbioteComponentClientFactory {
             throws SecurityHandlerException {
         Feign.Builder builder = Feign.builder()
                 .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder());
+                .encoder(new JacksonEncoder())
+                .logger(new ApacheCommonsLogger4Feign(logger))
+                .logLevel(Logger.Level.FULL);
 
         if (securityConfiguration != null) {
             String finalClientId = securityConfiguration.getClientId();
