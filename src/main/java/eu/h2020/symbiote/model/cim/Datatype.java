@@ -31,4 +31,26 @@ public class Datatype {
         isArray = array;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Datatype datatype = (Datatype) o;
+
+        return isArray == datatype.isArray;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (isArray ? 1 : 0);
+    }
+
+    @Override
+    public String toString() {
+        return "Datatype{" +
+                "isArray=" + isArray +
+                '}';
+    }
 }

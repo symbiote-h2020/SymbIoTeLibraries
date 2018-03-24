@@ -53,4 +53,38 @@ public class Parameter {
     public void setDatatype(Datatype datatype) {
         this.datatype = datatype;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Parameter parameter = (Parameter) o;
+
+        if (mandatory != parameter.mandatory) return false;
+        if (name != null ? !name.equals(parameter.name) : parameter.name != null) return false;
+        if (restrictions != null ? !restrictions.equals(parameter.restrictions) : parameter.restrictions != null)
+            return false;
+        return datatype != null ? datatype.equals(parameter.datatype) : parameter.datatype == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (mandatory ? 1 : 0);
+        result = 31 * result + (restrictions != null ? restrictions.hashCode() : 0);
+        result = 31 * result + (datatype != null ? datatype.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Parameter{" +
+                "name='" + name + '\'' +
+                ", mandatory=" + mandatory +
+                ", restrictions=" + restrictions +
+                ", datatype=" + datatype +
+                '}';
+    }
 }
