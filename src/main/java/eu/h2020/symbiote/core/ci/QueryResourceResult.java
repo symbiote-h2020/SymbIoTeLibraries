@@ -1,5 +1,7 @@
 package eu.h2020.symbiote.core.ci;
 
+import eu.h2020.symbiote.model.cim.Capability;
+import eu.h2020.symbiote.model.cim.Parameter;
 import eu.h2020.symbiote.model.cim.Property;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class QueryResourceResult {
     private Double locationAltitude;
     private List<Property> observedProperties;
     private List<String> resourceType;
+    private List<Parameter> inputParameters;
+    private List<Capability> capabilities;
     private Float ranking;
 
     /**
@@ -43,6 +47,8 @@ public class QueryResourceResult {
         setLocationAltitude(queryResourceResult.getLocationAltitude());
         setObservedProperties(queryResourceResult.getObservedProperties());
         setResourceType(queryResourceResult.getResourceType());
+        setInputParameters(queryResourceResult.getInputParameters());
+        setCapabilities(queryResourceResult.getCapabilities());
         setRanking(queryResourceResult.getRanking());
     }
 
@@ -148,6 +154,22 @@ public class QueryResourceResult {
             this.resourceType = new ArrayList<>(resourceType);
     }
 
+    public List<Parameter> getInputParameters() {
+        return inputParameters;
+    }
+
+    public void setInputParameters(List<Parameter> inputParameters) {
+        this.inputParameters = inputParameters;
+    }
+
+    public List<Capability> getCapabilities() {
+        return capabilities;
+    }
+
+    public void setCapabilities(List<Capability> capabilities) {
+        this.capabilities = capabilities;
+    }
+
     public Float getRanking() { return ranking; }
 
     public void setRanking(Float ranking) { this.ranking = ranking; }
@@ -180,6 +202,10 @@ public class QueryResourceResult {
             return false;
         if (getResourceType() != null ? !getResourceType().equals(result.getResourceType()) : result.getResourceType() != null)
             return false;
+        if (getInputParameters() !=null ? !getInputParameters().equals(result.getInputParameters()) : result.getInputParameters() != null )
+            return false;
+        if (getCapabilities() != null ? !getCapabilities().equals(result.getCapabilities()):result.getCapabilities() != null)
+            return false;
         return getRanking() != null ? getRanking().equals(result.getRanking()) : result.getRanking() == null;
     }
 
@@ -197,6 +223,8 @@ public class QueryResourceResult {
         result = 31 * result + (getLocationAltitude() != null ? getLocationAltitude().hashCode() : 0);
         result = 31 * result + (getObservedProperties() != null ? getObservedProperties().hashCode() : 0);
         result = 31 * result + (getResourceType() != null ? getResourceType().hashCode() : 0);
+        result = 31 * result + (getInputParameters() != null ? getInputParameters().hashCode() : 0);
+        result = 31 * result + (getCapabilities() != null ? getCapabilities().hashCode() : 0);
         result = 31 * result + (getRanking() != null ? getRanking().hashCode() : 0);
         return result;
     }
