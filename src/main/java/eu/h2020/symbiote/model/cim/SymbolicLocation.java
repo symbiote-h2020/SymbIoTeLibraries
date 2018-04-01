@@ -1,11 +1,16 @@
 package eu.h2020.symbiote.model.cim;
 
 
+import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Class representing symbolic location defined in CIM.
  *
  * Created by Szymon Mueller on 01/05/2017.
  */
+@QueryEntity
+@Document
 public class SymbolicLocation extends Location {
 
 	public SymbolicLocation() {

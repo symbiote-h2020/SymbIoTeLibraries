@@ -3,11 +3,11 @@ package eu.h2020.symbiote.cloud.model.internal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.h2020.symbiote.model.cim.Actuator;
-import eu.h2020.symbiote.model.cim.Resource;
-import eu.h2020.symbiote.model.cim.Service;
+import com.querydsl.core.annotations.QueryEntity;
+import eu.h2020.symbiote.model.cim.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -16,12 +16,16 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * This class is used for storing and retrieving information of federated platform resources from the Platform Registry.
  *
  * @author Vasileios Glykantzis (ICOM)
  * @since 2/22/2018.
  */
+
+@QueryEntity
+@Document
 public class FederatedResource {
 
     @Id
@@ -29,10 +33,16 @@ public class FederatedResource {
     private CloudResource cloudResource;
     private String oDataUrl;
     private String restUrl;
+    private String resourceType;
 
     // Todo: Remove this field since this information is available in cloudResource.getFederationInfo.getSharingInformation
     // This field is just use for conveniently getting the federations where the resource is exposed
     private Set<String> federations;
+
+    // Todo: Remove these fields if an easier way is found for location related queries.
+    //This field is used by the searchService to be able to perform location related queries for resource type Device and/or location type WGS84Location.
+    private Location locatedAt;
+    private double[] locationCoords;
 
     public FederatedResource(CloudResource cloudResource) {
         this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
@@ -62,6 +72,24 @@ public class FederatedResource {
         } else
             this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
 
+
+        resourceType = cloudResource.getResource().getClass().getSimpleName();//getCanonicalName()
+
+
+        if(cloudResource.getResource() instanceof Device)
+            this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
+
+       else
+           this.locatedAt = null;
+
+
+       if(locatedAt!=null)
+       {
+           if( locatedAt instanceof WGS84Location)
+               locationCoords = new double[]{((WGS84Location) locatedAt).getLongitude(), ((WGS84Location) locatedAt).getLatitude()};
+           else locationCoords = null;
+       }
+
     }
 
 
@@ -80,7 +108,8 @@ public class FederatedResource {
                              @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("federations") Set<String> federations)
+                             @JsonProperty("federations") Set<String> federations,
+                             @JsonProperty("locatedAt") Location locatedAt)
     throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -94,6 +123,8 @@ public class FederatedResource {
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
         this.federations = federations;
+        this.locatedAt = locatedAt;
+        this.resourceType = cloudResource.getResource().getClass().getSimpleName();
     }
 
     public void clearPrivateInfo() {
@@ -152,6 +183,17 @@ public class FederatedResource {
 
     public Set<String> getFederations() { return federations; }
     public void setFederations(Set<String> federations) { this.federations = federations; }
+
+
+    public Location getLocatedAt() { return this.locatedAt; }
+    public void setLocatedAt(Location locatedAt) { this.locatedAt = locatedAt; }
+
+    public double[] getlocationCoords() { return this.locationCoords; }
+    public void setlocationCoords(double[] locationCoords) { this.locationCoords = locationCoords; }
+
+    public String getResourceType() { return this.resourceType; }
+    public void setResourceType(String resourceType) { this.resourceType = resourceType; }
+
 
     @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {

@@ -4,12 +4,16 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Class representing WKT location defined in CIM.
  *
  * Created by Szymon Mueller on 01/05/2017.
  */
+@QueryEntity
+@Document
 public class WKTLocation extends Location {
 
     @JsonProperty("value")

@@ -8,6 +8,8 @@ package eu.h2020.symbiote.model.cim;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +23,8 @@ import java.util.Objects;
         @JsonSubTypes.Type(value = WKTLocation.class, name = "WKTLocation"),
         @JsonSubTypes.Type(value = SymbolicLocation.class, name = "SymbolicLocation")
 })
+@QueryEntity
+@Document
 abstract public class Location {
     @JsonProperty("name")
     String name;
