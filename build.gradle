@@ -2,6 +2,7 @@
 buildscript {
     ext {
         swaggerAnnotationsVersion = '1.5.16'
+        querydslVersion = '4.1.4'
     }
     repositories {
         mavenCentral()
@@ -15,7 +16,6 @@ buildscript {
     }
 }
 
-// code
 apply plugin: 'java'
 
 // code quality
@@ -52,9 +52,9 @@ repositories {
 
 dependencies {
     // Symbiote Security section
-    compile('com.github.symbiote-h2020:SymbIoTeSecurity:[25.2,25.999]'){ changing = true }
+    compile('com.github.symbiote-h2020:SymbIoTeSecurity:new_lib-SNAPSHOT'){ changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
-	compile('com.github.symbiote-h2020:SymbIoTeSecurity:[25.2,25.999]:sources'){ changing = true }
+	compile('com.github.symbiote-h2020:SymbIoTeSecurity:new_lib-SNAPSHOT:sources'){ changing = true }
 	//compile project(':SymbIoTeSecurity')
 
     //from symbioteLibs
@@ -63,6 +63,9 @@ dependencies {
 
     // Swagger annotations for documentation
     compile("io.swagger:swagger-annotations:${swaggerAnnotationsVersion}")
+
+    // querydsl
+    compile("com.querydsl:querydsl-mongodb:${querydslVersion}")
 
     // common testing
     testCompile('junit:junit:[4.12,4.999]')

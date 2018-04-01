@@ -3,11 +3,13 @@ package eu.h2020.symbiote.cloud.model.internal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.querydsl.core.annotations.QueryEntity;
 import eu.h2020.symbiote.model.cim.Actuator;
 import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.model.cim.Service;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,12 +17,16 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * This class is used for storing and retrieving information of federated platform resources from the Platform Registry.
  *
  * @author Vasileios Glykantzis (ICOM)
  * @since 2/22/2018.
  */
+
+@QueryEntity
+@Document
 public class FederatedResource {
 
     @Id
