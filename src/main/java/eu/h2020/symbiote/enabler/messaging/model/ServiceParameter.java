@@ -1,6 +1,8 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 /**
  * Class describing input parameter value. Values will be interpreted on the platform side.
@@ -9,10 +11,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ServiceParameter {
 
-    @JsonProperty("name")
+
     private String name;
 
-    @JsonProperty("value")
+
     private String value;
 
     /**
@@ -20,7 +22,10 @@ public class ServiceParameter {
      * @param name Name of the parameter, should be equal to the name of the input parameter of the resource.
      * @param value String representing a value that will be forwarded to the service as input parameter.
      */
-    public ServiceParameter( String name, String value) {
+    @JsonCreator
+    @PersistenceConstructor
+    public ServiceParameter( @JsonProperty("name") String name,
+                             @JsonProperty("value") String value) {
         this.name = name;
         this.value = value;
     }
@@ -39,5 +44,32 @@ public class ServiceParameter {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceParameter that = (ServiceParameter) o;
+
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return value != null ? value.equals(that.value) : that.value == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceParameter{" +
+                "name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                '}';
     }
 }
