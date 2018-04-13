@@ -1,6 +1,8 @@
 package eu.h2020.symbiote.model.cim;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
 /**
@@ -8,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * Created by Mael on 28/03/2017.
  */
+@QueryEntity
+@Document
 public class StationarySensor extends Sensor {
 
     @JsonProperty("featureOfInterest")

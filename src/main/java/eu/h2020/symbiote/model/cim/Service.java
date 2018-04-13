@@ -1,6 +1,8 @@
 package eu.h2020.symbiote.model.cim;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
@@ -9,6 +11,8 @@ import java.util.List;
  *
  * Created by Szymon Mueller on 28/03/2017.
  */
+@QueryEntity
+@Document
 public class Service extends Resource {
 
     @JsonProperty("resultType")

@@ -3,7 +3,9 @@ package eu.h2020.symbiote.model.cim;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.querydsl.core.annotations.QueryEntity;
 import io.swagger.annotations.ApiModel;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +28,8 @@ import java.util.Objects;
 @ApiModel(description = "Description of a Resource. " +
         "Can be one of following subclasses: Actuator, Service, ActuatingService, StationarySensor, StationaryDevice, MobileSensor, MobileDevice " +
         "(consult SymbIoTeLibraries documentation for API).")
+@QueryEntity
+@Document
 public class Resource {
 
     @JsonProperty("id")
