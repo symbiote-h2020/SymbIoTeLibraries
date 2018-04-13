@@ -5,12 +5,17 @@
  */
 package eu.h2020.symbiote.model.cim;
 
+import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
 /**
  *
  * @author <a href="mailto:michael.jacoby@iosb.fraunhofer.de">Michael Jacoby</a>
  */
+@QueryEntity
+@Document
 public class Sensor extends Device {
     private List<String> observesProperty;
 
