@@ -7,7 +7,9 @@ package eu.h2020.symbiote.model.cim;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.querydsl.core.annotations.QueryEntity;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ import java.util.List;
  *
  * @author <a href="mailto:aleksandar.antonic@fer.hr">Aleksandar Antonic</a>
  */
+@QueryEntity
+@Document
 public class WGS84Location extends Location {
     
     @JsonProperty("longitude")
