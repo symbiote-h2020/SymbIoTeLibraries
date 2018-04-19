@@ -25,7 +25,7 @@ import java.util.Objects;
 })
 @QueryEntity
 @Document
-abstract public class Location {
+public class Location {
     @JsonProperty("name")
     String name;
     @JsonProperty("description")
