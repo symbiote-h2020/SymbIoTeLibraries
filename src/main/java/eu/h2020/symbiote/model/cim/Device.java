@@ -15,7 +15,7 @@ import java.util.List;
 @Document
 public class Device extends Resource {
 
-    @JsonProperty("location")
+    @JsonProperty("locatedAt")
     private Location locatedAt;
 
     @JsonProperty("services")

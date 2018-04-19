@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.querydsl.core.annotations.QueryEntity;
+import com.querydsl.core.annotations.QueryInit;
 import io.swagger.annotations.ApiModel;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -31,6 +32,7 @@ import java.util.Objects;
 @QueryEntity
 @Document
 public class Resource {
+    @QueryInit("Device.locatedAt")
 
     @JsonProperty("id")
     private String id;
