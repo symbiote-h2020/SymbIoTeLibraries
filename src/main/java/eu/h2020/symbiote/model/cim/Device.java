@@ -15,18 +15,18 @@ import java.util.List;
 @Document
 public class Device extends Resource {
 
-    @JsonProperty("locatedAt")
-    private Location locatedAt;
+    @JsonProperty("location")
+    private Location location;
 
     @JsonProperty("services")
     private List<Service> services;
 
-    public Location getLocatedAt() {
-        return locatedAt;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocatedAt(Location locatedAt) {
-        this.locatedAt = locatedAt;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public List<Service> getServices() {
