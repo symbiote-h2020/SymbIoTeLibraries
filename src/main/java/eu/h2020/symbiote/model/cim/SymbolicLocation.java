@@ -19,7 +19,7 @@ public class SymbolicLocation extends Location {
 	
 	
 	public SymbolicLocation(SymbolicLocation l) {
-		super(l.getName(), l.getDescription());
+		super(l.name, l.description);
 	}
 
 
