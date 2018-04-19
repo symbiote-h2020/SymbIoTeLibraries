@@ -36,15 +36,14 @@ public class WGS84Location extends Location {
                          @JsonProperty("name") String name,
                          @JsonProperty("description") List<String> description) {
         //super(label, comment);
+        super(name, description);
         this.longitude = longitude;
         this.latitude = latitude;
         this.altitude = altitude;
-        this.name = name;
-        this.description = description;
     }
 
     public WGS84Location(WGS84Location l) {
-    	super(l.name, l.description);
+        super(l.getName(), l.getDescription());
     	this.longitude=l.longitude;
     	this.latitude=l.latitude;
     	this.altitude=l.altitude;    	

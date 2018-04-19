@@ -27,17 +27,17 @@ import java.util.Objects;
 @Document
 public class Location {
     @JsonProperty("name")
-    String name;
+    private String name;
     @JsonProperty("description")
-    List<String> description;
+    private List<String> description;
 
     
     public Location() {	// Jackson needs an empty constructor (or a real complicated one :-) )
     }
 
     public Location(String n, List<String> d) {
-    	this.name = n;
-    	this.description = d;
+    	this.setName(n);
+    	this.setDescription(d);
     }
 
 	public String getName() {

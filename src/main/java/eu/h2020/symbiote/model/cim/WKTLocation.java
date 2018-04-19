@@ -28,7 +28,7 @@ public class WKTLocation extends Location {
     }
 
     public WKTLocation(WKTLocation l) {
-    	super(l.name, l.description);
+    	super(l.getName(), l.getDescription());
     	this.value=l.value;
 	}
 
