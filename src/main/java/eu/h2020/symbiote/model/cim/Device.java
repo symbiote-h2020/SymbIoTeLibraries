@@ -15,8 +15,9 @@ import java.util.List;
 @QueryEntity
 @Document
 public class Device extends Resource {
-    @QueryInit("*")
+
     @JsonProperty("locatedAt")
+    @QueryInit("*")
     private Location locatedAt;
 
     @JsonProperty("services")

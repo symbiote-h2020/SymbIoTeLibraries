@@ -32,7 +32,7 @@ import java.util.Objects;
 @QueryEntity
 @Document
 public class Resource {
-    @QueryInit("*")
+
     @JsonProperty("id")
     private String id;
 
