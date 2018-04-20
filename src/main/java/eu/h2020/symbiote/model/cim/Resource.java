@@ -33,7 +33,6 @@ import java.util.Objects;
 @Document
 public class Resource {
     @QueryInit("Device.locatedAt")
-
     @JsonProperty("id")
     private String id;
 
