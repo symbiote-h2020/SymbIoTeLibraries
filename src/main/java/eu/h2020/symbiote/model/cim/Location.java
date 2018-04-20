@@ -27,8 +27,10 @@ import java.util.Objects;
 @QueryEntity
 @Document
 public class Location {
+	@QueryInit("*")
     @JsonProperty("name")
     String name;
+	@QueryInit("*")
     @JsonProperty("description")
     List<String> description;
 
