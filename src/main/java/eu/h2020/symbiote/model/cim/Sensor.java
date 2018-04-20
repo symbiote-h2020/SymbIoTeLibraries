@@ -5,6 +5,7 @@
  */
 package eu.h2020.symbiote.model.cim;
 
+import com.querydsl.core.annotations.Config;
 import com.querydsl.core.annotations.QueryEntity;
 import com.querydsl.core.annotations.QueryInit;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 @QueryEntity
 @Document
+@Config(entityAccessors=true)
 public class Sensor extends Device {
-    @QueryInit("*")
     private List<String> observesProperty;
 
     public List<String> getObservesProperty() {

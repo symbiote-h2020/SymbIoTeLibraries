@@ -3,6 +3,7 @@ package eu.h2020.symbiote.model.cim;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.querydsl.core.annotations.Config;
 import com.querydsl.core.annotations.QueryEntity;
 import com.querydsl.core.annotations.QueryInit;
 import io.swagger.annotations.ApiModel;
@@ -31,6 +32,7 @@ import java.util.Objects;
         "(consult SymbIoTeLibraries documentation for API).")
 @QueryEntity
 @Document
+@Config(entityAccessors=true)
 public class Resource {
 
     @JsonProperty("id")
