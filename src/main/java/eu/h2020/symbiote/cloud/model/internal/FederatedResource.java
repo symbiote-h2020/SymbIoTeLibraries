@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryEntity;
-import eu.h2020.symbiote.model.cim.Actuator;
-import eu.h2020.symbiote.model.cim.Resource;
-import eu.h2020.symbiote.model.cim.Service;
+import eu.h2020.symbiote.model.cim.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -39,6 +37,9 @@ public class FederatedResource {
     // This field is just use for conveniently getting the federations where the resource is exposed
     private Set<String> federations;
 
+    //This field is used by the searchService to be able to perform repository queries for resources of type Device.
+    private Location locatedAt;
+
     public FederatedResource(CloudResource cloudResource) {
         this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
     }
@@ -67,6 +68,11 @@ public class FederatedResource {
         } else
             this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
 
+       if(cloudResource.getResource() instanceof Device)
+           this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
+       else
+           locatedAt=null;
+
     }
 
 
@@ -85,7 +91,8 @@ public class FederatedResource {
                              @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("federations") Set<String> federations)
+                             @JsonProperty("federations") Set<String> federations,
+                             @JsonProperty("locatedAt") Location locatedAt)
     throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -99,6 +106,7 @@ public class FederatedResource {
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
         this.federations = federations;
+        this.locatedAt = locatedAt;
     }
 
     public void clearPrivateInfo() {
@@ -145,6 +153,11 @@ public class FederatedResource {
 
     public Set<String> getFederations() { return federations; }
     public void setFederations(Set<String> federations) { this.federations = federations; }
+
+
+    public Location getLocatedAt() { return this.locatedAt; }
+    public void setLocatedAt(Location locatedAt) { this.locatedAt = locatedAt; }
+
 
     @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {
