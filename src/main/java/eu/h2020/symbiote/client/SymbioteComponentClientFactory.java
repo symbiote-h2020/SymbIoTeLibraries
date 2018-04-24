@@ -105,31 +105,18 @@ public class SymbioteComponentClientFactory {
         }
     }
 
-    public static <T> T createClient(String baseUrl, Class<T> clientClass, SecurityConfiguration securityConfiguration)
-            throws SecurityHandlerException {
+    public static <T> T createClient(String baseUrl, Class<T> clientClass, String targetComponentId, String platformId,
+                                     IComponentSecurityHandler secHandler) throws SecurityHandlerException {
         Feign.Builder builder = Feign.builder()
                 .decoder(new JacksonDecoder())
                 .encoder(new JacksonEncoder())
                 .logger(new ApacheCommonsLogger4Feign(logger))
                 .logLevel(Logger.Level.FULL);
 
-        if (securityConfiguration != null) {
-            String finalClientId = securityConfiguration.getClientId();
-            if (!finalClientId.contains("@")) {
-                finalClientId = securityConfiguration.getClientId() + "@" + securityConfiguration.getPlatformId();
-            }
-            IComponentSecurityHandler secHandler = ComponentSecurityHandlerFactory
-                    .getComponentSecurityHandler(securityConfiguration.getKeystorePath(),
-                            securityConfiguration.getKeystorePassword(),
-                            finalClientId,
-                            securityConfiguration.getLocalAAMAddress(),
-                            securityConfiguration.getComponentOwnerUsername(),
-                            securityConfiguration.getComponentOwnerPassword()
-                    );
-
+        if (secHandler != null) {
             Client client = new SymbioteAuthorizationClient(
                     secHandler,
-                    securityConfiguration.getComponentId() , securityConfiguration.getPlatformId(),
+                    targetComponentId , platformId,
                     new Client.Default(null, null));
 
             logger.debug("Will use " + baseUrl + " to access to interworking interface");
@@ -139,4 +126,30 @@ public class SymbioteComponentClientFactory {
         return builder.target(clientClass, baseUrl);
     }
 
+    public static <T> T createClient(String baseUrl, Class<T> clientClass, SecurityConfiguration securityConfiguration)
+            throws SecurityHandlerException {
+
+        return createClient(baseUrl, clientClass, securityConfiguration.getClientId(),
+                securityConfiguration.getPlatformId(), createSecurityHandler(securityConfiguration));
+    }
+
+    public static IComponentSecurityHandler createSecurityHandler(SecurityConfiguration securityConfiguration)
+            throws SecurityHandlerException {
+        if (securityConfiguration != null) {
+            String finalClientId = securityConfiguration.getClientId();
+            if (!finalClientId.contains("@")) {
+                finalClientId = securityConfiguration.getClientId() + "@" + securityConfiguration.getPlatformId();
+            }
+            return ComponentSecurityHandlerFactory
+                    .getComponentSecurityHandler(securityConfiguration.getKeystorePath(),
+                            securityConfiguration.getKeystorePassword(),
+                            finalClientId,
+                            securityConfiguration.getLocalAAMAddress(),
+                            securityConfiguration.getComponentOwnerUsername(),
+                            securityConfiguration.getComponentOwnerPassword()
+                    );
+        } else {
+            return null;
+        }
+    }
 }
