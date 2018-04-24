@@ -27,6 +27,8 @@ public class WGS84Location extends Location {
     private final double latitude;
     @JsonProperty("altitude")
     private final double altitude;
+    @JsonProperty("coordinates")
+    private double[] coordinates;
 
     @JsonCreator
     @PersistenceConstructor
@@ -41,13 +43,15 @@ public class WGS84Location extends Location {
         this.altitude = altitude;
         this.name = name;
         this.description = description;
+        this.coordinates = new double[] { longitude, latitude };
     }
 
     public WGS84Location(WGS84Location l) {
     	super(l.name, l.description);
     	this.longitude=l.longitude;
     	this.latitude=l.latitude;
-    	this.altitude=l.altitude;    	
+    	this.altitude=l.altitude;
+    	this.coordinates=l.coordinates;
 	}
 
     
@@ -61,6 +65,10 @@ public class WGS84Location extends Location {
 
     public double getAltitude() {
         return altitude;
+    }
+
+    public double[] getCoordinates() {
+        return coordinates;
     }
     
     
