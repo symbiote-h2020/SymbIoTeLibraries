@@ -87,6 +87,18 @@ public class NotificationMessage {
         successfulAttempts.addAll(messageInfoList);
     }
 
+    public void addSuccessfulAttempts (String symbioTeId, List<Date> timestamp, String accessType){
+        SuccessfulAccessMessageInfo succAccMess = new SuccessfulAccessMessageInfo(symbioTeId, timestamp, accessType);
+        this.successfulAttempts.add(succAccMess);
+    }
+
+    public void addSuccessfulAttemptsList (List<String> symbioTeIdList, List<Date> timestamp, String accessType){
+        for(String symbioteId: symbioTeIdList){
+            SuccessfulAccessMessageInfo succAccMess = new SuccessfulAccessMessageInfo(symbioteId, timestamp, accessType);
+            this.successfulAttempts.add(succAccMess);
+        }
+    }
+
     public void addSuccessfulPush(SuccessfulPushesMessageInfo messageInfo) {
         if (successfulPushes == null)
             successfulPushes = new ArrayList<>();
@@ -99,6 +111,11 @@ public class NotificationMessage {
         successfulPushes.addAll(messageInfoList);
     }
 
+    public void addSuccessfulPushes (String symbioTeId, List<Date> timestamp){
+        SuccessfulPushesMessageInfo succPushMess = new SuccessfulPushesMessageInfo(symbioTeId, timestamp);
+        this.successfulPushes.add(succPushMess);
+    }
+
     public void addFailedAttempt(FailedAccessMessageInfo messageInfo) {
         if (failedAttempts == null)
             failedAttempts = new ArrayList<>();
@@ -109,6 +126,21 @@ public class NotificationMessage {
         if (failedAttempts == null)
             failedAttempts = new ArrayList<>();
         failedAttempts.addAll(messageInfoList);
+    }
+
+    public void addFailedAttempts (String symbioTeId, List<Date> timestamp,
+                                   String code, String message, String appId, String issuer,
+                                   String validationStatus, String requestParams) {
+        FailedAccessMessageInfo failMess= new FailedAccessMessageInfo(symbioTeId, timestamp,
+                code, message, appId, issuer, validationStatus, requestParams);
+        this.failedAttempts.add(failMess);
+    }
+
+
+    public void clear() {
+        successfulAttempts.clear();
+        successfulPushes.clear();
+        failedAttempts.clear();
     }
 
     public static void SendSuccessfulAttemptsMessage(String message){
