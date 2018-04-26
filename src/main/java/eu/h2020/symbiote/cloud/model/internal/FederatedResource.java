@@ -32,6 +32,7 @@ public class FederatedResource {
     private CloudResource cloudResource;
     private String oDataUrl;
     private String restUrl;
+    private String resourceType;
 
     // Todo: Remove this field since this information is available in cloudResource.getFederationInfo.getSharingInformation
     // This field is just use for conveniently getting the federations where the resource is exposed
@@ -68,10 +69,15 @@ public class FederatedResource {
         } else
             this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
 
-       if(cloudResource.getResource() instanceof Device)
+
+        resourceType = cloudResource.getResource().getClass().getSimpleName();//getCanonicalName()
+
+
+        if(cloudResource.getResource() instanceof Device)
            this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
        else
            locatedAt=null;
+
 
     }
 
@@ -107,6 +113,7 @@ public class FederatedResource {
         this.restUrl = restUrl;
         this.federations = federations;
         this.locatedAt = locatedAt;
+        this.resourceType = cloudResource.getResource().getClass().getSimpleName();
     }
 
     public void clearPrivateInfo() {
@@ -157,6 +164,9 @@ public class FederatedResource {
 
     public Location getLocatedAt() { return this.locatedAt; }
     public void setLocatedAt(Location locatedAt) { this.locatedAt = locatedAt; }
+
+    public String getResourceType() { return this.resourceType; }
+    public void setResourceType(String resourceType) { this.resourceType = resourceType; }
 
 
     @JsonIgnore

@@ -8,6 +8,11 @@ package eu.h2020.symbiote.model.cim;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryEntity;
+//import org.geolatte.geom.Geometry;
+//import org.geolatte.geom.Point;
+//import org.geolatte.geom.Points;
+//import org.geolatte.geom.crs.CrsId;
+import com.querydsl.mongodb.Point;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,7 +25,7 @@ import java.util.List;
 @QueryEntity
 @Document
 public class WGS84Location extends Location {
-    
+
     @JsonProperty("longitude")
     private final double longitude;
     @JsonProperty("latitude")
@@ -70,8 +75,8 @@ public class WGS84Location extends Location {
     public double[] getCoordinates() {
         return coordinates;
     }
-    
-    
+
+
     @Override
     public String toString() {
     	StringBuffer b=new StringBuffer();

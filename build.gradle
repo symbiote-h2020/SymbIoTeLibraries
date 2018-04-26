@@ -66,6 +66,7 @@ dependencies {
 
     // querydsl
     compile("com.querydsl:querydsl-mongodb:${querydslVersion}")
+//    compile("com.querydsl:querydsl-spatial:${querydslVersion}")
 
     // common testing
     testCompile('junit:junit:[4.12,4.999]')
