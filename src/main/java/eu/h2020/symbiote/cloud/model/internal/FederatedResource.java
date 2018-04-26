@@ -106,14 +106,19 @@ public class FederatedResource {
     }
 
     public void shareToNewFederation(String federationId, Boolean barteringStatus) {
-        ResourceSharingInformation resourceSharingInformation = new ResourceSharingInformation();
-        resourceSharingInformation.setBartering(barteringStatus);
-
         if (cloudResource.getFederationInfo().getSharingInformation().get(federationId) != null &&
                 cloudResource.getFederationInfo().getSharingInformation().get(federationId).getSharingDate() != null)
-            resourceSharingInformation.setSharingDate(cloudResource.getFederationInfo().getSharingInformation().get(federationId).getSharingDate());
+            shareToNewFederation(federationId, barteringStatus,
+                    cloudResource.getFederationInfo().getSharingInformation().get(federationId).getSharingDate());
         else
-            resourceSharingInformation.setSharingDate(new Date());
+            shareToNewFederation(federationId, barteringStatus, new Date());
+
+    }
+
+    public void shareToNewFederation(String federationId, Boolean barteringStatus, Date sharingDate) {
+        ResourceSharingInformation resourceSharingInformation = new ResourceSharingInformation();
+        resourceSharingInformation.setBartering(barteringStatus);
+        resourceSharingInformation.setSharingDate(sharingDate);
 
         cloudResource.getFederationInfo().getSharingInformation().put(federationId, resourceSharingInformation);
 
