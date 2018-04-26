@@ -9,6 +9,7 @@ import eu.h2020.symbiote.model.cim.Service;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -107,6 +108,13 @@ public class FederatedResource {
     public void shareToNewFederation(String federationId, Boolean barteringStatus) {
         ResourceSharingInformation resourceSharingInformation = new ResourceSharingInformation();
         resourceSharingInformation.setBartering(barteringStatus);
+
+        if (cloudResource.getFederationInfo().getSharingInformation().get(federationId) != null &&
+                cloudResource.getFederationInfo().getSharingInformation().get(federationId).getSharingDate() != null)
+            resourceSharingInformation.setSharingDate(cloudResource.getFederationInfo().getSharingInformation().get(federationId).getSharingDate());
+        else
+            resourceSharingInformation.setSharingDate(new Date());
+
         cloudResource.getFederationInfo().getSharingInformation().put(federationId, resourceSharingInformation);
 
         federations.add(federationId);
