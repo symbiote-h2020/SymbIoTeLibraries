@@ -1,6 +1,8 @@
 package eu.h2020.symbiote.enabler.messaging.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.PersistenceConstructor;
 
 import java.util.List;
 
@@ -12,19 +14,20 @@ import java.util.List;
  */
 public class ServiceExecutionTaskInfo {
 
-    @JsonProperty("taskId")
     private String taskId;
 
-    @JsonProperty("resource")
     private PlatformProxyResourceInfo resource;
 
-    @JsonProperty("enablerLogicName")
     private String enablerLogicName;
 
-    @JsonProperty("parameters")
     private List<ServiceParameter> parameters;
 
-    public ServiceExecutionTaskInfo(String taskId, PlatformProxyResourceInfo resource, String enablerLogicName, List<ServiceParameter> parameters) {
+    @JsonCreator
+    @PersistenceConstructor
+    public ServiceExecutionTaskInfo( @JsonProperty("taskId") String taskId,
+                                     @JsonProperty("resource") PlatformProxyResourceInfo resource,
+                                     @JsonProperty("enablerLogicName") String enablerLogicName,
+                                     @JsonProperty("parameters") List<ServiceParameter> parameters) {
         this.taskId = taskId;
         this.resource = resource;
         this.enablerLogicName = enablerLogicName;
@@ -61,6 +64,40 @@ public class ServiceExecutionTaskInfo {
 
     public void setParameters(List<ServiceParameter> parameters) {
         this.parameters = parameters;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceExecutionTaskInfo that = (ServiceExecutionTaskInfo) o;
+
+        if (taskId != null ? !taskId.equals(that.taskId) : that.taskId != null) return false;
+        if (resource != null ? !resource.equals(that.resource) : that.resource != null) return false;
+        if (enablerLogicName != null ? !enablerLogicName.equals(that.enablerLogicName) : that.enablerLogicName != null)
+            return false;
+        return parameters != null ? parameters.equals(that.parameters) : that.parameters == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = taskId != null ? taskId.hashCode() : 0;
+        result = 31 * result + (resource != null ? resource.hashCode() : 0);
+        result = 31 * result + (enablerLogicName != null ? enablerLogicName.hashCode() : 0);
+        result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceExecutionTaskInfo{" +
+                "taskId='" + taskId + '\'' +
+                ", resource=" + resource +
+                ", enablerLogicName='" + enablerLogicName + '\'' +
+                ", parameters=" + parameters +
+                '}';
     }
 }
 
