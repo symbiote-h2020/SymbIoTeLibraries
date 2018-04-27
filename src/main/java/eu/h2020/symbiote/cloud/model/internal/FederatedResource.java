@@ -40,6 +40,7 @@ public class FederatedResource {
 
     //This field is used by the searchService to be able to perform repository queries for resources of type Device.
     private Location locatedAt;
+    private double[] locationCoords;
 
     public FederatedResource(CloudResource cloudResource) {
         this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
@@ -78,6 +79,12 @@ public class FederatedResource {
        else
            locatedAt=null;
 
+       if(locatedAt!=null)
+       {
+           if( locatedAt instanceof WGS84Location)
+               locationCoords = new double[]{((WGS84Location) locatedAt).getLongitude(), ((WGS84Location) locatedAt).getLatitude()};
+           else locationCoords = null;
+       }
 
     }
 
