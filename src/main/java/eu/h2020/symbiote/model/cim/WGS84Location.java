@@ -32,6 +32,8 @@ public class WGS84Location extends Location {
     private final double latitude;
     @JsonProperty("altitude")
     private final double altitude;
+    @JsonProperty("geolocation")
+    private double[] geolocation;
 
     @JsonCreator
     @PersistenceConstructor
@@ -46,6 +48,7 @@ public class WGS84Location extends Location {
         this.altitude = altitude;
         this.name = name;
         this.description = description;
+        this.geolocation = new double[]{this.longitude, this.latitude};
     }
 
     public WGS84Location(WGS84Location l) {
@@ -53,6 +56,7 @@ public class WGS84Location extends Location {
     	this.longitude=l.longitude;
     	this.latitude=l.latitude;
     	this.altitude=l.altitude;
+    	this.geolocation=l.geolocation;
 	}
 
     
