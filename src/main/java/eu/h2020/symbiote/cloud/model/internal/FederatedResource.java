@@ -108,10 +108,9 @@ public class FederatedResource {
                              @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("federations") Set<String> federations,
-                             @JsonProperty("locatedAtName") String locatedAtName,
-                             @JsonProperty("locatedAtCoordinates") double[] locatedAtCoordinates
-    )
+                             @JsonProperty("federations") Set<String> federations
+                           //  @JsonProperty("locatedAtName") String locatedAtName
+                                 )
     throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -126,7 +125,6 @@ public class FederatedResource {
         this.restUrl = restUrl;
         this.federations = federations;
         this.locatedAtName = locatedAtName;
-        this.locatedAtCoordinates = locatedAtCoordinates;
         this.resourceType = cloudResource.getResource().getClass().getSimpleName();
     }
 
@@ -175,11 +173,11 @@ public class FederatedResource {
     public Set<String> getFederations() { return federations; }
     public void setFederations(Set<String> federations) { this.federations = federations; }
 
-    public String getLocatedAtName() { return this.locatedAtName; }
-    public void setLocatedAt(String locatedAtName) { this.locatedAtName = locatedAtName; }
-
-    public double[] getLocatedAtCoordinates() { return this.locatedAtCoordinates; }
-    public void setLocatedAtCoordinates(double[] locatedAtCoordinates) { this.locatedAtCoordinates = locatedAtCoordinates; }
+//    public String getLocatedAtName() { return this.locatedAtName; }
+//    public void setLocatedAt(String locatedAtName) { this.locatedAtName = locatedAtName; }
+//
+//    public double[] getLocatedAtCoordinates() { return this.locatedAtCoordinates; }
+//    public void setLocatedAtCoordinates(double[] locatedAtCoordinates) { this.locatedAtCoordinates = locatedAtCoordinates; }
 
 
 
