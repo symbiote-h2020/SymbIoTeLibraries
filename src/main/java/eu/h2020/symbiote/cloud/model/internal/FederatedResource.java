@@ -40,7 +40,6 @@ public class FederatedResource {
 
     //This field is used by the searchService to be able to perform repository queries for resources of type Device.
     private Location locatedAt;
-    private String locationName;
     private double[] locationCoords;
 
     public FederatedResource(CloudResource cloudResource) {
@@ -75,14 +74,12 @@ public class FederatedResource {
         resourceType = cloudResource.getResource().getClass().getSimpleName();//getCanonicalName()
 
 
-        if(cloudResource.getResource() instanceof Device) {
+        if(cloudResource.getResource() instanceof Device)
             this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
-            this.locationName = ((Device) cloudResource.getResource()).getLocatedAt().getName();
-        }
-       else {
-            this.locatedAt = null;
-            this.locationName = null;
-        }
+
+       else
+           this.locatedAt = null;
+
 
        if(locatedAt!=null)
        {
@@ -176,9 +173,6 @@ public class FederatedResource {
 
     public Location getLocatedAt() { return this.locatedAt; }
     public void setLocatedAt(Location locatedAt) { this.locatedAt = locatedAt; }
-
-    public String getLocationName() { return this.locationName; }
-    public void setLocatedAt(String locationName) { this.locationName = locationName; }
 
     public double[] getlocationCoords() { return this.locationCoords; }
     public void setlocationCoords(double[] locationCoords) { this.locationCoords = locationCoords; }
