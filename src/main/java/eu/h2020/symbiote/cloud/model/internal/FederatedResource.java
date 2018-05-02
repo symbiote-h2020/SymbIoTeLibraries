@@ -40,7 +40,7 @@ public class FederatedResource {
 
     //This fields are used by the searchService to be able to perform repository queries for resources of type Device.
     private String locatedAtName;//Null if Resource is not instanceof Device
-    private double[] locatedAtCoordinates;//[0]: longitude, [1]:latitude, [2]:altitude. Null if location is not instanceof WGS84Location;
+    private double[] locatedAtCoordinates;//[0]: longitude, [1]:latitude. Null if location is not instanceof WGS84Location;
 
     public FederatedResource(CloudResource cloudResource) {
         this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
@@ -79,8 +79,8 @@ public class FederatedResource {
             if( ((Device) cloudResource.getResource()).getLocatedAt() instanceof WGS84Location)
                 this.locatedAtCoordinates = new double[]{
                     ((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getLongitude(),
-                        ((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getLatitude(),
-                        ((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getAltitude()
+                        ((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getLatitude()//,
+                        //((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getAltitude()
             };
             else
                 this.locatedAtCoordinates = null;
