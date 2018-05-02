@@ -48,7 +48,6 @@ public class WGS84Location extends Location {
         this.altitude = altitude;
         this.name = name;
         this.description = description;
-        this.locationCoordinates = new double[]{longitude, latitude};
     }
 
     public WGS84Location(WGS84Location l) {
@@ -56,7 +55,6 @@ public class WGS84Location extends Location {
     	this.longitude=l.longitude;
     	this.latitude=l.latitude;
     	this.altitude=l.altitude;
-    	this.locationCoordinates=l.locationCoordinates;
 	}
 
     
@@ -70,10 +68,6 @@ public class WGS84Location extends Location {
 
     public double getAltitude() {
         return altitude;
-    }
-
-    public double[] getCoordinates() {
-        return locationCoordinates;
     }
 
 
