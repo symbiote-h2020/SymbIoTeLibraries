@@ -38,7 +38,8 @@ public class FederatedResource {
     // This field is just use for conveniently getting the federations where the resource is exposed
     private Set<String> federations;
 
-    //This field is used by the searchService to be able to perform repository queries for resources of type Device.
+    // Todo: Remove these fields if an easier way is found for location related queries.
+    //This field is used by the searchService to be able to perform location related queries for resource type Device and/or location type WGS84Location.
     private Location locatedAt;
     private double[] locationCoords;
 
