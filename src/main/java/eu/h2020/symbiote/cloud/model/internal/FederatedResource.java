@@ -38,10 +38,9 @@ public class FederatedResource {
     // This field is just use for conveniently getting the federations where the resource is exposed
     private Set<String> federations;
 
-    //This fields are used by the searchService to be able to perform repository queries for resources of type Device.
+    //This field is used by the searchService to be able to perform repository queries for resources of type Device.
     private Location locatedAt;
-    private String locatedAtName;//Null if Resource is not instanceof Device
-    private double[] locatedAtCoordinates;//[0]: longitude, [1]:latitude. Null if location is not instanceof WGS84Location;
+    private double[] locationCoords;
 
     public FederatedResource(CloudResource cloudResource) {
         this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
@@ -74,26 +73,18 @@ public class FederatedResource {
 
         resourceType = cloudResource.getResource().getClass().getSimpleName();//getCanonicalName()
 
-        if(cloudResource.getResource() instanceof Device)
-            this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
-        else
-            locatedAt=null;
 
-        if(cloudResource.getResource() instanceof Device) {
-            this.locatedAtName = ((Device) cloudResource.getResource()).getLocatedAt().getName();
-            if( ((Device) cloudResource.getResource()).getLocatedAt() instanceof WGS84Location)
-                this.locatedAtCoordinates = new double[]{
-                    ((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getLongitude(),
-                        ((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getLatitude()//,
-                        //((WGS84Location) ((Device) cloudResource.getResource()).getLocatedAt()).getAltitude()
-            };
-            else
-                this.locatedAtCoordinates = null;
-        }
-        else {
-            this.locatedAtName = null;
-            this.locatedAtCoordinates = null;
-        }
+        if(cloudResource.getResource() instanceof Device)
+           this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
+       else
+           locatedAt=null;
+
+       if(locatedAt!=null)
+       {
+           if( locatedAt instanceof WGS84Location)
+               locationCoords = new double[]{((WGS84Location) locatedAt).getLongitude(), ((WGS84Location) locatedAt).getLatitude()};
+           else locationCoords = null;
+       }
 
     }
 
@@ -129,7 +120,6 @@ public class FederatedResource {
         this.restUrl = restUrl;
         this.federations = federations;
         this.locatedAt = locatedAt;
-        this.locatedAtName = locatedAtName;
         this.resourceType = cloudResource.getResource().getClass().getSimpleName();
     }
 
