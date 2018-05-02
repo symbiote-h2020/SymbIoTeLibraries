@@ -72,6 +72,10 @@ public class WGS84Location extends Location {
         return altitude;
     }
 
+    public double[] getCoordinates() {
+        return locationCoordinates;
+    }
+
 
     @Override
     public String toString() {
