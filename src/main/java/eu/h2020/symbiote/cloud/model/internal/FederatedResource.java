@@ -39,6 +39,7 @@ public class FederatedResource {
     private Set<String> federations;
 
     //This fields are used by the searchService to be able to perform repository queries for resources of type Device.
+    private Location locatedAt;
     private String locatedAtName;//Null if Resource is not instanceof Device
     private double[] locatedAtCoordinates;//[0]: longitude, [1]:latitude. Null if location is not instanceof WGS84Location;
 
@@ -73,6 +74,10 @@ public class FederatedResource {
 
         resourceType = cloudResource.getResource().getClass().getSimpleName();//getCanonicalName()
 
+        if(cloudResource.getResource() instanceof Device)
+            this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
+        else
+            locatedAt=null;
 
         if(cloudResource.getResource() instanceof Device) {
             this.locatedAtName = ((Device) cloudResource.getResource()).getLocatedAt().getName();
@@ -108,9 +113,8 @@ public class FederatedResource {
                              @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
-                             @JsonProperty("federations") Set<String> federations
-                           //  @JsonProperty("locatedAtName") String locatedAtName
-                                 )
+                             @JsonProperty("federations") Set<String> federations,
+                             @JsonProperty("locatedAt") Location locatedAt)
     throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -124,6 +128,7 @@ public class FederatedResource {
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
         this.federations = federations;
+        this.locatedAt = locatedAt;
         this.locatedAtName = locatedAtName;
         this.resourceType = cloudResource.getResource().getClass().getSimpleName();
     }
@@ -173,13 +178,9 @@ public class FederatedResource {
     public Set<String> getFederations() { return federations; }
     public void setFederations(Set<String> federations) { this.federations = federations; }
 
-//    public String getLocatedAtName() { return this.locatedAtName; }
-//    public void setLocatedAt(String locatedAtName) { this.locatedAtName = locatedAtName; }
-//
-//    public double[] getLocatedAtCoordinates() { return this.locatedAtCoordinates; }
-//    public void setLocatedAtCoordinates(double[] locatedAtCoordinates) { this.locatedAtCoordinates = locatedAtCoordinates; }
 
-
+    public Location getLocatedAt() { return this.locatedAt; }
+    public void setLocatedAt(Location locatedAt) { this.locatedAt = locatedAt; }
 
     public String getResourceType() { return this.resourceType; }
     public void setResourceType(String resourceType) { this.resourceType = resourceType; }
