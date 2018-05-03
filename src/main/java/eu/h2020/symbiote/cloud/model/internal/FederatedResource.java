@@ -8,7 +8,6 @@ import eu.h2020.symbiote.model.cim.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
