@@ -12,10 +12,14 @@ import java.util.List;
  */
 public class ActuatorExecutionTaskInfo extends ServiceExecutionTaskInfo {
 
-    @JsonProperty("capabilityName")
+
     private String capabilityName;
 
-    public ActuatorExecutionTaskInfo(String taskId, PlatformProxyResourceInfo resource, String capabilityName, String enablerLogicName, List<ServiceParameter> parameters) {
+    public ActuatorExecutionTaskInfo(@JsonProperty("taskId") String taskId,
+                                     @JsonProperty("resource") PlatformProxyResourceInfo resource,
+                                     @JsonProperty("enablerLogicName") String enablerLogicName,
+                                     @JsonProperty("capabilityName") String capabilityName,
+                                     @JsonProperty("parameters") List<ServiceParameter> parameters) {
         super(taskId, resource, enablerLogicName, parameters);
         this.capabilityName = capabilityName;
     }
@@ -26,5 +30,31 @@ public class ActuatorExecutionTaskInfo extends ServiceExecutionTaskInfo {
 
     public void setCapabilityName(String capabilityName) {
         this.capabilityName = capabilityName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ActuatorExecutionTaskInfo that = (ActuatorExecutionTaskInfo) o;
+
+        return capabilityName != null ? capabilityName.equals(that.capabilityName) : that.capabilityName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (capabilityName != null ? capabilityName.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ActuatorExecutionTaskInfo{" +
+                "capabilityName='" + capabilityName + '\'' +
+                "} " + super.toString();
     }
 }
