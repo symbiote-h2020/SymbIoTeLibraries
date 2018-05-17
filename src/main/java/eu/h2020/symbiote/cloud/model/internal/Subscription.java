@@ -40,10 +40,10 @@ public class Subscription {
 	
 	public Subscription(){
 		this.resourceType = new HashMap<>();
-		this.resourceType.put("service", false);
-		this.resourceType.put("device", false);
-		this.resourceType.put("actuator", false);
-		this.resourceType.put("sensor", false);
+		this.resourceType.put("service", true);
+		this.resourceType.put("device", true);
+		this.resourceType.put("actuator", true);
+		this.resourceType.put("sensor", true);
 	}
 
 	public String getPlatformId() {
