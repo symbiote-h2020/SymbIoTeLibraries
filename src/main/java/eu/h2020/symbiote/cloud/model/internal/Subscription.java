@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.annotation.Id;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -17,25 +19,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Subscription {
 	
 	//federationMemberID
+	@Id
 	@JsonProperty("platformId")
-    @Pattern(regexp="^[\\w-]{4,}$")
-    @Size(max=30)
 	private String platformId;
 	
-	//turn flag of wanted resourceType to true
+	//flags defining wanted resourceTypes
 	@JsonProperty("resourceType")
 	private Map<String, Boolean> resourceType;
 
-	//names of preferred locations (OPTIONAL)
+	//names of preferred device locations (OPTIONAL)
 	@JsonProperty("locations")
 	private List<String> locations;
 	
 	//names of preferred observedProperties for sensors (OPTIONAL)
-	@JsonProperty
+	@JsonProperty("observedProperties")
 	private List<String> observedProperties;
 	
 	//names of preferred capabilities for actuators (OPTIONAL)
-	@JsonProperty
+	@JsonProperty("capabilities")
 	private List<String> capabilities;
 	
 	public Subscription(){
