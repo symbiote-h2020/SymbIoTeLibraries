@@ -7,15 +7,15 @@ import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import org.springframework.data.annotation.PersistenceConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequest {
 
     private List<String> resourceIds;
+
+    private Map<String, String> resourceUrls;
 
     private List<QueryResourceResult> resourceDescriptions;
 
@@ -60,12 +60,14 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
                                            String enablerLogicName,
                                            SparqlQueryRequest sparqlQueryRequest,
                                            List<String> resourceIds,
+                                           Map<String, String> resourceUrls,
                                            List<QueryResourceResult> resourceDescriptions,
                                            ResourceManagerTaskInfoResponseStatus status,
                                            String message) {
         super(taskId, minNoResources, coreQueryRequest, queryInterval, allowCaching, cachingInterval,
                 informPlatformProxy, enablerLogicName, sparqlQueryRequest);
         setResourceIds(new ArrayList<>(resourceIds));
+        setResourceUrls(new HashMap<>(resourceUrls));
         setResourceDescriptions(new ArrayList<>(resourceDescriptions));
         setStatus(status);
         setMessage(message);
@@ -109,29 +111,43 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
                                            @JsonProperty("enablerLogicName") String enablerLogicName,
                                            @JsonProperty("sparqlQueryRequest") SparqlQueryRequest sparqlQueryRequest,
                                            @JsonProperty("resourceIds") List<String> resourceIds,
+                                           @JsonProperty("resourceUrls") Map<String, String> resourceUrls,
                                            @JsonProperty("resourceDescriptions") List<QueryResourceResult> resourceDescriptions,
                                            @JsonProperty("status") ResourceManagerTaskInfoResponseStatus status,
                                            @JsonProperty("message") String message) {
         super(taskId, minNoResources, maxNoResources, coreQueryRequest, queryInterval, allowCaching, cachingInterval,
                 informPlatformProxy, enablerLogicName, sparqlQueryRequest);
         setResourceIds(new ArrayList<>(resourceIds));
+        setResourceUrls(new HashMap<>(resourceUrls));
         setResourceDescriptions(new ArrayList<>(resourceDescriptions));
         setStatus(status);
         setMessage(message);
     }
 
+
+    /**
+     *
+     * @param resourceManagerTaskInfoRequest the input request
+     */
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoRequest resourceManagerTaskInfoRequest) {
         super(resourceManagerTaskInfoRequest);
         setStatus(ResourceManagerTaskInfoResponseStatus.UNKNOWN);
         setResourceIds(new ArrayList<>());
+        setResourceUrls(new HashMap<>());
         setResourceDescriptions(new ArrayList<>());
         setMessage("");
     }
 
+    /**
+     * Copy constructor
+     *
+     * @param resourceManagerTaskInfoResponse the input response
+     */
     public ResourceManagerTaskInfoResponse(ResourceManagerTaskInfoResponse resourceManagerTaskInfoResponse) {
         this((ResourceManagerTaskInfoRequest) resourceManagerTaskInfoResponse);
         setStatus(resourceManagerTaskInfoResponse.getStatus());
         setResourceIds(new ArrayList<>(resourceManagerTaskInfoResponse.getResourceIds()));
+        setResourceUrls(new HashMap<>(resourceManagerTaskInfoResponse.getResourceUrls()));
         setResourceDescriptions(new ArrayList<>(resourceManagerTaskInfoResponse.getResourceDescriptions()));
         setMessage(resourceManagerTaskInfoResponse.getMessage());
     }
@@ -142,6 +158,9 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
     public void setResourceIds(List<String> resourceIds) {
         this.resourceIds = resourceIds;
     }
+
+    public Map<String, String> getResourceUrls() { return resourceUrls; }
+    public void setResourceUrls(Map<String, String> resourceUrls) { this.resourceUrls = resourceUrls; }
 
     public List<QueryResourceResult> getResourceDescriptions() { return resourceDescriptions; }
     public void setResourceDescriptions(List<QueryResourceResult> resourceDescriptions) {
@@ -161,23 +180,17 @@ public class ResourceManagerTaskInfoResponse extends ResourceManagerTaskInfoRequ
         if (this == o) return true;
         if (!(o instanceof ResourceManagerTaskInfoResponse)) return false;
         if (!super.equals(o)) return false;
-
         ResourceManagerTaskInfoResponse that = (ResourceManagerTaskInfoResponse) o;
-
-        if (getResourceIds() != null ? !getResourceIds().equals(that.getResourceIds()) : that.getResourceIds() != null)
-            return false;
-        if (getResourceDescriptions() != null ? !getResourceDescriptions().equals(that.getResourceDescriptions()) : that.getResourceDescriptions() != null)
-            return false;
-        if (getStatus() != that.getStatus()) return false;
-        return getMessage() != null ? getMessage().equals(that.getMessage()) : that.getMessage() == null;
+        return Objects.equals(resourceIds, that.resourceIds) &&
+                Objects.equals(resourceUrls, that.resourceUrls) &&
+                Objects.equals(resourceDescriptions, that.resourceDescriptions) &&
+                status == that.status &&
+                Objects.equals(message, that.message);
     }
 
     @Override
     public int hashCode() {
-        int result = getResourceIds() != null ? getResourceIds().hashCode() : 0;
-        result = 31 * result + (getResourceDescriptions() != null ? getResourceDescriptions().hashCode() : 0);
-        result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
-        result = 31 * result + (getMessage() != null ? getMessage().hashCode() : 0);
-        return result;
+
+        return Objects.hash(resourceIds, resourceUrls, resourceDescriptions, status, message);
     }
 }

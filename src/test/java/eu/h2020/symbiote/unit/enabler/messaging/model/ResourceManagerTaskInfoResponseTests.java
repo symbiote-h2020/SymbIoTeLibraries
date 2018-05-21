@@ -14,8 +14,11 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by vasgl on 7/27/2017.
@@ -108,8 +111,8 @@ public class ResourceManagerTaskInfoResponseTests {
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse(
                 "1", 5, 10, coreQueryRequest,
                 "P0-0-0T0:0:0.01", true, "P0-0-0T0:0:0.01", true,
-                "enablerLogic", new SparqlQueryRequest(), new ArrayList<>(), new ArrayList<>(),
-                ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
+                "enablerLogic", new SparqlQueryRequest(), new ArrayList<>(), new HashMap<>(),
+                new ArrayList<>(), ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
 
@@ -165,6 +168,10 @@ public class ResourceManagerTaskInfoResponseTests {
         resourceIds.add("1");
         resourceIds.add("2");
 
+        HashMap<String, String> resourceUrls = new HashMap<>();
+        resourceUrls.put("1", "1.com");
+        resourceUrls.put("2", "2.com");
+
         ArrayList<QueryResourceResult> resourceDescriptions = new ArrayList<>();
         QueryResourceResult result1 = new QueryResourceResult();
         result1.setId("1");
@@ -178,95 +185,101 @@ public class ResourceManagerTaskInfoResponseTests {
         
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2, 10,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",
-                true, "TestEnablerLogic", sparqlQueryRequest, resourceIds, resourceDescriptions,
-                ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
+                true, "TestEnablerLogic", sparqlQueryRequest, resourceIds, resourceUrls,
+                resourceDescriptions, ResourceManagerTaskInfoResponseStatus.SUCCESS, "success");
         response1.setMaxNoResources(6);
 
         ResourceManagerTaskInfoResponse response2 = new ResourceManagerTaskInfoResponse(response1);
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setTaskId("2");
         assertEquals("1", response1.getTaskId());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setTaskId(response1.getTaskId());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setMinNoResources(5);
         assertEquals(2, (int) response1.getMinNoResources());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setMinNoResources(response1.getMinNoResources());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.getCoreQueryRequest().setLocation_name("Athens");
         assertEquals("Zurich", response1.getCoreQueryRequest().getLocation_name());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.getCoreQueryRequest().setLocation_name("Zurich");
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setQueryInterval("P0-0-0T0:0:0.07");
         assertEquals(60, (long) new IntervalFormatter(response1.getQueryInterval()).getMillis());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setQueryInterval(response1.getQueryInterval());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setAllowCaching(false);
         assertEquals(true, response1.getAllowCaching());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setAllowCaching(response1.getAllowCaching());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setCachingInterval("P0-0-0T0:0:0.07");
         assertEquals(1000, (long) new IntervalFormatter(response1.getCachingInterval()).getMillis());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setCachingInterval(response1.getCachingInterval());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setInformPlatformProxy(false);
         assertEquals(true, response1.getInformPlatformProxy());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setInformPlatformProxy(response1.getInformPlatformProxy());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setEnablerLogicName("Test");
         assertEquals("TestEnablerLogic", response1.getEnablerLogicName());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setEnablerLogicName(response1.getEnablerLogicName());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.getSparqlQueryRequest().setSparqlQuery("response2");
         assertEquals("response1", response1.getSparqlQueryRequest().getSparqlQuery());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.getSparqlQueryRequest().setSparqlQuery(response1.getSparqlQueryRequest().getSparqlQuery());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.getSparqlQueryRequest().setOutputFormat(SparqlQueryOutputFormat.CSV);
         assertEquals(SparqlQueryOutputFormat.COUNT, response1.getSparqlQueryRequest().getOutputFormat());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.getSparqlQueryRequest().setOutputFormat(response1.getSparqlQueryRequest().getOutputFormat());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.getResourceIds().set(0, "3");
         assertEquals(2, response1.getResourceIds().size());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.getResourceIds().set(0, "1");
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
+
+        response2.getResourceUrls().put("1", "1.eu");
+        assertEquals(2, response1.getResourceUrls().size());
+        assertNotEquals(response1, response2);
+        response2.getResourceUrls().put("1", "1.com");
+        assertEquals(response1, response2);
 
         response2.getResourceDescriptions().get(0).setId("3");
         assertEquals(2, response1.getResourceIds().size());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.getResourceDescriptions().get(0).setId("1");
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setStatus(ResourceManagerTaskInfoResponseStatus.FAILED);
         assertEquals(ResourceManagerTaskInfoResponseStatus.SUCCESS, response1.getStatus());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setStatus(response1.getStatus());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
 
         response2.setMessage("failed");
         assertEquals("success", response1.getMessage());
-        assertEquals(false, response1.equals(response2));
+        assertNotEquals(response1, response2);
         response2.setMessage(response1.getMessage());
-        assertEquals(true, response1.equals(response2));
+        assertEquals(response1, response2);
     }
 }
