@@ -6,10 +6,11 @@ import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
  * Abstract class extended by payload models. Consists of Security Request object and Business content.
  * For non-secured version of payload look at {@link AbstractRequest} implementations.
  * <p>
+ *
  * @param <T> Type of class used in payload.
- * Created by mateuszl on 04.09.2017.
+ *            Created by mateuszl on 04.09.2017.
  */
-abstract public class AbstractRequestSecured<T> extends AbstractRequest<T> implements ISecurityRequestContent {
+public abstract class AbstractRequestSecured<T> extends AbstractRequest<T> implements ISecurityRequestContent {
 
     private SecurityRequest securityRequest;
 

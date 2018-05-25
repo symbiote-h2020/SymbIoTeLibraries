@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.core.cci;
 
 /**
- * Abstract class extended by Requests payload models. Consists of Business content of type @param
+ * Class extended by Requests payload models. Consists of Business content of type @param
  * For Secured version of payload look at {@link AbstractRequestSecured} implementations.
  * <p>
  * @param <T> Type of class used in payload.
