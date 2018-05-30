@@ -43,12 +43,17 @@ public class FederatedResource {
     //This field is used by the searchService to be able to perform location related queries for resource type Device and/or location type WGS84Location.
     private Location locatedAt;
     private double[] locationCoords;
+    private Double adaptiveTrust;
 
     public FederatedResource(CloudResource cloudResource) {
         this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
     }
 
-    public FederatedResource(String symbioteId, CloudResource cloudResource)
+    public FederatedResource(String symbioteId, CloudResource cloudResource) {
+        this(symbioteId, cloudResource, null);
+    }
+
+    public FederatedResource(String symbioteId, CloudResource cloudResource, Double adaptiveTrust)
             throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -75,21 +80,19 @@ public class FederatedResource {
 
         resourceType = cloudResource.getResource().getClass().getSimpleName();//getCanonicalName()
 
-
         if(cloudResource.getResource() instanceof Device)
             this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
+        else
+            this.locatedAt = null;
 
-       else
-           this.locatedAt = null;
 
-
-       if(locatedAt!=null)
-       {
-           if( locatedAt instanceof WGS84Location)
+       if(locatedAt != null) {
+           if(locatedAt instanceof WGS84Location)
                locationCoords = new double[]{((WGS84Location) locatedAt).getLongitude(), ((WGS84Location) locatedAt).getLatitude()};
            else locationCoords = null;
        }
 
+       this.adaptiveTrust = adaptiveTrust;
     }
 
 
@@ -108,8 +111,11 @@ public class FederatedResource {
                              @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("oDataUrl") String oDataUrl,
                              @JsonProperty("restUrl") String restUrl,
+                             @JsonProperty("resourceType") String resourceType,
                              @JsonProperty("federations") Set<String> federations,
-                             @JsonProperty("locatedAt") Location locatedAt)
+                             @JsonProperty("locatedAt") Location locatedAt,
+                             @JsonProperty("locationCoords") double[] locationCoords,
+                             @JsonProperty("adaptiveTrust") Double adaptiveTrust)
     throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -122,9 +128,12 @@ public class FederatedResource {
         this.cloudResource = cloudResource;
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
+        this.resourceType = resourceType;
         this.federations = federations;
         this.locatedAt = locatedAt;
         this.resourceType = cloudResource.getResource().getClass().getSimpleName();
+        this.locationCoords = locationCoords;
+        this.adaptiveTrust = adaptiveTrust;
     }
 
     public void clearPrivateInfo() {
@@ -134,6 +143,7 @@ public class FederatedResource {
         federationInfoBean.setSharingInformation(new HashMap<>());
         cloudResource.setFederationInfo(federationInfoBean);
         federations.clear();
+        adaptiveTrust = null;
     }
 
     public void shareToNewFederation(String federationId, Boolean barteringStatus) {
@@ -194,6 +204,8 @@ public class FederatedResource {
     public String getResourceType() { return this.resourceType; }
     public void setResourceType(String resourceType) { this.resourceType = resourceType; }
 
+    public Double getAdaptiveTrust() { return adaptiveTrust; }
+    public void setAdaptiveTrust(Double adaptiveTrust) { this.adaptiveTrust = adaptiveTrust; }
 
     @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {

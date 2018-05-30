@@ -19,10 +19,16 @@ public class FederationInfoBean {
     @JsonProperty("sharingInformation")
     private Map<String, ResourceSharingInformation> sharingInformation = new HashMap<>();
 
+    /**
+     * This value is calculated by Trust Manager of the platform owing the resource and it is propagated to
+     * the other platform members
+     */
+    @JsonProperty("resourceTrust")
+    private Double resourceTrust;
+
     public String getSymbioteId() {
         return symbioteId;
     }
-
     public void setSymbioteId(String symbioteId) {
         this.symbioteId = symbioteId;
     }
@@ -30,8 +36,10 @@ public class FederationInfoBean {
     public Map<String, ResourceSharingInformation> getSharingInformation() {
         return sharingInformation;
     }
-
     public void setSharingInformation(Map<String, ResourceSharingInformation> sharingInformation) {
         this.sharingInformation = sharingInformation;
     }
+
+    public Double getResourceTrust() { return resourceTrust; }
+    public void setResourceTrust(Double resourceTrust) { this.resourceTrust = resourceTrust; }
 }
