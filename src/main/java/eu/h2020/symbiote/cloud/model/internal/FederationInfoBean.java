@@ -19,6 +19,8 @@ public class FederationInfoBean {
     @JsonProperty("sharingInformation")
     private Map<String, ResourceSharingInformation> sharingInformation = new HashMap<>();
 
+    private double trustValue;
+
     public String getSymbioteId() {
         return symbioteId;
     }
@@ -33,5 +35,13 @@ public class FederationInfoBean {
 
     public void setSharingInformation(Map<String, ResourceSharingInformation> sharingInformation) {
         this.sharingInformation = sharingInformation;
+    }
+
+    public double getTrustValue() {
+        return trustValue;
+    }
+
+    public void setTrustValue(double trustValue) {
+        this.trustValue = trustValue;
     }
 }

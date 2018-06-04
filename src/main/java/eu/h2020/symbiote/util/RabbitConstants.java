@@ -14,6 +14,12 @@ public interface RabbitConstants {
     String EXCHANGE_RAP_AUTODELETE_PROPERTY = "rabbit.exchange.rap.autodelete";
     String EXCHANGE_RAP_INTERNAL_PROPERTY = "rabbit.exchange.rap.internal";
 
+    String EXCHANGE_TRUST_NAME_PROPERTY = "rabbit.exchange.trust.name";
+    String EXCHANGE_TRUST_TYPE_PROPERTY = "rabbit.exchange.trust.type";
+    String EXCHANGE_TRUST_DURABLE_PROPERTY = "rabbit.exchange.trust.durable";
+    String EXCHANGE_TRUST_AUTODELETE_PROPERTY = "rabbit.exchange.trust.autodelete";
+    String EXCHANGE_TRUST_INTERNAL_PROPERTY = "rabbit.exchange.trust.internal";
+
     String EXCHANGE_PLATFORM_REGISTRY_NAME_PROPERTY = "rabbit.exchange.platformRegistry.name";
     String EXCHANGE_PLATFORM_REGISTRY_TYPE_PROPERTY = "rabbit.exchange.platformRegistry.type";
     String EXCHANGE_PLATFORM_REGISTRY_DURABLE_PROPERTY = "rabbit.exchange.platformRegistry.durable";
@@ -36,4 +42,5 @@ public interface RabbitConstants {
 
     String ROUTING_KEY_RAP_ACCESS_PROPERTY = "rabbit.routingKey.rap.access";
 
+    String ROUTING_KEY_TRUST_RESOURCE_UPDATED = "rabbit.routingKey.trust.resourceUpdated";
 }
