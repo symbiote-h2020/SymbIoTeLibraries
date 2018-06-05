@@ -1,6 +1,9 @@
 package eu.h2020.symbiote.cloud.trust.model;
 
 import java.util.Date;
+import java.util.UUID;
+
+import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,18 +32,22 @@ public class TrustEntry {
 		this.resourceId = resourceId;
 		this.value = value;
 		this.lastUpdate = new Date();
+
+		// set unique ID for entry
+		this.id = UUID.nameUUIDFromBytes((this.platformId + "-" + this.resourceId + "-" + this.value).getBytes()).toString();
 	}
 
-	public TrustEntry(Type type, String platformId, Double value) {
-		this.type = type;
-		this.platformId = platformId;
-		this.value = value;
-		this.lastUpdate = new Date();
+	public TrustEntry(String platformId, Double value) {
+		this(Type.PLATFORM_REPUTATION, platformId, null, value);
 	}
 
 	public enum Type {
 		PLATFORM_REPUTATION, RESOURCE_TRUST, ADAPTIVE_RESOURCE_TRUST
 	}
+
+	@Id
+	@JsonProperty("id")
+	private String id;
 
 	@JsonProperty("type")
 	private Type type;
@@ -95,5 +102,13 @@ public class TrustEntry {
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
