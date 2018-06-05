@@ -34,7 +34,8 @@ public class TrustEntry {
 		this.lastUpdate = new Date();
 
 		// set unique ID for entry
-		this.id = UUID.nameUUIDFromBytes((this.platformId + "-" + this.resourceId + "-" + this.value).getBytes()).toString();
+		String identifier = this.resourceId != null ? this.resourceId : this.platformId;
+		this.id = UUID.nameUUIDFromBytes((identifier + "-" + this.type).getBytes()).toString();
 	}
 
 	public TrustEntry(String platformId, Double value) {
