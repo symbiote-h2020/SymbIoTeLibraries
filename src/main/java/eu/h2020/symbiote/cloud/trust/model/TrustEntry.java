@@ -112,4 +112,14 @@ public class TrustEntry {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	/**
+	 * Sets the new value and lastUpdate to current time.
+	 * 
+	 * @param value
+	 */
+	public void updateEntry(Double value) {
+		this.value = value;
+		this.lastUpdate = new Date();
+	}
 }
