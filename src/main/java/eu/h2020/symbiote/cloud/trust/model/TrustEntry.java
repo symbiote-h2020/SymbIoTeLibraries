@@ -26,20 +26,18 @@ public class TrustEntry {
 	 * @param resourceId
 	 * @param value
 	 */
-	public TrustEntry(Type type, String platformId, String resourceId, Double value) {
+	public TrustEntry(Type type, String platformId, String resourceId) {
 		this.type = type;
 		this.platformId = platformId;
 		this.resourceId = resourceId;
-		this.value = value;
 		this.lastUpdate = new Date();
 
 		// set unique ID for entry
-		String identifier = this.resourceId != null ? this.resourceId : this.platformId;
-		this.id = UUID.nameUUIDFromBytes((identifier + "-" + this.type).getBytes()).toString();
-	}
-
-	public TrustEntry(String platformId, Double value) {
-		this(Type.PLATFORM_REPUTATION, platformId, null, value);
+		if (Type.PLATFORM_REPUTATION.equals(type)) {
+			this.id = UUID.nameUUIDFromBytes((this.platformId + "-" + this.type).getBytes()).toString();
+		} else {
+			this.id = UUID.nameUUIDFromBytes((this.resourceId + "-" + this.type).getBytes()).toString();
+		}
 	}
 
 	public enum Type {
@@ -119,7 +117,7 @@ public class TrustEntry {
 	 * @param value
 	 */
 	public void updateEntry(Double value) {
-		this.value = value;
+		this.value = Math.min(Math.max(value, 0), 100);
 		this.lastUpdate = new Date();
 	}
 }
