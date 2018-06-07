@@ -117,7 +117,7 @@ public class TrustEntry {
 	 * @param value
 	 */
 	public void updateEntry(Double value) {
-		this.value = Math.min(Math.max(value, 0), 100);
+		this.value = value;
 		this.lastUpdate = new Date();
 	}
 }
