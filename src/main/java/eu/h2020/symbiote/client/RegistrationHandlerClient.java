@@ -47,7 +47,7 @@ public interface RegistrationHandlerClient {
     @Headers("Content-Type: application/json")
     CloudResource deleteResource(@Param("internalId") String resourceInternalId);
 
-    @RequestLine("DELETE " + ClientConstants.RH_RESOURCES_PATH+"?resourceInternalId={internalIds}")
+    @RequestLine("DELETE " + ClientConstants.RH_RESOURCES_PATH+"?resourceInternalIds={internalIds}")
     @Headers("Content-Type: application/json")
     List<CloudResource> deleteResources(@Param("internalIds") List<String> resourceInternalId);
 
