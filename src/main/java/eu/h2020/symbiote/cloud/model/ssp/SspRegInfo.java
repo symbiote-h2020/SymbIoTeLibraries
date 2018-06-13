@@ -64,7 +64,7 @@ public class SspRegInfo {
 
     public String getPluginURL() { return pluginURL; }
 
-    public void setPluginUrl(String pluginUrl) { this.pluginURL = pluginURL; }
+    public void setPluginURL(String pluginURL) { this.pluginURL = pluginURL; }
 
     public String getDerivedKey1() { return derivedKey1; }
 
