@@ -9,10 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,56 +26,62 @@ import java.util.regex.Pattern;
 public class FederatedResource {
 
     @Id
-    private String symbioteId;
+    private String aggregationId;
     private CloudResource cloudResource;
-    private String oDataUrl;
-    private String restUrl;
     private String resourceType;
+
+    // This map has as key the federationId and as value the federated resource information
+    private Map<String, FederatedResourceInfo> federatedResourceInfoMap = new HashMap<>();
 
     // Todo: Remove this field since this information is available in cloudResource.getFederationInfo.getSharingInformation
     // This field is just use for conveniently getting the federations where the resource is exposed
-    private Set<String> federations;
+    private Set<String> federations = new HashSet<>();
 
     // Todo: Remove these fields if an easier way is found for location related queries.
-    //This field is used by the searchService to be able to perform location related queries for resource type Device and/or location type WGS84Location.
+    // This field is used by the searchService to be able to perform location related queries for resource
+    // type Device and/or location type WGS84Location.
     private Location locatedAt;
     private double[] locationCoords;
-    private Double adaptiveTrust;
 
     public FederatedResource(CloudResource cloudResource) {
-        this(cloudResource.getFederationInfo().getSymbioteId(), cloudResource);
+        this(cloudResource.getFederationInfo().getAggregationId(), cloudResource);
     }
 
-    public FederatedResource(String symbioteId, CloudResource cloudResource) {
-        this(symbioteId, cloudResource, null);
-    }
 
-    public FederatedResource(String symbioteId, CloudResource cloudResource, Double adaptiveTrust)
+    public FederatedResource(String aggregationId, CloudResource cloudResource)
             throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
-        Matcher m = p.matcher(symbioteId);
+        Matcher m = p.matcher(aggregationId);
 
         if (!m.find())
-            throw new IllegalArgumentException("The symbioteId is malformed");
+            throw new IllegalArgumentException("The aggregationId is malformed");
 
         if (cloudResource.getResource().getInterworkingServiceURL() == null)
             throw new IllegalArgumentException("cloudResource.getResource().getInterworkingServiceURL() == null");
 
-        this.symbioteId = symbioteId;
+        this.aggregationId = aggregationId;
         this.cloudResource = cloudResource;
-        if (cloudResource.getResource().getInterworkingServiceURL() != null) {
-            this.oDataUrl = this.createUrl(UrlType.ODATA, symbioteId);
-            this.restUrl = this.createUrl(UrlType.REST, symbioteId);
+
+        // Add resource to federations
+        if (cloudResource.getFederationInfo() != null && cloudResource.getFederationInfo().getSharingInformation() != null) {
+            this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
+            for (Map.Entry<String, ResourceSharingInformation> entry : cloudResource.getFederationInfo().getSharingInformation().entrySet()) {
+                String symbioteId = createSymbioteId(entry.getKey());
+
+                federatedResourceInfoMap.put(
+                        entry.getKey(),
+                        new FederatedResourceInfo(
+                                symbioteId,
+                                createUrl(UrlType.ODATA, symbioteId),
+                                createUrl(UrlType.REST, symbioteId),
+                                null)
+                );
+            }
         }
 
-        if (cloudResource.getFederationInfo() == null || cloudResource.getFederationInfo().getSharingInformation() == null) {
-            this.federations = new HashSet<>();
-        } else
-            this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
 
-
-        resourceType = cloudResource.getResource().getClass().getSimpleName();//getCanonicalName()
+        resourceType = cloudResource.getResource().getClass().getSimpleName();
 
         if(cloudResource.getResource() instanceof Device)
             this.locatedAt = ((Device) cloudResource.getResource()).getLocatedAt();
@@ -91,49 +94,44 @@ public class FederatedResource {
                locationCoords = new double[]{((WGS84Location) locatedAt).getLongitude(), ((WGS84Location) locatedAt).getLatitude()};
            else locationCoords = null;
        }
-
-       this.adaptiveTrust = adaptiveTrust;
     }
 
 
     /**
      * Construct an instance using the provided arguments.
      *
-     * @param symbioteId the symbioteId identifying a cloudResource inside a federation
+     * @param aggregationId the aggregationId identifying a cloudResource inside a federation
      * @param cloudResource the cloudResource description
-     * @param oDataUrl the OData cloudResource url
-     * @param restUrl the Rest cloudResource url
+     * @param resourceType the type of the CloudResource
+     * @param federatedResourceInfoMap map containing resource info for each federation the resource is shared to
      * @param federations the list of federations where the resource is currently exposed
+     * @param locatedAt the location of the resource
+     * @param locationCoords the location coordinated of the resource
      */
     @PersistenceConstructor
     @JsonCreator
-    public FederatedResource(@JsonProperty("symbioteId") String symbioteId,
+    public FederatedResource(@JsonProperty("aggregationId") String aggregationId,
                              @JsonProperty("cloudResource") CloudResource cloudResource,
-                             @JsonProperty("oDataUrl") String oDataUrl,
-                             @JsonProperty("restUrl") String restUrl,
                              @JsonProperty("resourceType") String resourceType,
+                             @JsonProperty("federatedResourceInfoMap") Map<String, FederatedResourceInfo> federatedResourceInfoMap,
                              @JsonProperty("federations") Set<String> federations,
                              @JsonProperty("locatedAt") Location locatedAt,
-                             @JsonProperty("locationCoords") double[] locationCoords,
-                             @JsonProperty("adaptiveTrust") Double adaptiveTrust)
+                             @JsonProperty("locationCoords") double[] locationCoords)
     throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
-        Matcher m = p.matcher(symbioteId);
+        Matcher m = p.matcher(aggregationId);
 
         if (!m.find())
-            throw new IllegalArgumentException("The symbioteId is malformed");
+            throw new IllegalArgumentException("The aggregationId is malformed");
 
-        this.symbioteId = symbioteId;
+        this.aggregationId = aggregationId;
         this.cloudResource = cloudResource;
-        this.oDataUrl = oDataUrl;
-        this.restUrl = restUrl;
         this.resourceType = resourceType;
+        this.federatedResourceInfoMap = federatedResourceInfoMap;
         this.federations = federations;
         this.locatedAt = locatedAt;
-        this.resourceType = cloudResource.getResource().getClass().getSimpleName();
         this.locationCoords = locationCoords;
-        this.adaptiveTrust = adaptiveTrust;
     }
 
     public void clearPrivateInfo() {
@@ -143,7 +141,7 @@ public class FederatedResource {
         federationInfoBean.setSharingInformation(new HashMap<>());
         cloudResource.setFederationInfo(federationInfoBean);
         federations.clear();
-        adaptiveTrust = null;
+        federatedResourceInfoMap.clear();
     }
 
     public void shareToNewFederation(String federationId, Boolean barteringStatus) {
@@ -157,65 +155,73 @@ public class FederatedResource {
     }
 
     public void shareToNewFederation(String federationId, Boolean barteringStatus, Date sharingDate) {
+        String symbioteId = createSymbioteId(federationId);
         ResourceSharingInformation resourceSharingInformation = new ResourceSharingInformation();
         resourceSharingInformation.setBartering(barteringStatus);
         resourceSharingInformation.setSharingDate(sharingDate);
+        resourceSharingInformation.setSymbioteId(symbioteId);
 
         cloudResource.getFederationInfo().getSharingInformation().put(federationId, resourceSharingInformation);
-
+        federatedResourceInfoMap.put(
+                federationId,
+                new FederatedResourceInfo(
+                        symbioteId,
+                        createUrl(UrlType.ODATA, symbioteId),
+                        createUrl(UrlType.REST, symbioteId),
+                        null)
+        );
         federations.add(federationId);
     }
 
     public void unshareFromFederation(String federationId) {
         cloudResource.getFederationInfo().getSharingInformation().remove(federationId);
+        federatedResourceInfoMap.remove(federationId);
         federations.remove(federationId);
     }
 
-    public String getSymbioteId() { return this.symbioteId; }
-    public void setSymbioteId(String symbioteId) throws IllegalArgumentException {
+    public String getAggregationId() { return this.aggregationId; }
+    public void setAggregationId(String aggregationId) throws IllegalArgumentException {
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
-        Matcher m = p.matcher(symbioteId);
+        Matcher m = p.matcher(aggregationId);
 
         if (!m.find())
-            throw new IllegalArgumentException("The symbioteId is malformed");
+            throw new IllegalArgumentException("The aggregationId is malformed");
 
-        this.symbioteId = symbioteId;
+        this.aggregationId = aggregationId;
     }
 
     public CloudResource getCloudResource() { return this.cloudResource; }
     public void setCloudResource(CloudResource cloudResource) { this.cloudResource = cloudResource; }
 
-    public String getoDataUrl() { return this.oDataUrl; }
-    public void setoDataUrl(String oDataUrl) { this.oDataUrl = oDataUrl; }
+    public Map<String, FederatedResourceInfo> getFederatedResourceInfoMap() {
+        return federatedResourceInfoMap;
+    }
 
-    public String getRestUrl() { return this.restUrl; }
-    public void setRestUrl(String restUrl) { this.restUrl = restUrl; }
+    public void setFederatedResourceInfoMap(Map<String, FederatedResourceInfo> federatedResourceInfoMap) {
+        this.federatedResourceInfoMap = federatedResourceInfoMap;
+    }
 
     public Set<String> getFederations() { return federations; }
     public void setFederations(Set<String> federations) { this.federations = federations; }
 
-
     public Location getLocatedAt() { return this.locatedAt; }
     public void setLocatedAt(Location locatedAt) { this.locatedAt = locatedAt; }
 
-    public double[] getlocationCoords() { return this.locationCoords; }
-    public void setlocationCoords(double[] locationCoords) { this.locationCoords = locationCoords; }
+    public double[] getLocationCoords() { return locationCoords; }
+    public void setLocationCoords(double[] locationCoords) { this.locationCoords = locationCoords; }
 
     public String getResourceType() { return this.resourceType; }
     public void setResourceType(String resourceType) { this.resourceType = resourceType; }
-
-    public Double getAdaptiveTrust() { return adaptiveTrust; }
-    public void setAdaptiveTrust(Double adaptiveTrust) { this.adaptiveTrust = adaptiveTrust; }
 
     @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
-        Matcher m = p.matcher(symbioteId);
+        Matcher m = p.matcher(aggregationId);
 
         if (m.find())
             return m.group(2);
-        throw new IllegalArgumentException("The symbioteId is malformed");
+        throw new IllegalArgumentException("The aggregationId is malformed");
     }
 
     private String createUrl(UrlType urlType, String id) {
@@ -236,6 +242,10 @@ public class FederatedResource {
                         + resourceTypeName + "s('" + id + "')" :
                 interworkingServiceUrl.replaceAll("(/rap)?/*$", "") + "/rap/"
                         + resourceTypeName + "/" + id;
+    }
+
+    private String createSymbioteId(String federationId) {
+        return aggregationId + "@" + federationId;
     }
 
     private enum UrlType {

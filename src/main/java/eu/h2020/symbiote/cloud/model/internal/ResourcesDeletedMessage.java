@@ -15,23 +15,25 @@ import java.util.Set;
  */
 public class ResourcesDeletedMessage {
 
-    private Map<String, Set<String>> deletedFederatedResourcesMap;
+    private Set<String> deletedFederatedResources;
 
     /**
      * Construct an instance using the provided arguments.
      *
-     * @param deletedFederatedResourcesMap a map in which the key is the federatedResource id and the value
-     *                                     the federation ids in which the resource was unshared
+     * @param deletedFederatedResources a set containing all the federated resource ids
+     *                                  which were unshared/deleted
      */
     @JsonCreator
-    public ResourcesDeletedMessage(@JsonProperty(value = "deletedFederatedResourcesMap")
-                                               Map<String, Set<String>> deletedFederatedResourcesMap) {
-        this.deletedFederatedResourcesMap = deletedFederatedResourcesMap;
+    public ResourcesDeletedMessage(@JsonProperty("deletedFederatedResources")
+                                   Set<String> deletedFederatedResources) {
+        this.deletedFederatedResources = deletedFederatedResources;
     }
 
+    public Set<String> getDeletedFederatedResources() {
+        return deletedFederatedResources;
+    }
 
-    public Map<String, Set<String>> getDeletedFederatedResourcesMap() { return deletedFederatedResourcesMap; }
-    public void setDeletedFederatedResourcesMap(Map<String, Set<String>> deletedFederatedResourcesMap) {
-        this.deletedFederatedResourcesMap = deletedFederatedResourcesMap;
+    public void setDeletedFederatedResources(Set<String> deletedFederatedResources) {
+        this.deletedFederatedResources = deletedFederatedResources;
     }
 }

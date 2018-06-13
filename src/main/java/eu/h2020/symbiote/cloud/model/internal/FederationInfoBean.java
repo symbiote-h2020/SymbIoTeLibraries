@@ -7,11 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FederationInfoBean {
 
-	@JsonProperty("symbioteId")
-	private String symbioteId;
+    /**
+     * This field is used by Platform Registry to aggregate the metadata of the same resource shared to different federations
+     */
+	@JsonProperty("aggregationId")
+	private String aggregationId;
 
 	/**
-	 * This map contains information about the federations in which this resource has been shared. The key is the federation ID The value is the information of
+	 * This map contains information about the federations in which this resource has been shared.
+     * The key is the federation ID The value is the information of
 	 * this resource in that federation such as: date in which it was shared, access policies, etc.
 	 */
 	@JsonProperty("sharingInformation")
@@ -23,12 +27,12 @@ public class FederationInfoBean {
 	@JsonProperty("resourceTrust")
 	private Double resourceTrust;
 
-	public String getSymbioteId() {
-		return symbioteId;
+	public String getAggregationId() {
+		return aggregationId;
 	}
 
-	public void setSymbioteId(String symbioteId) {
-		this.symbioteId = symbioteId;
+	public void setAggregationId(String aggregationId) {
+		this.aggregationId = aggregationId;
 	}
 
 	public Map<String, ResourceSharingInformation> getSharingInformation() {
