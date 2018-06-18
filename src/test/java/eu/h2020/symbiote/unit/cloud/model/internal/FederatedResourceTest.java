@@ -18,7 +18,7 @@ public class FederatedResourceTest {
         CloudResource cloudResource = new CloudResource();
         cloudResource.setResource(resource);
 
-        FederatedResource federatedResource = new FederatedResource(symbioteId, cloudResource);
+        FederatedResource federatedResource = new FederatedResource(symbioteId, cloudResource, null);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class FederatedResourceTest {
         CloudResource cloudResource = new CloudResource();
         cloudResource.setResource(resource);
 
-        FederatedResource federatedResource = new FederatedResource(symbioteId, cloudResource);
+        FederatedResource federatedResource = new FederatedResource(symbioteId, cloudResource, null);
         assertEquals("test2", federatedResource.getPlatformId());
     }
 }

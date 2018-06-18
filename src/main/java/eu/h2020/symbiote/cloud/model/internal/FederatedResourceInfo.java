@@ -16,7 +16,7 @@ public class FederatedResourceInfo {
     private String symbioteId;
     private String oDataUrl;
     private String restUrl;
-    private Double adaptiveTrust;
+
 
     /**
      * Construct an instance using the provided arguments.
@@ -30,8 +30,7 @@ public class FederatedResourceInfo {
     @JsonCreator
     public FederatedResourceInfo(@JsonProperty("symbioteId") String symbioteId,
                                  @JsonProperty("oDataUrl") String oDataUrl,
-                                 @JsonProperty("restUrl") String restUrl,
-                                 @JsonProperty("adaptiveTrust") Double adaptiveTrust)
+                                 @JsonProperty("restUrl") String restUrl)
             throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)@([\\w-]+)$");
@@ -43,7 +42,7 @@ public class FederatedResourceInfo {
         this.symbioteId = symbioteId;
         this.oDataUrl = oDataUrl;
         this.restUrl = restUrl;
-        this.adaptiveTrust = adaptiveTrust;
+
     }
 
     public String getSymbioteId() { return symbioteId; }
@@ -54,7 +53,4 @@ public class FederatedResourceInfo {
 
     public String getRestUrl() { return restUrl; }
     public void setRestUrl(String restUrl) { this.restUrl = restUrl; }
-
-    public Double getAdaptiveTrust() { return adaptiveTrust; }
-    public void setAdaptiveTrust(Double adaptiveTrust) { this.adaptiveTrust = adaptiveTrust; }
 }
