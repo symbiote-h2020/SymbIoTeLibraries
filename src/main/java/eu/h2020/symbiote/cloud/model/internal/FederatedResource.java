@@ -33,9 +33,6 @@ public class FederatedResource {
     // This map has as key the federationId and as value the federated resource information
     private Map<String, FederatedResourceInfo> federatedResourceInfoMap = new HashMap<>();
 
-    // Todo: Remove this field since this information is available in cloudResource.getFederationInfo.getSharingInformation
-    // This field is just use for conveniently getting the federations where the resource is exposed
-
     // Todo: Remove these fields if an easier way is found for location related queries.
     // This field is used by the searchService to be able to perform location related queries for resource
     // type Device and/or location type WGS84Location.
