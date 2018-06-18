@@ -42,13 +42,14 @@ public class FederatedResource {
     // type Device and/or location type WGS84Location.
     private Location locatedAt;
     private double[] locationCoords;
+    private Double adaptiveTrust;
 
     public FederatedResource(CloudResource cloudResource) {
-        this(cloudResource.getFederationInfo().getAggregationId(), cloudResource);
+        this(cloudResource.getFederationInfo().getAggregationId(), cloudResource, null);
     }
 
 
-    public FederatedResource(String aggregationId, CloudResource cloudResource)
+    public FederatedResource(String aggregationId, CloudResource cloudResource, Double adaptiveTrust)
             throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -74,8 +75,8 @@ public class FederatedResource {
                         new FederatedResourceInfo(
                                 symbioteId,
                                 createUrl(UrlType.ODATA, symbioteId),
-                                createUrl(UrlType.REST, symbioteId),
-                                null)
+                                createUrl(UrlType.REST, symbioteId)
+                                )
                 );
             }
         }
@@ -94,6 +95,8 @@ public class FederatedResource {
                locationCoords = new double[]{((WGS84Location) locatedAt).getLongitude(), ((WGS84Location) locatedAt).getLatitude()};
            else locationCoords = null;
        }
+
+       this.adaptiveTrust = adaptiveTrust;
     }
 
 
@@ -116,7 +119,8 @@ public class FederatedResource {
                              @JsonProperty("federatedResourceInfoMap") Map<String, FederatedResourceInfo> federatedResourceInfoMap,
                              @JsonProperty("federations") Set<String> federations,
                              @JsonProperty("locatedAt") Location locatedAt,
-                             @JsonProperty("locationCoords") double[] locationCoords)
+                             @JsonProperty("locationCoords") double[] locationCoords,
+                             @JsonProperty("adaptiveTrust") Double adaptiveTrust)
     throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
@@ -132,6 +136,7 @@ public class FederatedResource {
         this.federations = federations;
         this.locatedAt = locatedAt;
         this.locationCoords = locationCoords;
+        this.adaptiveTrust = adaptiveTrust;
     }
 
     public void clearPrivateInfo() {
@@ -142,6 +147,7 @@ public class FederatedResource {
         cloudResource.setFederationInfo(federationInfoBean);
         federations.clear();
         federatedResourceInfoMap.clear();
+        adaptiveTrust = null;
     }
 
     public void shareToNewFederation(String federationId, Boolean barteringStatus) {
@@ -167,8 +173,8 @@ public class FederatedResource {
                 new FederatedResourceInfo(
                         symbioteId,
                         createUrl(UrlType.ODATA, symbioteId),
-                        createUrl(UrlType.REST, symbioteId),
-                        null)
+                        createUrl(UrlType.REST, symbioteId)
+                        )
         );
         federations.add(federationId);
     }
@@ -212,6 +218,9 @@ public class FederatedResource {
 
     public String getResourceType() { return this.resourceType; }
     public void setResourceType(String resourceType) { this.resourceType = resourceType; }
+
+    public Double getAdaptiveTrust() { return adaptiveTrust; }
+    public void setAdaptiveTrust(Double adaptiveTrust) { this.adaptiveTrust = adaptiveTrust; }
 
     @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {
