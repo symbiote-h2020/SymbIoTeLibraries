@@ -24,7 +24,6 @@ public class FederatedResourceInfo {
      * @param symbioteId the symbioteId identifying a cloudResource inside a federation
      * @param oDataUrl the OData cloudResource url
      * @param restUrl the Rest cloudResource url
-     * @param adaptiveTrust the adaptive trust value calculated by Trust Manager
      */
     @PersistenceConstructor
     @JsonCreator
