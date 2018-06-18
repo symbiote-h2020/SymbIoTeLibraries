@@ -33,10 +33,6 @@ public class FederatedResource {
     // This map has as key the federationId and as value the federated resource information
     private Map<String, FederatedResourceInfo> federatedResourceInfoMap = new HashMap<>();
 
-    // Todo: Remove this field since this information is available in cloudResource.getFederationInfo.getSharingInformation
-    // This field is just use for conveniently getting the federations where the resource is exposed
-    private Set<String> federations = new HashSet<>();
-
     // Todo: Remove these fields if an easier way is found for location related queries.
     // This field is used by the searchService to be able to perform location related queries for resource
     // type Device and/or location type WGS84Location.
@@ -66,8 +62,7 @@ public class FederatedResource {
 
         // Add resource to federations
         if (cloudResource.getFederationInfo() != null && cloudResource.getFederationInfo().getSharingInformation() != null) {
-            this.federations = cloudResource.getFederationInfo().getSharingInformation().keySet();
-            for (Map.Entry<String, ResourceSharingInformation> entry : cloudResource.getFederationInfo().getSharingInformation().entrySet()) {
+             for (Map.Entry<String, ResourceSharingInformation> entry : cloudResource.getFederationInfo().getSharingInformation().entrySet()) {
                 String symbioteId = createSymbioteId(entry.getKey());
 
                 federatedResourceInfoMap.put(
@@ -107,7 +102,6 @@ public class FederatedResource {
      * @param cloudResource the cloudResource description
      * @param resourceType the type of the CloudResource
      * @param federatedResourceInfoMap map containing resource info for each federation the resource is shared to
-     * @param federations the list of federations where the resource is currently exposed
      * @param locatedAt the location of the resource
      * @param locationCoords the location coordinated of the resource
      */
@@ -117,7 +111,6 @@ public class FederatedResource {
                              @JsonProperty("cloudResource") CloudResource cloudResource,
                              @JsonProperty("resourceType") String resourceType,
                              @JsonProperty("federatedResourceInfoMap") Map<String, FederatedResourceInfo> federatedResourceInfoMap,
-                             @JsonProperty("federations") Set<String> federations,
                              @JsonProperty("locatedAt") Location locatedAt,
                              @JsonProperty("locationCoords") double[] locationCoords,
                              @JsonProperty("adaptiveTrust") Double adaptiveTrust)
@@ -133,7 +126,6 @@ public class FederatedResource {
         this.cloudResource = cloudResource;
         this.resourceType = resourceType;
         this.federatedResourceInfoMap = federatedResourceInfoMap;
-        this.federations = federations;
         this.locatedAt = locatedAt;
         this.locationCoords = locationCoords;
         this.adaptiveTrust = adaptiveTrust;
@@ -145,7 +137,6 @@ public class FederatedResource {
         FederationInfoBean federationInfoBean = new FederationInfoBean();
         federationInfoBean.setSharingInformation(new HashMap<>());
         cloudResource.setFederationInfo(federationInfoBean);
-        federations.clear();
         federatedResourceInfoMap.clear();
         adaptiveTrust = null;
     }
@@ -176,14 +167,12 @@ public class FederatedResource {
                         createUrl(UrlType.REST, symbioteId)
                         )
         );
-        federations.add(federationId);
     }
 
     public void unshareFromFederation(String federationId) {
         cloudResource.getFederationInfo().getSharingInformation().remove(federationId);
         federatedResourceInfoMap.remove(federationId);
-        federations.remove(federationId);
-    }
+     }
 
     public String getAggregationId() { return this.aggregationId; }
     public void setAggregationId(String aggregationId) throws IllegalArgumentException {
@@ -207,9 +196,6 @@ public class FederatedResource {
         this.federatedResourceInfoMap = federatedResourceInfoMap;
     }
 
-    public Set<String> getFederations() { return federations; }
-    public void setFederations(Set<String> federations) { this.federations = federations; }
-
     public Location getLocatedAt() { return this.locatedAt; }
     public void setLocatedAt(Location locatedAt) { this.locatedAt = locatedAt; }
 
@@ -221,6 +207,8 @@ public class FederatedResource {
 
     public Double getAdaptiveTrust() { return adaptiveTrust; }
     public void setAdaptiveTrust(Double adaptiveTrust) { this.adaptiveTrust = adaptiveTrust; }
+
+    public Set<String> getFederations() { return this.federatedResourceInfoMap.keySet(); }
 
     @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {
