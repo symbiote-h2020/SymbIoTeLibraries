@@ -208,6 +208,7 @@ public class FederatedResource {
     public Double getAdaptiveTrust() { return adaptiveTrust; }
     public void setAdaptiveTrust(Double adaptiveTrust) { this.adaptiveTrust = adaptiveTrust; }
 
+    @JsonIgnore
     public Set<String> getFederations() { return this.federatedResourceInfoMap.keySet(); }
 
     @JsonIgnore
