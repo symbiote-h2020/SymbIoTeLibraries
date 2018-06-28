@@ -129,10 +129,10 @@ public class SymbioteComponentClientFactory {
     public static <T> T createClient(String baseUrl, Class<T> clientClass, SecurityConfiguration securityConfiguration)
             throws SecurityHandlerException {
 
-        String clientId = (securityConfiguration != null) ? securityConfiguration.getClientId() : null;
+        String targetComponentId = (securityConfiguration != null) ? securityConfiguration.getComponentId() : null;
         String platformId = (securityConfiguration != null) ? securityConfiguration.getPlatformId() : null;
 
-        return createClient(baseUrl, clientClass, clientId, platformId, createSecurityHandler(securityConfiguration));
+        return createClient(baseUrl, clientClass, targetComponentId, platformId, createSecurityHandler(securityConfiguration));
     }
 
     public static IComponentSecurityHandler createSecurityHandler(SecurityConfiguration securityConfiguration)
