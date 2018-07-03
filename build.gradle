@@ -52,9 +52,9 @@ repositories {
 
 dependencies {
     // Symbiote Security section
-    compile('com.github.symbiote-h2020:SymbIoTeSecurity:gdpr-SNAPSHOT'){ changing = true }
+    compile('com.github.symbiote-h2020:SymbIoTeSecurity:9683207f6dc950f019c10bf0273d3f43a8a23440'){ changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
-	compile('com.github.symbiote-h2020:SymbIoTeSecurity:gdpr-SNAPSHOT:sources'){ changing = true }
+	compile('com.github.symbiote-h2020:SymbIoTeSecurity:9683207f6dc950f019c10bf0273d3f43a8a23440:sources'){ changing = true }
 	//compile project(':SymbIoTeSecurity')
 
     //from symbioteLibs
