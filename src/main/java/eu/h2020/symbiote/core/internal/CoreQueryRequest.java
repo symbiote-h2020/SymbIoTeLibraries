@@ -7,8 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * POJO describing a query for resources.
@@ -187,12 +186,21 @@ public class CoreQueryRequest {
     }
 
     public String buildQuery(String symbioteCoreUrl) {
-        StringBuilder url = new StringBuilder(symbioteCoreUrl);
-        url.append("/query?");
-        boolean isFirstParameter = true;
+           return symbioteCoreUrl + "/query?" + buildRequestParameters();
+    }
 
+    public String buildRequestParameters() {
+        StringBuilder url = new StringBuilder();
+
+        for (Map.Entry<String, String> entry : buildRequestParametersMap().entrySet())
+            url.append(entry.getKey()).append('=').append(entry.getValue()).append('&');
+
+        return url.deleteCharAt(url.length() - 1).toString();
+    }
+
+    public Map<String, String> buildRequestParametersMap() {
         Field[] allFields = this.getClass().getDeclaredFields();
-
+        Map<String, String> map = new LinkedHashMap<>(allFields.length, 1, false);
 
         for (Field field : allFields) {
             String fieldName = field.getName();
@@ -207,27 +215,21 @@ public class CoreQueryRequest {
                     String getterName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
                     Method getterMethod = this.getClass().getMethod(getterName, (Class<?>[])null);
                     @SuppressWarnings("unchecked")
-					List<Object> listOfObjects = (List<Object>) getterMethod.invoke(this, (Object[])null);
+                    List<Object> listOfObjects = (List<Object>) getterMethod.invoke(this, (Object[])null);
 
                     if (listOfObjects != null && listOfObjects.size() > 0) {
-                        if (isFirstParameter)
-                            isFirstParameter = false;
-                        else {
-                            url.append("&");
-                        }
-                        url.append(fieldName).append("=");
+                        StringBuilder sb = new StringBuilder();
 
                         for (Object o : listOfObjects) {
-                        	String encodedObject=null;
-                        	try {
-                            	encodedObject=URLEncoder.encode(o.toString(), "UTF-8");
-    						} catch (UnsupportedEncodingException e) {
-    							throw new IllegalArgumentException("When trying to encode the URL:", e);	// Should only be triggered when UTF-8 is misspelled :-)
-    						}
-                            url.append(encodedObject).append(",");
+                            try {
+                                sb.append(URLEncoder.encode(o.toString(), "UTF-8")).append(',');
+                            } catch (UnsupportedEncodingException e) {
+                                throw new IllegalArgumentException("When trying to encode the URL:", e);	// Should only be triggered when UTF-8 is misspelled :-)
+                            }
 
                         }
-                        url.deleteCharAt(url.length() - 1);
+                        sb.deleteCharAt(sb.length() - 1);
+                        map.put(fieldName, sb.toString());
                     }
 
                 } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
@@ -241,27 +243,23 @@ public class CoreQueryRequest {
                     Object value = getterMethod.invoke(this, (Object[])null);
 
                     if (value != null){
-                        if (isFirstParameter)
-                            isFirstParameter = false;
-                        else {
-                            url.append("&");
-                        }
+
                         try {
-							url.append(fieldName).append("=").append(URLEncoder.encode(value.toString(), "UTF-8"));
-							/* URL encoding, the forgotten art?
-							 * Note, that when you encode a complete URL you will also encode special char's like 
-							 * & or ?. They have a special meaning in URLs so you might have a certain interest to keep them as they are.
-							 * But when they come by in a payload they shall NOT have that special meaning. So you have to URNEncode 
-							 * your payload but not the complete URL.
-							 * Why use URLEncode and not some hand made thingy?
-							 * 'cause there are a few more char's than you think about. 
-							 * Look at the specs of something so simple as an URL :-)
-							 * 
-							 */
-						} catch (UnsupportedEncodingException e) {
-							throw new IllegalArgumentException("When trying to encode the URL:", e);	// Should only be triggered when UTF-8 is misspelled :-)
-																										// Throw something that does not need any declaration.
-						}
+                            map.put(fieldName, URLEncoder.encode(value.toString(), "UTF-8"));
+                            /* URL encoding, the forgotten art?
+                             * Note, that when you encode a complete URL you will also encode special char's like
+                             * & or ?. They have a special meaning in URLs so you might have a certain interest to keep them as they are.
+                             * But when they come by in a payload they shall NOT have that special meaning. So you have to URNEncode
+                             * your payload but not the complete URL.
+                             * Why use URLEncode and not some hand made thingy?
+                             * 'cause there are a few more char's than you think about.
+                             * Look at the specs of something so simple as an URL :-)
+                             *
+                             */
+                        } catch (UnsupportedEncodingException e) {
+                            throw new IllegalArgumentException("When trying to encode the URL:", e);	// Should only be triggered when UTF-8 is misspelled :-)
+                            // Throw something that does not need any declaration.
+                        }
                     }
                 } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                     e.printStackTrace();	// Really? Don't we have a logging concept? This will most probably end in nirwana when logged to stdout so it#s only good during an interactive debug session
@@ -269,10 +267,8 @@ public class CoreQueryRequest {
             }
 
         }
-
-        return url.toString();
+        return map;
     }
-
 
     public static class Builder {
 
