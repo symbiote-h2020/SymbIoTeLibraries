@@ -209,6 +209,9 @@ public class FederatedResource {
     public void setAdaptiveTrust(Double adaptiveTrust) { this.adaptiveTrust = adaptiveTrust; }
 
     @JsonIgnore
+    public Set<String> getFederations() { return this.federatedResourceInfoMap.keySet(); }
+
+    @JsonIgnore
     public String getPlatformId() throws IllegalArgumentException {
 
         Pattern p = Pattern.compile("^([\\w-]+)@([\\w-]+)$");
