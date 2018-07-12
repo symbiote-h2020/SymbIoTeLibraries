@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.client.feign;
 
-import eu.h2020.symbiote.client.CRAMClient;
+import eu.h2020.symbiote.client.interfaces.CRAMClient;
 import eu.h2020.symbiote.core.internal.cram.ResourceUrlsResponse;
 import eu.h2020.symbiote.security.commons.ComponentIdentifiers;
 import eu.h2020.symbiote.security.commons.SecurityConstants;

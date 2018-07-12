@@ -1,6 +1,8 @@
 package eu.h2020.symbiote.client;
 
 import eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory;
+import eu.h2020.symbiote.client.interfaces.CRAMClient;
+import eu.h2020.symbiote.client.interfaces.SearchClient;
 import eu.h2020.symbiote.security.ClientSecurityHandlerFactory;
 import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
 import eu.h2020.symbiote.security.handler.ISecurityHandler;
@@ -13,7 +15,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Factory for creating a concreate symbIoTe client factory based on the provided configuration
+ * Factory for creating a concreate symbIoTe client factory based on the provided configuration. For now there is
+ * just one concrete factory implementation, but we followed the abstract factory pattern to facilitate future extension
  *
  * @author Vasilis Glykantzis
  */
@@ -31,55 +34,12 @@ public abstract class AbstractSymbIoTeClientFactory {
      */
     public static AbstractSymbIoTeClientFactory getFactory(Config config)
             throws SecurityHandlerException, NoSuchAlgorithmException {
-        TrustManager[] trustAllCerts = new TrustManager[] {
-                new X509TrustManager() {
-                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-
-                    public void checkClientTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
-
-                    public void checkServerTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
-                }
-        };
-
-        // Install the all-trusting trust manager
-        SSLContext sc = SSLContext.getInstance("SSL");
-        try {
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        }
-        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-
-        ISecurityHandler securityHandler = ClientSecurityHandlerFactory
-                .getSecurityHandler(
-                        config.getCoreAddress() + CORE_AAM_SUBPATH,
-                        config.getKeystorePath(),
-                        config.getKeystorePassword()
-        );
 
         switch (config.getType()) {
             case FEIGN:
-                return new SymbIoTeFeignClientFactory(
-                        securityHandler,
-                        config.getCoreAddress(),
-                        config.getHomePlatformId(),
-                        config.getUsername(),
-                        config.getPassword(),
-                        config.getClientId());
+                return new SymbIoTeFeignClientFactory(config);
             default:
-                return new SymbIoTeFeignClientFactory(
-                        securityHandler,
-                        config.getCoreAddress(),
-                        config.getHomePlatformId(),
-                        config.getUsername(),
-                        config.getPassword(),
-                        config.getClientId());
+                return new SymbIoTeFeignClientFactory(config);
         }
     }
 

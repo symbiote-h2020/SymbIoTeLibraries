@@ -79,29 +79,41 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
 
         try {
 
-            Set<AuthorizationCredentials> authorizationCredentialsSet = new HashSet<>();
+            // Get the available AAMs from the Core AAM
             Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
 
+            // Acquiring application certificate
             securityHandler.getCertificate(availableAAMs.get(homePlatformId), username, password, clientId);
 
+            // Acquiring HOME token
             Token homeToken = securityHandler.login(availableAAMs.get(homePlatformId));
 
+            // Acquiring HOME credentials
             HomeCredentials homeCredentials = securityHandler.getAcquiredCredentials().get(homePlatformId).homeCredentials;
+
+            // Populate the authorization credentials. From now on we do not need the password
+            Set<AuthorizationCredentials> authorizationCredentialsSet = new HashSet<>();
             authorizationCredentialsSet.add(new AuthorizationCredentials(homeToken, homeCredentials.homeAAM, homeCredentials));
 
+            // Create Security Request
             SecurityRequest securityRequest = MutualAuthenticationHelper.getSecurityRequest(authorizationCredentialsSet, false);
 
 
+            // Insert it to the headers
             Map<String, Collection<String>> headers = securityRequest.getSecurityRequestHeaderParams().entrySet().stream()
                     .collect(Collectors.toMap(Map.Entry::getKey, entry -> Collections.singletonList(entry.getValue())));
 
+            // Add the headers from the Feign request
             headers.putAll(request.headers());
 
+            // Create the new Feign request
             Request newRequest = Request.create(request.method(), request.url(),
                     headers, request.body(), request.charset());
 
+            // Execute the business query
             Response response = client.execute(newRequest, options);
 
+            // Optionally, validate the service response on success
             if (validateResponse && response.status() >= 200 && response.status() < 300) {
                 String serviceResponse = response.headers().get(SecurityConstants.SECURITY_RESPONSE_HEADER)
                         .iterator().next();

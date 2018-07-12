@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.client;
+package eu.h2020.symbiote.client.interfaces;
 
 import eu.h2020.symbiote.core.ci.QueryResponse;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;

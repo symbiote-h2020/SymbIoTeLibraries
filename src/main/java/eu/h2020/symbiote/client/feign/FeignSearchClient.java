@@ -1,6 +1,6 @@
 package eu.h2020.symbiote.client.feign;
 
-import eu.h2020.symbiote.client.SearchClient;
+import eu.h2020.symbiote.client.interfaces.SearchClient;
 import eu.h2020.symbiote.core.ci.QueryResponse;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.security.commons.ComponentIdentifiers;
