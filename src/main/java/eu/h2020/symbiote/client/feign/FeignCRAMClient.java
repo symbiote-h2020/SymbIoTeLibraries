@@ -60,8 +60,7 @@ public class FeignCRAMClient implements CRAMClient {
                         clientId,
                         ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
                         SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        true,
-                        new Client.Default(null, null)))
+                        true))
                 .target(CRAMI.class, coreAddress);
 
         this.cramClientWithoutValidation = Feign.builder()
@@ -77,8 +76,7 @@ public class FeignCRAMClient implements CRAMClient {
                         clientId,
                         ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
                         SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        false,
-                        new Client.Default(null, null)))
+                        false))
                 .target(CRAMI.class, coreAddress);
 
     }

@@ -37,9 +37,26 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
     private final String serviceComponentId;
     private final String servicePlatformId;
     private final boolean validateResponse;
-    private final Client client;
+    private final Client client = new Client.Default(null, null);
 
     /**
+     * Constructor for creating a security-disabled client
+     */
+    public SymbIoTeSecurityHandlerFeignClient() {
+        this.securityHandler = null;
+        this.homePlatformId = null;
+        this.username = null;
+        this.password = null;
+        this.clientId = null;
+        this.serviceComponentId = null;
+        this.servicePlatformId = null;
+        this.validateResponse = false;
+    }
+
+
+    /**
+     * Constructor for creating a security-enabled client
+     *
      * @param securityHandler       configured for this component
      * @param homePlatformId        the home Platform Id
      * @param username              the username in the home platform
@@ -49,7 +66,6 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
      * @param servicePlatformId     id of the platform which the component belongs to ({@link SecurityConstants#CORE_AAM_INSTANCE_ID}
      *                              for Symbiote core components)
      * @param validateResponse      indicated if the component will be validated
-     * @param client                used for business logic
      */
     public SymbIoTeSecurityHandlerFeignClient(ISecurityHandler securityHandler,
                                               String homePlatformId,
@@ -58,8 +74,7 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
                                               String clientId,
                                               String serviceComponentId,
                                               String servicePlatformId,
-                                              boolean validateResponse,
-                                              Client client) {
+                                              boolean validateResponse) {
         this.securityHandler = securityHandler;
         this.homePlatformId = homePlatformId;
         this.username = username;
@@ -68,7 +83,6 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
         this.serviceComponentId = serviceComponentId;
         this.servicePlatformId = servicePlatformId;
         this.validateResponse = validateResponse;
-        this.client = client;
     }
 
 
@@ -79,42 +93,45 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
 
         try {
 
-            // Get the available AAMs from the Core AAM
-            Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
+            if (securityHandler != null) {
+                // Get the available AAMs from the Core AAM
+                Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
 
-            // Acquiring application certificate
-            securityHandler.getCertificate(availableAAMs.get(homePlatformId), username, password, clientId);
+                // Acquiring application certificate
+                securityHandler.getCertificate(availableAAMs.get(homePlatformId), username, password, clientId);
 
-            // Acquiring HOME token
-            Token homeToken = securityHandler.login(availableAAMs.get(homePlatformId));
+                // Acquiring HOME token
+                Token homeToken = securityHandler.login(availableAAMs.get(homePlatformId));
 
-            // Acquiring HOME credentials
-            HomeCredentials homeCredentials = securityHandler.getAcquiredCredentials().get(homePlatformId).homeCredentials;
+                // Acquiring HOME credentials
+                HomeCredentials homeCredentials = securityHandler.getAcquiredCredentials().get(homePlatformId).homeCredentials;
 
-            // Populate the authorization credentials. From now on we do not need the password
-            Set<AuthorizationCredentials> authorizationCredentialsSet = new HashSet<>();
-            authorizationCredentialsSet.add(new AuthorizationCredentials(homeToken, homeCredentials.homeAAM, homeCredentials));
+                // Populate the authorization credentials. From now on we do not need the password
+                Set<AuthorizationCredentials> authorizationCredentialsSet = new HashSet<>();
+                authorizationCredentialsSet.add(new AuthorizationCredentials(homeToken, homeCredentials.homeAAM, homeCredentials));
 
-            // Create Security Request
-            SecurityRequest securityRequest = MutualAuthenticationHelper.getSecurityRequest(authorizationCredentialsSet, false);
+                // Create Security Request
+                SecurityRequest securityRequest = MutualAuthenticationHelper.getSecurityRequest(authorizationCredentialsSet, false);
 
 
-            // Insert it to the headers
-            Map<String, Collection<String>> headers = securityRequest.getSecurityRequestHeaderParams().entrySet().stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> Collections.singletonList(entry.getValue())));
+                // Insert it to the headers
+                Map<String, Collection<String>> headers = securityRequest.getSecurityRequestHeaderParams().entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey, entry -> Collections.singletonList(entry.getValue())));
 
-            // Add the headers from the Feign request
-            headers.putAll(request.headers());
+                // Add the headers from the Feign request
+                headers.putAll(request.headers());
 
-            // Create the new Feign request
-            Request newRequest = Request.create(request.method(), request.url(),
-                    headers, request.body(), request.charset());
+                // Create the new Feign request
+                request = Request.create(request.method(), request.url(),
+                        headers, request.body(), request.charset());
+            }
 
             // Execute the business query
-            Response response = client.execute(newRequest, options);
+            Response response = client.execute(request, options);
 
             // Optionally, validate the service response on success
-            if (validateResponse && response.status() >= 200 && response.status() < 300) {
+            if (securityHandler != null && validateResponse &&
+                    response.status() >= 200 && response.status() < 300) {
                 String serviceResponse = response.headers().get(SecurityConstants.SECURITY_RESPONSE_HEADER)
                         .iterator().next();
 

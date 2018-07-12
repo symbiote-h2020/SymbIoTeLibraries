@@ -59,8 +59,7 @@ public class FeignSearchClient implements SearchClient {
                         clientId,
                         ComponentIdentifiers.CORE_SEARCH,
                         SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        true,
-                        new Client.Default(null, null)))
+                        true))
                 .target(SearchI.class, coreAddress);
 
         this.searchClientWithoutValidation = Feign.builder()
@@ -76,8 +75,7 @@ public class FeignSearchClient implements SearchClient {
                         clientId,
                         ComponentIdentifiers.CORE_SEARCH,
                         SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        false,
-                        new Client.Default(null, null)))
+                        false))
                 .target(SearchI.class, coreAddress);
 
     }
