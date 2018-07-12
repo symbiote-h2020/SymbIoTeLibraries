@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Response message containing results of basic, JSON based resource query.
+ * Response message containing results of basic, JSON based resource getResourceUrls.
  */
 public class QueryResponse extends AbstractResponseSecured<List<QueryResourceResult>>{
 

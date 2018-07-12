@@ -1,8 +1,7 @@
 package eu.h2020.symbiote.client.feign;
 
-import eu.h2020.symbiote.client.SearchClient;
-import eu.h2020.symbiote.core.ci.QueryResponse;
-import eu.h2020.symbiote.core.internal.CoreQueryRequest;
+import eu.h2020.symbiote.client.CRAMClient;
+import eu.h2020.symbiote.core.internal.cram.ResourceUrlsResponse;
 import eu.h2020.symbiote.security.commons.ComponentIdentifiers;
 import eu.h2020.symbiote.security.commons.SecurityConstants;
 import eu.h2020.symbiote.security.communication.ApacheCommonsLogger4Feign;
@@ -13,22 +12,24 @@ import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory.CORE_INTERFACE_PATH;
 
 /**
- * symbIoTe search client based on Feign
+ * symbIoTe Core Resource Access Manager client based on Feign
  *
  * @author Vasilis Glykantzis
  */
-public class FeignSearchClient implements SearchClient {
+public class FeignCRAMClient implements CRAMClient {
 
-    private static final Log logger = LogFactory.getLog(FeignSearchClient.class);
-    private static final String SEARCH_BASE_URL = CORE_INTERFACE_PATH + "/query";
+    private static final Log logger = LogFactory.getLog(FeignCRAMClient.class);
+    private static final String GET_RESOURCE_URLS_BASE_PATH = CORE_INTERFACE_PATH + "/resourceUrls?";
 
-    private final SearchI searchClient;
-    private final SearchI searchClientWithoutValidation;
+    private final CRAMI cramClient;
+    private final CRAMI cramClientWithoutValidation;
 
     /**
      *
@@ -39,14 +40,14 @@ public class FeignSearchClient implements SearchClient {
      * @param password          the password in the home platform
      * @param clientId          the client id
      */
-    public FeignSearchClient(ISecurityHandler securityHandler,
-                             String coreAddress,
-                             String homePlatformId,
-                             String username,
-                             String password,
-                             String clientId) {
+    public FeignCRAMClient(ISecurityHandler securityHandler,
+                           String coreAddress,
+                           String homePlatformId,
+                           String username,
+                           String password,
+                           String clientId) {
 
-        this.searchClient = Feign.builder()
+        this.cramClient = Feign.builder()
                 .decoder(new JacksonDecoder())
                 .encoder(new JacksonEncoder())
                 .logger(new ApacheCommonsLogger4Feign(logger))
@@ -57,13 +58,13 @@ public class FeignSearchClient implements SearchClient {
                         username,
                         password,
                         clientId,
-                        ComponentIdentifiers.CORE_SEARCH,
+                        ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
                         SecurityConstants.CORE_AAM_INSTANCE_ID,
                         true,
                         new Client.Default(null, null)))
-                .target(SearchI.class, coreAddress);
+                .target(CRAMI.class, coreAddress);
 
-        this.searchClientWithoutValidation = Feign.builder()
+        this.cramClientWithoutValidation = Feign.builder()
                 .decoder(new JacksonDecoder())
                 .encoder(new JacksonEncoder())
                 .logger(new ApacheCommonsLogger4Feign(logger))
@@ -74,28 +75,38 @@ public class FeignSearchClient implements SearchClient {
                         username,
                         password,
                         clientId,
-                        ComponentIdentifiers.CORE_SEARCH,
+                        ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
                         SecurityConstants.CORE_AAM_INSTANCE_ID,
                         false,
                         new Client.Default(null, null)))
-                .target(SearchI.class, coreAddress);
+                .target(CRAMI.class, coreAddress);
 
     }
 
     @Override
-    public QueryResponse search(CoreQueryRequest request) {
-        return searchClient.query(request.buildRequestParametersMap());
+    public ResourceUrlsResponse getResourceUrl(String resourceId) {
+        return cramClient.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
     }
 
     @Override
-    public QueryResponse searchWithoutValidation(CoreQueryRequest request) {
-        return searchClientWithoutValidation.query(request.buildRequestParametersMap());
+    public ResourceUrlsResponse getResourceUrl(List<String> resourceIds) {
+        return cramClient.getResourceUrls(resourceIds);
     }
 
-    private interface SearchI {
+    @Override
+    public ResourceUrlsResponse getResourceUrlWithoutValidation(String resourceId) {
+        return cramClientWithoutValidation.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
+    }
 
-        @RequestLine("GET " + SEARCH_BASE_URL)
+    @Override
+    public ResourceUrlsResponse getResourceUrlWithoutValidation(List<String> resourceIds) {
+        return cramClientWithoutValidation.getResourceUrls(resourceIds);
+    }
+
+    private interface CRAMI {
+
+        @RequestLine("GET " + GET_RESOURCE_URLS_BASE_PATH + "id={ids}")
         @Headers({"Accept: application/json", "Content-Type: application/json"})
-        QueryResponse query(@QueryMap Map<String, String> queryMap);
+        ResourceUrlsResponse getResourceUrls(@Param("ids") List<String> ids);
     }
 }

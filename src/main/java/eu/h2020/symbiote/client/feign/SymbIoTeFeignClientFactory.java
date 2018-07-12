@@ -1,6 +1,7 @@
 package eu.h2020.symbiote.client.feign;
 
 import eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory;
+import eu.h2020.symbiote.client.CRAMClient;
 import eu.h2020.symbiote.client.SearchClient;
 import eu.h2020.symbiote.security.handler.ISecurityHandler;
 
@@ -44,5 +45,10 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     @Override
     public SearchClient getSearchClient() {
         return new FeignSearchClient(securityHandler, coreAddress, homePlatformId, username, password, clientId);
+    }
+
+    @Override
+    public CRAMClient getCramClient() {
+        return new FeignCRAMClient(securityHandler, coreAddress, homePlatformId, username, password, clientId);
     }
 }

@@ -19,7 +19,8 @@ import java.security.NoSuchAlgorithmException;
  */
 public abstract class AbstractSymbIoTeClientFactory {
 
-    public static final String CORE_AAM_SUBPATH = "/coreInterface";
+    public static final String CORE_INTERFACE_PATH = "/coreInterface";
+    public static final String CORE_AAM_SUBPATH = CORE_INTERFACE_PATH;
 
     /**
      *
@@ -83,6 +84,8 @@ public abstract class AbstractSymbIoTeClientFactory {
     }
 
     public abstract SearchClient getSearchClient();
+
+    public abstract CRAMClient getCramClient();
 
     /**
      * The type of factory. For now there is just one type but we followed the abstract factory pattern to facilitate

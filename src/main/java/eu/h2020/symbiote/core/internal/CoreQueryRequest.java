@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 /**
- * POJO describing a query for resources.
+ * POJO describing a getResourceUrls for resources.
  */
 public class CoreQueryRequest {
 
@@ -186,7 +186,7 @@ public class CoreQueryRequest {
     }
 
     public String buildQuery(String symbioteCoreUrl) {
-           return symbioteCoreUrl + "/query?" + buildRequestParameters();
+           return symbioteCoreUrl + "/getResourceUrls?" + buildRequestParameters();
     }
 
     public String buildRequestParameters() {

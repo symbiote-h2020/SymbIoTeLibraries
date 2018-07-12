@@ -1,7 +1,7 @@
 package eu.h2020.symbiote.core.ci;
 
 /**
- * Output formats for sparql query.
+ * Output formats for sparql getResourceUrls.
  */
 public enum SparqlQueryOutputFormat {
     SRX,

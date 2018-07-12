@@ -31,7 +31,7 @@ public class ResourceAccessHistoryMessage extends ResourceAccessMessage {
      * JSON Constructor
      * @param resInfo               the resource data information   
      * @param top                   the size of the requested collection
-     * @param filter                the filter for query
+     * @param filter                the filter for getResourceUrls
      */
     
     
