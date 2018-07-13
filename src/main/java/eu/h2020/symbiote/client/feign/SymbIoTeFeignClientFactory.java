@@ -1,10 +1,7 @@
 package eu.h2020.symbiote.client.feign;
 
 import eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory;
-import eu.h2020.symbiote.client.interfaces.CRAMClient;
-import eu.h2020.symbiote.client.interfaces.RAPClient;
-import eu.h2020.symbiote.client.interfaces.RHClient;
-import eu.h2020.symbiote.client.interfaces.SearchClient;
+import eu.h2020.symbiote.client.interfaces.*;
 import eu.h2020.symbiote.security.ClientSecurityHandlerFactory;
 import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
 import eu.h2020.symbiote.security.handler.ISecurityHandler;
@@ -96,5 +93,10 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     @Override
     public RAPClient getRapClient() {
         return new FeignRAPClient(securityHandler, homePlatformId, username, password, clientId);
+    }
+
+    @Override
+    public PRClient getPRClient() {
+        return new FeignPRClient(securityHandler, homePlatformId, username, password, clientId);
     }
 }
