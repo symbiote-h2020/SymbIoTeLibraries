@@ -2,17 +2,11 @@ package eu.h2020.symbiote.client;
 
 import eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory;
 import eu.h2020.symbiote.client.interfaces.CRAMClient;
+import eu.h2020.symbiote.client.interfaces.RAPClient;
 import eu.h2020.symbiote.client.interfaces.RHClient;
 import eu.h2020.symbiote.client.interfaces.SearchClient;
-import eu.h2020.symbiote.security.ClientSecurityHandlerFactory;
 import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
-import eu.h2020.symbiote.security.handler.ISecurityHandler;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -49,6 +43,8 @@ public abstract class AbstractSymbIoTeClientFactory {
     public abstract CRAMClient getCramClient();
 
     public abstract RHClient getRHClient();
+
+    public abstract RAPClient getRapClient();
 
     /**
      * The type of factory. For now there is just one type but we followed the abstract factory pattern to facilitate

@@ -6,6 +6,11 @@ import eu.h2020.symbiote.cloud.model.internal.RdfCloudResourceList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface for querying the Platform Registration Handler component
+ *
+ * @author Vasilis Glykantzis
+ */
 public interface RHClient {
 
     /**
