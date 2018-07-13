@@ -293,85 +293,112 @@ public class CoreQueryRequest {
         }
 
         public Builder platformId(String platform_id) {
-            this.builder_platform_id = platform_id;
+            if (platform_id != null)
+                this.builder_platform_id = platform_id;
             return this;
         }
 
         public Builder platformName(String platform_name) {
-            this.builder_platform_name = platform_name;
+            if (platform_name != null)
+                this.builder_platform_name = platform_name;
             return this;
         }
 
         public Builder owner(String owner) {
+            if (owner != null)
             this.builder_owner = owner;
             return this;
         }
 
         public Builder name(String name) {
-            this.builder_name = name;
+            if (name != null)
+                this.builder_name = name;
             return this;
         }
 
         public Builder id(String id) {
-            this.builder_id = id;
+            if (id != null)
+                this.builder_id = id;
             return this;
         }
 
         public Builder description(String description) {
-            this.builder_description = description;
+            if (description != null)
+                this.builder_description = description;
             return this;
         }
 
         public Builder locationName(String location_name) {
-            this.builder_location_name = location_name;
+            if (location_name != null)
+                this.builder_location_name = location_name;
             return this;
         }
 
         public Builder locationLat(Double location_lat) {
-            this.builder_location_lat = location_lat;
+            if (location_lat != null)
+                this.builder_location_lat = location_lat;
             return this;
         }
 
         public Builder locationLong(Double location_long) {
-            this.builder_location_long = location_long;
+            if (location_long != null)
+                this.builder_location_long = location_long;
             return this;
         }
 
         public Builder maxDistance(Integer max_distance) {
-            this.builder_max_distance = max_distance;
+            if (max_distance != null)
+                this.builder_max_distance = max_distance;
             return this;
         }
 
         public Builder observedProperty(List<String> observed_property) {
-            this.builder_observed_property = observed_property;
+            if (observed_property != null)
+                this.builder_observed_property = observed_property;
             return this;
         }
 
         public Builder observedPropertyIri(List<String> observed_property_iri) {
-            this.builder_observed_property_iri = observed_property_iri;
+            if (observed_property_iri != null)
+                this.builder_observed_property_iri = observed_property_iri;
             return this;
         }
 
         public Builder resourceType(String resource_type) {
-            this.builder_resource_type = resource_type;
+            if (resource_type != null)
+                this.builder_resource_type = resource_type;
             return this;
         }
 
         public Builder securityRequest(SecurityRequest securityRequest) {
-            this.builder_securityRequest = securityRequest;
+            if (securityRequest != null)
+                this.builder_securityRequest = securityRequest;
             return this;
         }
 
         public Builder shouldRank(Boolean should_rank) {
-            this.builder_should_rank = should_rank;
+            if (should_rank != null)
+                this.builder_should_rank = should_rank;
             return this;
         }
 
         public CoreQueryRequest build() {
-            return new CoreQueryRequest(builder_platform_id, builder_platform_name, builder_owner, builder_name,
-                    builder_id, builder_description, builder_location_name, builder_location_lat,
-                    builder_location_long, builder_max_distance, builder_observed_property, builder_observed_property_iri,
-                    builder_resource_type, builder_securityRequest, builder_should_rank);
+            return new CoreQueryRequest(
+                    builder_platform_id,
+                    builder_platform_name,
+                    builder_owner,
+                    builder_name,
+                    builder_id,
+                    builder_description,
+                    builder_location_name,
+                    builder_location_lat,
+                    builder_location_long,
+                    builder_max_distance,
+                    builder_observed_property,
+                    builder_observed_property_iri,
+                    builder_resource_type,
+                    builder_securityRequest,
+                    builder_should_rank);
         }
     }
 
