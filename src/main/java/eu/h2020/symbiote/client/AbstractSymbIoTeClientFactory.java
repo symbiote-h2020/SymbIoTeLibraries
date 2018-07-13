@@ -3,6 +3,7 @@ package eu.h2020.symbiote.client;
 import eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory;
 import eu.h2020.symbiote.client.interfaces.*;
 import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
+import eu.h2020.symbiote.security.communication.IAAMClient;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -44,6 +45,8 @@ public abstract class AbstractSymbIoTeClientFactory {
     public abstract RAPClient getRapClient();
 
     public abstract PRClient getPRClient();
+
+    public abstract IAAMClient getAAMClient();
 
     /**
      * The type of factory. For now there is just one type but we followed the abstract factory pattern to facilitate

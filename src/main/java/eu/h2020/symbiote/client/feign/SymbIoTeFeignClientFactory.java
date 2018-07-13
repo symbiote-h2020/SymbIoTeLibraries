@@ -4,7 +4,12 @@ import eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory;
 import eu.h2020.symbiote.client.interfaces.*;
 import eu.h2020.symbiote.security.ClientSecurityHandlerFactory;
 import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
+import eu.h2020.symbiote.security.communication.AAMClient;
+import eu.h2020.symbiote.security.communication.IAAMClient;
+import eu.h2020.symbiote.security.communication.payloads.AAM;
 import eu.h2020.symbiote.security.handler.ISecurityHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -12,6 +17,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 /**
  * Factory for creating Feign symbIoTe clients
@@ -19,6 +25,8 @@ import java.security.NoSuchAlgorithmException;
  * @author Vasilis Glykantzis
  */
 public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
+
+    private static final Log logger = LogFactory.getLog(SymbIoTeFeignClientFactory.class);
 
     private final ISecurityHandler securityHandler;
     private final String coreAddress;
@@ -98,5 +106,16 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     @Override
     public PRClient getPRClient() {
         return new FeignPRClient(securityHandler, homePlatformId, username, password, clientId);
+    }
+
+    @Override
+    public IAAMClient getAAMClient() {
+        try {
+            Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
+            return new AAMClient(availableAAMs.get(homePlatformId).getAamAddress());
+        } catch (SecurityHandlerException e) {
+            logger.error("Could not create AAMClient", e);
+        }
+        return null;
     }
 }
