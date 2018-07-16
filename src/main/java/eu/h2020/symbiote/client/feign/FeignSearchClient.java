@@ -29,6 +29,8 @@ public class FeignSearchClient implements SearchClient {
 
     private final SearchI searchClient;
     private final SearchI searchClientWithoutValidation;
+    private final SearchI searchClientAsGuest;
+    private final SearchI searchClientAsGuestWithoutValidation;
 
     /**
      *
@@ -78,16 +80,44 @@ public class FeignSearchClient implements SearchClient {
                         false))
                 .target(SearchI.class, coreAddress);
 
+        this.searchClientAsGuest = Feign.builder()
+                .decoder(new JacksonDecoder())
+                .encoder(new JacksonEncoder())
+                .logger(new ApacheCommonsLogger4Feign(logger))
+                .logLevel(Logger.Level.FULL)
+                .client(new SymbIoTeSecurityHandlerFeignClient(
+                        securityHandler,
+                        ComponentIdentifiers.CORE_SEARCH,
+                        SecurityConstants.CORE_AAM_INSTANCE_ID,
+                        true))
+                .target(SearchI.class, coreAddress);
+
+        this.searchClientAsGuestWithoutValidation = Feign.builder()
+                .decoder(new JacksonDecoder())
+                .encoder(new JacksonEncoder())
+                .logger(new ApacheCommonsLogger4Feign(logger))
+                .logLevel(Logger.Level.FULL)
+                .client(new SymbIoTeSecurityHandlerFeignClient(
+                        securityHandler,
+                        ComponentIdentifiers.CORE_SEARCH,
+                        SecurityConstants.CORE_AAM_INSTANCE_ID,
+                        false))
+                .target(SearchI.class, coreAddress);
+
     }
 
     @Override
-    public QueryResponse search(CoreQueryRequest request) {
-        return searchClient.query(request.buildRequestParametersMap());
+    public QueryResponse search(CoreQueryRequest request, boolean serverValidation) {
+        return serverValidation ?
+                searchClient.query(request.buildRequestParametersMap()) :
+                searchClientWithoutValidation.query(request.buildRequestParametersMap());
     }
 
     @Override
-    public QueryResponse searchWithoutValidation(CoreQueryRequest request) {
-        return searchClientWithoutValidation.query(request.buildRequestParametersMap());
+    public QueryResponse searchAsGuest(CoreQueryRequest request, boolean serverValidation) {
+        return serverValidation ?
+                searchClientWithoutValidation.query(request.buildRequestParametersMap()) :
+                searchClientAsGuestWithoutValidation.query(request.buildRequestParametersMap());
     }
 
     private interface SearchI {

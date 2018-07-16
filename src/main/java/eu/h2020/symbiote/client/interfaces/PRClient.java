@@ -11,19 +11,21 @@ import eu.h2020.symbiote.cloud.model.internal.PlatformRegistryQuery;
 public interface PRClient {
 
     /**
-     * Queries and validates the Platform Registry component
+     * Queries the Platform Registry component with home token
      *
-     * @param query the request send to the Platform Registry
-     * @return the search response
+     * @param query             the request send to the Platform Registry
+     * @param serverValidation  if true it will validate the Platform Registry Component
+     * @return                  the search result
      */
-    FederationSearchResult search(PlatformRegistryQuery query);
+    FederationSearchResult search(PlatformRegistryQuery query, boolean serverValidation);
 
 
     /**
-     * Queries the Platform Registry component without validating it
+     * Queries the Platform Registry component with guest token
      *
-     * @param query the request send to the Platform Registry
-     * @return the search response
+     * @param query             the request send to the Platform Registry
+     * @param serverValidation  if true it will validate the Platform Registry Component
+     * @return                  the search result
      */
-    FederationSearchResult searchWithoutValidation(PlatformRegistryQuery query);
+    FederationSearchResult searchAsGuest(PlatformRegistryQuery query, boolean serverValidation);
 }

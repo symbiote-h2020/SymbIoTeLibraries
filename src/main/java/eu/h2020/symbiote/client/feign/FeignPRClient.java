@@ -26,7 +26,9 @@ public class FeignPRClient implements PRClient {
     private static final Log logger = LogFactory.getLog(FeignPRClient.class);
 
     private PlatformRegistryI prClient;
+    private PlatformRegistryI prClientAsGuest;
     private PlatformRegistryI prClientWithoutValidation;
+    private PlatformRegistryI prClientAsGuestWithoutValidation;
 
     /**
      *
@@ -62,6 +64,18 @@ public class FeignPRClient implements PRClient {
                             true))
                     .target(PlatformRegistryI.class, prUrl);
 
+            this.prClientAsGuest = Feign.builder()
+                    .decoder(new JacksonDecoder())
+                    .encoder(new JacksonEncoder())
+                    .logger(new ApacheCommonsLogger4Feign(logger))
+                    .logLevel(Logger.Level.FULL)
+                    .client(new SymbIoTeSecurityHandlerFeignClient(
+                            securityHandler,
+                            ComponentIdentifiers.PLATFORM_REGISTRY,
+                            homePlatformId,
+                            true))
+                    .target(PlatformRegistryI.class, prUrl);
+
             this.prClientWithoutValidation = Feign.builder()
                     .decoder(new JacksonDecoder())
                     .encoder(new JacksonEncoder())
@@ -77,6 +91,18 @@ public class FeignPRClient implements PRClient {
                             homePlatformId,
                             false))
                     .target(PlatformRegistryI.class, prUrl);
+
+            this.prClientAsGuestWithoutValidation = Feign.builder()
+                    .decoder(new JacksonDecoder())
+                    .encoder(new JacksonEncoder())
+                    .logger(new ApacheCommonsLogger4Feign(logger))
+                    .logLevel(Logger.Level.FULL)
+                    .client(new SymbIoTeSecurityHandlerFeignClient(
+                            securityHandler,
+                            ComponentIdentifiers.PLATFORM_REGISTRY,
+                            homePlatformId,
+                            false))
+                    .target(PlatformRegistryI.class, prUrl);
         } catch (SecurityHandlerException e) {
             logger.error("Could not create FeignPRClient", e);
         }
@@ -84,13 +110,17 @@ public class FeignPRClient implements PRClient {
     }
 
     @Override
-    public FederationSearchResult search(PlatformRegistryQuery query) {
-        return prClient.query(query.buildRequestParametersMap());
+    public FederationSearchResult search(PlatformRegistryQuery query, boolean serverValidation) {
+        return serverValidation ?
+                prClient.query(query.buildRequestParametersMap()) :
+                prClientWithoutValidation.query(query.buildRequestParametersMap());
     }
 
     @Override
-    public FederationSearchResult searchWithoutValidation(PlatformRegistryQuery query) {
-        return prClientWithoutValidation.query(query.buildRequestParametersMap());
+    public FederationSearchResult searchAsGuest(PlatformRegistryQuery query, boolean serverValidation) {
+        return serverValidation ?
+                prClientAsGuest.query(query.buildRequestParametersMap()) :
+                prClientAsGuestWithoutValidation.query(query.buildRequestParametersMap());
     }
 
     private interface PlatformRegistryI {

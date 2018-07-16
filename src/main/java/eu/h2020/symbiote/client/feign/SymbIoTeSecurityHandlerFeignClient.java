@@ -39,23 +39,9 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
     private final boolean validateResponse;
     private final Client client = new Client.Default(null, null);
 
-    /**
-     * Constructor for creating a security-disabled client
-     */
-    public SymbIoTeSecurityHandlerFeignClient() {
-        this.securityHandler = null;
-        this.homePlatformId = null;
-        this.username = null;
-        this.password = null;
-        this.clientId = null;
-        this.serviceComponentId = null;
-        this.servicePlatformId = null;
-        this.validateResponse = false;
-    }
-
 
     /**
-     * Constructor for creating a security-enabled client
+     * Constructor for creating a security-enabled client with HOME Token
      *
      * @param securityHandler       configured for this component
      * @param homePlatformId        the home Platform Id
@@ -85,6 +71,28 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
         this.validateResponse = validateResponse;
     }
 
+    /**
+     * Constructor for creating a security-disabled client
+     */
+    public SymbIoTeSecurityHandlerFeignClient() {
+        this(null, null, null, null, null, null, null, false);
+    }
+
+    /**
+     * Constructor for creating a security-enabled client with GUEST Token
+     *
+     * @param securityHandler       configured for this component
+     * @param serviceComponentId    id of the component this client is used to communicate with ({@link ComponentIdentifiers})
+     * @param servicePlatformId     id of the platform which the component belongs to ({@link SecurityConstants#CORE_AAM_INSTANCE_ID}
+     *                              for Symbiote core components)
+     * @param validateResponse      indicated if the component will be validated
+     */
+    public SymbIoTeSecurityHandlerFeignClient(ISecurityHandler securityHandler,
+                                              String serviceComponentId,
+                                              String servicePlatformId,
+                                              boolean validateResponse) {
+        this(securityHandler, null, null, null, null, serviceComponentId, servicePlatformId, validateResponse);
+    }
 
     @Override
     public Response execute(Request request, Request.Options options) throws IOException {
@@ -94,24 +102,39 @@ public class SymbIoTeSecurityHandlerFeignClient implements Client {
         try {
 
             if (securityHandler != null) {
+                SecurityRequest securityRequest;
+
                 // Get the available AAMs from the Core AAM
                 Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
 
-                // Acquiring application certificate
-                securityHandler.getCertificate(availableAAMs.get(homePlatformId), username, password, clientId);
+                if (homePlatformId == null || username == null || password == null || clientId == null) {
+                    // Operate with GUEST Token from Core AAM
 
-                // Acquiring HOME token
-                Token homeToken = securityHandler.login(availableAAMs.get(homePlatformId));
+                    // Acquiring GUEST token
+                    Token guestToken = securityHandler.loginAsGuest(availableAAMs.get(SecurityConstants.CORE_AAM_INSTANCE_ID));
 
-                // Acquiring HOME credentials
-                HomeCredentials homeCredentials = securityHandler.getAcquiredCredentials().get(homePlatformId).homeCredentials;
+                    // Create Security Request with GUEST Token
+                    securityRequest = new SecurityRequest(guestToken.getToken());
 
-                // Populate the authorization credentials. From now on we do not need the password
-                Set<AuthorizationCredentials> authorizationCredentialsSet = new HashSet<>();
-                authorizationCredentialsSet.add(new AuthorizationCredentials(homeToken, homeCredentials.homeAAM, homeCredentials));
+                } else {
+                    // Operate with HOME Token
 
-                // Create Security Request
-                SecurityRequest securityRequest = MutualAuthenticationHelper.getSecurityRequest(authorizationCredentialsSet, false);
+                    // Acquiring application certificate
+                    securityHandler.getCertificate(availableAAMs.get(homePlatformId), username, password, clientId);
+
+                    // Acquiring HOME token
+                    Token homeToken = securityHandler.login(availableAAMs.get(homePlatformId));
+
+                    // Acquiring HOME credentials
+                    HomeCredentials homeCredentials = securityHandler.getAcquiredCredentials().get(homePlatformId).homeCredentials;
+
+                    // Populate the authorization credentials. From now on we do not need the password
+                    Set<AuthorizationCredentials> authorizationCredentialsSet = new HashSet<>();
+                    authorizationCredentialsSet.add(new AuthorizationCredentials(homeToken, homeCredentials.homeAAM, homeCredentials));
+
+                    // Create Security Request with HOME Token
+                    securityRequest = MutualAuthenticationHelper.getSecurityRequest(authorizationCredentialsSet, false);
+                }
 
 
                 // Insert it to the headers

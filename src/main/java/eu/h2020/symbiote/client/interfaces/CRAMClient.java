@@ -5,41 +5,45 @@ import eu.h2020.symbiote.core.internal.cram.ResourceUrlsResponse;
 import java.util.List;
 
 /**
- * Interface for querying the Core Resource Access Manager component
+ * Interface for querying the Core Resource Access Manager (CRAM) component
  *
  * @author Vasilis Glykantzis
  */
 public interface CRAMClient {
 
     /**
-     * Queries and validates the Core Resource Access Manager component
+     * Queries CRAM with home token for getting the url of a single resource
      *
-     * @param resourceId the id of the resource
-     * @return the Core Resource Access Manager response
+     * @param resourceId        the id of the resource
+     * @param serverValidation  if true it will validate CRAM
+     * @return                  the CRAM response
      */
-    ResourceUrlsResponse getResourceUrl(String resourceId);
+    ResourceUrlsResponse getResourceUrl(String resourceId, boolean serverValidation);
 
     /**
-     * Queries and validates the Core Resource Access Manager component
+     * Queries CRAM with home token for getting the urls of a list of resources
      *
-     * @param resourceIds a list containing the ids of the resources
-     * @return the Core Resource Access Manager response
+     * @param resourceIds       a list containing the ids of the resources
+     * @param serverValidation  if true it will validate CRAM
+     * @return                  the CRAM response
      */
-    ResourceUrlsResponse getResourceUrl(List<String> resourceIds);
+    ResourceUrlsResponse getResourceUrl(List<String> resourceIds, boolean serverValidation);
 
     /**
-     * Queries the Core Resource Access Manager component component without validating it
+     * Queries CRAM with guest token for getting the url of a single resource
      *
-     * @param resourceId the id of the resource
-     * @return the Core Resource Access Manager response
+     * @param resourceId        the id of the resource
+     * @param serverValidation  if true it will validate CRAM
+     * @return                  the CRAM response
      */
-    ResourceUrlsResponse getResourceUrlWithoutValidation(String resourceId);
+    ResourceUrlsResponse getResourceUrlAsGuest(String resourceId, boolean serverValidation);
 
     /**
-     * Queries the Core Resource Access Manager component component without validating it
+     * Queries CRAM with guest token for getting the urls of a list of resources
      *
-     * @param resourceIds a list containing the ids of the resources
-     * @return the Core Resource Access Manager response
+     * @param resourceIds       a list containing the ids of the resources
+     * @param serverValidation  if true it will validate CRAM
+     * @return                  the CRAM response
      */
-    ResourceUrlsResponse getResourceUrlWithoutValidation(List<String> resourceIds);
+    ResourceUrlsResponse getResourceUrlAsGuest(List<String> resourceIds, boolean serverValidation);
 }

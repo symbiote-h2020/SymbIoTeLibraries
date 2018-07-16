@@ -49,6 +49,61 @@ public abstract class AbstractSymbIoTeClientFactory {
     public abstract IAAMClient getAAMClient();
 
     /**
+     * Get a configuration for home token symbIoTeClient factory. In this configuration, getting guest token is also possible
+     *
+     * @param coreAddress       the base address of the symbIoTe core
+     * @param keystorePath      the keystore path
+     * @param keystorePassword  the keystore password
+     * @param type              the type of factory
+     * @return                  the factory configuration
+     */
+    public static Config getGuestTokenConfiguration(String coreAddress, String keystorePath, String keystorePassword, Type type) {
+        return new Config(
+                coreAddress,
+                keystorePath,
+                keystorePassword,
+                null,
+                null,
+                null,
+                null,
+                type
+        );
+    }
+
+    /**
+     * Get a configuration for guest token symbIoTeClient factory. In this configuration, getting home token is not possible
+     *
+     * @param coreAddress       the base address of the symbIoTe core
+     * @param keystorePath      the keystore path
+     * @param keystorePassword  the keystore password
+     * @param homePlatformId    the home Platform Id
+     * @param username          the username in the home platform
+     * @param password          the password in the home platform
+     * @param clientId          the client id
+     * @param type              the type of factory
+     * @return                  the factory configuration
+     */
+    public static Config getHomeTokenConfiguration(String coreAddress,
+                                            String keystorePath,
+                                            String keystorePassword,
+                                            String homePlatformId,
+                                            String username,
+                                            String password,
+                                            String clientId,
+                                            Type type) {
+        return new Config(
+                coreAddress,
+                keystorePath,
+                keystorePassword,
+                homePlatformId,
+                username,
+                password,
+                clientId,
+                type
+        );
+    }
+
+    /**
      * The type of factory. For now there is just one type but we followed the abstract factory pattern to facilitate
      * future extension
      */

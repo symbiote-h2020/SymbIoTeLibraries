@@ -29,7 +29,9 @@ public class FeignCRAMClient implements CRAMClient {
     private static final String GET_RESOURCE_URLS_BASE_PATH = CORE_INTERFACE_PATH + "/resourceUrls?";
 
     private final CRAMI cramClient;
+    private final CRAMI cramClientAsGuest;
     private final CRAMI cramClientWithoutValidation;
+    private final CRAMI cramClientAsGuestWithoutValidation;
 
     /**
      *
@@ -63,6 +65,18 @@ public class FeignCRAMClient implements CRAMClient {
                         true))
                 .target(CRAMI.class, coreAddress);
 
+        this.cramClientAsGuest = Feign.builder()
+                .decoder(new JacksonDecoder())
+                .encoder(new JacksonEncoder())
+                .logger(new ApacheCommonsLogger4Feign(logger))
+                .logLevel(Logger.Level.FULL)
+                .client(new SymbIoTeSecurityHandlerFeignClient(
+                        securityHandler,
+                        ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
+                        SecurityConstants.CORE_AAM_INSTANCE_ID,
+                        true))
+                .target(CRAMI.class, coreAddress);
+
         this.cramClientWithoutValidation = Feign.builder()
                 .decoder(new JacksonDecoder())
                 .encoder(new JacksonEncoder())
@@ -79,26 +93,46 @@ public class FeignCRAMClient implements CRAMClient {
                         false))
                 .target(CRAMI.class, coreAddress);
 
+        this.cramClientAsGuestWithoutValidation = Feign.builder()
+                .decoder(new JacksonDecoder())
+                .encoder(new JacksonEncoder())
+                .logger(new ApacheCommonsLogger4Feign(logger))
+                .logLevel(Logger.Level.FULL)
+                .client(new SymbIoTeSecurityHandlerFeignClient(
+                        securityHandler,
+                        ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
+                        SecurityConstants.CORE_AAM_INSTANCE_ID,
+                        false))
+                .target(CRAMI.class, coreAddress);
+
     }
 
     @Override
-    public ResourceUrlsResponse getResourceUrl(String resourceId) {
-        return cramClient.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
+    public ResourceUrlsResponse getResourceUrl(String resourceId, boolean serverValidation) {
+        return serverValidation ?
+                cramClient.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId))) :
+                cramClientWithoutValidation.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
     }
 
     @Override
-    public ResourceUrlsResponse getResourceUrl(List<String> resourceIds) {
-        return cramClient.getResourceUrls(resourceIds);
+    public ResourceUrlsResponse getResourceUrl(List<String> resourceIds, boolean serverValidation) {
+        return serverValidation ?
+                cramClient.getResourceUrls(resourceIds) :
+                cramClientWithoutValidation.getResourceUrls(resourceIds);
     }
 
     @Override
-    public ResourceUrlsResponse getResourceUrlWithoutValidation(String resourceId) {
-        return cramClientWithoutValidation.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
+    public ResourceUrlsResponse getResourceUrlAsGuest(String resourceId, boolean serverValidation) {
+        return serverValidation ?
+                cramClientAsGuest.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId))) :
+                cramClientAsGuestWithoutValidation.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
     }
 
     @Override
-    public ResourceUrlsResponse getResourceUrlWithoutValidation(List<String> resourceIds) {
-        return cramClientWithoutValidation.getResourceUrls(resourceIds);
+    public ResourceUrlsResponse getResourceUrlAsGuest(List<String> resourceIds, boolean serverValidation) {
+        return serverValidation ?
+                cramClientAsGuest.getResourceUrls(resourceIds) :
+                cramClientAsGuestWithoutValidation.getResourceUrls(resourceIds);
     }
 
     private interface CRAMI {

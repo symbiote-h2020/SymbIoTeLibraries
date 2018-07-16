@@ -11,18 +11,20 @@ import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 public interface SearchClient {
 
     /**
-     * Queries and validates the Core Search component
+     * Queries the Core Search with home token
      *
-     * @param request the request send to the Search
-     * @return the search response
+     * @param request           the request sent to the Search
+     * @param serverValidation  if true it will validate the Search Component
+     * @return                  the search response
      */
-    QueryResponse search(CoreQueryRequest request);
+    QueryResponse search(CoreQueryRequest request, boolean serverValidation);
 
     /**
-     * Queries the Core Search component without validating it
+     * Queries the Core Search with guest token
      *
-     * @param request the request send to the Search
-     * @return the search response
+     * @param request           the request send to the Search
+     * @param serverValidation  if true it will validate the Search Component
+     * @return                  the search response
      */
-    QueryResponse searchWithoutValidation(CoreQueryRequest request);
+    QueryResponse searchAsGuest(CoreQueryRequest request, boolean serverValidation);
 }
