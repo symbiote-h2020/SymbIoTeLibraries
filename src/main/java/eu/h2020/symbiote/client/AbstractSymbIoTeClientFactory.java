@@ -6,6 +6,8 @@ import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerExcep
 import eu.h2020.symbiote.security.communication.IAAMClient;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Factory for creating a concreate symbIoTe client factory based on the provided configuration. For now there is
@@ -36,72 +38,58 @@ public abstract class AbstractSymbIoTeClientFactory {
         }
     }
 
+    /**
+     * Get a Search Client for querying Core Search
+     *
+     * @return  a Search client
+     */
     public abstract SearchClient getSearchClient();
 
+    /**
+     * Get a Core Resource Access Monitor (CRAM) Client for querying CRAM
+     *
+     * @return  a CRAM client
+     */
     public abstract CRAMClient getCramClient();
 
-    public abstract RHClient getRHClient();
+    /**
+     * Get a Registration Handler (RH) client for querying the RH of a specific platform
+     *
+     * @param platformId    the platform which we want to communicate with
+     * @return  a RH client
+     */
+    public abstract RHClient getRHClient(String platformId);
 
+    /**
+     * Get a Resource Access Proxy (RAP) client for communicating with RAPs of different platforms
+     *
+     * @return  a RAP client
+     */
     public abstract RAPClient getRapClient();
 
-    public abstract PRClient getPRClient();
-
-    public abstract IAAMClient getAAMClient();
+    /**
+     * Get a Platform Registry (PR) client for communicating with the PR of a specific platform
+     *
+     * @param platformId    the platform which we want to communicate with
+     * @return  a PR client
+     */
+    public abstract PRClient getPRClient(String platformId);
 
     /**
-     * Get a configuration for home token symbIoTeClient factory. In this configuration, getting guest token is also possible
+     * Get an Authentication and Authorization (AAM) client to communicate with an AAM of a specific platform
      *
-     * @param coreAddress       the base address of the symbIoTe core
-     * @param keystorePath      the keystore path
-     * @param keystorePassword  the keystore password
-     * @param type              the type of factory
-     * @return                  the factory configuration
+     * @param platformId    the platform which we want to communicate with
+     * @return  a AAM client
      */
-    public static Config getGuestTokenConfiguration(String coreAddress, String keystorePath, String keystorePassword, Type type) {
-        return new Config(
-                coreAddress,
-                keystorePath,
-                keystorePassword,
-                null,
-                null,
-                null,
-                null,
-                type
-        );
-    }
+    public abstract IAAMClient getAAMClient(String platformId);
 
     /**
-     * Get a configuration for guest token symbIoTeClient factory. In this configuration, getting home token is not possible
+     * Getting required certificates for home platforms. If the certificates are already present, they are reused
      *
-     * @param coreAddress       the base address of the symbIoTe core
-     * @param keystorePath      the keystore path
-     * @param keystorePassword  the keystore password
-     * @param homePlatformId    the home Platform Id
-     * @param username          the username in the home platform
-     * @param password          the password in the home platform
-     * @param clientId          the client id
-     * @param type              the type of factory
-     * @return                  the factory configuration
+     * @param credentials   a set of home platform credentials
+     * @throws SecurityHandlerException
      */
-    public static Config getHomeTokenConfiguration(String coreAddress,
-                                            String keystorePath,
-                                            String keystorePassword,
-                                            String homePlatformId,
-                                            String username,
-                                            String password,
-                                            String clientId,
-                                            Type type) {
-        return new Config(
-                coreAddress,
-                keystorePath,
-                keystorePassword,
-                homePlatformId,
-                username,
-                password,
-                clientId,
-                type
-        );
-    }
+    public abstract void initializeInHomePlatforms(Set<HomePlatformCredentials> credentials) throws SecurityHandlerException;
 
     /**
      * The type of factory. For now there is just one type but we followed the abstract factory pattern to facilitate
@@ -115,10 +103,6 @@ public abstract class AbstractSymbIoTeClientFactory {
         private final String coreAddress;
         private final String keystorePath;
         private final String keystorePassword;
-        private final String homePlatformId;
-        private final String username;
-        private final String password;
-        private final String clientId;
         private final Type type;
 
         /**
@@ -126,37 +110,58 @@ public abstract class AbstractSymbIoTeClientFactory {
          * @param coreAddress       the base address of the symbIoTe core
          * @param keystorePath      the keystore path
          * @param keystorePassword  the keystore password
-         * @param homePlatformId    the home Platform Id
-         * @param username          the username in the home platform
-         * @param password          the password in the home platform
-         * @param clientId          the client id
          * @param type              the type of factory
          */
         public Config(String coreAddress,
                       String keystorePath,
                       String keystorePassword,
-                      String homePlatformId,
-                      String username,
-                      String password,
-                      String clientId,
                       Type type) {
             this.coreAddress = coreAddress;
             this.keystorePath = keystorePath;
             this.keystorePassword = keystorePassword;
-            this.homePlatformId = homePlatformId;
-            this.username = username;
-            this.password = password;
-            this.clientId = clientId;
             this.type = type;
         }
 
         public String getCoreAddress() { return coreAddress; }
         public String getKeystorePath() { return keystorePath; }
         public String getKeystorePassword() { return keystorePassword; }
-        public String getHomePlatformId() { return homePlatformId; }
+        public Type getType() { return type; }
+    }
+
+    public static class HomePlatformCredentials {
+        private final String platformId;
+        private final String username;
+        private final String password;
+        private final String clientId;
+
+
+        public HomePlatformCredentials(String platformId, String username, String password, String clientId) {
+            this.platformId = platformId;
+            this.username = username;
+            this.password = password;
+            this.clientId = clientId;
+        }
+
+        public String getPlatformId() { return platformId; }
         public String getUsername() { return username; }
         public String getPassword() { return password; }
         public String getClientId() { return clientId; }
-        public Type getType() { return type; }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            HomePlatformCredentials that = (HomePlatformCredentials) o;
+            return Objects.equals(platformId, that.platformId) &&
+                    Objects.equals(username, that.username) &&
+                    Objects.equals(password, that.password) &&
+                    Objects.equals(clientId, that.clientId);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(platformId, username, password, clientId);
+        }
     }
 }

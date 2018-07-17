@@ -3,6 +3,8 @@ package eu.h2020.symbiote.client.interfaces;
 import eu.h2020.symbiote.core.ci.QueryResponse;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 
+import java.util.Set;
+
 /**
  * Interface for querying the Core Search component
  *
@@ -15,9 +17,10 @@ public interface SearchClient {
      *
      * @param request           the request sent to the Search
      * @param serverValidation  if true it will validate the Search Component
+     * @param homePlatformIds   a set of home platform ids from which we are going to get credentials for the request
      * @return                  the search response
      */
-    QueryResponse search(CoreQueryRequest request, boolean serverValidation);
+    QueryResponse search(CoreQueryRequest request, boolean serverValidation, Set<String> homePlatformIds);
 
     /**
      * Queries the Core Search with guest token

@@ -14,7 +14,12 @@ import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.HOME_PLATFORM_IDS_HEADER;
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.SERVER_VALIDATION_HEADER;
 
 /**
  * symbIoTe search client based on Feign
@@ -26,23 +31,13 @@ public class FeignPRClient implements PRClient {
     private static final Log logger = LogFactory.getLog(FeignPRClient.class);
 
     private PlatformRegistryI prClient;
-    private PlatformRegistryI prClientAsGuest;
-    private PlatformRegistryI prClientWithoutValidation;
-    private PlatformRegistryI prClientAsGuestWithoutValidation;
 
     /**
      *
      * @param securityHandler   the security handler implementation that is going to be used
-     * @param homePlatformId    the home Platform Id
-     * @param username          the username in the home platform
-     * @param password          the password in the home platform
-     * @param clientId          the client id
+     * @param homePlatformId    the home platform id
      */
-    public FeignPRClient(ISecurityHandler securityHandler,
-                         String homePlatformId,
-                         String username,
-                         String password,
-                         String clientId) {
+    public FeignPRClient(ISecurityHandler securityHandler, String homePlatformId) {
 
         try {
             Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
@@ -55,54 +50,10 @@ public class FeignPRClient implements PRClient {
                     .logLevel(Logger.Level.FULL)
                     .client(new SymbIoTeSecurityHandlerFeignClient(
                             securityHandler,
-                            homePlatformId,
-                            username,
-                            password,
-                            clientId,
                             ComponentIdentifiers.PLATFORM_REGISTRY,
-                            homePlatformId,
-                            true))
+                            homePlatformId))
                     .target(PlatformRegistryI.class, prUrl);
 
-            this.prClientAsGuest = Feign.builder()
-                    .decoder(new JacksonDecoder())
-                    .encoder(new JacksonEncoder())
-                    .logger(new ApacheCommonsLogger4Feign(logger))
-                    .logLevel(Logger.Level.FULL)
-                    .client(new SymbIoTeSecurityHandlerFeignClient(
-                            securityHandler,
-                            ComponentIdentifiers.PLATFORM_REGISTRY,
-                            homePlatformId,
-                            true))
-                    .target(PlatformRegistryI.class, prUrl);
-
-            this.prClientWithoutValidation = Feign.builder()
-                    .decoder(new JacksonDecoder())
-                    .encoder(new JacksonEncoder())
-                    .logger(new ApacheCommonsLogger4Feign(logger))
-                    .logLevel(Logger.Level.FULL)
-                    .client(new SymbIoTeSecurityHandlerFeignClient(
-                            securityHandler,
-                            homePlatformId,
-                            username,
-                            password,
-                            clientId,
-                            ComponentIdentifiers.PLATFORM_REGISTRY,
-                            homePlatformId,
-                            false))
-                    .target(PlatformRegistryI.class, prUrl);
-
-            this.prClientAsGuestWithoutValidation = Feign.builder()
-                    .decoder(new JacksonDecoder())
-                    .encoder(new JacksonEncoder())
-                    .logger(new ApacheCommonsLogger4Feign(logger))
-                    .logLevel(Logger.Level.FULL)
-                    .client(new SymbIoTeSecurityHandlerFeignClient(
-                            securityHandler,
-                            ComponentIdentifiers.PLATFORM_REGISTRY,
-                            homePlatformId,
-                            false))
-                    .target(PlatformRegistryI.class, prUrl);
         } catch (SecurityHandlerException e) {
             logger.error("Could not create FeignPRClient", e);
         }
@@ -110,23 +61,22 @@ public class FeignPRClient implements PRClient {
     }
 
     @Override
-    public FederationSearchResult search(PlatformRegistryQuery query, boolean serverValidation) {
-        return serverValidation ?
-                prClient.query(query.buildRequestParametersMap()) :
-                prClientWithoutValidation.query(query.buildRequestParametersMap());
+    public FederationSearchResult search(PlatformRegistryQuery query, boolean serverValidation, Set<String> homePlatformIds) {
+        return prClient.query(query.buildRequestParametersMap(), serverValidation, homePlatformIds);
     }
 
     @Override
     public FederationSearchResult searchAsGuest(PlatformRegistryQuery query, boolean serverValidation) {
-        return serverValidation ?
-                prClientAsGuest.query(query.buildRequestParametersMap()) :
-                prClientAsGuestWithoutValidation.query(query.buildRequestParametersMap());
+        return prClient.query(query.buildRequestParametersMap(), serverValidation, new HashSet<>());
     }
 
     private interface PlatformRegistryI {
 
         @RequestLine("GET ")
-        @Headers({"Accept: application/json", "Content-Type: application/json"})
-        FederationSearchResult query(@QueryMap Map<String, String> queryMap);
+        @Headers({"Accept: application/json", "Content-Type: application/json",
+                SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
+        FederationSearchResult query(@QueryMap Map<String, String> queryMap,
+                                     @Param("serverValidation") Boolean serverValidation,
+                                     @Param("homePlatformIds") Set<String> homePlatformIds);
     }
 }

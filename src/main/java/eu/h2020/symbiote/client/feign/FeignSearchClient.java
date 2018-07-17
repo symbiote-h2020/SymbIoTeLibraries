@@ -13,9 +13,13 @@ import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory.CORE_INTERFACE_PATH;
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.HOME_PLATFORM_IDS_HEADER;
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.SERVER_VALIDATION_HEADER;
 
 /**
  * symbIoTe search client based on Feign
@@ -28,25 +32,13 @@ public class FeignSearchClient implements SearchClient {
     private static final String SEARCH_BASE_URL = CORE_INTERFACE_PATH + "/query";
 
     private final SearchI searchClient;
-    private final SearchI searchClientWithoutValidation;
-    private final SearchI searchClientAsGuest;
-    private final SearchI searchClientAsGuestWithoutValidation;
 
     /**
      *
      * @param securityHandler   the security handler implementation that is going to be used
      * @param coreAddress       the base address of the symbIoTe core
-     * @param homePlatformId    the home Platform Id
-     * @param username          the username in the home platform
-     * @param password          the password in the home platform
-     * @param clientId          the client id
      */
-    public FeignSearchClient(ISecurityHandler securityHandler,
-                             String coreAddress,
-                             String homePlatformId,
-                             String username,
-                             String password,
-                             String clientId) {
+    public FeignSearchClient(ISecurityHandler securityHandler, String coreAddress) {
 
         this.searchClient = Feign.builder()
                 .decoder(new JacksonDecoder())
@@ -55,75 +47,29 @@ public class FeignSearchClient implements SearchClient {
                 .logLevel(Logger.Level.FULL)
                 .client(new SymbIoTeSecurityHandlerFeignClient(
                         securityHandler,
-                        homePlatformId,
-                        username,
-                        password,
-                        clientId,
                         ComponentIdentifiers.CORE_SEARCH,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        true))
-                .target(SearchI.class, coreAddress);
-
-        this.searchClientWithoutValidation = Feign.builder()
-                .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder())
-                .logger(new ApacheCommonsLogger4Feign(logger))
-                .logLevel(Logger.Level.FULL)
-                .client(new SymbIoTeSecurityHandlerFeignClient(
-                        securityHandler,
-                        homePlatformId,
-                        username,
-                        password,
-                        clientId,
-                        ComponentIdentifiers.CORE_SEARCH,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        false))
-                .target(SearchI.class, coreAddress);
-
-        this.searchClientAsGuest = Feign.builder()
-                .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder())
-                .logger(new ApacheCommonsLogger4Feign(logger))
-                .logLevel(Logger.Level.FULL)
-                .client(new SymbIoTeSecurityHandlerFeignClient(
-                        securityHandler,
-                        ComponentIdentifiers.CORE_SEARCH,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        true))
-                .target(SearchI.class, coreAddress);
-
-        this.searchClientAsGuestWithoutValidation = Feign.builder()
-                .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder())
-                .logger(new ApacheCommonsLogger4Feign(logger))
-                .logLevel(Logger.Level.FULL)
-                .client(new SymbIoTeSecurityHandlerFeignClient(
-                        securityHandler,
-                        ComponentIdentifiers.CORE_SEARCH,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        false))
+                        SecurityConstants.CORE_AAM_INSTANCE_ID))
                 .target(SearchI.class, coreAddress);
 
     }
 
     @Override
-    public QueryResponse search(CoreQueryRequest request, boolean serverValidation) {
-        return serverValidation ?
-                searchClient.query(request.buildRequestParametersMap()) :
-                searchClientWithoutValidation.query(request.buildRequestParametersMap());
+    public QueryResponse search(CoreQueryRequest request, boolean serverValidation, Set<String> homePlatformIds) {
+        return searchClient.query(request.buildRequestParametersMap(), serverValidation, homePlatformIds);
     }
 
     @Override
     public QueryResponse searchAsGuest(CoreQueryRequest request, boolean serverValidation) {
-        return serverValidation ?
-                searchClientWithoutValidation.query(request.buildRequestParametersMap()) :
-                searchClientAsGuestWithoutValidation.query(request.buildRequestParametersMap());
+        return searchClient.query(request.buildRequestParametersMap(), serverValidation, new HashSet<>());
     }
 
     private interface SearchI {
 
         @RequestLine("GET " + SEARCH_BASE_URL)
-        @Headers({"Accept: application/json", "Content-Type: application/json"})
-        QueryResponse query(@QueryMap Map<String, String> queryMap);
+        @Headers({"Accept: application/json", "Content-Type: application/json",
+                SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
+        QueryResponse query(@QueryMap Map<String, String> queryMap,
+                            @Param("serverValidation") Boolean serverValidation,
+                            @Param("homePlatformIds") Set<String> homePlatformIds);
     }
 }

@@ -3,6 +3,7 @@ package eu.h2020.symbiote.client.feign;
 import eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory;
 import eu.h2020.symbiote.client.interfaces.*;
 import eu.h2020.symbiote.security.ClientSecurityHandlerFactory;
+import eu.h2020.symbiote.security.commons.credentials.BoundCredentials;
 import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
 import eu.h2020.symbiote.security.communication.AAMClient;
 import eu.h2020.symbiote.security.communication.IAAMClient;
@@ -18,6 +19,7 @@ import javax.net.ssl.X509TrustManager;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Factory for creating Feign symbIoTe clients
@@ -28,12 +30,11 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
 
     private static final Log logger = LogFactory.getLog(SymbIoTeFeignClientFactory.class);
 
+    public static final String HOME_PLATFORM_IDS_HEADER = "homePlatformIds";
+    public static final String SERVER_VALIDATION_HEADER = "serverValidation";
+
     private final ISecurityHandler securityHandler;
     private final String coreAddress;
-    private final String homePlatformId;
-    private final String username;
-    private final String password;
-    private final String clientId;
 
     /**
      *
@@ -45,10 +46,6 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
             throws SecurityHandlerException, NoSuchAlgorithmException {
 
         this.coreAddress = config.getCoreAddress();
-        this.homePlatformId = config.getHomePlatformId();
-        this.username = config.getUsername();
-        this.password = config.getPassword();
-        this.clientId = config.getClientId();
 
         TrustManager[] trustAllCerts = new TrustManager[] {
                 new X509TrustManager() {
@@ -84,32 +81,22 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     }
 
     @Override
-    public SearchClient getSearchClient() {
-        return new FeignSearchClient(securityHandler, coreAddress, homePlatformId, username, password, clientId);
-    }
+    public SearchClient getSearchClient() { return new FeignSearchClient(securityHandler, coreAddress); }
 
     @Override
-    public CRAMClient getCramClient() {
-        return new FeignCRAMClient(securityHandler, coreAddress, homePlatformId, username, password, clientId);
-    }
+    public CRAMClient getCramClient() { return new FeignCRAMClient(securityHandler, coreAddress); }
 
     @Override
-    public RHClient getRHClient() {
-        return new FeignRHClient(securityHandler, homePlatformId);
-    }
+    public RHClient getRHClient(String platformId) { return new FeignRHClient(securityHandler, platformId); }
 
     @Override
-    public RAPClient getRapClient() {
-        return new FeignRAPClient(securityHandler, homePlatformId, username, password, clientId);
-    }
+    public RAPClient getRapClient() { return new FeignRAPClient(securityHandler); }
 
     @Override
-    public PRClient getPRClient() {
-        return new FeignPRClient(securityHandler, homePlatformId, username, password, clientId);
-    }
+    public PRClient getPRClient(String platformId) { return new FeignPRClient(securityHandler, platformId); }
 
     @Override
-    public IAAMClient getAAMClient() {
+    public IAAMClient getAAMClient(String homePlatformId) {
         try {
             Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
             return new AAMClient(availableAAMs.get(homePlatformId).getAamAddress());
@@ -117,5 +104,24 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
             logger.error("Could not create AAMClient", e);
         }
         return null;
+    }
+
+    @Override
+    public void initializeInHomePlatforms(Set<HomePlatformCredentials> credentials) throws SecurityHandlerException {
+
+        // Get the available AAMs from the Core AAM
+        Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
+        Map<String, BoundCredentials> credentialsMap = securityHandler.getAcquiredCredentials();
+
+        for (HomePlatformCredentials cred : credentials) {
+
+            // Acquiring application certificate if not present
+            if (!credentialsMap.containsKey(cred.getPlatformId()))
+                securityHandler.getCertificate(
+                        availableAAMs.get(cred.getPlatformId()),
+                        cred.getUsername(),
+                        cred.getPassword(),
+                        cred.getClientId());
+        }
     }
 }

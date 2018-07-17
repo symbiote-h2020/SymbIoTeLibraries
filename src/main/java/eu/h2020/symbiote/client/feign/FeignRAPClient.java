@@ -13,8 +13,13 @@ import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.HOME_PLATFORM_IDS_HEADER;
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.SERVER_VALIDATION_HEADER;
 
 /**
  * symbIoTe RAP client based on Feign
@@ -26,37 +31,19 @@ public class FeignRAPClient implements RAPClient {
     private static final Log logger = LogFactory.getLog(FeignRAPClient.class);
 
     private ISecurityHandler securityHandler;
-    private String homePlatformId;
-    private String username;
-    private String password;
-    private String clientId;
-
 
     /**
      *
      * @param securityHandler   the security handler implementation that is going to be used
-     * @param homePlatformId    the home Platform Id
-     * @param username          the username in the home platform
-     * @param password          the password in the home platform
-     * @param clientId          the client id
      */
-    public FeignRAPClient(ISecurityHandler securityHandler,
-                          String homePlatformId,
-                          String username,
-                          String password,
-                          String clientId) {
-
+    public FeignRAPClient(ISecurityHandler securityHandler) {
         this.securityHandler = securityHandler;
-        this.homePlatformId = homePlatformId;
-        this.username = username;
-        this.password = password;
-        this.clientId = clientId;
     }
 
     @Override
-    public Observation getLatestObservation(String resourceUrl, boolean serverValidation) {
+    public Observation getLatestObservation(String resourceUrl, boolean serverValidation, Set<String> homePlatformIds) {
         try {
-            return getClient(resourceUrl, serverValidation).getTopObservations(1).get(0);
+            return getClient(resourceUrl).getTopObservations(1, serverValidation, homePlatformIds).get(0);
         } catch (SecurityHandlerException e) {
             logger.error("Could not get latest Observation", e);
             return null;
@@ -64,9 +51,9 @@ public class FeignRAPClient implements RAPClient {
     }
 
     @Override
-    public List<Observation> getTopObservations(String resourceUrl, int top, boolean serverValidation) {
+    public List<Observation> getTopObservations(String resourceUrl, int top, boolean serverValidation, Set<String> homePlatformIds) {
         try {
-            return getClient(resourceUrl, serverValidation).getTopObservations(top);
+            return getClient(resourceUrl).getTopObservations(top, serverValidation, homePlatformIds);
         } catch (SecurityHandlerException e) {
             logger.error("Could not get Observations", e);
             return null;
@@ -74,18 +61,18 @@ public class FeignRAPClient implements RAPClient {
     }
 
     @Override
-    public void actuate(String resourceUrl, String body, boolean serverValidation) {
+    public void actuate(String resourceUrl, String body, boolean serverValidation, Set<String> homePlatformIds) {
         try {
-            getClient(resourceUrl, serverValidation).actuate(body);
+            getClient(resourceUrl).actuate(body, serverValidation, homePlatformIds);
         } catch (SecurityHandlerException e) {
             logger.error("Could not send actuation request", e);
         }
     }
 
     @Override
-    public String invokeService(String resourceUrl, String body, boolean serverValidation) {
+    public String invokeService(String resourceUrl, String body, boolean serverValidation, Set<String> homePlatformIds) {
         try {
-            return getClient(resourceUrl, serverValidation).invokeService(body);
+            return getClient(resourceUrl).invokeService(body, serverValidation, homePlatformIds);
         } catch (SecurityHandlerException e) {
             logger.error("Could not invoke service", e);
             return "Could not invoke service : " + e.getMessage();
@@ -95,7 +82,7 @@ public class FeignRAPClient implements RAPClient {
     @Override
     public Observation getLatestObservationAsGuest(String resourceUrl, boolean serverValidation) {
         try {
-            return getGuestClient(resourceUrl, serverValidation).getTopObservations(1).get(0);
+            return getClient(resourceUrl).getTopObservations(1, serverValidation, new HashSet<>()).get(0);
         } catch (SecurityHandlerException e) {
             logger.error("Could not get latest Observation", e);
             return null;
@@ -105,7 +92,7 @@ public class FeignRAPClient implements RAPClient {
     @Override
     public List<Observation> getTopObservationsAsGuest(String resourceUrl, int top, boolean serverValidation) {
         try {
-            return getGuestClient(resourceUrl, serverValidation).getTopObservations(top);
+            return getClient(resourceUrl).getTopObservations(top, serverValidation, new HashSet<>());
         } catch (SecurityHandlerException e) {
             logger.error("Could not get Observations", e);
             return null;
@@ -115,7 +102,7 @@ public class FeignRAPClient implements RAPClient {
     @Override
     public void actuateAsGuest(String resourceUrl, String body, boolean serverValidation) {
         try {
-            getGuestClient(resourceUrl, serverValidation).actuate(body);
+            getClient(resourceUrl).actuate(body, serverValidation, new HashSet<>());
         } catch (SecurityHandlerException e) {
             logger.error("Could not send actuation request", e);
         }
@@ -124,7 +111,7 @@ public class FeignRAPClient implements RAPClient {
     @Override
     public String invokeServiceAsGuest(String resourceUrl, String body, boolean serverValidation) {
         try {
-            return getGuestClient(resourceUrl, serverValidation).invokeService(body);
+            return getClient(resourceUrl).invokeService(body, serverValidation, new HashSet<>());
         } catch (SecurityHandlerException e) {
             logger.error("Could not invoke service", e);
             return "Could not invoke service : " + e.getMessage();
@@ -134,42 +121,30 @@ public class FeignRAPClient implements RAPClient {
     private interface RAPI {
 
         @RequestLine("GET /Observations?$top={top}")
-        @Headers({"Accept: application/json", "Content-Type: application/json"})
-        List<Observation> getTopObservations(@Param("top") int top);
+        @Headers({"Accept: application/json", "Content-Type: application/json",
+                SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
+        List<Observation> getTopObservations(@Param("top") int top,
+                                             @Param("serverValidation") Boolean serverValidation,
+                                             @Param("homePlatformIds") Set<String> homePlatformIds);
 
         @RequestLine("PUT ")
-        @Headers({"Accept: application/json", "Content-Type: application/json"})
+        @Headers({"Accept: application/json", "Content-Type: application/json",
+                SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
         @Body("{body}")
-        void actuate(@Param("body") String body);
+        void actuate(@Param("body") String body,
+                     @Param("serverValidation") Boolean serverValidation,
+                     @Param("homePlatformIds") Set<String> homePlatformIds);
 
         @RequestLine("PUT ")
-        @Headers({"Accept: application/json", "Content-Type: application/json"})
+        @Headers({"Accept: application/json", "Content-Type: application/json",
+                SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
         @Body("{body}")
-        String invokeService(@Param("body") String body);
+        String invokeService(@Param("body") String body,
+                             @Param("serverValidation") Boolean serverValidation,
+                             @Param("homePlatformIds") Set<String> homePlatformIds);
     }
 
-    private RAPI getClient(String resourceUrl, boolean serverValidation) throws SecurityHandlerException {
-
-        List<AAM> filteredAAMs = findAAMS(resourceUrl);
-
-        return Feign.builder()
-                .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder())
-                .logger(new ApacheCommonsLogger4Feign(logger))
-                .logLevel(Logger.Level.FULL)
-                .client(new SymbIoTeSecurityHandlerFeignClient(
-                        securityHandler,
-                        homePlatformId,
-                        username,
-                        password,
-                        clientId,
-                        ComponentIdentifiers.RESOURCE_ACCESS_PROXY,
-                        filteredAAMs.get(0).getAamInstanceId(),
-                        serverValidation))
-                .target(RAPI.class, resourceUrl);
-    }
-
-    private RAPI getGuestClient(String resourceUrl, boolean serverValidation) throws SecurityHandlerException {
+    private RAPI getClient(String resourceUrl) throws SecurityHandlerException {
 
         List<AAM> filteredAAMs = findAAMS(resourceUrl);
 
@@ -181,8 +156,7 @@ public class FeignRAPClient implements RAPClient {
                 .client(new SymbIoTeSecurityHandlerFeignClient(
                         securityHandler,
                         ComponentIdentifiers.RESOURCE_ACCESS_PROXY,
-                        filteredAAMs.get(0).getAamInstanceId(),
-                        serverValidation))
+                        filteredAAMs.get(0).getAamInstanceId()))
                 .target(RAPI.class, resourceUrl);
     }
 

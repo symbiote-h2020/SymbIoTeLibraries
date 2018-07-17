@@ -14,9 +14,12 @@ import org.apache.commons.logging.LogFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory.CORE_INTERFACE_PATH;
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.HOME_PLATFORM_IDS_HEADER;
+import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.SERVER_VALIDATION_HEADER;
 
 /**
  * symbIoTe Core Resource Access Manager client based on Feign
@@ -29,25 +32,14 @@ public class FeignCRAMClient implements CRAMClient {
     private static final String GET_RESOURCE_URLS_BASE_PATH = CORE_INTERFACE_PATH + "/resourceUrls?";
 
     private final CRAMI cramClient;
-    private final CRAMI cramClientAsGuest;
-    private final CRAMI cramClientWithoutValidation;
-    private final CRAMI cramClientAsGuestWithoutValidation;
+
 
     /**
      *
      * @param securityHandler   the security handler implementation that is going to be used
      * @param coreAddress       the base address of the symbIoTe core
-     * @param homePlatformId    the home Platform Id
-     * @param username          the username in the home platform
-     * @param password          the password in the home platform
-     * @param clientId          the client id
      */
-    public FeignCRAMClient(ISecurityHandler securityHandler,
-                           String coreAddress,
-                           String homePlatformId,
-                           String username,
-                           String password,
-                           String clientId) {
+    public FeignCRAMClient(ISecurityHandler securityHandler, String coreAddress) {
 
         this.cramClient = Feign.builder()
                 .decoder(new JacksonDecoder())
@@ -56,89 +48,45 @@ public class FeignCRAMClient implements CRAMClient {
                 .logLevel(Logger.Level.FULL)
                 .client(new SymbIoTeSecurityHandlerFeignClient(
                         securityHandler,
-                        homePlatformId,
-                        username,
-                        password,
-                        clientId,
                         ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        true))
-                .target(CRAMI.class, coreAddress);
-
-        this.cramClientAsGuest = Feign.builder()
-                .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder())
-                .logger(new ApacheCommonsLogger4Feign(logger))
-                .logLevel(Logger.Level.FULL)
-                .client(new SymbIoTeSecurityHandlerFeignClient(
-                        securityHandler,
-                        ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        true))
-                .target(CRAMI.class, coreAddress);
-
-        this.cramClientWithoutValidation = Feign.builder()
-                .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder())
-                .logger(new ApacheCommonsLogger4Feign(logger))
-                .logLevel(Logger.Level.FULL)
-                .client(new SymbIoTeSecurityHandlerFeignClient(
-                        securityHandler,
-                        homePlatformId,
-                        username,
-                        password,
-                        clientId,
-                        ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        false))
-                .target(CRAMI.class, coreAddress);
-
-        this.cramClientAsGuestWithoutValidation = Feign.builder()
-                .decoder(new JacksonDecoder())
-                .encoder(new JacksonEncoder())
-                .logger(new ApacheCommonsLogger4Feign(logger))
-                .logLevel(Logger.Level.FULL)
-                .client(new SymbIoTeSecurityHandlerFeignClient(
-                        securityHandler,
-                        ComponentIdentifiers.CORE_RESOURCE_ACCESS_MONITOR,
-                        SecurityConstants.CORE_AAM_INSTANCE_ID,
-                        false))
+                        SecurityConstants.CORE_AAM_INSTANCE_ID))
                 .target(CRAMI.class, coreAddress);
 
     }
 
     @Override
-    public ResourceUrlsResponse getResourceUrl(String resourceId, boolean serverValidation) {
-        return serverValidation ?
-                cramClient.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId))) :
-                cramClientWithoutValidation.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
+    public ResourceUrlsResponse getResourceUrl(String resourceId, boolean serverValidation, Set<String> homePlatformIds) {
+        return cramClient.getResourceUrls(
+                new HashSet<>(new ArrayList<>(Collections.singletonList(resourceId))),
+                serverValidation,
+                homePlatformIds);
     }
 
     @Override
-    public ResourceUrlsResponse getResourceUrl(List<String> resourceIds, boolean serverValidation) {
-        return serverValidation ?
-                cramClient.getResourceUrls(resourceIds) :
-                cramClientWithoutValidation.getResourceUrls(resourceIds);
+    public ResourceUrlsResponse getResourceUrl(Set<String> resourceIds, boolean serverValidation, Set<String> homePlatformIds) {
+        return cramClient.getResourceUrls(resourceIds, serverValidation, homePlatformIds);
     }
 
     @Override
     public ResourceUrlsResponse getResourceUrlAsGuest(String resourceId, boolean serverValidation) {
-        return serverValidation ?
-                cramClientAsGuest.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId))) :
-                cramClientAsGuestWithoutValidation.getResourceUrls(new ArrayList<>(Collections.singleton(resourceId)));
+        return cramClient.getResourceUrls(
+                new HashSet<>(new ArrayList<>(Collections.singletonList(resourceId))),
+                serverValidation,
+                new HashSet<>());
     }
 
     @Override
-    public ResourceUrlsResponse getResourceUrlAsGuest(List<String> resourceIds, boolean serverValidation) {
-        return serverValidation ?
-                cramClientAsGuest.getResourceUrls(resourceIds) :
-                cramClientAsGuestWithoutValidation.getResourceUrls(resourceIds);
+    public ResourceUrlsResponse getResourceUrlAsGuest(Set<String> resourceIds, boolean serverValidation) {
+        return cramClient.getResourceUrls(resourceIds, serverValidation, new HashSet<>());
     }
 
     private interface CRAMI {
 
         @RequestLine("GET " + GET_RESOURCE_URLS_BASE_PATH + "id={ids}")
-        @Headers({"Accept: application/json", "Content-Type: application/json"})
-        ResourceUrlsResponse getResourceUrls(@Param("ids") List<String> ids);
+        @Headers({"Accept: application/json", "Content-Type: application/json",
+                SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
+        ResourceUrlsResponse getResourceUrls(@Param("ids") Set<String> ids,
+                                             @Param("serverValidation") Boolean serverValidation,
+                                             @Param("homePlatformIds") Set<String> homePlatformIds);
     }
 }

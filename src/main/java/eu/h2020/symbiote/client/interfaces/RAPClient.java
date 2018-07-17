@@ -3,6 +3,7 @@ package eu.h2020.symbiote.client.interfaces;
 import eu.h2020.symbiote.model.cim.Observation;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface for querying the Platform Resource Access Proxy (RAP) component
@@ -16,9 +17,10 @@ public interface RAPClient {
      *
      * @param resourceUrl       the resource url
      * @param serverValidation  if true it will validate RAP
+     * @param homePlatformIds   a set of home platform ids from which we are going to get credentials for the request
      * @return                  an {@link Observation}
      */
-    Observation getLatestObservation(String resourceUrl, boolean serverValidation);
+    Observation getLatestObservation(String resourceUrl, boolean serverValidation, Set<String> homePlatformIds);
 
     /**
      * Get the latest top observations
@@ -26,9 +28,10 @@ public interface RAPClient {
      * @param resourceUrl       the resource url
      * @param top               the number of observations
      * @param serverValidation  if true it will validate RAP
+     * @param homePlatformIds   a set of home platform ids from which we are going to get credentials for the request
      * @return                  a list of {@link Observation}
      */
-    List<Observation> getTopObservations(String resourceUrl, int top, boolean serverValidation);
+    List<Observation> getTopObservations(String resourceUrl, int top, boolean serverValidation, Set<String> homePlatformIds);
 
     /**
      * Send actuation request
@@ -36,8 +39,9 @@ public interface RAPClient {
      * @param resourceUrl       the resource url
      * @param body              the message that will be sent
      * @param serverValidation  if true it will validate RAP
+     * @param homePlatformIds   a set of home platform ids from which we are going to get credentials for the request
      */
-    void actuate(String resourceUrl, String body, boolean serverValidation);
+    void actuate(String resourceUrl, String body, boolean serverValidation, Set<String> homePlatformIds);
 
     /**
      * Invoke Service
@@ -45,9 +49,10 @@ public interface RAPClient {
      * @param resourceUrl       the resource url
      * @param body              the message that will be sent
      * @param serverValidation  if true it will validate RAP
+     * @param homePlatformIds   a set of home platform ids from which we are going to get credentials for the request
      * @return                  a response of the service invocation in json format
      */
-    String invokeService(String resourceUrl, String body, boolean serverValidation);
+    String invokeService(String resourceUrl, String body, boolean serverValidation, Set<String> homePlatformIds);
 
     /**
      * Get the latest observation without validating RAP
