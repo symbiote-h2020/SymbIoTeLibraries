@@ -6,6 +6,7 @@
 package eu.h2020.symbiote.enabler.messaging.model.rap.query;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Expression extends Query {
     String val;
     
     @JsonCreator
-    public Expression(String param, Comparison.Cmp cmp, String val) {
+    public Expression(@JsonProperty("param")String param, @JsonProperty("cmp")Comparison.Cmp cmp, @JsonProperty("val")String val) {
         this.param = param;
         this.cmp = cmp;
         this.val = val;
