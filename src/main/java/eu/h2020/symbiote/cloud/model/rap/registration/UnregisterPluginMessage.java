@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.h2020.symbiote.enabler.messaging.model.rap.registration;
+package eu.h2020.symbiote.cloud.model.rap.registration;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
