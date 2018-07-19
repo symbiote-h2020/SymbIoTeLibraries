@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.h2020.symbiote.enabler.messaging.model.rap.query;
+package eu.h2020.symbiote.cloud.model.rap.query;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,10 +19,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Filter extends Query {
  
     Operator.Lop lop;
-    ArrayList<Query> exprs = new ArrayList();
+    List<Query> exprs = new ArrayList<>();
     
     @JsonCreator
-    public Filter(@JsonProperty("lop")Operator.Lop lop, @JsonProperty("exprs")ArrayList<Query> exprs) {
+    public Filter(@JsonProperty("lop")Operator.Lop lop, @JsonProperty("exprs")List<Query> exprs) {
          this.lop = lop;
          exprs.forEach((q) -> {
              this.exprs.add(q);
@@ -32,7 +33,7 @@ public class Filter extends Query {
         return lop;
     }
 
-    public ArrayList<Query> getExprs() {
+    public List<Query> getExprs() {
         return exprs;
     }
 }
