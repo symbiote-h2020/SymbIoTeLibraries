@@ -8,6 +8,7 @@ package eu.h2020.symbiote.enabler.messaging.model.rap.query;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Filter extends Query {
     ArrayList<Query> exprs = new ArrayList();
     
     @JsonCreator
-    public Filter(Operator.Lop lop, ArrayList<Query> exprs) {
+    public Filter(@JsonProperty("lop")Operator.Lop lop, @JsonProperty("exprs")ArrayList<Query> exprs) {
          this.lop = lop;
          exprs.forEach((q) -> {
              this.exprs.add(q);
