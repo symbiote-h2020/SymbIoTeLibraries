@@ -1,4 +1,4 @@
-package eu.h2020.symbiote.enabler.messaging.model.rap.db;
+package eu.h2020.symbiote.cloud.model.rap;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
