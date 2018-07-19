@@ -50,13 +50,13 @@ public class ResourceManagerTaskInfoRequest {
      * @param minNoResources        the minimum number of required resources. The maximum number of resources is configured
      *                              by setting the maxNoResources, which defaults to ALL_AVAILABLE_RESOURCES
      * @param coreQueryRequest      the request which is propagated to the core
-     * @param queryInterval         the query interval in ISO-8601 alternateExtended format that is propagated to the
+     * @param queryInterval         the getResourceUrls interval in ISO-8601 alternateExtended format that is propagated to the
      *                              Platform Proxy
      * @param allowCaching          if the results gotten from search are allowed to be cached for faster responses
      *                              in case of failing resources
      * @param cachingInterval       the caching interval of tasks resources in ISO-8601 alternateExtended format
      * @param informPlatformProxy   if Platform Proxy needs to be informed. If you want to receive back data set to true.
-     *                              Otherwise, if you just need to query the Core for getting back the resource
+     *                              Otherwise, if you just need to getResourceUrls the Core for getting back the resource
      *                              descriptions, set to false
      * @param enablerLogicName      the enabler logic component which owns this task and it will receive updates for it
      * @param sparqlQueryRequest    the request in SPARQL. Set to null if you use CoreQueryRequest. If set overwrites
@@ -83,13 +83,13 @@ public class ResourceManagerTaskInfoRequest {
      * @param minNoResources        the minimum number of required resources.
      * @param maxNoResources        the maximum number of resources
      * @param coreQueryRequest      the request which is propagated to the core
-     * @param queryInterval         the query interval in ISO-8601 alternateExtended format that is propagated to the
+     * @param queryInterval         the getResourceUrls interval in ISO-8601 alternateExtended format that is propagated to the
      *                              Platform Proxy
      * @param allowCaching          if the results gotten from search are allowed to be cached for faster responses
      *                              in case of failing resources
      * @param cachingInterval       the caching interval of tasks resources in ISO-8601 alternateExtended format
      * @param informPlatformProxy   if Platform Proxy needs to be informed. If you want to receive back data set to true.
-     *                              Otherwise, if you just need to query the Core for getting back the resource
+     *                              Otherwise, if you just need to getResourceUrls the Core for getting back the resource
      *                              descriptions, set to false
      * @param enablerLogicName      the enabler logic component which owns this task and it will receive updates for it
      * @param sparqlQueryRequest    the request in SPARQL. Set to null if you use CoreQueryRequest. If set overwrites

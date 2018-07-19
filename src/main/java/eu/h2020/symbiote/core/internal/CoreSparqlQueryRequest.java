@@ -5,7 +5,7 @@ import eu.h2020.symbiote.core.cci.AbstractRequestSecured;
 import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 /**
- * POJO describing a sparql query for resources.
+ * POJO describing a sparql getResourceUrls for resources.
  */
 public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
 

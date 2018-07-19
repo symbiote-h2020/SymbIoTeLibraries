@@ -11,8 +11,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.2.2'
-        classpath 'org.owasp:dependency-check-gradle:3.0.2'
+        classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.3.1'
+        classpath 'org.owasp:dependency-check-gradle:3.2.0'
     }
 }
 
@@ -52,9 +52,9 @@ repositories {
 
 dependencies {
     // Symbiote Security section
-    compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.0,27.999]'){ changing = true }
+    compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.2,27.999]'){ changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
-	compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.0,27.999]:sources'){ changing = true }
+	//compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.2,27.999]:sources'){ changing = true }
 	//compile project(':SymbIoTeSecurity')
 
     //from symbioteLibs

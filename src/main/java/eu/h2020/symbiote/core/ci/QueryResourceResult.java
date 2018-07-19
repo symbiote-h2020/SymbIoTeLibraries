@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Message describing basic resource object for query results.
+ * Message describing basic resource object for getResourceUrls results.
  */
 public class QueryResourceResult {
     private String platformId;

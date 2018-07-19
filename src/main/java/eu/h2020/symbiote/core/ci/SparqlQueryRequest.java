@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 
 /**
- * Class describing message for performing sparql query.
+ * Class describing message for performing sparql getResourceUrls.
  */
 public class SparqlQueryRequest {
     private String sparqlQuery;
