@@ -186,7 +186,7 @@ public class CoreQueryRequest {
     }
 
     public String buildQuery(String symbioteCoreUrl) {
-           return symbioteCoreUrl + "/getResourceUrls?" + buildRequestParameters();
+           return symbioteCoreUrl + "/query?" + buildRequestParameters();
     }
 
     public String buildRequestParameters() {
