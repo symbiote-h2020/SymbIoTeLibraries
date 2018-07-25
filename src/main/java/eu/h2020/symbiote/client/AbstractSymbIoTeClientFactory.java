@@ -76,6 +76,14 @@ public abstract class AbstractSymbIoTeClientFactory {
     public abstract PRClient getPRClient(String platformId);
 
     /**
+     * Get a Subscription Manager (SM) client for querying the SM of a specific platform
+     *
+     * @param platformId    the platform which we want to communicate with
+     * @return  a SM client
+     */
+    public abstract SMClient getSMClient(String platformId);
+
+    /**
      * Get an Authentication and Authorization (AAM) client to communicate with an AAM of a specific platform
      *
      * @param platformId    the platform which we want to communicate with

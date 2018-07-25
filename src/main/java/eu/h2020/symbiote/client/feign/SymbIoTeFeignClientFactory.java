@@ -96,6 +96,9 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     public PRClient getPRClient(String platformId) { return new FeignPRClient(securityHandler, platformId); }
 
     @Override
+    public SMClient getSMClient(String platformId) { return new FeignSMClient(securityHandler, platformId); }
+
+    @Override
     public IAAMClient getAAMClient(String homePlatformId) {
         try {
             Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
