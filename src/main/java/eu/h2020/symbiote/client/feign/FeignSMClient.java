@@ -6,15 +6,13 @@ import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerExcep
 import eu.h2020.symbiote.security.communication.ApacheCommonsLogger4Feign;
 import eu.h2020.symbiote.security.communication.payloads.AAM;
 import eu.h2020.symbiote.security.handler.ISecurityHandler;
-import feign.Feign;
-import feign.Headers;
-import feign.Logger;
-import feign.RequestLine;
+import feign.*;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,9 +55,27 @@ public class FeignSMClient implements SMClient {
         this.smClient.subscribe(subscription);
     }
 
+    @Override
+    public List<Subscription> getAllSubscriptions() {
+        return this.smClient.getAllSubscriptions();
+    }
+
+    @Override
+    public Subscription getPlatformSubscription(String platformId) {
+        return this.smClient.getPlatformSubscription(platformId);
+    }
+
     private interface SubscriptionManagerI {
         @RequestLine("POST /subscribe ")
         @Headers({"Accept: application/json", "Content-Type: application/json"})
         void subscribe(Subscription subscription);
+
+        @RequestLine("GET /subscriptions ")
+        @Headers({"Accept: application/json", "Content-Type: application/json"})
+        List<Subscription> getAllSubscriptions();
+
+        @RequestLine("GET /subscription/{platformId} ")
+        @Headers({"Accept: application/json", "Content-Type: application/json"})
+        Subscription getPlatformSubscription(@Param("platformId") String platformId);
     }
 }
