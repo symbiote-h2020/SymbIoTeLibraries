@@ -136,6 +136,9 @@ public abstract class AbstractSymbIoTeClientFactory {
         public Type getType() { return type; }
     }
 
+    /**
+     * A class for supplying home platform credentials to the security handler
+     */
     public static class HomePlatformCredentials {
         private final String platformId;
         private final String username;
@@ -143,6 +146,13 @@ public abstract class AbstractSymbIoTeClientFactory {
         private final String clientId;
 
 
+        /**
+         *
+         * @param platformId        the platform id
+         * @param username          the user name in the AAM
+         * @param password          the password in of the user in AAM
+         * @param clientId          the preferred client name
+         */
         public HomePlatformCredentials(String platformId, String username, String password, String clientId) {
             this.platformId = platformId;
             this.username = username;

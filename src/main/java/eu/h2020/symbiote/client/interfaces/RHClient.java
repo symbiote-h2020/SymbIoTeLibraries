@@ -23,7 +23,7 @@ public interface RHClient {
     /**
      * Get specific registered resource
      *
-     * @param resourceInternalId the internal id of the resource
+     * @param resourceInternalId the constants id of the resource
      * @return a {@link CloudResource} describing the registered resource metadata
      */
     CloudResource getResource(String resourceInternalId);
@@ -76,17 +76,17 @@ public interface RHClient {
     List<CloudResource> sync();
 
     /**
-     * Delete a L1 resource based on the internal id
+     * Delete a L1 resource based on the constants id
      *
-     * @param resourceInternalId the internal id of the resource
+     * @param resourceInternalId the constants id of the resource
      * @return a {@link CloudResource} describing the deleted resource
      */
     CloudResource deleteL1Resource(String resourceInternalId);
 
     /**
-     * Delete a list of L1 resources based on the internal ids
+     * Delete a list of L1 resources based on the constants ids
      *
-     * @param resourceInternalIds the internal ids of the resources
+     * @param resourceInternalIds the constants ids of the resources
      * @return a list of {@link CloudResource} describing the deleted resource metadata
      */
     List<CloudResource> deleteL1Resources(List<String> resourceInternalIds);
@@ -113,17 +113,17 @@ public interface RHClient {
     List<CloudResource> updateL2Resources(List<CloudResource> cloudResources);
 
     /**
-     * Delete a list of L2 resources based on the internal ids
+     * Delete a list of L2 resources based on the constants ids
      *
-     * @param resourceInternalIds the internal ids of the resources
-     * @return a list of strings containing the internal ids of the resources
+     * @param resourceInternalIds the constants ids of the resources
+     * @return a list of strings containing the constants ids of the resources
      */
     List<String> removeL2Resources(List<String> resourceInternalIds);
 
     /**
      * Share already registered L2 metadata to federations
      *
-     * @param input a map which has as keys the internal ids of the resources and as values another map, which has as keys
+     * @param input a map which has as keys the constants ids of the resources and as values another map, which has as keys
      *              the federation ids and as values a flag showing if the resource is bartered or not
      * @return a map which has as keys has the federations ids and as values a list of the resource metadata
      *              which have been shared to that federation.
@@ -132,7 +132,7 @@ public interface RHClient {
 
     /**
      * Unshare already registered L2 metadata from federations
-     * @param input a map which has as keys the internal ids of the resources and as values a list of the federation ids
+     * @param input a map which has as keys the constants ids of the resources and as values a list of the federation ids
      *              where the resource is going to be unshared from
      * @return a map which has as keys the federation ids and as values a list of resource metadata
      *              that were removed from that federation.

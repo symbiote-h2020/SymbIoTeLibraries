@@ -3,7 +3,7 @@ package eu.h2020.symbiote.core.internal;
 import eu.h2020.symbiote.core.cci.AbstractResponseSecured;
 
 /**
- * Payload of responses to internal Core communication message for registry operation on resources (both RDF and JSON).
+ * Payload of responses to constants Core communication message for registry operation on resources (both RDF and JSON).
  * Used in communication between CloudCoreInterface and Registry.
  * <p>
  * Created by Szymon Mueller on 31/03/2017.

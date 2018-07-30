@@ -4,7 +4,7 @@ import eu.h2020.symbiote.model.cim.Resource;
 import eu.h2020.symbiote.security.accesspolicies.common.IAccessPolicySpecifier;
 
 /**
- * Core layer internal representation of the resource. Extends the generic Resource description with RDF representation of the resource.
+ * Core layer constants representation of the resource. Extends the generic Resource description with RDF representation of the resource.
  *
  * Registry component is storing instances of this class and information about new resources in the system does also contain information in this form.
  *

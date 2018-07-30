@@ -4,7 +4,7 @@ import eu.h2020.symbiote.core.cci.AbstractRequestSecured;
 import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 
 /**
- * Core internal payload of clear data message.
+ * Core constants payload of clear data message.
  *
  * Created by Szymon Mueller on 09/11/2017.
  */

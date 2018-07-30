@@ -15,7 +15,7 @@ import java.util.List;
 public class CloudMonitoringPlatform {
 
 	/**
-	 * Simple Data, is the Platform internal Id
+	 * Simple Data, is the Platform constants Id
 	 */
 	private String platformId;
 	
@@ -26,7 +26,7 @@ public class CloudMonitoringPlatform {
 	
 	
 	/**
-	 * Simple Data, is the Platform internal Id
+	 * Simple Data, is the Platform constants Id
 	 * @return Platform platformId
 	 */
 	public String getPlatformId() {
