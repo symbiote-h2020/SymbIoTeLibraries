@@ -26,6 +26,12 @@ public interface RabbitConstants {
 	String EXCHANGE_PLATFORM_REGISTRY_AUTODELETE_PROPERTY = "rabbit.exchange.platformRegistry.autodelete";
 	String EXCHANGE_PLATFORM_REGISTRY_INTERNAL_PROPERTY = "rabbit.exchange.platformRegistry.constants";
 
+	String EXCHANGE_SLA_NAME_PROPERTY = "rabbit.exchange.sla.name";
+	String EXCHANGE_SLA_TYPE_PROPERTY = "rabbit.exchange.sla.type";
+	String EXCHANGE_SLA_DURABLE_PROPERTY = "rabbit.exchange.sla.durable";
+	String EXCHANGE_SLA_AUTODELETE_PROPERTY = "rabbit.exchange.sla.autodelete";
+	String EXCHANGE_SLA_INTERNAL_PROPERTY = "rabbit.exchange.sla.constants";
+
 	String ROUTING_KEY_RH_REGISTER_PROPERTY = "rabbit.routingKey.rh.core.register";
 	String ROUTING_KEY_RH_UPDATE_PROPERTY = "rabbit.routingKey.rh.core.update";
 	String ROUTING_KEY_RH_DELETE_PROPERTY = "rabbit.routingKey.rh.core.delete";
@@ -45,4 +51,6 @@ public interface RabbitConstants {
 	String ROUTING_KEY_TRUST_RESOURCE_UPDATED = "rabbit.routingKey.trust.resourceUpdated";
 	String ROUTING_KEY_TRUST_PLATFORM_UPDATED = "rabbit.routingKey.trust.platformUpdated";
 	String ROUTING_KEY_TRUST_ADAPTIVE_RESOURCE_UPDATED = "rabbit.routingKey.trust.adaptiveResourceUpdated";
+
+	String ROUTING_KEY_SLA_VIOLATION_PROPERTY = "rabbit.routingKey.sla.violation";
 }
