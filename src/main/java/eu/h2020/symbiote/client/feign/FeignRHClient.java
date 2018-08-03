@@ -39,7 +39,11 @@ public class FeignRHClient implements RHClient {
 
         try {
             Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
-            String rhBaseUrl = availableAAMs.get(homePlatformId).getAamAddress().replace("/paam", "/rh");
+
+            // The 1st one is left for backwards compatibility
+            String rhBaseUrl = availableAAMs.get(homePlatformId).getAamAddress()
+                    .replace("/paam", "/rh")
+                    .replace("/aam", "/rh");
 
             this.rhClient = Feign.builder()
                     .decoder(new JacksonDecoder())

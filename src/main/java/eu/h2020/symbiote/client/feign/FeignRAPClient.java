@@ -161,7 +161,7 @@ public class FeignRAPClient implements RAPClient {
     }
 
     private List<AAM> findAAMS(String resourceUrl) throws SecurityHandlerException {
-        String aamUrl = resourceUrl.replaceAll("/rap.*", "/paam");
+        String aamUrl = resourceUrl.replaceAll("/rap.*", "/aam");
         List<AAM> filteredAAMs;
 
         filteredAAMs = securityHandler.getAvailableAAMs().values().stream()

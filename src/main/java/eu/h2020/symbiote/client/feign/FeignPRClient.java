@@ -41,7 +41,11 @@ public class FeignPRClient implements PRClient {
 
         try {
             Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
-            String prUrl = availableAAMs.get(homePlatformId).getAamAddress().replace("/paam", "/pr/search");
+
+            // The 1st one is left for backwards compatibility
+            String prUrl = availableAAMs.get(homePlatformId).getAamAddress()
+                    .replace("/paam", "/pr/search")
+                    .replace("/aam", "/pr/search");
 
             this.prClient = Feign.builder()
                     .decoder(new JacksonDecoder())
