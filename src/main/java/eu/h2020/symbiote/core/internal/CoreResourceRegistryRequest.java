@@ -7,7 +7,7 @@ import eu.h2020.symbiote.security.communication.payloads.SecurityRequest;
 import java.util.Map;
 
 /**
- * Payload of constants Core communication message for registry operation on resources (both RDF and JSON).
+ * Payload of internal Core communication message for registry operation on resources (both RDF and JSON).
  * Used in communication between CloudCoreInterface and Registry.
  * <p>
  * Created by Szymon Mueller on 31/03/2017.

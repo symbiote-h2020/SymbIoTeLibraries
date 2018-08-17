@@ -6,31 +6,31 @@ public interface RabbitConstants {
 	String EXCHANGE_RH_TYPE_PROPERTY = "rabbit.exchange.rh.type";
 	String EXCHANGE_RH_DURABLE_PROPERTY = "rabbit.exchange.rh.durable";
 	String EXCHANGE_RH_AUTODELETE_PROPERTY = "rabbit.exchange.rh.autodelete";
-	String EXCHANGE_RH_INTERNAL_PROPERTY = "rabbit.exchange.rh.constants";
+	String EXCHANGE_RH_INTERNAL_PROPERTY = "rabbit.exchange.rh.internal";
 
 	String EXCHANGE_RAP_NAME_PROPERTY = "rabbit.exchange.rap.name";
 	String EXCHANGE_RAP_TYPE_PROPERTY = "rabbit.exchange.rap.type";
 	String EXCHANGE_RAP_DURABLE_PROPERTY = "rabbit.exchange.rap.durable";
 	String EXCHANGE_RAP_AUTODELETE_PROPERTY = "rabbit.exchange.rap.autodelete";
-	String EXCHANGE_RAP_INTERNAL_PROPERTY = "rabbit.exchange.rap.constants";
+	String EXCHANGE_RAP_INTERNAL_PROPERTY = "rabbit.exchange.rap.internal";
 
 	String EXCHANGE_TRUST_NAME_PROPERTY = "rabbit.exchange.trust.name";
 	String EXCHANGE_TRUST_TYPE_PROPERTY = "rabbit.exchange.trust.type";
 	String EXCHANGE_TRUST_DURABLE_PROPERTY = "rabbit.exchange.trust.durable";
 	String EXCHANGE_TRUST_AUTODELETE_PROPERTY = "rabbit.exchange.trust.autodelete";
-	String EXCHANGE_TRUST_INTERNAL_PROPERTY = "rabbit.exchange.trust.constants";
+	String EXCHANGE_TRUST_INTERNAL_PROPERTY = "rabbit.exchange.trust.internal";
 
 	String EXCHANGE_PLATFORM_REGISTRY_NAME_PROPERTY = "rabbit.exchange.platformRegistry.name";
 	String EXCHANGE_PLATFORM_REGISTRY_TYPE_PROPERTY = "rabbit.exchange.platformRegistry.type";
 	String EXCHANGE_PLATFORM_REGISTRY_DURABLE_PROPERTY = "rabbit.exchange.platformRegistry.durable";
 	String EXCHANGE_PLATFORM_REGISTRY_AUTODELETE_PROPERTY = "rabbit.exchange.platformRegistry.autodelete";
-	String EXCHANGE_PLATFORM_REGISTRY_INTERNAL_PROPERTY = "rabbit.exchange.platformRegistry.constants";
+	String EXCHANGE_PLATFORM_REGISTRY_INTERNAL_PROPERTY = "rabbit.exchange.platformRegistry.internal";
 
 	String EXCHANGE_SLA_NAME_PROPERTY = "rabbit.exchange.sla.name";
 	String EXCHANGE_SLA_TYPE_PROPERTY = "rabbit.exchange.sla.type";
 	String EXCHANGE_SLA_DURABLE_PROPERTY = "rabbit.exchange.sla.durable";
 	String EXCHANGE_SLA_AUTODELETE_PROPERTY = "rabbit.exchange.sla.autodelete";
-	String EXCHANGE_SLA_INTERNAL_PROPERTY = "rabbit.exchange.sla.constants";
+	String EXCHANGE_SLA_INTERNAL_PROPERTY = "rabbit.exchange.sla.internal";
 
 	String ROUTING_KEY_RH_REGISTER_PROPERTY = "rabbit.routingKey.rh.core.register";
 	String ROUTING_KEY_RH_UPDATE_PROPERTY = "rabbit.routingKey.rh.core.update";
