@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.cloud.model.ssp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.h2020.symbiote.model.cim.Resource;
@@ -85,6 +86,7 @@ public class SspResource {
         this.filteringPolicy = filteringPolicySpecifier;
     }
 
+    @JsonIgnore
     public Resource getSemanticDescription() {
         return this.resource;
     }
