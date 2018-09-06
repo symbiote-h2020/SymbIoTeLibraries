@@ -26,7 +26,7 @@ public class SymbIoTeFeignSSPPlatformClientFactory {
                 config.clientId.contains("@") ? config.clientId : config.clientId + '@' + config.sspId,
                 config.localAAMAddress, config.componentOwnerUsername, config.componentOwnerPassword
         );
-        return new FeignInnkeeperClient(securityHandler, config.sspId, config.localAAMAddress);
+        return new FeignInnkeeperClient(securityHandler, config.sspId, config.sspAddress);
     }
 
 
@@ -38,6 +38,7 @@ public class SymbIoTeFeignSSPPlatformClientFactory {
         private final String keystorePassword;
         private final String sspId;
         private final String localAAMAddress;
+        private final String sspAddress;
         private final String clientId;
         private final String componentOwnerUsername;
         private final String componentOwnerPassword;
@@ -48,16 +49,18 @@ public class SymbIoTeFeignSSPPlatformClientFactory {
          * @param keystorePassword          the keystore password
          * @param sspId                     the id of the target SSP
          * @param localAAMAddress           the address of the AAM of the SSP
+         * @param sspAddress                the address of the symbIoTe SmartSpace
          * @param clientId                  the client id in the form of {clientId}@{sspId}
          * @param componentOwnerUsername    the component owner username as specified in AAM
          * @param componentOwnerPassword    the component owner password as specified in AAM
          */
         public Config(String keystorePath, String keystorePassword, String sspId, String localAAMAddress,
-                      String clientId, String componentOwnerUsername, String componentOwnerPassword) {
+                      String sspAddress, String clientId, String componentOwnerUsername, String componentOwnerPassword) {
             this.keystorePath = keystorePath;
             this.keystorePassword = keystorePassword;
             this.sspId = sspId;
             this.localAAMAddress = localAAMAddress;
+            this.sspAddress = sspAddress;
             this.clientId = clientId;
             this.componentOwnerUsername = componentOwnerUsername;
             this.componentOwnerPassword = componentOwnerPassword;
@@ -67,6 +70,7 @@ public class SymbIoTeFeignSSPPlatformClientFactory {
         public String getKeystorePassword() { return keystorePassword; }
         public String getSspId() { return sspId; }
         public String getLocalAAMAddress() { return localAAMAddress; }
+        public String getSspAddress() { return sspAddress; }
         public String getClientId() { return clientId; }
         public String getComponentOwnerUsername() { return componentOwnerUsername; }
         public String getComponentOwnerPassword() { return componentOwnerPassword; }
@@ -80,6 +84,7 @@ public class SymbIoTeFeignSSPPlatformClientFactory {
                     Objects.equals(keystorePassword, config.keystorePassword) &&
                     Objects.equals(sspId, config.sspId) &&
                     Objects.equals(localAAMAddress, config.localAAMAddress) &&
+                    Objects.equals(sspAddress, config.sspAddress) &&
                     Objects.equals(clientId, config.clientId) &&
                     Objects.equals(componentOwnerUsername, config.componentOwnerUsername) &&
                     Objects.equals(componentOwnerPassword, config.componentOwnerPassword);
@@ -87,7 +92,8 @@ public class SymbIoTeFeignSSPPlatformClientFactory {
 
         @Override
         public int hashCode() {
-            return Objects.hash(keystorePath, keystorePassword, sspId, localAAMAddress, clientId, componentOwnerUsername, componentOwnerPassword);
+            return Objects.hash(keystorePath, keystorePassword, sspId, localAAMAddress, sspAddress,
+                    clientId, componentOwnerUsername, componentOwnerPassword);
         }
 
         @Override
@@ -97,6 +103,7 @@ public class SymbIoTeFeignSSPPlatformClientFactory {
                     ", keystorePassword='" + keystorePassword + '\'' +
                     ", sspId='" + sspId + '\'' +
                     ", localAAMAddress='" + localAAMAddress + '\'' +
+                    ", sspAddress='" + sspAddress + '\'' +
                     ", clientId='" + clientId + '\'' +
                     ", componentOwnerUsername='" + componentOwnerUsername + '\'' +
                     ", componentOwnerPassword='" + componentOwnerPassword + '\'' +
