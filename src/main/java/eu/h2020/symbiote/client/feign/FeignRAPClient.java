@@ -169,7 +169,7 @@ public class FeignRAPClient implements RAPClient {
         if (filteredAAMs.size() != 1) {
             // Search with /paam with was the path in 2.x of symbIoTe
 
-            String aamUrlV2 = resourceUrl.replaceAll("/aam", "/paam");
+            String aamUrlV2 = resourceUrl.replaceAll("/rap.*", "/paam");
             filteredAAMs = securityHandler.getAvailableAAMs().values().stream()
                     .filter(aam -> aam.getAamAddress().equals(aamUrlV2))
                     .collect(Collectors.toList());
