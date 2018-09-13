@@ -21,6 +21,13 @@ public class CoreQueryRequestTests {
     @Test
     public void buildQueryTest() {
         CoreQueryRequest coreQueryRequest = new CoreQueryRequest.Builder()
+                .build();
+
+        String symbioteUrl = "http://example.com";
+        String expectedAnswer = symbioteUrl + "/query?";
+        assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
+
+        coreQueryRequest = new CoreQueryRequest.Builder()
                 .platformId("pId")
                 .platformName("pName")
                 .owner("owner")
@@ -37,13 +44,12 @@ public class CoreQueryRequestTests {
                 .shouldRank(Boolean.FALSE)
                 .build();
 
-        String symbioteUrl = "http://example.com";
-        String expectedAnswer = symbioteUrl + "/query?platform_id=pId&platform_name=pName&owner=owner&name=name"
+        expectedAnswer = symbioteUrl + "/query?platform_id=pId&platform_name=pName&owner=owner&name=name"
                 + "&id=id&description=desc&location_name=lName&location_lat=123.0&location_long=456.0&max_distance=10"
                 + "&observed_property=p1+2,p2&observed_property_iri=http%3A%2F%2Ftest1%23test,http%3A%2F%2Ftest2%23test"
                 + "&resource_type=type&should_rank=false";
 
-        String realURL=coreQueryRequest.buildQuery(symbioteUrl);
+        String realURL = coreQueryRequest.buildQuery(symbioteUrl);
         log.info("coreQueryRequest.buildQuery(symbioteUrl) = " + realURL);
         assertEquals(expectedAnswer, coreQueryRequest.buildQuery(symbioteUrl));
 
