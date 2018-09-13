@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource.html" title="eu.h2020.symbiote.model.cim.\lResource" alt="" coords="5,70,205,111"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1CoreResource.html" title="eu.h2020.symbiote.core.internal.\lCoreResource" alt="" coords="253,5,464,46"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Device.html" title="eu.h2020.symbiote.model.cim.\lDevice" alt="" coords="259,70,459,111"/>
+<area shape="rect" id="node8" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Service.html" title="eu.h2020.symbiote.model.cim.\lService" alt="" coords="259,135,459,177"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Actuator.html" title="eu.h2020.symbiote.model.cim.\lActuator" alt="" coords="512,38,712,79"/>
+<area shape="rect" id="node5" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Sensor.html" title="eu.h2020.symbiote.model.cim.\lSensor" alt="" coords="512,103,712,145"/>
+<area shape="rect" id="node6" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1MobileSensor.html" title="eu.h2020.symbiote.model.cim.\lMobileSensor" alt="" coords="760,70,960,111"/>
+<area shape="rect" id="node7" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1StationarySensor.html" title="eu.h2020.symbiote.model.cim.\lStationarySensor" alt="" coords="760,135,960,177"/>
+</map>

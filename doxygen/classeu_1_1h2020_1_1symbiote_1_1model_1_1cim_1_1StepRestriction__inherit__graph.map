@@ -1,0 +1,4 @@
+<map id="eu.h2020.symbiote.model.cim.StepRestriction" name="eu.h2020.symbiote.model.cim.StepRestriction">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1RangeRestriction.html" title="{eu.h2020.symbiote.model.cim.\lRangeRestriction\n||+ RangeRestriction()\l+ getMin()\l+ setMin()\l+ getMax()\l+ setMax()\l}" alt="" coords="4,147,203,298"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Restriction.html" title="{eu.h2020.symbiote.model.cim.\lRestriction\n||}" alt="" coords="4,6,203,98"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTasksRequest" name="eu.h2020.symbiote.enabler.messaging.model.ResourceManagerTasksRequest">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1ResourceManagerAcquisitionStartRequest.html" title="{eu.h2020.symbiote.enabler.messaging.model.\lResourceManagerAcquisitionStartRequest\n||}" alt="" coords="5,206,293,298"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1ResourceManagerUpdateRequest.html" title="{eu.h2020.symbiote.enabler.messaging.model.\lResourceManagerUpdateRequest\n||}" alt="" coords="317,206,605,298"/>
+</map>

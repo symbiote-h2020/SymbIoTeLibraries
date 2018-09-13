@@ -1,0 +1,4 @@
+<map id="eu.h2020.symbiote.enabler.messaging.model.rap.registration.UnregisterPluginMessage" name="eu.h2020.symbiote.enabler.messaging.model.rap.registration.UnregisterPluginMessage">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1rap_1_1registration_1_1PluginRegistrationMessage.html" title="{eu.h2020.symbiote.enabler.messaging.model.rap.registration.\lPluginRegistrationMessage\n|~ platformId\l|+ getPlatformId()\l}" alt="" coords="5,147,384,239"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1rap_1_1registration_1_1RegistrationMessage.html" title="{eu.h2020.symbiote.enabler.messaging.model.rap.registration.\lRegistrationMessage\n|~ actionType\l|+ getActionType()\l}" alt="" coords="5,6,384,98"/>
+</map>

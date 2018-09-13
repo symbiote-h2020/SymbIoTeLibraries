@@ -1,0 +1,4 @@
+<map id="eu.h2020.symbiote.model.cim.DataProperty" name="eu.h2020.symbiote.model.cim.DataProperty">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1ComplexProperty.html" title="{eu.h2020.symbiote.model.cim.\lComplexProperty\n||+ getDatatype()\l+ setDatatype()\l+ getBasedOnProperty()\l+ setBasedOnProperty()\l}" alt="" coords="5,160,204,296"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1PrimitiveProperty.html" title="{eu.h2020.symbiote.model.cim.\lPrimitiveProperty\n||+ getPrimitiveDatatype()\l+ setPrimitiveDatatype()\l+ getBasedOnProperty()\l+ setBasedOnProperty()\l}" alt="" coords="229,160,428,296"/>
+</map>

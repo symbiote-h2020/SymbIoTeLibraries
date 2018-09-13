@@ -1,0 +1,3 @@
+<map id="eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory" name="eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1client_1_1AbstractSymbIoTeClientFactory.html" title="{eu.h2020.symbiote.client.\lAbstractSymbIoTeClientFactory\n|+ CORE_INTERFACE_PATH\l+ CORE_AAM_SUBPATH\l|+ getSearchClient()\l+ getCramClient()\l+ getRHClient()\l+ getRapClient()\l+ getPRClient()\l+ getSMClient()\l+ getAAMClient()\l+ initializeInHomePlatforms()\l+ getFactory()\l}" alt="" coords="23,5,232,229"/>
+</map>

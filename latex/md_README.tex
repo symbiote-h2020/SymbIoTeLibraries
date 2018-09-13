@@ -1,0 +1,30 @@
+\href{https://api.travis-ci.org/symbiote-h2020/SymbIoTeLibraries}{\tt } \href{https://jitpack.io/#symbiote-h2020/SymbIoTeLibraries}{\tt } \href{https://codecov.io/github/symbiote-h2020/SymbIoTeLibraries}{\tt } \section*{Symb\+Io\+Te Libraries}
+
+This repository contains common Symb\+Io\+Te libraries used throughout different components and different layers. Its main use is to standardize classes which will be used for communication among components. Furthermore, it also contains security packages to facilitate secure access to resources (e.\+g. {\itshape Security\+Handler}). \subsection*{How to include them in your code}
+
+\href{https://jitpack.io/}{\tt Jitpack} can be used to easily import Symb\+Io\+Te Libraries in your code. In Jitpack\textquotesingle{}s website you can find guidelines about how to include repositories for different build automation systems. In the symb\+Io\+Te project which utilizes \href{https://gradle.org/}{\tt gradle}, developers have to add the following in the {\itshape build.\+gradle}\+:
+
+
+\begin{DoxyEnumerate}
+\item Add jitpack in your root build.\+gradle at the end of repositories\+: 
+\begin{DoxyCode}
+allprojects \{
+    repositories \{
+        ...
+        maven \{ url 'https://jitpack.io' \}
+    \}
+\}
+\end{DoxyCode}
+
+\item Add the dependency\+: 
+\begin{DoxyCode}
+compile('com.github.symbiote-h2020:SymbIoTeLibraries:develop-SNAPSHOT')
+\end{DoxyCode}
+ As you notice above, during development (i.\+e. feature and develop branches of component repositories) the {\itshape {\bfseries develop}} branch of the Symb\+Io\+Te\+Libraries needs to be used, in order to make sure that the latest version is always retrieved. In the official releases (i.\+e. master branches of Component repositories), this dependecy will be changed to\+:
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+compile('com.github.symbiote-h2020:SymbIoTeLibraries:\{tag\}')
+\end{DoxyCode}
+ by the {\bfseries Symb\+Io\+Te integrators}. 
