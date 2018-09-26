@@ -161,15 +161,21 @@ public class FeignRAPClient implements RAPClient {
     }
 
     private List<AAM> findAAMS(String resourceUrl) throws SecurityHandlerException {
-        String aamUrl = resourceUrl.replaceAll("/rap.*", "/paam");
-        List<AAM> filteredAAMs;
-
-        filteredAAMs = securityHandler.getAvailableAAMs().values().stream()
+        String aamUrl = resourceUrl.replaceAll("/rap.*", "/aam");
+        List<AAM> filteredAAMs = securityHandler.getAvailableAAMs().values().stream()
                 .filter(aam -> aam.getAamAddress().equals(aamUrl))
                 .collect(Collectors.toList());
 
         if (filteredAAMs.size() != 1) {
-            throw new SecurityHandlerException(String.format("Found %d possible targets instead of only 1", filteredAAMs.size()));
+            // Search with /paam with was the path in 2.x of symbIoTe
+
+            String aamUrlV2 = resourceUrl.replaceAll("/rap.*", "/paam");
+            filteredAAMs = securityHandler.getAvailableAAMs().values().stream()
+                    .filter(aam -> aam.getAamAddress().equals(aamUrlV2))
+                    .collect(Collectors.toList());
+
+            if (filteredAAMs.size() != 1)
+                throw new SecurityHandlerException(String.format("Found %d possible targets instead of only 1", filteredAAMs.size()));
         }
 
         return filteredAAMs;

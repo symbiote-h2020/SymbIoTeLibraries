@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1RDFInfo.html" title="eu.h2020.symbiote.core.internal.\lRDFInfo" alt="" coords="5,135,216,177"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1PIMInstanceDescription.html" title="eu.h2020.symbiote.core.internal.\lPIMInstanceDescription" alt="" coords="276,5,487,46"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1PIMMetaModelDescription.html" title="eu.h2020.symbiote.core.internal.\lPIMMetaModelDescription" alt="" coords="276,70,487,111"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1ResourceInstanceValidationRequest.html" title="eu.h2020.symbiote.core.internal.\lResourceInstanceValidationRequest" alt="" coords="264,135,499,177"/>
+<area shape="rect" id="node5" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1mim_1_1InformationModel.html" title="eu.h2020.symbiote.model.mim.\lInformationModel" alt="" coords="279,201,483,242"/>
+<area shape="rect" id="node6" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1mim_1_1System.html" title="eu.h2020.symbiote.model.mim.\lSystem" alt="" coords="279,266,483,307"/>
+<area shape="rect" id="node7" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1mim_1_1Platform.html" title="eu.h2020.symbiote.model.mim.\lPlatform" alt="" coords="547,233,751,274"/>
+<area shape="rect" id="node8" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1mim_1_1SmartSpace.html" title="eu.h2020.symbiote.model.mim.\lSmartSpace" alt="" coords="547,298,751,339"/>
+</map>

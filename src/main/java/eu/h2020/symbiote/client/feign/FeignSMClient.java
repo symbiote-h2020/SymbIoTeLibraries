@@ -36,7 +36,11 @@ public class FeignSMClient implements SMClient {
 
         try {
             Map<String, AAM> availableAAMs = securityHandler.getAvailableAAMs();
-            String smBaseUrl = availableAAMs.get(homePlatformId).getAamAddress().replace("/paam", "/subscriptionManager");
+
+            // The 1st one is left for backwards compatibility
+            String smBaseUrl = availableAAMs.get(homePlatformId).getAamAddress()
+                    .replace("/aam", "/subscriptionManager")
+                    .replace("/paam", "/subscriptionManager");
 
             this.smClient = Feign.builder()
                     .decoder(new JacksonDecoder())

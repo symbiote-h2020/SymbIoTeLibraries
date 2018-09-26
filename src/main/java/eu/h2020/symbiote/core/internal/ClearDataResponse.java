@@ -3,7 +3,7 @@ package eu.h2020.symbiote.core.internal;
 import eu.h2020.symbiote.core.cci.AbstractResponseSecured;
 
 /**
- * Core constants payload of clear data message.
+ * Core internal payload of clear data message.
  *
  * Created by Szymon Mueller on 09/11/2017.
  */
