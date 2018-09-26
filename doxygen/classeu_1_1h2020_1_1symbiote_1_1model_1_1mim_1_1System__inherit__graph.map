@@ -1,0 +1,5 @@
+<map id="eu.h2020.symbiote.model.mim.System" name="eu.h2020.symbiote.model.mim.System">
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1mim_1_1Platform.html" title="{eu.h2020.symbiote.model.mim.\lPlatform\n||+ Platform()\l+ isEnabler()\l+ setEnabler()\l}" alt="" coords="5,433,208,554"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1mim_1_1SmartSpace.html" title="{eu.h2020.symbiote.model.mim.\lSmartSpace\n||}" alt="" coords="233,447,436,539"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1RDFInfo.html" title="{eu.h2020.symbiote.core.internal.\lRDFInfo\n||+ getRdf()\l+ setRdf()\l+ getRdfFormat()\l+ setRdfFormat()\l}" alt="" coords="115,5,324,141"/>
+</map>

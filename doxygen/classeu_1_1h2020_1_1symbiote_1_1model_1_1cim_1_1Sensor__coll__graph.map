@@ -1,0 +1,4 @@
+<map id="eu.h2020.symbiote.model.cim.Sensor" name="eu.h2020.symbiote.model.cim.Sensor">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Device.html" title="{eu.h2020.symbiote.model.cim.\lDevice\n||+ getLocatedAt()\l+ setLocatedAt()\l+ getServices()\l+ setServices()\l}" alt="" coords="7,277,205,413"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource.html" title="{eu.h2020.symbiote.model.cim.\lResource\n||+ Resource()\l+ getId()\l+ setId()\l+ getName()\l+ setName()\l+ getDescription()\l+ setDescription()\l+ getInterworkingServiceURL()\l+ setInterworkingServiceURL()\l+ equals()\l}" alt="" coords="5,5,208,229"/>
+</map>

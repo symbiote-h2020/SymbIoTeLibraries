@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Restriction.html" title="eu.h2020.symbiote.model.cim.\lRestriction" alt="" coords="5,135,205,177"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1EnumRestriction.html" title="eu.h2020.symbiote.model.cim.\lEnumRestriction" alt="" coords="253,5,453,46"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1InstanceOfRestriction.html" title="eu.h2020.symbiote.model.cim.\lInstanceOfRestriction" alt="" coords="253,70,453,111"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1LengthRestriction.html" title="eu.h2020.symbiote.model.cim.\lLengthRestriction" alt="" coords="253,135,453,177"/>
+<area shape="rect" id="node5" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1RangeRestriction.html" title="eu.h2020.symbiote.model.cim.\lRangeRestriction" alt="" coords="253,201,453,242"/>
+<area shape="rect" id="node7" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1RegExRestriction.html" title="eu.h2020.symbiote.model.cim.\lRegExRestriction" alt="" coords="253,266,453,307"/>
+<area shape="rect" id="node6" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1StepRestriction.html" title="eu.h2020.symbiote.model.cim.\lStepRestriction" alt="" coords="501,201,701,242"/>
+</map>

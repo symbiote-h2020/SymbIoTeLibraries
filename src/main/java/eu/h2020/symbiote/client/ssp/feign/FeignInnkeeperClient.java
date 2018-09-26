@@ -32,11 +32,11 @@ public class FeignInnkeeperClient implements InnkeeperClient {
      *
      * @param componentSecurityHandler      the component security handler implementation
      * @param sspId                         the id of the target SSP
-     * @param localAAMUrl                   the url of the SSP AAM
+     * @param smartSpaceUrl                 the url of the symbIoTe Smart Space
      */
-    public FeignInnkeeperClient(IComponentSecurityHandler componentSecurityHandler, String sspId, String localAAMUrl) {
+    public FeignInnkeeperClient(IComponentSecurityHandler componentSecurityHandler, String sspId, String smartSpaceUrl) {
 
-        String innkeeperUrl = localAAMUrl.replace("/paam", InnkeeperRestControllerConstants.INNKEEPER_BASE_PATH);
+        String innkeeperUrl = smartSpaceUrl + InnkeeperRestControllerConstants.INNKEEPER_BASE_PATH;
 
         this.innkeeperClient = Feign.builder()
                 .decoder(new JacksonDecoder())

@@ -1,0 +1,8 @@
+<map id="eu.h2020.symbiote.model.cim.Restriction" name="eu.h2020.symbiote.model.cim.Restriction">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1EnumRestriction.html" title="{eu.h2020.symbiote.model.cim.\lEnumRestriction\n||+ EnumRestriction()\l+ getValues()\l+ setValues()\l}" alt="" coords="4,162,203,283"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1InstanceOfRestriction.html" title="{eu.h2020.symbiote.model.cim.\lInstanceOfRestriction\n||+ InstanceOfRestriction()\l+ getInstanceOfClass()\l+ setInstanceOfClass()\l+ getValueProperty()\l+ setValueProperty()\l}" alt="" coords="228,147,427,298"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1LengthRestriction.html" title="{eu.h2020.symbiote.model.cim.\lLengthRestriction\n||+ LengthRestriction()\l+ getMin()\l+ setMin()\l+ getMax()\l+ setMax()\l}" alt="" coords="452,147,651,298"/>
+<area shape="rect" id="node5" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1RangeRestriction.html" title="{eu.h2020.symbiote.model.cim.\lRangeRestriction\n||+ RangeRestriction()\l+ getMin()\l+ setMin()\l+ getMax()\l+ setMax()\l}" alt="" coords="676,147,875,298"/>
+<area shape="rect" id="node7" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1RegExRestriction.html" title="{eu.h2020.symbiote.model.cim.\lRegExRestriction\n||+ RegExRestriction()\l+ getPattern()\l+ setPattern()\l}" alt="" coords="900,162,1099,283"/>
+<area shape="rect" id="node6" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1StepRestriction.html" title="{eu.h2020.symbiote.model.cim.\lStepRestriction\n||+ StepRestriction()\l+ getStep()\l+ setStep()\l}" alt="" coords="676,347,875,469"/>
+</map>

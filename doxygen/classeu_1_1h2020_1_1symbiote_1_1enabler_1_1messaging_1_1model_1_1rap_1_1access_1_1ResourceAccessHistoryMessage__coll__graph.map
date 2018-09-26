@@ -1,0 +1,4 @@
+<map id="eu.h2020.symbiote.enabler.messaging.model.rap.access.ResourceAccessHistoryMessage" name="eu.h2020.symbiote.enabler.messaging.model.rap.access.ResourceAccessHistoryMessage">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1rap_1_1access_1_1ResourceAccessMessage.html" title="{eu.h2020.symbiote.enabler.messaging.model.rap.access.\lResourceAccessMessage\n||+ getAccessType()\l}" alt="" coords="5,222,360,314"/>
+<area shape="rect" id="node3" href="$enumeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1rap_1_1access_1_1ResourceAccessMessage_1_1AccessType.html" title="{eu.h2020.symbiote.enabler.messaging.model.rap.access.\lResourceAccessMessage.AccessType\n|+ GET\l+ HISTORY\l+ SET\l+ SUBSCRIBE\l+ UNSUBSCRIBE\l|}" alt="" coords="5,6,360,157"/>
+</map>
