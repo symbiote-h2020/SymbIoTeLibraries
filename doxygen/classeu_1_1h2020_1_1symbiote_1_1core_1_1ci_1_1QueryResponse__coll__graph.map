@@ -1,0 +1,5 @@
+<map id="eu.h2020.symbiote.core.ci.QueryResponse" name="eu.h2020.symbiote.core.ci.QueryResponse">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1AbstractResponseSecured.html" title="{eu::h2020::symbiote\l::core::cci::AbstractResponse\lSecured\&lt; List\&lt; QueryResourceResult \&gt; \&gt;\n||+ AbstractResponseSecured()\l+ AbstractResponseSecured()\l+ getServiceResponse()\l+ setServiceResponse()\l}" alt="" coords="101,249,368,399"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1AbstractResponse.html" title="{eu::h2020::symbiote\l::core::cci::AbstractResponse\&lt; T \&gt;\n||+ AbstractResponse()\l+ AbstractResponse()\l+ getStatus()\l+ setStatus()\l+ getMessage()\l+ setMessage()\l+ getBody()\l+ setBody()\l}" alt="" coords="5,5,232,200"/>
+<area shape="rect" id="node4" href="$interfaceeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1IServiceResponseContent.html" title="{eu.h2020.symbiote.core.cci.\lIServiceResponseContent\n||+ getServiceResponse()\l}" alt="" coords="257,57,444,149"/>
+</map>

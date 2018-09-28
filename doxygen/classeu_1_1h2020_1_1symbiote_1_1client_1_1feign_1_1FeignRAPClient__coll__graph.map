@@ -1,0 +1,3 @@
+<map id="eu.h2020.symbiote.client.feign.FeignRAPClient" name="eu.h2020.symbiote.client.feign.FeignRAPClient">
+<area shape="rect" id="node2" href="$interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient.html" title="{eu.h2020.symbiote.client.interfaces.\lRAPClient\n||+ getLatestObservation()\l+ getTopObservations()\l+ actuate()\l+ invokeService()\l+ getLatestObservationAsGuest()\l+ getTopObservationsAsGuest()\l+ actuateAsGuest()\l+ invokeServiceAsGuest()\l}" alt="" coords="5,5,237,200"/>
+</map>

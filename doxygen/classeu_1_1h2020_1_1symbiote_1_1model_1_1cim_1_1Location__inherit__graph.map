@@ -1,0 +1,5 @@
+<map id="eu.h2020.symbiote.model.cim.Location" name="eu.h2020.symbiote.model.cim.Location">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1SymbolicLocation.html" title="{eu.h2020.symbiote.model.cim.\lSymbolicLocation\n||+ SymbolicLocation()\l+ SymbolicLocation()\l+ toString()\l+ equals()\l+ hashCode()\l}" alt="" coords="5,315,204,466"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1WGS84Location.html" title="{eu.h2020.symbiote.model.cim.\lWGS84Location\n||+ WGS84Location()\l+ WGS84Location()\l+ getLongitude()\l+ getLatitude()\l+ getAltitude()\l+ toString()\l+ equals()\l+ hashCode()\l}" alt="" coords="229,293,428,488"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1WKTLocation.html" title="{eu.h2020.symbiote.model.cim.\lWKTLocation\n||+ WKTLocation()\l+ WKTLocation()\l+ WKTLocation()\l+ getValue()\l+ setValue()\l+ toString()\l+ equals()\l+ hashCode()\l}" alt="" coords="453,293,652,488"/>
+</map>

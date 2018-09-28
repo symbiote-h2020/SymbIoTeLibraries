@@ -100,7 +100,9 @@ public class PlatformRegistryQuery {
         for (Map.Entry<String, String> entry : buildRequestParametersMap().entrySet())
             url.append(entry.getKey()).append('=').append(entry.getValue()).append('&');
 
-        return url.deleteCharAt(url.length() - 1).toString();
+        if (url.length() > 0)
+            url.deleteCharAt(url.length() - 1);
+        return url.toString();
     }
 
     public Map<String, String> buildRequestParametersMap() {

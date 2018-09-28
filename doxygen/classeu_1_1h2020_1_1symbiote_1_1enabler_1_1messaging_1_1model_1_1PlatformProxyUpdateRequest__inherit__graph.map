@@ -1,0 +1,3 @@
+<map id="eu.h2020.symbiote.enabler.messaging.model.PlatformProxyUpdateRequest" name="eu.h2020.symbiote.enabler.messaging.model.PlatformProxyUpdateRequest">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1PlatformProxyTaskInfo.html" title="{eu.h2020.symbiote.enabler.messaging.model.\lPlatformProxyTaskInfo\n||+ PlatformProxyTaskInfo()\l+ getTaskId()\l+ setTaskId()\l+ getResources()\l+ setResources()\l+ getQueryInterval_ms()\l+ setQueryInterval_ms()\l+ getEnablerLogicName()\l+ setEnablerLogicName()\l+ equals()\l+ hashCode()\l+ toString()\l}" alt="" coords="5,5,293,259"/>
+</map>
