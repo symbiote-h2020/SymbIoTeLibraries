@@ -11,6 +11,9 @@ public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
 
     private SparqlQueryOutputFormat outputFormat;
 
+    /** Iri of the base model - specified only if you want to use sparql query rewritting functionality */
+    private String baseModel;
+
     /**
      * Default constructor.
      */
@@ -18,9 +21,10 @@ public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
         // Needed for Jackson serialization
     }
 
-    public CoreSparqlQueryRequest(SecurityRequest securityRequest, String body, SparqlQueryOutputFormat outputFormat) {
+    public CoreSparqlQueryRequest(SecurityRequest securityRequest, String body, SparqlQueryOutputFormat outputFormat, String baseModel) {
         super(securityRequest, body);
         this.outputFormat = outputFormat;
+        this.baseModel = baseModel;
     }
 
     public SparqlQueryOutputFormat getOutputFormat() {
@@ -29,5 +33,13 @@ public class CoreSparqlQueryRequest extends AbstractRequestSecured<String> {
 
     public void setOutputFormat(SparqlQueryOutputFormat outputFormat) {
         this.outputFormat = outputFormat;
+    }
+
+    public String getBaseModel() {
+        return baseModel;
+    }
+
+    public void setBaseModel(String baseModel) {
+        this.baseModel = baseModel;
     }
 }
