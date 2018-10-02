@@ -310,10 +310,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Delete a L1 resource based on the constants id</p>
+<p>Delete a L1 resource based on the internal id</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">resourceInternalId</td><td>the constants id of the resource </td></tr>
+    <tr><td class="paramname">resourceInternalId</td><td>the internal id of the resource </td></tr>
   </table>
   </dd>
 </dl>
@@ -338,10 +338,10 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Delete a list of L1 resources based on the constants ids</p>
+<p>Delete a list of L1 resources based on the internal ids</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">resourceInternalIds</td><td>the constants ids of the resources </td></tr>
+    <tr><td class="paramname">resourceInternalIds</td><td>the internal ids of the resources </td></tr>
   </table>
   </dd>
 </dl>
@@ -369,7 +369,7 @@ Public Member Functions</h2></td></tr>
 <p>Get specific registered resource</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">resourceInternalId</td><td>the constants id of the resource </td></tr>
+    <tr><td class="paramname">resourceInternalId</td><td>the internal id of the resource </td></tr>
   </table>
   </dd>
 </dl>
@@ -415,14 +415,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Delete a list of L2 resources based on the constants ids</p>
+<p>Delete a list of L2 resources based on the internal ids</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">resourceInternalIds</td><td>the constants ids of the resources </td></tr>
+    <tr><td class="paramname">resourceInternalIds</td><td>the internal ids of the resources </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>a list of strings containing the constants ids of the resources </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a list of strings containing the internal ids of the resources </dd></dl>
 
 <p>Implements <a class="el" href="interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RHClient.html#a8957be63f35e866513383cd20452a374">eu.h2020.symbiote.client.interfaces.RHClient</a>.</p>
 
@@ -446,7 +446,7 @@ Public Member Functions</h2></td></tr>
 <p>Share already registered L2 metadata to federations</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>a map which has as keys the constants ids of the resources and as values another map, which has as keys the federation ids and as values a flag showing if the resource is bartered or not </td></tr>
+    <tr><td class="paramname">input</td><td>a map which has as keys the federation ids and as values another map, which has as keys the internal ids of the resources and as values a flag showing if the resource is bartered or not </td></tr>
   </table>
   </dd>
 </dl>
@@ -494,7 +494,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Unshare already registered L2 metadata from federations </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input</td><td>a map which has as keys the constants ids of the resources and as values a list of the federation ids where the resource is going to be unshared from </td></tr>
+    <tr><td class="paramname">input</td><td>a map which has as keys the federation ids and as values a list of the resource internal ids where the resource is going to be unshared from </td></tr>
   </table>
   </dd>
 </dl>

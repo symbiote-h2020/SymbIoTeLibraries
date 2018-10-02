@@ -20,7 +20,7 @@ var searchData=
   ['feignrhclient',['FeignRHClient',['../classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRHClient.html',1,'eu::h2020::symbiote::client::feign']]],
   ['feignsearchclient',['FeignSearchClient',['../classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignSearchClient.html',1,'eu::h2020::symbiote::client::feign']]],
   ['feignsmclient',['FeignSMClient',['../classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignSMClient.html',1,'eu::h2020::symbiote::client::feign']]],
-  ['filter',['Filter',['../classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1rap_1_1query_1_1Filter.html',1,'eu::h2020::symbiote::enabler::messaging::model::rap::query']]],
+  ['filter',['Filter',['../classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1query_1_1Filter.html',1,'eu::h2020::symbiote::cloud::model::rap::query']]],
   ['filterrequest',['FilterRequest',['../classeu_1_1h2020_1_1symbiote_1_1barteringAndTrading_1_1FilterRequest.html',1,'eu::h2020::symbiote::barteringAndTrading']]],
   ['filterresponse',['FilterResponse',['../classeu_1_1h2020_1_1symbiote_1_1barteringAndTrading_1_1FilterResponse.html',1,'eu::h2020::symbiote::barteringAndTrading']]]
 ];
