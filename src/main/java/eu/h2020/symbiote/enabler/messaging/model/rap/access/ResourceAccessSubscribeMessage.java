@@ -8,7 +8,7 @@ package eu.h2020.symbiote.enabler.messaging.model.rap.access;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import eu.h2020.symbiote.cloud.model.rap.ResourceInfo;
+import eu.h2020.symbiote.enabler.messaging.model.rap.db.ResourceInfo;
 
 import java.util.List;
 
