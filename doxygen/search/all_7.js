@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['infomodelmappingrequest',['InfoModelMappingRequest',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1InfoModelMappingRequest.html',1,'eu::h2020::symbiote::core::cci']]],
+  ['infomodelmappingresponse',['InfoModelMappingResponse',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1InfoModelMappingResponse.html',1,'eu::h2020::symbiote::core::cci']]],
   ['informationmodel',['InformationModel',['../classeu_1_1h2020_1_1symbiote_1_1model_1_1mim_1_1InformationModel.html',1,'eu::h2020::symbiote::model::mim']]],
   ['informationmodellistresponse',['InformationModelListResponse',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1InformationModelListResponse.html',1,'eu::h2020::symbiote::core::internal']]],
   ['informationmodelrequest',['InformationModelRequest',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1InformationModelRequest.html',1,'eu::h2020::symbiote::core::cci']]],

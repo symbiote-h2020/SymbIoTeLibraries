@@ -15,7 +15,7 @@ var searchData=
   ['platformregistryquery',['PlatformRegistryQuery',['../classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1PlatformRegistryQuery.html',1,'eu::h2020::symbiote::cloud::model::internal']]],
   ['platformregistryrequest',['PlatformRegistryRequest',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1PlatformRegistryRequest.html',1,'eu::h2020::symbiote::core::cci']]],
   ['platformregistryresponse',['PlatformRegistryResponse',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1PlatformRegistryResponse.html',1,'eu::h2020::symbiote::core::cci']]],
-  ['pluginregistrationmessage',['PluginRegistrationMessage',['../classeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1rap_1_1registration_1_1PluginRegistrationMessage.html',1,'eu::h2020::symbiote::enabler::messaging::model::rap::registration']]],
+  ['pluginregistrationmessage',['PluginRegistrationMessage',['../classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1PluginRegistrationMessage.html',1,'eu::h2020::symbiote::cloud::model::rap::registration']]],
   ['popularityupdate',['PopularityUpdate',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1popularity_1_1PopularityUpdate.html',1,'eu::h2020::symbiote::core::internal::popularity']]],
   ['popularityupdatesmessage',['PopularityUpdatesMessage',['../classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1popularity_1_1PopularityUpdatesMessage.html',1,'eu::h2020::symbiote::core::internal::popularity']]],
   ['prclient',['PRClient',['../interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient.html',1,'eu::h2020::symbiote::client::interfaces']]],
