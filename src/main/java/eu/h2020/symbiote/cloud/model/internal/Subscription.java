@@ -86,5 +86,23 @@ public class Subscription {
 	public void setCapabilities(List<String> capabilities) {
 		this.capabilities = capabilities;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Subscription other = (Subscription) obj;
+		if (platformId == null) {
+			if (other.platformId != null)
+				return false;
+		} else if (!platformId.equals(other.platformId))
+			return false;
+		return true;
+	}
+	
 	
 }
