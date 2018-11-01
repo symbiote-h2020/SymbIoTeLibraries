@@ -1,8 +1,10 @@
 package eu.h2020.symbiote.model.cim;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.querydsl.core.annotations.QueryEntity;
 import io.swagger.annotations.ApiModel;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -44,6 +46,10 @@ public class Resource {
     @JsonProperty("interworkingServiceURL")
     private String interworkingServiceURL;
 
+    @JsonProperty("extensionFields")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private JsonNode extensionFields;
+
     public Resource() {
         // Empty constructor used for jackson serialization/deserialization
     }
@@ -76,26 +82,23 @@ public class Resource {
         this.interworkingServiceURL = interworkingServiceURL;
     }
 
+    public JsonNode getExtensionFields() { return extensionFields; }
+    public void setExtensionFields(JsonNode extensionFields) { this.extensionFields = extensionFields; }
+
     @Override
     public boolean equals(Object o) {
-        // self check
-        if (this == o)
-            return true;
-
-        // null check
-        if (o == null)
-            return false;
-
-        // type check and cast
-        if (!(o instanceof Resource))
-            return false;
-
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Resource resource = (Resource) o;
+        return Objects.equals(id, resource.id) &&
+                Objects.equals(name, resource.name) &&
+                Objects.equals(description, resource.description) &&
+                Objects.equals(interworkingServiceURL, resource.interworkingServiceURL) &&
+                Objects.equals(extensionFields, resource.extensionFields);
+    }
 
-        // field comparison
-        return Objects.equals(this.id, resource.getId())
-                && Objects.equals(this.name, resource.getName())
-                && Objects.equals(this.description, resource.getDescription())
-                && Objects.equals(this.interworkingServiceURL, resource.getInterworkingServiceURL());
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, interworkingServiceURL, extensionFields);
     }
 }
