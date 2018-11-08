@@ -1,0 +1,89 @@
+\hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient}{}\section{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+P\+R\+Client Interface Reference}
+\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient}\index{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+P\+R\+Client@{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+P\+R\+Client}}
+
+
+Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+P\+R\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+P\+R\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1FederationSearchResult}{Federation\+Search\+Result} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient_abe1df516298dbd8109fa668dc7a58f60}{search} (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1PlatformRegistryQuery}{Platform\+Registry\+Query} query, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1FederationSearchResult}{Federation\+Search\+Result} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient_a74bab2b341b6e1086c0b88e01e1e00f7}{search\+As\+Guest} (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1PlatformRegistryQuery}{Platform\+Registry\+Query} query, boolean server\+Validation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interface for querying the Platform Registry component
+
+\begin{DoxyAuthor}{Author}
+Vasilis Glykantzis 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient_abe1df516298dbd8109fa668dc7a58f60}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient_abe1df516298dbd8109fa668dc7a58f60}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client}!search@{search}}
+\index{search@{search}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client}}
+\subsubsection{\texorpdfstring{search()}{search()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1FederationSearchResult}{Federation\+Search\+Result} eu.\+h2020.\+symbiote.\+client.\+interfaces.\+P\+R\+Client.\+search (\begin{DoxyParamCaption}\item[{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1PlatformRegistryQuery}{Platform\+Registry\+Query}}]{query,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Queries the Platform Registry component with home token
+
+
+\begin{DoxyParams}{Parameters}
+{\em query} & the request send to the Platform Registry \\
+\hline
+{\em server\+Validation} & if true it will validate the Platform Registry Component \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the search result 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignPRClient_ab649b246e9d3a9f8d5908eb93615231f}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+P\+R\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient_a74bab2b341b6e1086c0b88e01e1e00f7}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1PRClient_a74bab2b341b6e1086c0b88e01e1e00f7}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client}!search\+As\+Guest@{search\+As\+Guest}}
+\index{search\+As\+Guest@{search\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+P\+R\+Client}}
+\subsubsection{\texorpdfstring{search\+As\+Guest()}{searchAsGuest()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1FederationSearchResult}{Federation\+Search\+Result} eu.\+h2020.\+symbiote.\+client.\+interfaces.\+P\+R\+Client.\+search\+As\+Guest (\begin{DoxyParamCaption}\item[{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1PlatformRegistryQuery}{Platform\+Registry\+Query}}]{query,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Queries the Platform Registry component with guest token
+
+
+\begin{DoxyParams}{Parameters}
+{\em query} & the request send to the Platform Registry \\
+\hline
+{\em server\+Validation} & if true it will validate the Platform Registry Component \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the search result 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignPRClient_af8496815060c4340e3aa3517d6fa2456}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+P\+R\+Client}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/eu/h2020/symbiote/client/interfaces/P\+R\+Client.\+java\end{DoxyCompactItemize}

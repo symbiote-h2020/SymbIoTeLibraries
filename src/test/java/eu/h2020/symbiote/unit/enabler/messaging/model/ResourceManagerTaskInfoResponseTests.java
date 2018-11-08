@@ -181,7 +181,7 @@ public class ResourceManagerTaskInfoResponseTests {
         resourceDescriptions.add(result2);
 
         SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("response1",
-                SparqlQueryOutputFormat.COUNT);
+                SparqlQueryOutputFormat.COUNT,null);
         
         ResourceManagerTaskInfoResponse response1 = new ResourceManagerTaskInfoResponse("1", 2, 10,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",

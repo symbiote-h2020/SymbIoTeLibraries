@@ -25,7 +25,7 @@ public class ResourceManagerTaskInfoRequestTests {
                 .build();
 
         SparqlQueryRequest sparqlQueryRequest = new SparqlQueryRequest("request1",
-                SparqlQueryOutputFormat.COUNT);
+                SparqlQueryOutputFormat.COUNT,null);
 
         ResourceManagerTaskInfoRequest request1 = new ResourceManagerTaskInfoRequest("1", 2,
                 coreQueryRequest,"P0-0-0T0:0:0.06", true, "P0-0-0T0:0:1",

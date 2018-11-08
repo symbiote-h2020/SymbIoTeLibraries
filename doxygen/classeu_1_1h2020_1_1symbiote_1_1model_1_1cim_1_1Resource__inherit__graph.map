@@ -1,0 +1,9 @@
+<map id="eu.h2020.symbiote.model.cim.Resource" name="eu.h2020.symbiote.model.cim.Resource">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1CoreResource.html" title="{eu.h2020.symbiote.core.internal.\lCoreResource\n||+ CoreResource()\l+ getRdfFormat()\l+ setRdfFormat()\l+ getRdf()\l+ setRdf()\l+ getType()\l+ setType()\l+ getPolicySpecifier()\l+ setPolicySpecifier()\l}" alt="" coords="5,278,215,487"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Device.html" title="{eu.h2020.symbiote.model.cim.\lDevice\n||+ getLocatedAt()\l+ setLocatedAt()\l+ getServices()\l+ setServices()\l}" alt="" coords="240,315,439,451"/>
+<area shape="rect" id="node8" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Service.html" title="{eu.h2020.symbiote.model.cim.\lService\n||+ Service()\l+ getResultType()\l+ setResultType()\l+ getParameters()\l+ setParameters()\l}" alt="" coords="464,307,663,458"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Actuator.html" title="{eu.h2020.symbiote.model.cim.\lActuator\n||+ Actuator()\l+ getCapabilities()\l+ setCapabilities()\l}" alt="" coords="128,537,327,658"/>
+<area shape="rect" id="node5" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Sensor.html" title="{eu.h2020.symbiote.model.cim.\lSensor\n||+ getObservesProperty()\l+ setObservesProperty()\l}" alt="" coords="352,544,551,651"/>
+<area shape="rect" id="node6" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1MobileSensor.html" title="{eu.h2020.symbiote.model.cim.\lMobileSensor\n||}" alt="" coords="240,722,439,814"/>
+<area shape="rect" id="node7" href="$classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1StationarySensor.html" title="{eu.h2020.symbiote.model.cim.\lStationarySensor\n||+ StationarySensor()\l+ getFeatureOfInterest()\l+ setFeatureOfInterest()\l}" alt="" coords="464,707,663,829"/>
+</map>

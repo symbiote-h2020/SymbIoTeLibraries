@@ -12,6 +12,8 @@ import eu.h2020.symbiote.model.cim.Resource;
 /**
  *
  * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.registration.UpdateResourceMessage} instead.  
  */
 public class UpdateResourceMessage extends ResourceRegistrationMessage {
     @JsonProperty("host")

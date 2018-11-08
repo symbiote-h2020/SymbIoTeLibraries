@@ -1,0 +1,31 @@
+\hypertarget{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage}{}\section{eu.\+h2020.\+symbiote.\+cloud.\+model.\+Resource\+Local\+Sharing\+Message Class Reference}
+\label{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage}\index{eu.\+h2020.\+symbiote.\+cloud.\+model.\+Resource\+Local\+Sharing\+Message@{eu.\+h2020.\+symbiote.\+cloud.\+model.\+Resource\+Local\+Sharing\+Message}}
+
+
+Collaboration diagram for eu.\+h2020.\+symbiote.\+cloud.\+model.\+Resource\+Local\+Sharing\+Message\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage_a4e09440a3b8d954b7e3527c84d5e8a57}\label{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage_a4e09440a3b8d954b7e3527c84d5e8a57}} 
+{\bfseries Resource\+Local\+Sharing\+Message} (Map$<$ String, List$<$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1CloudResource}{Cloud\+Resource} $>$$>$ sharing\+Map)
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage_aafd9b4fe262f175a0b835beb2f754270}\label{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage_aafd9b4fe262f175a0b835beb2f754270}} 
+Map$<$ String, List$<$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1CloudResource}{Cloud\+Resource} $>$ $>$ {\bfseries get\+Sharing\+Map} ()
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage_a01503ffb3a7517942bab1507096dafaf}\label{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ResourceLocalSharingMessage_a01503ffb3a7517942bab1507096dafaf}} 
+void {\bfseries set\+Sharing\+Map} (Map$<$ String, List$<$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1CloudResource}{Cloud\+Resource} $>$$>$ sharing\+Map)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class used to send sharing and unsharing information by Rabbit\+MQ. It\textquotesingle{}s created at Registration Handler side and then passed to the \$\{rh.\+exchange.\+name\} exchange. When it\textquotesingle{}s passed by \$\{rh.\+resource.\+local.\+shared\} key, it contains shared resources. When using \$\{rh.\+resource.\+local.\+unshared\} key, it contains unshared resources 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/eu/h2020/symbiote/cloud/model/Resource\+Local\+Sharing\+Message.\+java\end{DoxyCompactItemize}

@@ -1,0 +1,5 @@
+<map id="eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringPlatformRequest" name="eu.h2020.symbiote.cloud.monitoring.model.CloudMonitoringPlatformRequest">
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1AbstractRequestSecured.html" title="{eu::h2020::symbiote\l::core::cci::AbstractRequest\lSecured\&lt; CloudMonitoringPlatform \&gt;\n||+ AbstractRequestSecured()\l+ AbstractRequestSecured()\l+ getBody()\l+ setBody()\l+ getSecurityRequest()\l+ setSecurityRequest()\l}" alt="" coords="109,190,345,370"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1AbstractRequest.html" title="{eu::h2020::symbiote\l::core::cci::AbstractRequest\&lt; T \&gt;\n||+ AbstractRequest()\l+ AbstractRequest()\l+ getBody()\l+ setBody()\l}" alt="" coords="5,5,224,141"/>
+<area shape="rect" id="node4" href="$interfaceeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1ISecurityRequestContent.html" title="{eu.h2020.symbiote.core.cci.\lISecurityRequestContent\n||+ getSecurityRequest()\l}" alt="" coords="248,27,435,119"/>
+</map>

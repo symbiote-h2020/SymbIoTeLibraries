@@ -9,6 +9,7 @@ import feign.RequestLine;
 import java.util.List;
 import java.util.Map;
 
+@Headers("Accept: application/json")
 public interface RegistrationHandlerClient {
 
     @RequestLine("GET " + ClientConstants.RH_RESOURCES_PATH)
@@ -74,5 +75,9 @@ public interface RegistrationHandlerClient {
     @RequestLine("DELETE " + ClientConstants.RH_LOCAL_RESOURCES_SHARE_PATH)
     @Headers("Content-Type: application/json")
     Map<String, List<CloudResource>> unshareResources(Map<String, List<String>> input);
+
+    @RequestLine("PUT " + ClientConstants.RH_UPDATE_INTERWORKING_API)
+    @Headers("Content-Type: text/plain")
+    List<CloudResource> updateInterworkingURL(String url);
 
 }

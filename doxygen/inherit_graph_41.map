@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1RegistrationMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lRegistrationMessage" alt="" coords="6,103,306,145"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1PluginRegistrationMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lPluginRegistrationMessage" alt="" coords="355,70,655,111"/>
+<area shape="rect" id="node5" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1ResourceRegistrationMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lResourceRegistrationMessage" alt="" coords="355,169,655,210"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1RegisterPluginMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lRegisterPluginMessage" alt="" coords="705,5,1005,46"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1UnregisterPluginMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lUnregisterPluginMessage" alt="" coords="705,70,1005,111"/>
+<area shape="rect" id="node6" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1RegisterResourceMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lRegisterResourceMessage" alt="" coords="705,135,1005,177"/>
+<area shape="rect" id="node7" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1UnregisterResourceMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lUnregisterResourceMessage" alt="" coords="705,201,1005,242"/>
+<area shape="rect" id="node8" href="$classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1rap_1_1registration_1_1UpdateResourceMessage.html" title="eu.h2020.symbiote.cloud.model.rap.registration.\lUpdateResourceMessage" alt="" coords="705,266,1005,307"/>
+</map>

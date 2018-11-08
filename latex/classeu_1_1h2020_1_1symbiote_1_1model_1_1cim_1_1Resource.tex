@@ -1,0 +1,62 @@
+\hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource}{}\section{eu.\+h2020.\+symbiote.\+model.\+cim.\+Resource Class Reference}
+\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource}\index{eu.\+h2020.\+symbiote.\+model.\+cim.\+Resource@{eu.\+h2020.\+symbiote.\+model.\+cim.\+Resource}}
+
+
+Inheritance diagram for eu.\+h2020.\+symbiote.\+model.\+cim.\+Resource\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for eu.\+h2020.\+symbiote.\+model.\+cim.\+Resource\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_aa08ae4e12db3673a55ebe083263f422b}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_aa08ae4e12db3673a55ebe083263f422b}} 
+String {\bfseries get\+Id} ()
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_ad5809506d9e1d57b490a7edc63da1480}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_ad5809506d9e1d57b490a7edc63da1480}} 
+void {\bfseries set\+Id} (String id)
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_ab8551ec32746d164c6300c407da7e5b2}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_ab8551ec32746d164c6300c407da7e5b2}} 
+String {\bfseries get\+Name} ()
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_aebc3c57a9c13cc1f625bb1900b08bbbd}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_aebc3c57a9c13cc1f625bb1900b08bbbd}} 
+void {\bfseries set\+Name} (String name)
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_a80722497b7131f2d2d138db857d707e5}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_a80722497b7131f2d2d138db857d707e5}} 
+List$<$ String $>$ {\bfseries get\+Description} ()
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_adb3e9edf5785be1542d54f7a4a8b271c}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_adb3e9edf5785be1542d54f7a4a8b271c}} 
+void {\bfseries set\+Description} (List$<$ String $>$ description)
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_ae7b580beaaa113cf5206ea7829abed54}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_ae7b580beaaa113cf5206ea7829abed54}} 
+String {\bfseries get\+Interworking\+Service\+U\+RL} ()
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_a819ba0627e88a0e8debb7d1f6086a049}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_a819ba0627e88a0e8debb7d1f6086a049}} 
+void {\bfseries set\+Interworking\+Service\+U\+RL} (String interworking\+Service\+U\+RL)
+\item 
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_a4928ecbb3e9cef648ec721097864182a}\label{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Resource_a4928ecbb3e9cef648ec721097864182a}} 
+boolean {\bfseries equals} (Object o)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the most generic resource representation. Each specific resource type from C\+IM (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1StationarySensor}{Stationary\+Sensor}, \hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Actuator}{Actuator} etc) should extend this class. 
+
+Each resource, regardless of the type (C\+I\+M-\/defined or even P\+I\+M-\/defined), when stored in the Core is represented by this object. 
+
+Created by Mael on 28/03/2017. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/eu/h2020/symbiote/model/cim/Resource.\+java\end{DoxyCompactItemize}

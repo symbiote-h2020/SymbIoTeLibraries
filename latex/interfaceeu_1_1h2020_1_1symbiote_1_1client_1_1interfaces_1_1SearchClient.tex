@@ -1,0 +1,89 @@
+\hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient}{}\section{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+Search\+Client Interface Reference}
+\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient}\index{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+Search\+Client@{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+Search\+Client}}
+
+
+Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+Search\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+Search\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1ci_1_1QueryResponse}{Query\+Response} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient_a67747d2a47bb3d8d5def6e605bdceb4d}{search} (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1CoreQueryRequest}{Core\+Query\+Request} request, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1ci_1_1QueryResponse}{Query\+Response} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient_aba8a879a8b835f3db8e5e1ea674ffd25}{search\+As\+Guest} (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1CoreQueryRequest}{Core\+Query\+Request} request, boolean server\+Validation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interface for querying the Core Search component
+
+\begin{DoxyAuthor}{Author}
+Vasilis Glykantzis 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient_a67747d2a47bb3d8d5def6e605bdceb4d}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient_a67747d2a47bb3d8d5def6e605bdceb4d}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client}!search@{search}}
+\index{search@{search}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client}}
+\subsubsection{\texorpdfstring{search()}{search()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1ci_1_1QueryResponse}{Query\+Response} eu.\+h2020.\+symbiote.\+client.\+interfaces.\+Search\+Client.\+search (\begin{DoxyParamCaption}\item[{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1CoreQueryRequest}{Core\+Query\+Request}}]{request,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Queries the Core Search with home token
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & the request sent to the Search \\
+\hline
+{\em server\+Validation} & if true it will validate the Search Component \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the search response 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignSearchClient_a7ab11d6bbb16fb2dedb4c1deb13d0499}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+Search\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient_aba8a879a8b835f3db8e5e1ea674ffd25}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1SearchClient_aba8a879a8b835f3db8e5e1ea674ffd25}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client}!search\+As\+Guest@{search\+As\+Guest}}
+\index{search\+As\+Guest@{search\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+Search\+Client}}
+\subsubsection{\texorpdfstring{search\+As\+Guest()}{searchAsGuest()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1ci_1_1QueryResponse}{Query\+Response} eu.\+h2020.\+symbiote.\+client.\+interfaces.\+Search\+Client.\+search\+As\+Guest (\begin{DoxyParamCaption}\item[{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1CoreQueryRequest}{Core\+Query\+Request}}]{request,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Queries the Core Search with guest token
+
+
+\begin{DoxyParams}{Parameters}
+{\em request} & the request send to the Search \\
+\hline
+{\em server\+Validation} & if true it will validate the Search Component \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the search response 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignSearchClient_ae3379566327dc89bae6fb25cfafc68da}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+Search\+Client}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/eu/h2020/symbiote/client/interfaces/Search\+Client.\+java\end{DoxyCompactItemize}

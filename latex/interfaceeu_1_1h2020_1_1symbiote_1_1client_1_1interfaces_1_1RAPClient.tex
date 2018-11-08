@@ -1,0 +1,242 @@
+\hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient}{}\section{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client Interface Reference}
+\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient}\index{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client@{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client}}
+
+
+Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a97d1282e2044da5a9eecdcff29a2f594}{get\+Latest\+Observation} (String resource\+Url, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+List$<$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation} $>$ \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_ac0472c77f952810e1256a38bc634f948}{get\+Top\+Observations} (String resource\+Url, int top, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+void \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a97a970eb1c5ad3b9367b2aede3d7f03d}{actuate} (String resource\+Url, String body, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+String \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_ad595c76248233c3775de1ad1ab57b910}{invoke\+Service} (String resource\+Url, String body, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a6d5ca4715e7681e52afe421f269aca66}{get\+Latest\+Observation\+As\+Guest} (String resource\+Url, boolean server\+Validation)
+\item 
+List$<$ \hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation} $>$ \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a8eadc8ffb3f7989d97a652fad099b544}{get\+Top\+Observations\+As\+Guest} (String resource\+Url, int top, boolean server\+Validation)
+\item 
+void \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a0d89d4079a5e39852c8b2d36f04edcbc}{actuate\+As\+Guest} (String resource\+Url, String body, boolean server\+Validation)
+\item 
+String \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a256f8b1fb0359bf813d5ca4bd62596a1}{invoke\+Service\+As\+Guest} (String resource\+Url, String body, boolean server\+Validation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Interface for querying the Platform Resource Access Proxy (R\+AP) component
+
+\begin{DoxyAuthor}{Author}
+Vasilis Glykantzis 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a97a970eb1c5ad3b9367b2aede3d7f03d}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a97a970eb1c5ad3b9367b2aede3d7f03d}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!actuate@{actuate}}
+\index{actuate@{actuate}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{actuate()}{actuate()}}
+{\footnotesize\ttfamily void eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+actuate (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{String}]{body,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Send actuation request
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em body} & the message that will be sent \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_a0f3a3716d99f7cdb647226b1f63adba7}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a0d89d4079a5e39852c8b2d36f04edcbc}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a0d89d4079a5e39852c8b2d36f04edcbc}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!actuate\+As\+Guest@{actuate\+As\+Guest}}
+\index{actuate\+As\+Guest@{actuate\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{actuate\+As\+Guest()}{actuateAsGuest()}}
+{\footnotesize\ttfamily void eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+actuate\+As\+Guest (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{String}]{body,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Send actuation request without validating R\+AP
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em body} & the message that will be sent \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_a95d854a5611ef1e052b8353906c35d4e}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a97d1282e2044da5a9eecdcff29a2f594}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a97d1282e2044da5a9eecdcff29a2f594}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!get\+Latest\+Observation@{get\+Latest\+Observation}}
+\index{get\+Latest\+Observation@{get\+Latest\+Observation}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{get\+Latest\+Observation()}{getLatestObservation()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation} eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+get\+Latest\+Observation (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Get the latest observation
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an \hyperlink{}{Observation} 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_a8fa05eec693745963abed21675111189}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a6d5ca4715e7681e52afe421f269aca66}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a6d5ca4715e7681e52afe421f269aca66}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!get\+Latest\+Observation\+As\+Guest@{get\+Latest\+Observation\+As\+Guest}}
+\index{get\+Latest\+Observation\+As\+Guest@{get\+Latest\+Observation\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{get\+Latest\+Observation\+As\+Guest()}{getLatestObservationAsGuest()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation} eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+get\+Latest\+Observation\+As\+Guest (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Get the latest observation without validating R\+AP
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an \hyperlink{}{Observation} 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_a32b3832b72beec30c0ae51f12449c5cf}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_ac0472c77f952810e1256a38bc634f948}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_ac0472c77f952810e1256a38bc634f948}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!get\+Top\+Observations@{get\+Top\+Observations}}
+\index{get\+Top\+Observations@{get\+Top\+Observations}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{get\+Top\+Observations()}{getTopObservations()}}
+{\footnotesize\ttfamily List$<$\hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation}$>$ eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+get\+Top\+Observations (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{int}]{top,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Get the latest top observations
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em top} & the number of observations \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of \hyperlink{}{Observation} 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_a3d6649ccc28b76d9fe638263554e6eaf}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a8eadc8ffb3f7989d97a652fad099b544}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a8eadc8ffb3f7989d97a652fad099b544}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!get\+Top\+Observations\+As\+Guest@{get\+Top\+Observations\+As\+Guest}}
+\index{get\+Top\+Observations\+As\+Guest@{get\+Top\+Observations\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{get\+Top\+Observations\+As\+Guest()}{getTopObservationsAsGuest()}}
+{\footnotesize\ttfamily List$<$\hyperlink{classeu_1_1h2020_1_1symbiote_1_1model_1_1cim_1_1Observation}{Observation}$>$ eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+get\+Top\+Observations\+As\+Guest (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{int}]{top,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Get the latest top observations without validating R\+AP
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em top} & the number of observations \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a list of \hyperlink{}{Observation} 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_add8a361e9f735b829fafa453d42886e6}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_ad595c76248233c3775de1ad1ab57b910}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_ad595c76248233c3775de1ad1ab57b910}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!invoke\+Service@{invoke\+Service}}
+\index{invoke\+Service@{invoke\+Service}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{invoke\+Service()}{invokeService()}}
+{\footnotesize\ttfamily String eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+invoke\+Service (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{String}]{body,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Invoke Service
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em body} & the message that will be sent \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a response of the service invocation in json format 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_ae654c725a70a82e9d7d44a213b5953c8}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a256f8b1fb0359bf813d5ca4bd62596a1}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RAPClient_a256f8b1fb0359bf813d5ca4bd62596a1}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}!invoke\+Service\+As\+Guest@{invoke\+Service\+As\+Guest}}
+\index{invoke\+Service\+As\+Guest@{invoke\+Service\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client@{eu\+::h2020\+::symbiote\+::client\+::interfaces\+::\+R\+A\+P\+Client}}
+\subsubsection{\texorpdfstring{invoke\+Service\+As\+Guest()}{invokeServiceAsGuest()}}
+{\footnotesize\ttfamily String eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+A\+P\+Client.\+invoke\+Service\+As\+Guest (\begin{DoxyParamCaption}\item[{String}]{resource\+Url,  }\item[{String}]{body,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Invoke Service without validating R\+AP
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Url} & the resource url \\
+\hline
+{\em body} & the message that will be sent \\
+\hline
+{\em server\+Validation} & if true it will validate R\+AP \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignRAPClient_a9fe8b1ee6c3474be2be5720a7cd3813d}{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+R\+A\+P\+Client}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/eu/h2020/symbiote/client/interfaces/R\+A\+P\+Client.\+java\end{DoxyCompactItemize}

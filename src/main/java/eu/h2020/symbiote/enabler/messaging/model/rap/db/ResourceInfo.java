@@ -11,7 +11,10 @@ import org.springframework.data.annotation.Id;
 /**
  *
  * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.ResourceInfo} instead.  
  */
+@Deprecated
 public class ResourceInfo {
     
     @Id

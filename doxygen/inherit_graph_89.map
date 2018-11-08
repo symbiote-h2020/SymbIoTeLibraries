@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1accessNotificationMessages_1_1MessageInfo.html" title="eu.h2020.symbiote.core.cci.access\lNotificationMessages.MessageInfo" alt="" coords="6,77,234,118"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1accessNotificationMessages_1_1FailedAccessMessageInfo.html" title="eu.h2020.symbiote.core.cci.access\lNotificationMessages.FailedAccessMessageInfo" alt="" coords="283,5,589,46"/>
+<area shape="rect" id="node3" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1accessNotificationMessages_1_1SuccessfulAccessMessageInfo.html" title="eu.h2020.symbiote.core.cci.access\lNotificationMessages.SuccessfulAccess\lMessageInfo" alt="" coords="305,69,567,125"/>
+<area shape="rect" id="node4" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1cci_1_1accessNotificationMessages_1_1SuccessfulPushesMessageInfo.html" title="eu.h2020.symbiote.core.cci.access\lNotificationMessages.SuccessfulPushes\lMessageInfo" alt="" coords="305,149,567,205"/>
+</map>

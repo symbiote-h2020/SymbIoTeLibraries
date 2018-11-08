@@ -1,0 +1,157 @@
+\hypertarget{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient}{}\section{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client Class Reference}
+\label{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient}\index{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client@{eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client}}
+
+
+Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a8a0e475faf456d347391bbe000383c0d}{Feign\+C\+R\+A\+M\+Client} (I\+Security\+Handler security\+Handler, String core\+Address)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a81f673a86a0eae0a721872056741cbf8}{get\+Resource\+Url} (String resource\+Id, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a44776204e0c03f1ec0bcced1069d550c}{get\+Resource\+Url} (Set$<$ String $>$ resource\+Ids, boolean server\+Validation, Set$<$ String $>$ home\+Platform\+Ids)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_ae910045cbca31e3e36eb72149dced194}{get\+Resource\+Url\+As\+Guest} (String resource\+Id, boolean server\+Validation)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_abbf69636e4cb53f646335db80c10c3ca}{get\+Resource\+Url\+As\+Guest} (Set$<$ String $>$ resource\+Ids, boolean server\+Validation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+symb\+Io\+Te Core Resource Access Manager client based on Feign
+
+\begin{DoxyAuthor}{Author}
+Vasilis Glykantzis 
+\end{DoxyAuthor}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a8a0e475faf456d347391bbe000383c0d}\label{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a8a0e475faf456d347391bbe000383c0d}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}!Feign\+C\+R\+A\+M\+Client@{Feign\+C\+R\+A\+M\+Client}}
+\index{Feign\+C\+R\+A\+M\+Client@{Feign\+C\+R\+A\+M\+Client}!eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}}
+\subsubsection{\texorpdfstring{Feign\+C\+R\+A\+M\+Client()}{FeignCRAMClient()}}
+{\footnotesize\ttfamily eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client.\+Feign\+C\+R\+A\+M\+Client (\begin{DoxyParamCaption}\item[{I\+Security\+Handler}]{security\+Handler,  }\item[{String}]{core\+Address }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em security\+Handler} & the security handler implementation that is going to be used \\
+\hline
+{\em core\+Address} & the base address of the symb\+Io\+Te core \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a81f673a86a0eae0a721872056741cbf8}\label{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a81f673a86a0eae0a721872056741cbf8}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}!get\+Resource\+Url@{get\+Resource\+Url}}
+\index{get\+Resource\+Url@{get\+Resource\+Url}!eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}}
+\subsubsection{\texorpdfstring{get\+Resource\+Url()}{getResourceUrl()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client.\+get\+Resource\+Url (\begin{DoxyParamCaption}\item[{String}]{resource\+Id,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Queries C\+R\+AM with home token for getting the url of a single resource
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Id} & the id of the resource \\
+\hline
+{\em server\+Validation} & if true it will validate C\+R\+AM \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+R\+AM response 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1CRAMClient_a63e6b3e78c7fb0872dfe0652bdaa0888}{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+C\+R\+A\+M\+Client}.
+
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a44776204e0c03f1ec0bcced1069d550c}\label{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_a44776204e0c03f1ec0bcced1069d550c}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}!get\+Resource\+Url@{get\+Resource\+Url}}
+\index{get\+Resource\+Url@{get\+Resource\+Url}!eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}}
+\subsubsection{\texorpdfstring{get\+Resource\+Url()}{getResourceUrl()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client.\+get\+Resource\+Url (\begin{DoxyParamCaption}\item[{Set$<$ String $>$}]{resource\+Ids,  }\item[{boolean}]{server\+Validation,  }\item[{Set$<$ String $>$}]{home\+Platform\+Ids }\end{DoxyParamCaption})}
+
+Queries C\+R\+AM with home token for getting the urls of a list of resources
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Ids} & a list containing the ids of the resources \\
+\hline
+{\em server\+Validation} & if true it will validate C\+R\+AM \\
+\hline
+{\em home\+Platform\+Ids} & a set of home platform ids from which we are going to get credentials for the request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+R\+AM response 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1CRAMClient_adab47fb8c60efe016c453d432db266da}{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+C\+R\+A\+M\+Client}.
+
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_ae910045cbca31e3e36eb72149dced194}\label{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_ae910045cbca31e3e36eb72149dced194}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}!get\+Resource\+Url\+As\+Guest@{get\+Resource\+Url\+As\+Guest}}
+\index{get\+Resource\+Url\+As\+Guest@{get\+Resource\+Url\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}}
+\subsubsection{\texorpdfstring{get\+Resource\+Url\+As\+Guest()}{getResourceUrlAsGuest()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client.\+get\+Resource\+Url\+As\+Guest (\begin{DoxyParamCaption}\item[{String}]{resource\+Id,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Queries C\+R\+AM with guest token for getting the url of a single resource
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Id} & the id of the resource \\
+\hline
+{\em server\+Validation} & if true it will validate C\+R\+AM \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+R\+AM response 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1CRAMClient_a97c634fa1b97dba4a989360cc26b7b8d}{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+C\+R\+A\+M\+Client}.
+
+\mbox{\Hypertarget{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_abbf69636e4cb53f646335db80c10c3ca}\label{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1FeignCRAMClient_abbf69636e4cb53f646335db80c10c3ca}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}!get\+Resource\+Url\+As\+Guest@{get\+Resource\+Url\+As\+Guest}}
+\index{get\+Resource\+Url\+As\+Guest@{get\+Resource\+Url\+As\+Guest}!eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client@{eu\+::h2020\+::symbiote\+::client\+::feign\+::\+Feign\+C\+R\+A\+M\+Client}}
+\subsubsection{\texorpdfstring{get\+Resource\+Url\+As\+Guest()}{getResourceUrlAsGuest()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1cram_1_1ResourceUrlsResponse}{Resource\+Urls\+Response} eu.\+h2020.\+symbiote.\+client.\+feign.\+Feign\+C\+R\+A\+M\+Client.\+get\+Resource\+Url\+As\+Guest (\begin{DoxyParamCaption}\item[{Set$<$ String $>$}]{resource\+Ids,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Queries C\+R\+AM with guest token for getting the urls of a list of resources
+
+
+\begin{DoxyParams}{Parameters}
+{\em resource\+Ids} & a list containing the ids of the resources \\
+\hline
+{\em server\+Validation} & if true it will validate C\+R\+AM \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the C\+R\+AM response 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1CRAMClient_a6786832b14a691accf53af3c825ae7e2}{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+C\+R\+A\+M\+Client}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/eu/h2020/symbiote/client/feign/Feign\+C\+R\+A\+M\+Client.\+java\end{DoxyCompactItemize}

@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  *
  * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.registration.RegistrationMessage} instead.  
  */
 public class RegistrationMessage {
     public enum RegistrationAction {

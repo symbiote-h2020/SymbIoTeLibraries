@@ -13,13 +13,13 @@ public class SparqlQueryRequestTest {
 
     @Test
     public void isValid() throws Exception {
-        SparqlQueryRequest request1 = new SparqlQueryRequest("request1", SparqlQueryOutputFormat.COUNT);
+        SparqlQueryRequest request1 = new SparqlQueryRequest("request1", SparqlQueryOutputFormat.COUNT,null);
         assertEquals(true, request1.isValid());
 
-        SparqlQueryRequest request2 = new SparqlQueryRequest(null, SparqlQueryOutputFormat.COUNT);
+        SparqlQueryRequest request2 = new SparqlQueryRequest(null, SparqlQueryOutputFormat.COUNT,null);
         assertEquals(false, request2.isValid());
 
-        SparqlQueryRequest request3 = new SparqlQueryRequest("request3", null);
+        SparqlQueryRequest request3 = new SparqlQueryRequest("request3", null,null);
         assertEquals(false, request3.isValid());
 
         SparqlQueryRequest request4 = new SparqlQueryRequest();
@@ -28,7 +28,7 @@ public class SparqlQueryRequestTest {
 
     @Test
     public void equals() throws Exception {
-        SparqlQueryRequest request1 = new SparqlQueryRequest("request1", SparqlQueryOutputFormat.COUNT);
+        SparqlQueryRequest request1 = new SparqlQueryRequest("request1", SparqlQueryOutputFormat.COUNT, null);
         SparqlQueryRequest request2 = new SparqlQueryRequest(request1);
 
         assertEquals(true, request1.equals(request2));

@@ -1,0 +1,101 @@
+\hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient}{}\section{eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client Interface Reference}
+\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient}\index{eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client@{eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client}}
+
+
+Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1ssp_1_1model_1_1InnkeeperRegistrationResponse}{Innkeeper\+Registration\+Response} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_acef29ffd0a9e52784f95e3a223eca0b9}{register\+Platform} (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ssp_1_1SspRegInfo}{Ssp\+Reg\+Info} ssp\+Reg\+Info, boolean server\+Validation)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1ssp_1_1model_1_1InnkeeperRegistrationResponse}{Innkeeper\+Registration\+Response} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_a9f8da16b1de6aef89ae679dca5a9592c}{unregister\+Platform} (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ssp_1_1SspRegInfo}{Ssp\+Reg\+Info} ssp\+Reg\+Info, boolean server\+Validation)
+\item 
+\hyperlink{classeu_1_1h2020_1_1symbiote_1_1ssp_1_1model_1_1InnkeeperResourceRegistrationResponse}{Innkeeper\+Resource\+Registration\+Response} \hyperlink{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_aaa37ea24e8ab9dcb7daa1ab2a7ec0757}{register\+Platform\+Resource} (\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ssp_1_1SspResource}{Ssp\+Resource} resource, boolean server\+Validation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_acef29ffd0a9e52784f95e3a223eca0b9}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_acef29ffd0a9e52784f95e3a223eca0b9}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client@{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client}!register\+Platform@{register\+Platform}}
+\index{register\+Platform@{register\+Platform}!eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client@{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client}}
+\subsubsection{\texorpdfstring{register\+Platform()}{registerPlatform()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1ssp_1_1model_1_1InnkeeperRegistrationResponse}{Innkeeper\+Registration\+Response} eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client.\+register\+Platform (\begin{DoxyParamCaption}\item[{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ssp_1_1SspRegInfo}{Ssp\+Reg\+Info}}]{ssp\+Reg\+Info,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Registers a local platform in the S\+SP Innkeeper
+
+
+\begin{DoxyParams}{Parameters}
+{\em ssp\+Reg\+Info} & registration information \\
+\hline
+{\em server\+Validation} & if true it will validate the Platform Registry Component \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the registration result 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1feign_1_1FeignInnkeeperClient_accc275f13540afa62808f9cd03e94d12}{eu.\+h2020.\+symbiote.\+client.\+ssp.\+feign.\+Feign\+Innkeeper\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_aaa37ea24e8ab9dcb7daa1ab2a7ec0757}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_aaa37ea24e8ab9dcb7daa1ab2a7ec0757}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client@{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client}!register\+Platform\+Resource@{register\+Platform\+Resource}}
+\index{register\+Platform\+Resource@{register\+Platform\+Resource}!eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client@{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client}}
+\subsubsection{\texorpdfstring{register\+Platform\+Resource()}{registerPlatformResource()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1ssp_1_1model_1_1InnkeeperResourceRegistrationResponse}{Innkeeper\+Resource\+Registration\+Response} eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client.\+register\+Platform\+Resource (\begin{DoxyParamCaption}\item[{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ssp_1_1SspResource}{Ssp\+Resource}}]{resource,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Registers a platform resource in the S\+SP Innkeeper 
+\begin{DoxyParams}{Parameters}
+{\em resource} & the resource description \\
+\hline
+{\em server\+Validation} & if true it will validate the Platform Registry Component \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the registration result 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1feign_1_1FeignInnkeeperClient_ac6576ba5db1d2317917ec0d7237e63f1}{eu.\+h2020.\+symbiote.\+client.\+ssp.\+feign.\+Feign\+Innkeeper\+Client}.
+
+\mbox{\Hypertarget{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_a9f8da16b1de6aef89ae679dca5a9592c}\label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1interfaces_1_1InnkeeperClient_a9f8da16b1de6aef89ae679dca5a9592c}} 
+\index{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client@{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client}!unregister\+Platform@{unregister\+Platform}}
+\index{unregister\+Platform@{unregister\+Platform}!eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client@{eu\+::h2020\+::symbiote\+::client\+::ssp\+::interfaces\+::\+Innkeeper\+Client}}
+\subsubsection{\texorpdfstring{unregister\+Platform()}{unregisterPlatform()}}
+{\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1ssp_1_1model_1_1InnkeeperRegistrationResponse}{Innkeeper\+Registration\+Response} eu.\+h2020.\+symbiote.\+client.\+ssp.\+interfaces.\+Innkeeper\+Client.\+unregister\+Platform (\begin{DoxyParamCaption}\item[{\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1ssp_1_1SspRegInfo}{Ssp\+Reg\+Info}}]{ssp\+Reg\+Info,  }\item[{boolean}]{server\+Validation }\end{DoxyParamCaption})}
+
+Unregisters a local platform from the S\+SP Innkeeper
+
+
+\begin{DoxyParams}{Parameters}
+{\em ssp\+Reg\+Info} & unregistration information \\
+\hline
+{\em server\+Validation} & if true it will validate the Platform Registry Component \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the unregistration result 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1ssp_1_1feign_1_1FeignInnkeeperClient_a33938dd37e6685401225996fc783ea15}{eu.\+h2020.\+symbiote.\+client.\+ssp.\+feign.\+Feign\+Innkeeper\+Client}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/eu/h2020/symbiote/client/ssp/interfaces/Innkeeper\+Client.\+java\end{DoxyCompactItemize}
