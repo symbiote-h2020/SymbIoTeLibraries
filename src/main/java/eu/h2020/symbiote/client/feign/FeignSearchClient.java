@@ -1,8 +1,9 @@
 package eu.h2020.symbiote.client.feign;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.h2020.symbiote.client.interfaces.SearchClient;
 import eu.h2020.symbiote.core.ci.QueryResponse;
+import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
+import eu.h2020.symbiote.core.ci.SparqlQueryResponse;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.security.commons.ComponentIdentifiers;
 import eu.h2020.symbiote.security.commons.SecurityConstants;
@@ -21,8 +22,6 @@ import java.util.Set;
 import static eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory.CORE_INTERFACE_PATH;
 import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.HOME_PLATFORM_IDS_HEADER;
 import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.SERVER_VALIDATION_HEADER;
-import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
-import eu.h2020.symbiote.core.ci.SparqlQueryResponse;
 
 /**
  * symbIoTe search client based on Feign
@@ -78,7 +77,7 @@ public class FeignSearchClient implements SearchClient {
         return searchClient.querySparql(request, serverValidation, new HashSet<>());
     }
 
-    private interface SearchI {
+    interface SearchI {
 
         @RequestLine("GET " + SEARCH_BASE_URL)
         @Headers({"Accept: application/json", "Content-Type: application/json",

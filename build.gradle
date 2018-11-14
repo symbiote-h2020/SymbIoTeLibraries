@@ -66,11 +66,11 @@ dependencies {
 
     // querydsl
     compile("com.querydsl:querydsl-mongodb:${querydslVersion}")
-//    compile("com.querydsl:querydsl-spatial:${querydslVersion}")
 
     // common testing
     testCompile('junit:junit:[4.12,4.999]')
     testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    testCompile('org.mockito:mockito-core:2.7.22')
 }
 
 // code quality below
