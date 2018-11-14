@@ -1,5 +1,6 @@
 package eu.h2020.symbiote.client.feign;
 
+import eu.h2020.symbiote.client.feign.FeignSearchClient.SearchI;
 import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
 import eu.h2020.symbiote.core.ci.SparqlQueryResponse;
 import org.junit.Before;
@@ -28,11 +29,11 @@ public class FeignSearchClientTest {
         searchClientField.setAccessible(true);
 
         // Mock the searchClient Field of feignSearchClient
-        FeignSearchClient.SearchI mockedClient = mock(FeignSearchClient.SearchI.class);
+        SearchI mockedClient = mock(SearchI.class);
         searchClientField.set(feignSearchClient, mockedClient);
 
         SparqlQueryResponse mockedResponse = new SparqlQueryResponse(200, "message", "body");
-        when(mockedClient.querySparql(any(), anyBoolean(), anySet())).thenReturn(new SparqlQueryResponse(200, "message", "body"));
+        when(mockedClient.querySparql(any(), anyBoolean(), anySet())).thenReturn(mockedResponse);
 
         SparqlQueryResponse response = feignSearchClient.searchAsGuest(new SparqlQueryRequest(), false);
         assertEquals(mockedResponse.getStatus(), response.getStatus());

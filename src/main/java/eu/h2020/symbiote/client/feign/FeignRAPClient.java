@@ -118,7 +118,7 @@ public class FeignRAPClient implements RAPClient {
         }
     }
 
-    private interface RAPI {
+    interface RAPI {
 
         @RequestLine("GET /Observations?$top={top}")
         @Headers({"Accept: application/json", "Content-Type: application/json",
@@ -144,7 +144,7 @@ public class FeignRAPClient implements RAPClient {
                              @Param("homePlatformIds") Set<String> homePlatformIds);
     }
 
-    private RAPI getClient(String resourceUrl) throws SecurityHandlerException {
+    RAPI getClient(String resourceUrl) throws SecurityHandlerException {
 
         List<AAM> filteredAAMs = findAAMS(resourceUrl);
 
