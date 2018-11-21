@@ -1,0 +1,32 @@
+@prefix : <http://example.org/A#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix core: <http://www.symbiote-h2020.eu/ontology/core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.org/A> .
+
+<http://example.org/A> rdf:type owl:Ontology ;
+                                                      owl:imports <http://www.symbiote-h2020.eu/ontology/core/2.2.0> ;
+                                                      owl:versionInfo "v1.0.0 2018/06/20 12:00:00"^^xsd:string ;
+                                                      rdfs:comment "Test ontology A from symbIoTeLibraries unit tests"@en ;
+                                                      rdfs:label "OntologyA"@en .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.org/A#Person
+:name rdf:type owl:DatatypeProperty ;
+          rdfs:name :Person ;
+          rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://iosb.fraunhofer.de/ilt/ontologies/educampus#BeaconRoomService
+
+:Person rdf:type owl:Class .

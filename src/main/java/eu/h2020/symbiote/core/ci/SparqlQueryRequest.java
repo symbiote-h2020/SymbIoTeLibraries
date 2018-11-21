@@ -24,6 +24,11 @@ public class SparqlQueryRequest {
         setOutputFormat(outputFormat);
         setBaseModel(baseModel);
     }
+    
+    public SparqlQueryRequest(String sparqlQuery, SparqlQueryOutputFormat outputFormat) {
+        setSparqlQuery(sparqlQuery);
+        setOutputFormat(outputFormat);
+    }
 
     public SparqlQueryRequest(SparqlQueryRequest sparqlQueryRequest) {
         setSparqlQuery(sparqlQueryRequest.getSparqlQuery());

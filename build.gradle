@@ -55,9 +55,10 @@ dependencies {
     compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.5,27.999]'){ changing = true }
     // compile('com.github.symbiote-h2020:SymbIoTeSemantics:2.3+') { changing = true }
     compile('com.github.symbiote-h2020:SymbIoTeSemantics:develop-SNAPSHOT') { changing = true }
+    compile('com.github.symbiote-h2020:SemanticMapping:1.0.0') { changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
-	//compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.2,27.999]:sources'){ changing = true }
-	//compile project(':SymbIoTeSecurity')
+    //compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.2,27.999]:sources'){ changing = true }
+    //compile project(':SymbIoTeSecurity')
 
     //from symbioteLibs
     compile('joda-time:joda-time:2.9.9')

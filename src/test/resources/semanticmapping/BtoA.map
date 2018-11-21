@@ -1,0 +1,11 @@
+BASE <http://example.org/B#>
+PREFIX a: <http://example.org/A#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+
+RULE
+   CONDITION
+	  CLASS :Person
+		:theName TYPE xsd:string
+   PRODUCTION 
+	  CLASS a:Person
+		 a:name VALUE REFERENCE :theName

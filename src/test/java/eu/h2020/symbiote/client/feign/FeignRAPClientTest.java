@@ -22,7 +22,7 @@ public class FeignRAPClientTest {
     public void initialize() throws SecurityHandlerException {
 
         // Spy on the FeignRAPClient client, because we just need to mock the getClient() method
-        this.feignRAPClient = spy(new FeignRAPClient(null));
+        this.feignRAPClient = spy(new FeignRAPClient(null, null, null));
 
         // Mock the RAPI
         this.mockedClient = mock(RAPI.class);
