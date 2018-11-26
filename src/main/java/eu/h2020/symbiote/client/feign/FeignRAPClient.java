@@ -13,9 +13,7 @@ import feign.jackson.JacksonEncoder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.HOME_PLATFORM_IDS_HEADER;
@@ -31,13 +29,22 @@ public class FeignRAPClient implements RAPClient {
     private static final Log logger = LogFactory.getLog(FeignRAPClient.class);
 
     private ISecurityHandler securityHandler;
+    private LRUCache<String, RAPI> rapICache;
 
     /**
      *
      * @param securityHandler   the security handler implementation that is going to be used
      */
     public FeignRAPClient(ISecurityHandler securityHandler) {
+
         this.securityHandler = securityHandler;
+        this.rapICache = new LRUCache<>(16);
+    }
+
+    public FeignRAPClient(ISecurityHandler securityHandler, int cacheSize) {
+
+        this.securityHandler = securityHandler;
+        this.rapICache = new LRUCache<>(cacheSize);
     }
 
     @Override
@@ -147,8 +154,20 @@ public class FeignRAPClient implements RAPClient {
     RAPI getClient(String resourceUrl) throws SecurityHandlerException {
 
         List<AAM> filteredAAMs = findAAMS(resourceUrl);
+        String platformId = filteredAAMs.get(0).getAamInstanceId();
+        String oldBaseAAMUrl = resourceUrl.replaceAll("/rap.*", "/paam");
+        String newBaseAAMUrl = resourceUrl.replaceAll("/rap.*", "/aam");
+        String aamUrl = filteredAAMs.get(0).getAamAddress();
 
-        return Feign.builder()
+        if ((oldBaseAAMUrl.equals(aamUrl) || newBaseAAMUrl.equals(aamUrl)) && rapICache.containsKey(platformId)) {
+            return rapICache.get(platformId);
+        }
+
+        // Remove it in case we have cached a RAPI with a previous url
+        rapICache.remove(platformId);
+
+        // Create and cache the new RAPI
+        RAPI rapI = Feign.builder()
                 .decoder(new JacksonDecoder())
                 .encoder(new JacksonEncoder())
                 .logger(new ApacheCommonsLogger4Feign(logger))
@@ -158,6 +177,10 @@ public class FeignRAPClient implements RAPClient {
                         ComponentIdentifiers.RESOURCE_ACCESS_PROXY,
                         filteredAAMs.get(0).getAamInstanceId()))
                 .target(RAPI.class, resourceUrl);
+
+        rapICache.put(platformId, rapI);
+
+        return rapI;
     }
 
     private List<AAM> findAAMS(String resourceUrl) throws SecurityHandlerException {
@@ -179,5 +202,18 @@ public class FeignRAPClient implements RAPClient {
         }
 
         return filteredAAMs;
+    }
+
+    private static class LRUCache<K, V> extends LinkedHashMap<K, V> {
+        private int cacheSize;
+
+        public LRUCache(int cacheSize) {
+            super(16, 0.75f, true);
+            this.cacheSize = cacheSize;
+        }
+
+        protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+            return size() > cacheSize;
+        }
     }
 }
