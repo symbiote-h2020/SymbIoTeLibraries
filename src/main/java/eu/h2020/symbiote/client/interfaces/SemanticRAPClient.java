@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  * @author Michael Jacoby <michael.jacoby@iosb.fraunhofer.de>
  */
 public interface SemanticRAPClient extends RAPClient {
+
     /**
      * Actuates a resouce by resourceId. If possible, mapping is applied to
      * input and output.
@@ -32,6 +33,7 @@ public interface SemanticRAPClient extends RAPClient {
      * @param homePlatformIds a set of home platform ids from which we are going
      */
     public void actuateWithMapping(String resourceId, String body, boolean serverValidation, Set<String> homePlatformIds);
+
     /**
      * Actuates a resouce by resourceId. If possible, mapping is applied to
      * input and output.
@@ -52,6 +54,7 @@ public interface SemanticRAPClient extends RAPClient {
                 serverValidation,
                 homePlatformIds);
     }
+
     /**
      * Actuates a resouce by resourceId. If possible, mapping is applied to
      * input and output.
@@ -67,161 +70,170 @@ public interface SemanticRAPClient extends RAPClient {
      * @throws com.fasterxml.jackson.core.JsonProcessingException
      */
     public default void
-                    actuateWithMapping(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation, Set<String> homePlatformIds) throws JsonProcessingException {
-                        actuateWithMapping(resourceId, mapper.writeValueAsString(parameters), serverValidation, homePlatformIds);
-                    }
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param parameters parameters to send to the actuator. Will be serialized
-                     * to JSON(-LD). If input mapping should be used, each class must use the
-                     * {@link JsonLDType} annotation.
-                     * @param serverValidation if true it will validate RAP
-                     * @param homePlatformIds a set of home platform ids from which we are going
-                     * @param parameterPIMId ID of PIM used for parameters
-                     * @param resultPIMId ID of PIM desired for result
-                     * @throws com.fasterxml.jackson.core.JsonProcessingException
-                     */
-                    public default void actuateWithMapping(String resourceId, Object parameters, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId) throws JsonProcessingException {
-                        actuateWithMapping(
-                                resourceId,
-                                parameters,
-                                new JsonLDObjectMapper(getIncludeTypesFromSuperclasses(), getAlwaysUseArrayForTypeProperty()),
-                                serverValidation,
-                                homePlatformIds,
-                                parameterPIMId,
-                                resultPIMId);
-                    }
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param parameters parameters to send to the actuator. Will be serialized
-                     * to JSON(-LD). If input mapping should be used, each class must use the
-                     * {@link JsonLDType} annotation.
-                     * @param mapper {@link ObjectMapper} for custom de-/serialization from/to
-                     * JSON-LD
-                     * @param serverValidation if true it will validate RAP
-                     * @param homePlatformIds a set of home platform ids from which we are going
-                     * @param parameterPIMId ID of PIM used for parameters
-                     * @param resultPIMId ID of PIM desired for result
-                     * @throws com.fasterxml.jackson.core.JsonProcessingException
-                     */
-                    public default void actuateWithMapping(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId) throws JsonProcessingException {
-                        actuateWithMapping(resourceId, mapper.writeValueAsString(parameters), serverValidation, homePlatformIds, parameterPIMId, resultPIMId);
-                    }
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param body parameters to send to the actuator as JSON(-LD)
-                     * @param serverValidation if true it will validate RAP
-                     * @param homePlatformIds a set of home platform ids from which we are going
-                     * @param parameterPIMId ID of PIM used for parameters
-                     * @param resultPIMId ID of PIM desired for result
-                     */
-                    public void actuateWithMapping(String resourceId, String body, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId);
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param body parameters to send to the actuator as JSON(-LD).
-                     * @param serverValidation if true it will validate RAP
-                     */
-                    public void actuateWithMappingAsGuest(String resourceId, String body, boolean serverValidation);
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param parameters parameters to send to the actuator. Will be serialized
-                     * to JSON(-LD). If input mapping should be used, each class must use the
-                     * {@link JsonLDType} annotation.
-                     * @param serverValidation if true it will validate RAP
-                     * @throws com.fasterxml.jackson.core.JsonProcessingException
-                     */
-                    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, boolean serverValidation) throws JsonProcessingException {
-                        actuateWithMappingAsGuest(
-                                resourceId,
-                                parameters,
-                                new JsonLDObjectMapper(getIncludeTypesFromSuperclasses(), getAlwaysUseArrayForTypeProperty()),
-                                serverValidation);
-                    }
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param parameters parameters to send to the actuator. Will be serialized
-                     * to JSON(-LD). If input mapping should be used, each class must use the
-                     * {@link JsonLDType} annotation.
-                     * @param mapper {@link ObjectMapper} for custom de-/serialization from/to
-                     * JSON-LD
-                     * @param serverValidation if true it will validate RAP
-                     * @throws com.fasterxml.jackson.core.JsonProcessingException
-                     */
-                    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation) throws JsonProcessingException {
-                        actuateWithMappingAsGuest(resourceId, mapper.writeValueAsString(parameters), serverValidation);
-                    }
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param parameters parameters to send to the actuator. Will be serialized
-                     * to JSON(-LD). If input mapping should be used, each class must use the
-                     * {@link JsonLDType} annotation.
-                     * @param serverValidation if true it will validate RAP
-                     * @param parameterPIMId ID of PIM used for parameters
-                     * @param resultPIMId ID of PIM desired for result
-                     */
-                    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, boolean serverValidation, String parameterPIMId, String resultPIMId) {
-                        actuateWithMappingAsGuest(
-                                resourceId,
-                                parameters,
-                                new JsonLDObjectMapper(getIncludeTypesFromSuperclasses(), getAlwaysUseArrayForTypeProperty()),
-                                serverValidation,
-                                parameterPIMId,
-                                resultPIMId);
-                    }
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param parameters parameters to send to the actuator. Will be serialized
-                     * to JSON(-LD). If input mapping should be used, each class must use the
-                     * {@link JsonLDType} annotation.
-                     * @param mapper {@link ObjectMapper} for custom de-/serialization from/to
-                     * JSON-LD
-                     * @param serverValidation if true it will validate RAP
-                     * @param parameterPIMId ID of PIM used for parameters
-                     * @param resultPIMId ID of PIM desired for result
-                     */
-                    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation, String parameterPIMId, String resultPIMId) {
-                        try {
-                            actuateWithMappingAsGuest(resourceId, mapper.writeValueAsString(parameters), serverValidation, parameterPIMId, resultPIMId);
-                        } catch (JsonProcessingException ex) {
-                            Logger.getLogger(SemanticRAPClient.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                    }
-                    /**
-                     * Actuates a resouce by resourceId. If possible, mapping is applied to
-                     * input and output.
-                     *
-                     * @param resourceId the resource ID
-                     * @param body parameters to send to the actuator as JSON(-LD)
-                     * @param serverValidation if true it will validate RAP
-                     * @param parameterPIMId ID of PIM used for parameters
-                     * @param resultPIMId ID of PIM desired for result
-                     */
-                    public void actuateWithMappingAsGuest(String resourceId, String body, boolean serverValidation, String parameterPIMId, String resultPIMId);
+            actuateWithMapping(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation, Set<String> homePlatformIds) throws JsonProcessingException {
+        actuateWithMapping(resourceId, mapper.writeValueAsString(parameters), serverValidation, homePlatformIds);
+    }
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param parameters parameters to send to the actuator. Will be serialized
+     * to JSON(-LD). If input mapping should be used, each class must use the
+     * {@link JsonLDType} annotation.
+     * @param serverValidation if true it will validate RAP
+     * @param homePlatformIds a set of home platform ids from which we are going
+     * @param parameterPIMId ID of PIM used for parameters
+     * @param resultPIMId ID of PIM desired for result
+     * @throws com.fasterxml.jackson.core.JsonProcessingException
+     */
+    public default void actuateWithMapping(String resourceId, Object parameters, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId) throws JsonProcessingException {
+        actuateWithMapping(
+                resourceId,
+                parameters,
+                new JsonLDObjectMapper(getIncludeTypesFromSuperclasses(), getAlwaysUseArrayForTypeProperty()),
+                serverValidation,
+                homePlatformIds,
+                parameterPIMId,
+                resultPIMId);
+    }
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param parameters parameters to send to the actuator. Will be serialized
+     * to JSON(-LD). If input mapping should be used, each class must use the
+     * {@link JsonLDType} annotation.
+     * @param mapper {@link ObjectMapper} for custom de-/serialization from/to
+     * JSON-LD
+     * @param serverValidation if true it will validate RAP
+     * @param homePlatformIds a set of home platform ids from which we are going
+     * @param parameterPIMId ID of PIM used for parameters
+     * @param resultPIMId ID of PIM desired for result
+     * @throws com.fasterxml.jackson.core.JsonProcessingException
+     */
+    public default void actuateWithMapping(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId) throws JsonProcessingException {
+        actuateWithMapping(resourceId, mapper.writeValueAsString(parameters), serverValidation, homePlatformIds, parameterPIMId, resultPIMId);
+    }
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param body parameters to send to the actuator as JSON(-LD)
+     * @param serverValidation if true it will validate RAP
+     * @param homePlatformIds a set of home platform ids from which we are going
+     * @param parameterPIMId ID of PIM used for parameters
+     * @param resultPIMId ID of PIM desired for result
+     */
+    public void actuateWithMapping(String resourceId, String body, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId);
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param body parameters to send to the actuator as JSON(-LD).
+     * @param serverValidation if true it will validate RAP
+     */
+    public void actuateWithMappingAsGuest(String resourceId, String body, boolean serverValidation);
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param parameters parameters to send to the actuator. Will be serialized
+     * to JSON(-LD). If input mapping should be used, each class must use the
+     * {@link JsonLDType} annotation.
+     * @param serverValidation if true it will validate RAP
+     * @throws com.fasterxml.jackson.core.JsonProcessingException
+     */
+    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, boolean serverValidation) throws JsonProcessingException {
+        actuateWithMappingAsGuest(
+                resourceId,
+                parameters,
+                new JsonLDObjectMapper(getIncludeTypesFromSuperclasses(), getAlwaysUseArrayForTypeProperty()),
+                serverValidation);
+    }
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param parameters parameters to send to the actuator. Will be serialized
+     * to JSON(-LD). If input mapping should be used, each class must use the
+     * {@link JsonLDType} annotation.
+     * @param mapper {@link ObjectMapper} for custom de-/serialization from/to
+     * JSON-LD
+     * @param serverValidation if true it will validate RAP
+     * @throws com.fasterxml.jackson.core.JsonProcessingException
+     */
+    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation) throws JsonProcessingException {
+        actuateWithMappingAsGuest(resourceId, mapper.writeValueAsString(parameters), serverValidation);
+    }
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param parameters parameters to send to the actuator. Will be serialized
+     * to JSON(-LD). If input mapping should be used, each class must use the
+     * {@link JsonLDType} annotation.
+     * @param serverValidation if true it will validate RAP
+     * @param parameterPIMId ID of PIM used for parameters
+     * @param resultPIMId ID of PIM desired for result
+     */
+    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, boolean serverValidation, String parameterPIMId, String resultPIMId) {
+        actuateWithMappingAsGuest(
+                resourceId,
+                parameters,
+                new JsonLDObjectMapper(getIncludeTypesFromSuperclasses(), getAlwaysUseArrayForTypeProperty()),
+                serverValidation,
+                parameterPIMId,
+                resultPIMId);
+    }
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param parameters parameters to send to the actuator. Will be serialized
+     * to JSON(-LD). If input mapping should be used, each class must use the
+     * {@link JsonLDType} annotation.
+     * @param mapper {@link ObjectMapper} for custom de-/serialization from/to
+     * JSON-LD
+     * @param serverValidation if true it will validate RAP
+     * @param parameterPIMId ID of PIM used for parameters
+     * @param resultPIMId ID of PIM desired for result
+     */
+    public default void actuateWithMappingAsGuest(String resourceId, Object parameters, ObjectMapper mapper, boolean serverValidation, String parameterPIMId, String resultPIMId) {
+        try {
+            actuateWithMappingAsGuest(resourceId, mapper.writeValueAsString(parameters), serverValidation, parameterPIMId, resultPIMId);
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(SemanticRAPClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    /**
+     * Actuates a resouce by resourceId. If possible, mapping is applied to
+     * input and output.
+     *
+     * @param resourceId the resource ID
+     * @param body parameters to send to the actuator as JSON(-LD)
+     * @param serverValidation if true it will validate RAP
+     * @param parameterPIMId ID of PIM used for parameters
+     * @param resultPIMId ID of PIM desired for result
+     */
+    public void actuateWithMappingAsGuest(String resourceId, String body, boolean serverValidation, String parameterPIMId, String resultPIMId);
 
     /**
      * Gets flag alwaysUseArrayForTypeProperty.
@@ -595,13 +607,7 @@ public interface SemanticRAPClient extends RAPClient {
      * @throws
      * eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException
      */
-    public default <T> T getResourceWithMappingAsGuest(String resourceId, JavaType resultType, boolean serverValidation) throws SecurityHandlerException {
-        return getResourceWithMappingAsGuest(
-                resourceId,
-                resultType,
-                new JsonLDObjectMapper(getIncludeTypesFromSuperclasses(), getAlwaysUseArrayForTypeProperty()),
-                serverValidation);
-    }
+    public <T> T getResourceWithMappingAsGuest(String resourceId, JavaType resultType, boolean serverValidation) throws SecurityHandlerException;
 
     /**
      * Generic access to a resource based on resource ID. If returned JSON is
@@ -696,9 +702,7 @@ public interface SemanticRAPClient extends RAPClient {
      * eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException
      */
     public default <T> T getResourceWithMappingAsGuest(String resourceId, JavaType resultType, ObjectMapper mapper, boolean serverValidation) throws SecurityHandlerException {
-        String result = getResourceAsGuest(
-                resourceId,
-                serverValidation);
+        String result = getResourceWithMappingAsGuest(resourceId, resultType, serverValidation);
         try {
             return mapper.readValue(result, resultType);
         } catch (IOException ex) {
@@ -1392,6 +1396,5 @@ public interface SemanticRAPClient extends RAPClient {
                 parameterPIMId,
                 resultPIMId);
     }
-
 
 }

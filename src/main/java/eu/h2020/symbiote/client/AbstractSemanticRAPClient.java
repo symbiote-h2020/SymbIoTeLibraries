@@ -5,6 +5,7 @@
  */
 package eu.h2020.symbiote.client;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.h2020.symbiote.client.interfaces.CRAMClient;
 import eu.h2020.symbiote.client.interfaces.RAPClient;
@@ -29,9 +30,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,8 +44,8 @@ import org.springframework.http.HttpStatus;
  */
 public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
 
-    private static final String META_GRAPH = "http://www.symbiote-h2020.eu/ontology/internal/meta";
     private static final Log LOG = LogFactory.getLog(AbstractSemanticRAPClient.class);
+    private static final String META_GRAPH = "http://www.symbiote-h2020.eu/ontology/internal/meta";
     private static final String SPARQL_PREFIXES
             = "PREFIX core: <http://www.symbiote-h2020.eu/ontology/core#> \n"
             + "PREFIX meta: <http://www.symbiote-h2020.eu/ontology/meta#> \n"
@@ -55,8 +53,8 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
             + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n"
             + "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n\n";
     private boolean alwaysUseArrayForTypeProperty = DEFAULT_ALWAY_USE_ARRAY_FOR_TYPE_PROPERTY;
-    private boolean includeTypesFromSuperclasses = DEFAULT_INCLUDE_TYPES_FROM_SUPERCLASSES;
     private CRAMClient cramClient;
+    private boolean includeTypesFromSuperclasses = DEFAULT_INCLUDE_TYPES_FROM_SUPERCLASSES;
     private RAPClient rapClient;
     private SearchClient searchClient;
 
@@ -68,26 +66,6 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     protected AbstractSemanticRAPClient(CRAMClient cramClient, SearchClient searchClient) {
         this.cramClient = cramClient;
         this.searchClient = searchClient;
-    }
-
-    @Override
-    public boolean getAlwaysUseArrayForTypeProperty() {
-        return alwaysUseArrayForTypeProperty;
-    }
-
-    @Override
-    public void setAlwaysUseArrayForTypeProperty(boolean value) {
-        alwaysUseArrayForTypeProperty = value;
-    }
-
-    @Override
-    public boolean getIncludeTypesFromSuperclasses() {
-        return includeTypesFromSuperclasses;
-    }
-
-    @Override
-    public void setIncludeTypesFromSuperclasses(boolean value) {
-        includeTypesFromSuperclasses = value;
     }
 
     @Override
@@ -131,13 +109,39 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     @Override
-    public String getResourceWithMappingAsGuest(String resourceId, boolean serverValidation, String resultPIMId) {
-        try {
-            return map(getResourceAsGuest(resourceId, serverValidation), getPIMIdByResourceId(resourceId), resultPIMId);
-        } catch (SecurityHandlerException ex) {
-            LOG.warn("error accessing resource", ex);
-        }
-        return null;
+    public boolean getAlwaysUseArrayForTypeProperty() {
+        return alwaysUseArrayForTypeProperty;
+    }
+
+    @Override
+    public void setAlwaysUseArrayForTypeProperty(boolean value) {
+        alwaysUseArrayForTypeProperty = value;
+    }
+
+    public CRAMClient getCramClient() {
+        return cramClient;
+    }
+
+    public void setCramClient(CRAMClient cramClient) {
+        this.cramClient = cramClient;
+    }
+
+    @Override
+    public boolean getIncludeTypesFromSuperclasses() {
+        return includeTypesFromSuperclasses;
+    }
+
+    @Override
+    public void setIncludeTypesFromSuperclasses(boolean value) {
+        includeTypesFromSuperclasses = value;
+    }
+
+    public RAPClient getRapClient() {
+        return rapClient;
+    }
+
+    public void setRapClient(RAPClient rapClient) {
+        this.rapClient = rapClient;
     }
 
     @Override
@@ -156,6 +160,37 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     @Override
+    public String getResourceWithMappingAsGuest(String resourceId, boolean serverValidation, String resultPIMId) {
+        try {
+            return map(getResourceAsGuest(resourceId, serverValidation), getPIMIdByResourceId(resourceId), resultPIMId);
+        } catch (SecurityHandlerException ex) {
+            LOG.warn("error accessing resource", ex);
+        }
+        return null;
+    }
+
+    @Override
+    public String getResourceWithMappingAsGuest(String resourceId, JavaType resultType, boolean serverValidation) {
+        try {
+            return map(
+                    getResourceAsGuest(resourceId, serverValidation),
+                    getPIMIdByResourceId(resourceId),
+                    getPIMIdByTypes(JsonLDHelper.findTypes(resultType.getRawClass())));
+        } catch (SecurityHandlerException ex) {
+            LOG.warn("error accessing resource", ex);
+        }
+        return null;
+    }
+
+    public SearchClient getSearchClient() {
+        return searchClient;
+    }
+
+    public void setSearchClient(SearchClient searchClient) {
+        this.searchClient = searchClient;
+    }
+
+    @Override
     public String invokeServiceWithMapping(String resourceId, String body, boolean serverValidation, Set<String> homePlatformIds) {
         return invokeServiceWithMapping(
                 resourceId,
@@ -164,6 +199,19 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
                 homePlatformIds,
                 getPIMId(homePlatformIds, JsonLDHelper.asJsonNode(body)),
                 getPIMIdByResourceId(resourceId));
+    }
+
+    @Override
+    public String invokeServiceWithMapping(String resourceId, String body, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId) {
+        return invokeWithMapping(
+                body,
+                parameterPIMId,
+                resultPIMId,
+                x -> getRapClient().invokeService(
+                        getCramClient().getResourceUrl(resourceId, true, homePlatformIds).getBody().get(resourceId),
+                        x,
+                        serverValidation,
+                        homePlatformIds));
     }
 
     @Override
@@ -186,44 +234,6 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
                         getCramClient().getResourceUrlAsGuest(resourceId, true).getBody().get(resourceId),
                         x,
                         serverValidation));
-    }
-
-    protected String map(String data, String sourcePIMId, String targetPIMId) {
-        String result = data;
-        Mapping mapping = getMapping(sourcePIMId, targetPIMId);
-        if (sourcePIMId != null
-                && targetPIMId != null
-                && !Objects.equals(sourcePIMId, targetPIMId)) {
-            if (JsonLDHelper.isJsonLD(JsonLDHelper.asJsonNode(data))) {
-                try {
-                    result = map(data, mapping);
-                } catch (IOException | UnsupportedMappingException ex) {
-                    LOG.warn("mapping data failed", ex);
-                }
-            }
-        }
-        return result;
-    }
-
-    protected String invokeWithMapping(
-            String body,
-            String parameterPIMId,
-            String resultPIMId,
-            Function<String, String> fctToInvoke) {
-        return map(fctToInvoke.apply(map(body, parameterPIMId, resultPIMId)), resultPIMId, parameterPIMId);
-    }
-
-    @Override
-    public String invokeServiceWithMapping(String resourceId, String body, boolean serverValidation, Set<String> homePlatformIds, String parameterPIMId, String resultPIMId) {
-        return invokeWithMapping(
-                body,
-                parameterPIMId,
-                resultPIMId,
-                x -> getRapClient().invokeService(
-                        getCramClient().getResourceUrl(resourceId, true, homePlatformIds).getBody().get(resourceId),
-                        x,
-                        serverValidation,
-                        homePlatformIds));
     }
 
     protected ResultSet executeSparql(String query) {
@@ -255,11 +265,11 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     protected String getPIMId(Set<String> homePlatformIds, JsonNode payload) {
-        if (homePlatformIds != null && homePlatformIds.size() == 1) {
-            return getPIMIdByPlatformId(homePlatformIds.iterator().next());
-        } else {
-            return getPIMIdByTypes(JsonLDHelper.findTypes(payload));
-        }
+//        if (homePlatformIds != null && homePlatformIds.size() == 1) {
+//            return getPIMIdByPlatformId(homePlatformIds.iterator().next());
+//        } else {
+        return getPIMIdByTypes(JsonLDHelper.findTypes(payload));
+//        }
     }
 
     protected String getPIMIdByPlatformId(String platformId) {
@@ -317,34 +327,35 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         this.setRapClient(rapClient);
     }
 
+    protected String invokeWithMapping(
+            String body,
+            String parameterPIMId,
+            String resultPIMId,
+            Function<String, String> fctToInvoke) {
+        return map(fctToInvoke.apply(map(body, parameterPIMId, resultPIMId)), resultPIMId, parameterPIMId);
+    }
+
+    protected String map(String data, String sourcePIMId, String targetPIMId) {
+        String result = data;
+        Mapping mapping = getMapping(sourcePIMId, targetPIMId);
+        if (sourcePIMId != null
+                && targetPIMId != null
+                && !Objects.equals(sourcePIMId, targetPIMId)) {
+            if (JsonLDHelper.isJsonLD(JsonLDHelper.asJsonNode(data))) {
+                try {
+                    result = map(data, mapping);
+                } catch (IOException | UnsupportedMappingException ex) {
+                    LOG.warn("mapping data failed", ex);
+                }
+            }
+        }
+        return result;
+    }
+
     protected String map(String json, Mapping mapping) throws IOException, UnsupportedMappingException {
         return ModelHelper.writeModel(
                 new DataMapper().map(JsonLDHelper.jsonLDToRdf(json), mapping),
                 RDFFormat.JSONLD);
-    }
-
-    public CRAMClient getCramClient() {
-        return cramClient;
-    }
-
-    public void setCramClient(CRAMClient cramClient) {
-        this.cramClient = cramClient;
-    }
-
-    public RAPClient getRapClient() {
-        return rapClient;
-    }
-
-    public void setRapClient(RAPClient rapClient) {
-        this.rapClient = rapClient;
-    }
-
-    public SearchClient getSearchClient() {
-        return searchClient;
-    }
-
-    public void setSearchClient(SearchClient searchClient) {
-        this.searchClient = searchClient;
     }
 
 }

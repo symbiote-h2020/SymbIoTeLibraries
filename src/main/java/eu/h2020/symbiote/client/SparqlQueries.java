@@ -62,7 +62,10 @@ public class SparqlQueries {
                 + "WHERE {\n"
                 + "	?service a meta:InterworkingService; \n"
                 + "		meta:hasResource [ \n"
-                + "			a/rdfs:subClassOf* core:Resource; \n"
+                // will not work if resource is instance of class that has another superclass in PIM because we can't load PIM at that moment
+                // e.g. resource a ?x. ?x rdfs:subClass ?y. ?x rdfs:subClass* core:Resource.   with ?x and ?y being classes in PIM
+                // if PIM does not contain a subclass hierarchy of core:Resource itself it would work, but symbIoTe is not limited to that
+                //+ "			a/rdfs:subClassOf* core:Resource; \n"   
                 + "			core:id \"" + resourceId + "\" \n"
                 + "		];\n"
                 + "		meta:usesInformationModel [ \n"
