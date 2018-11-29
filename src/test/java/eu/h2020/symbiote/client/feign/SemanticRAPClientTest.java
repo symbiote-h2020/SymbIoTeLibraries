@@ -63,8 +63,9 @@ public class SemanticRAPClientTest {
     @Test
     public void testGetResourceWithMappingAsGuest_Success() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
         FeignRAPClient semanticRapClient = createSemanticRapClient();
-        PersonA personA = new PersonA("Foo");
-        PersonB personB = new PersonB("Foo");
+        String name = UUID.randomUUID().toString();
+        PersonA personA = new PersonA(name);
+        PersonB personB = new PersonB(name);
         String personAJson = new JsonLDObjectMapper().writeValueAsString(personA);
         String personBJson = new JsonLDObjectMapper().writeValueAsString(personB);
         // mock RAP
@@ -94,8 +95,9 @@ public class SemanticRAPClientTest {
     @Test
     public void testGetResourceWithMapping_Success() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
         FeignRAPClient semanticRapClient = createSemanticRapClient();
-        PersonA personA = new PersonA("Foo");
-        PersonB personB = new PersonB("Foo");
+        String name = UUID.randomUUID().toString();
+        PersonA personA = new PersonA(name);
+        PersonB personB = new PersonB(name);
         String personAJson = new JsonLDObjectMapper().writeValueAsString(personA);
         String personBJson = new JsonLDObjectMapper().writeValueAsString(personB);
         // mock RAP
@@ -125,8 +127,9 @@ public class SemanticRAPClientTest {
     @Test
     public void testInvokeServiceWithMappingAsGuest_Success() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
         FeignRAPClient semanticRapClient = createSemanticRapClient();
-        PersonA personA = new PersonA("Foo");
-        PersonB personB = new PersonB("Foo");
+        String name = UUID.randomUUID().toString();
+        PersonA personA = new PersonA(name);
+        PersonB personB = new PersonB(name);
         String personAJson = new JsonLDObjectMapper().writeValueAsString(personA);
         String personBJson = new JsonLDObjectMapper().writeValueAsString(personB);
         // mock RAP
