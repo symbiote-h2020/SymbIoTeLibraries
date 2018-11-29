@@ -3,6 +3,7 @@ package eu.h2020.symbiote.client.feign;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import eu.h2020.symbiote.client.AbstractSemanticRAPClient;
 import eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory;
 import static eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory.getFactory;
 import eu.h2020.symbiote.client.SparqlQueries;
@@ -21,7 +22,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.jena.ext.com.google.common.collect.Maps;
+import org.apache.log4j.Logger;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +46,7 @@ import static org.mockito.Mockito.when;
  */
 public class SemanticRAPClientTest {
 
+    private static final Log LOG = LogFactory.getLog(AbstractSemanticRAPClient.class);
     private static final String CORE_ADDRESS = "https://symbiote-dev.man.poznan.pl";
     private static final String MAPPING_A_TO_B_FILE = "AtoB.map";
     private static final String MAPPING_B_TO_A_FILE = "BtoA.map";
@@ -154,6 +159,13 @@ public class SemanticRAPClientTest {
     }
 
     @Test
+    public void testPerformance() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
+        for (int i = 0; i < 50; i++) {
+            testInvokeServiceWithMapping_Success();
+        }
+    }
+
+    @Test
     public void testInvokeServiceWithMapping_Success() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
         FeignRAPClient semanticRapClient = createSemanticRapClient();
         String name = UUID.randomUUID().toString();
@@ -178,11 +190,20 @@ public class SemanticRAPClientTest {
         mockSparqlResult(semanticRapClient, SparqlQueries.getMapping(PIM_ID_MODEL_A, PIM_ID_MODEL_B), readResourceFile(MAPPING_A_TO_B_FILE));
         mockSparqlResult(semanticRapClient, SparqlQueries.getMapping(PIM_ID_MODEL_B, PIM_ID_MODEL_A), readResourceFile(MAPPING_B_TO_A_FILE));
         // call service B with A data
+
+        long startTime = System.nanoTime();
         PersonA serviceResultA = semanticRapClient.invokeServiceWithMapping(RESOURCE_ID_SERVICE_B, personA, PersonA.class, true, Sets.newHashSet(PLATFORM_ID_A));
+        long stopTime = System.nanoTime();
+        LOG.info("###TIME###   total service with user A - " + (stopTime - startTime));
+        LOG.info("\r\n");
         assertEquals(personA, serviceResultA);
+
         // call service A with B data
-        PersonB serviceResultB = semanticRapClient.invokeServiceWithMapping(RESOURCE_ID_SERVICE_A, personB, PersonB.class, true, Sets.newHashSet(PLATFORM_ID_B));
-        assertEquals(personB, serviceResultB);
+//        startTime = System.nanoTime();
+//        PersonB serviceResultB = semanticRapClient.invokeServiceWithMapping(RESOURCE_ID_SERVICE_A, personB, PersonB.class, true, Sets.newHashSet(PLATFORM_ID_B));
+//        stopTime = System.nanoTime();
+//        LOG.info("###TIME###   total service with user B - " + (stopTime - startTime));
+//        assertEquals(personB, serviceResultB);
     }
 
     private SparqlQueryResponse SparqlIdResponse(String... values) {

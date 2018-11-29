@@ -133,7 +133,11 @@ public class FeignRAPClient extends AbstractSemanticRAPClient implements RAPClie
     @Override
     public String invokeService(String resourceUrl, String body, boolean serverValidation, Set<String> homePlatformIds) {
         try {
-            return getClient(resourceUrl).invokeService(body, serverValidation, homePlatformIds);
+            long startTime = System.nanoTime();
+            String result = getClient(resourceUrl).invokeService(body, serverValidation, homePlatformIds);
+            long stopTime = System.nanoTime();
+            logger.info("###TIME###   invokeService - " + (stopTime - startTime));
+            return result;
         } catch (SecurityHandlerException e) {
             logger.error("Could not invoke service", e);
             return "Could not invoke service : " + e.getMessage();
@@ -143,7 +147,11 @@ public class FeignRAPClient extends AbstractSemanticRAPClient implements RAPClie
     @Override
     public String invokeServiceAsGuest(String resourceUrl, String body, boolean serverValidation) {
         try {
-            return getClient(resourceUrl).invokeService(body, serverValidation, new HashSet<>());
+            long startTime = System.nanoTime();
+            String result = getClient(resourceUrl).invokeService(body, serverValidation, new HashSet<>());
+            long stopTime = System.nanoTime();
+            logger.info("###TIME###   invokeService - " + (stopTime - startTime));
+            return result;
         } catch (SecurityHandlerException e) {
             logger.error("Could not invoke service", e);
             return "Could not invoke service : " + e.getMessage();

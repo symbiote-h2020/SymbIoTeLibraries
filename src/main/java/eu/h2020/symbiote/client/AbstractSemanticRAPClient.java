@@ -26,6 +26,8 @@ import eu.h2020.symbiote.semantics.mapping.model.UnsupportedMappingException;
 import eu.h2020.symbiote.semantics.mapping.parser.ParseException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -246,6 +248,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     protected Mapping getMapping(String sourceId, String targetId) {
+        long startTime = System.nanoTime();
         Mapping result = null;
         if (sourceId == null || targetId == null || Objects.equals(sourceId, targetId)) {
             return result;
@@ -253,7 +256,12 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         try {
             Optional<Literal> sparqlResult = ModelHelper.resultSetAsLiteral(executeSparql(SparqlQueries.getMapping(sourceId, targetId)));
             if (sparqlResult.isPresent()) {
+                long stopTime = System.nanoTime();
+                LOG.info("###TIME###   mapping access - " + (stopTime - startTime));
+                startTime = System.nanoTime();
                 result = Mapping.parse(sparqlResult.get().getString());
+                stopTime = System.nanoTime();
+                LOG.info("###TIME###   mapping parsing - " + (stopTime - startTime));
             }
 
         } catch (IllegalStateException ex) {
@@ -273,6 +281,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     protected String getPIMIdByPlatformId(String platformId) {
+        long startTime = System.nanoTime();
         String result = null;
         if (platformId == null) {
             return result;
@@ -282,14 +291,17 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
             if (sparqlResult.isPresent()) {
                 result = sparqlResult.get().getString();
             }
+            long stopTime = System.nanoTime();
+            LOG.info("###TIME###   getPIMIdByPlatformId - " + (stopTime - startTime));
 
         } catch (IllegalStateException ex) {
-            LOG.warn("found multiple information models for platform id: " + platformId);
+            LOG.warn("###TIME###   found multiple information models for platform id: " + platformId);
         }
         return result;
     }
 
     protected String getPIMIdByResourceId(String resourceId) {
+        long startTime = System.nanoTime();
         String result = null;
         if (resourceId == null) {
             return result;
@@ -303,10 +315,13 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         } catch (IllegalStateException ex) {
             LOG.warn("found multiple information models for resource id: " + resourceId);
         }
+        long stopTime = System.nanoTime();
+        LOG.info("###TIME###   getPIMIdByResourceId - " + (stopTime - startTime));
         return result;
     }
 
     protected String getPIMIdByTypes(Set<String> types) {
+        long startTime = System.nanoTime();
         String result = null;
         if (types == null || types.isEmpty()) {
             return result;
@@ -320,6 +335,8 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         } catch (IllegalStateException ex) {
             LOG.warn("found multiple information models for types: " + types.stream().collect(Collectors.joining(", ", "<", ">")), ex);
         }
+        long stopTime = System.nanoTime();
+        LOG.info("###TIME###   getPIMIdByTypes - " + (stopTime - startTime));
         return result;
     }
 
@@ -353,9 +370,13 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     protected String map(String json, Mapping mapping) throws IOException, UnsupportedMappingException {
-        return ModelHelper.writeModel(
+        long startTime = System.nanoTime();
+        String result = ModelHelper.writeModel(
                 new DataMapper().map(JsonLDHelper.jsonLDToRdf(json), mapping),
                 RDFFormat.JSONLD);
+        long stopTime = System.nanoTime();
+        LOG.info("###TIME###   mapping execution - " + (stopTime - startTime));
+        return result;
     }
 
 }
