@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.jena.ext.com.google.common.collect.Maps;
@@ -145,7 +146,7 @@ public class SemanticRAPClientTest {
         mockSparqlResult(semanticRapClient, SparqlQueries.getMapping(PIM_ID_MODEL_A, PIM_ID_MODEL_B), readResourceFile(MAPPING_A_TO_B_FILE));
         mockSparqlResult(semanticRapClient, SparqlQueries.getMapping(PIM_ID_MODEL_B, PIM_ID_MODEL_A), readResourceFile(MAPPING_B_TO_A_FILE));
         // call service B with A data
-        PersonA serviceResultA = semanticRapClient.invokeServiceWithMapping(RESOURCE_ID_SERVICE_B, personA, PersonA.class, true, Sets.newHashSet(PLATFORM_ID_A));
+        PersonA serviceResultA = semanticRapClient.invokeServiceWithMappingAsGuest(RESOURCE_ID_SERVICE_B, personA, PersonA.class, true);
         assertEquals(personA, serviceResultA);
         // call service A with B data
         PersonB serviceResultB = semanticRapClient.invokeServiceWithMappingAsGuest(RESOURCE_ID_SERVICE_A, personB, PersonB.class, true);
@@ -155,8 +156,9 @@ public class SemanticRAPClientTest {
     @Test
     public void testInvokeServiceWithMapping_Success() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
         FeignRAPClient semanticRapClient = createSemanticRapClient();
-        PersonA personA = new PersonA("Foo");
-        PersonB personB = new PersonB("Foo");
+        String name = UUID.randomUUID().toString();
+        PersonA personA = new PersonA(name);
+        PersonB personB = new PersonB(name);
         String personAJson = new JsonLDObjectMapper().writeValueAsString(personA);
         String personBJson = new JsonLDObjectMapper().writeValueAsString(personB);
         // mock RAP

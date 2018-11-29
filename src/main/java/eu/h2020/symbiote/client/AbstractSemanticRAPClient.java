@@ -265,11 +265,11 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     protected String getPIMId(Set<String> homePlatformIds, JsonNode payload) {
-//        if (homePlatformIds != null && homePlatformIds.size() == 1) {
-//            return getPIMIdByPlatformId(homePlatformIds.iterator().next());
-//        } else {
-        return getPIMIdByTypes(JsonLDHelper.findTypes(payload));
-//        }
+        if (homePlatformIds != null && homePlatformIds.size() == 1) {
+            return getPIMIdByPlatformId(homePlatformIds.iterator().next());
+        } else {
+            return getPIMIdByTypes(JsonLDHelper.findTypes(payload));
+        }
     }
 
     protected String getPIMIdByPlatformId(String platformId) {
@@ -280,7 +280,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         try {
             Optional<Literal> sparqlResult = ModelHelper.resultSetAsLiteral(executeSparql(SparqlQueries.getPIMIdByPlatformId(platformId)));
             if (sparqlResult.isPresent()) {
-                return sparqlResult.get().getString();
+                result = sparqlResult.get().getString();
             }
 
         } catch (IllegalStateException ex) {
@@ -297,7 +297,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         try {
             Optional<Literal> sparqlResult = ModelHelper.resultSetAsLiteral(executeSparql(SparqlQueries.getPIMIdByResourceId(resourceId)));
             if (sparqlResult.isPresent()) {
-                return sparqlResult.get().getString();
+                result = sparqlResult.get().getString();
             }
 
         } catch (IllegalStateException ex) {
@@ -314,7 +314,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         try {
             Optional<Literal> sparqlResult = ModelHelper.resultSetAsLiteral(executeSparql(SparqlQueries.getPIMIdByTypes(types)));
             if (sparqlResult.isPresent()) {
-                return sparqlResult.get().getString();
+                result = sparqlResult.get().getString();
             }
 
         } catch (IllegalStateException ex) {
