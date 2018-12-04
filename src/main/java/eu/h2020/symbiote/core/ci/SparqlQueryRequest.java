@@ -5,14 +5,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Objects;
 
 /**
- * Class describing message for performing sparql getResourceUrls.
+ * Class describing message for performing sparql query. Contains a query in the string
+ * format {@link #sparqlQuery} and output format of the results {@link #outputFormat}.
+ *
+ * This request can also be used to run sparql query with query rewriting.
+ * To do so you must specify {@link #baseModel} to be equal to either Iri or symbIoTe Id of the registered model
+ * that should be used as a base of a query. Search algorithm will run query rewriting mechanisms to run parallel queries
+ * translated to to all registered mappings for the specified base model.
  */
 public class SparqlQueryRequest {
     /** Contents of the sparql query  */
     private String sparqlQuery;
     /** Output format results should be presented with */
     private SparqlQueryOutputFormat outputFormat;
-    /** Iri of the base model - specified only if you want to use sparql query rewritting functionality */
+    /** Either Iri or symbIoTe id of the base model registered in the core - specified only if you want to use sparql query rewriting functionality */
     private String baseModel;
 
     public SparqlQueryRequest() {
