@@ -8,6 +8,8 @@ package eu.h2020.symbiote.enabler.messaging.model.rap.query;
 /**
  *
  * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.query.Operator} instead.  
  */
 public class Operator {
     public enum Lop {

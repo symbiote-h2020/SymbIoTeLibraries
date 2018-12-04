@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$enumeu_1_1h2020_1_1symbiote_1_1enabler_1_1messaging_1_1model_1_1rap_1_1access_1_1ResourceAccessMessage_1_1AccessType.html" title="eu.h2020.symbiote.enabler.messaging.model.rap.access.\lResourceAccessMessage.AccessType" alt="" coords="6,5,362,46"/>
+<area shape="rect" id="node1" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1ValidationResult.html" title="eu.h2020.symbiote.core.internal.\lValidationResult\&lt; PIMInstanceDescription \&gt;" alt="" coords="6,5,287,46"/>
+<area shape="rect" id="node2" href="$classeu_1_1h2020_1_1symbiote_1_1core_1_1internal_1_1PIMInstanceValidationResult.html" title="eu.h2020.symbiote.core.internal.\lPIMInstanceValidationResult" alt="" coords="336,5,547,46"/>
 </map>

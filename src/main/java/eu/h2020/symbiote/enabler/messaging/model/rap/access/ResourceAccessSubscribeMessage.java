@@ -14,9 +14,10 @@ import java.util.List;
 
 /**
  *
-* @author <a href="mailto:l.tomaselli@nextworks.it">Luca Tomaselli</a>
-*
-*/
+ * @author <a href="mailto:l.tomaselli@nextworks.it">Luca Tomaselli</a>
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.access.ResourceAccessSubscribeMessage} instead.  
+ */
 public class ResourceAccessSubscribeMessage extends ResourceAccessMessage {
     
     @JsonProperty("resourceInfoList")

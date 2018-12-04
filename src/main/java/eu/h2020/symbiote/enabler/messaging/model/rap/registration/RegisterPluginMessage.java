@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  *
  * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.registration.RegisterPluginMessage} instead.  
  */
 public class RegisterPluginMessage extends PluginRegistrationMessage {
     @JsonProperty("hasFilters")

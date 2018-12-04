@@ -13,4 +13,5 @@ public interface ClientConstants {
     String RH_CLEAR_PATH = "/clear";
     String RH_LOCAL_RESOURCES_PATH = "/local/resources";
     String RH_LOCAL_RESOURCES_SHARE_PATH = RH_LOCAL_RESOURCES_PATH+"/share";
+    String RH_UPDATE_INTERWORKING_API = RH_RESOURCES_PATH+"/interworkingURL";
 }

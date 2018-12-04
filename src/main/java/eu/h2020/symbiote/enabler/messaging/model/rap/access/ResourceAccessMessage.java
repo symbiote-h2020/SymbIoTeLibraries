@@ -14,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
  * 
  * Class modeling a message exchanged on the queue from the RAP to the plugin-RAP
  * in order to access to a resource through the platform layer
- *
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.access.ResourceAccessMessage} instead.  
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
 @JsonSubTypes({

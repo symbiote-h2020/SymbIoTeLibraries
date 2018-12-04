@@ -2,8 +2,7 @@
 \label{interfaceeu_1_1h2020_1_1symbiote_1_1client_1_1interfaces_1_1RHClient}\index{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client@{eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client}}
 
 
-Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client\+:
-\nopagebreak
+Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -12,8 +11,7 @@ Inheritance diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Clie
 \end{figure}
 
 
-Collaboration diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client\+:
-\nopagebreak
+Collaboration diagram for eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -162,11 +160,11 @@ Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1Fei
 \subsubsection{\texorpdfstring{delete\+L1\+Resource()}{deleteL1Resource()}}
 {\footnotesize\ttfamily \hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1CloudResource}{Cloud\+Resource} eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client.\+delete\+L1\+Resource (\begin{DoxyParamCaption}\item[{String}]{resource\+Internal\+Id }\end{DoxyParamCaption})}
 
-Delete a L1 resource based on the constants id
+Delete a L1 resource based on the internal id
 
 
 \begin{DoxyParams}{Parameters}
-{\em resource\+Internal\+Id} & the constants id of the resource \\
+{\em resource\+Internal\+Id} & the internal id of the resource \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -182,11 +180,11 @@ Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1Fei
 \subsubsection{\texorpdfstring{delete\+L1\+Resources()}{deleteL1Resources()}}
 {\footnotesize\ttfamily List$<$\hyperlink{classeu_1_1h2020_1_1symbiote_1_1cloud_1_1model_1_1internal_1_1CloudResource}{Cloud\+Resource}$>$ eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client.\+delete\+L1\+Resources (\begin{DoxyParamCaption}\item[{List$<$ String $>$}]{resource\+Internal\+Ids }\end{DoxyParamCaption})}
 
-Delete a list of L1 resources based on the constants ids
+Delete a list of L1 resources based on the internal ids
 
 
 \begin{DoxyParams}{Parameters}
-{\em resource\+Internal\+Ids} & the constants ids of the resources \\
+{\em resource\+Internal\+Ids} & the internal ids of the resources \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -206,7 +204,7 @@ Get specific registered resource
 
 
 \begin{DoxyParams}{Parameters}
-{\em resource\+Internal\+Id} & the constants id of the resource \\
+{\em resource\+Internal\+Id} & the internal id of the resource \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -237,15 +235,15 @@ Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1Fei
 \subsubsection{\texorpdfstring{remove\+L2\+Resources()}{removeL2Resources()}}
 {\footnotesize\ttfamily List$<$String$>$ eu.\+h2020.\+symbiote.\+client.\+interfaces.\+R\+H\+Client.\+remove\+L2\+Resources (\begin{DoxyParamCaption}\item[{List$<$ String $>$}]{resource\+Internal\+Ids }\end{DoxyParamCaption})}
 
-Delete a list of L2 resources based on the constants ids
+Delete a list of L2 resources based on the internal ids
 
 
 \begin{DoxyParams}{Parameters}
-{\em resource\+Internal\+Ids} & the constants ids of the resources \\
+{\em resource\+Internal\+Ids} & the internal ids of the resources \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-a list of strings containing the constants ids of the resources 
+a list of strings containing the internal ids of the resources 
 \end{DoxyReturn}
 
 
@@ -261,7 +259,7 @@ Share already registered L2 metadata to federations
 
 
 \begin{DoxyParams}{Parameters}
-{\em input} & a map which has as keys the constants ids of the resources and as values another map, which has as keys the federation ids and as values a flag showing if the resource is bartered or not \\
+{\em input} & a map which has as keys the federation ids and as values another map, which has as keys the internal ids of the resources and as values a flag showing if the resource is bartered or not \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -294,7 +292,7 @@ Implemented in \hyperlink{classeu_1_1h2020_1_1symbiote_1_1client_1_1feign_1_1Fei
 
 Unshare already registered L2 metadata from federations 
 \begin{DoxyParams}{Parameters}
-{\em input} & a map which has as keys the constants ids of the resources and as values a list of the federation ids where the resource is going to be unshared from \\
+{\em input} & a map which has as keys the federation ids and as values a list of the resource internal ids where the resource is going to be unshared from \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

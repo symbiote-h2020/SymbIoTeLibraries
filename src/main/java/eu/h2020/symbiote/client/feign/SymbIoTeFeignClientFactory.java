@@ -39,7 +39,8 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     /**
      *
      * @param config the configuration
-     * @throws SecurityHandlerException on creation error (e.g. problem with the wallet)
+     * @throws SecurityHandlerException on creation error (e.g. problem with the
+     * wallet)
      * @throws NoSuchAlgorithmException
      */
     public SymbIoTeFeignClientFactory(Config config)
@@ -47,20 +48,20 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
 
         this.coreAddress = config.getCoreAddress();
 
-        TrustManager[] trustAllCerts = new TrustManager[] {
-                new X509TrustManager() {
-                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-
-                    public void checkClientTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
-
-                    public void checkServerTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
+        TrustManager[] trustAllCerts = new TrustManager[]{
+            new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
                 }
+
+                public void checkClientTrusted(
+                        java.security.cert.X509Certificate[] certs, String authType) {
+                }
+
+                public void checkServerTrusted(
+                        java.security.cert.X509Certificate[] certs, String authType) {
+                }
+            }
         };
 
         // Install the all-trusting trust manager
@@ -81,22 +82,34 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     }
 
     @Override
-    public SearchClient getSearchClient() { return new FeignSearchClient(securityHandler, coreAddress); }
+    public SearchClient getSearchClient() {
+        return new FeignSearchClient(securityHandler, coreAddress);
+    }
 
     @Override
-    public CRAMClient getCramClient() { return new FeignCRAMClient(securityHandler, coreAddress); }
+    public CRAMClient getCramClient() {
+        return new FeignCRAMClient(securityHandler, coreAddress);
+    }
 
     @Override
-    public RHClient getRHClient(String platformId) { return new FeignRHClient(securityHandler, platformId); }
+    public RHClient getRHClient(String platformId) {
+        return new FeignRHClient(securityHandler, platformId);
+    }
 
     @Override
-    public RAPClient getRapClient() { return new FeignRAPClient(securityHandler); }
+    public RAPClient getRapClient() {
+        return new FeignRAPClient(securityHandler, getCramClient(), getSearchClient());
+    }
 
     @Override
-    public PRClient getPRClient(String platformId) { return new FeignPRClient(securityHandler, platformId); }
+    public PRClient getPRClient(String platformId) {
+        return new FeignPRClient(securityHandler, platformId);
+    }
 
     @Override
-    public SMClient getSMClient(String platformId) { return new FeignSMClient(securityHandler, platformId); }
+    public SMClient getSMClient(String platformId) {
+        return new FeignSMClient(securityHandler, platformId);
+    }
 
     @Override
     public IAAMClient getAAMClient(String homePlatformId) {
@@ -110,6 +123,11 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
     }
 
     @Override
+    public SemanticRAPClient getSemanticRapClient() {
+        return new FeignRAPClient(securityHandler, getCramClient(), getSearchClient());
+    }
+
+    @Override
     public void initializeInHomePlatforms(Set<HomePlatformCredentials> credentials) throws SecurityHandlerException {
 
         // Get the available AAMs from the Core AAM
@@ -119,12 +137,13 @@ public class SymbIoTeFeignClientFactory extends AbstractSymbIoTeClientFactory {
         for (HomePlatformCredentials cred : credentials) {
 
             // Acquiring application certificate if not present
-            if (!credentialsMap.containsKey(cred.getPlatformId()))
+            if (!credentialsMap.containsKey(cred.getPlatformId())) {
                 securityHandler.getCertificate(
                         availableAAMs.get(cred.getPlatformId()),
                         cred.getUsername(),
                         cred.getPassword(),
                         cred.getClientId());
+            }
         }
     }
 }

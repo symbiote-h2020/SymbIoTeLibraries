@@ -12,6 +12,8 @@ import eu.h2020.symbiote.cloud.model.internal.CloudResource;
 /**
  *
  * @author <a href="mailto:m.pardi@nextworks.it">Matteo Pardi</a>
+ * 
+ * @deprecated use {@link eu.h2020.symbiote.cloud.model.rap.registration.ResourceRegistrationMessage} instead.  
  */
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NONE)

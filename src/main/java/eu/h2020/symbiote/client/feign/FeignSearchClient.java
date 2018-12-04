@@ -2,6 +2,8 @@ package eu.h2020.symbiote.client.feign;
 
 import eu.h2020.symbiote.client.interfaces.SearchClient;
 import eu.h2020.symbiote.core.ci.QueryResponse;
+import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
+import eu.h2020.symbiote.core.ci.SparqlQueryResponse;
 import eu.h2020.symbiote.core.internal.CoreQueryRequest;
 import eu.h2020.symbiote.security.commons.ComponentIdentifiers;
 import eu.h2020.symbiote.security.commons.SecurityConstants;
@@ -24,19 +26,21 @@ import static eu.h2020.symbiote.client.feign.SymbIoTeFeignClientFactory.SERVER_V
 /**
  * symbIoTe search client based on Feign
  *
- * @author Vasilis Glykantzis
+ * @author Vasilis Glykantzis, Michael Jacoby
  */
 public class FeignSearchClient implements SearchClient {
 
     private static final Log logger = LogFactory.getLog(FeignSearchClient.class);
     private static final String SEARCH_BASE_URL = CORE_INTERFACE_PATH + "/query";
+    private static final String SEARCH_BASE_URL_SPARQL = CORE_INTERFACE_PATH + "/sparqlQuery";
 
     private final SearchI searchClient;
 
     /**
      *
-     * @param securityHandler   the security handler implementation that is going to be used
-     * @param coreAddress       the base address of the symbIoTe core
+     * @param securityHandler the security handler implementation that is going
+     * to be used
+     * @param coreAddress the base address of the symbIoTe core
      */
     public FeignSearchClient(ISecurityHandler securityHandler, String coreAddress) {
 
@@ -59,17 +63,34 @@ public class FeignSearchClient implements SearchClient {
     }
 
     @Override
+    public SparqlQueryResponse search(SparqlQueryRequest request, boolean serverValidation, Set<String> homePlatformIds) {
+        return searchClient.querySparql(request, serverValidation, homePlatformIds);
+    }
+
+    @Override
     public QueryResponse searchAsGuest(CoreQueryRequest request, boolean serverValidation) {
         return searchClient.query(request.buildRequestParametersMap(), serverValidation, new HashSet<>());
     }
 
-    private interface SearchI {
+    @Override
+    public SparqlQueryResponse searchAsGuest(SparqlQueryRequest request, boolean serverValidation) {
+        return searchClient.querySparql(request, serverValidation, new HashSet<>());
+    }
+
+    interface SearchI {
 
         @RequestLine("GET " + SEARCH_BASE_URL)
         @Headers({"Accept: application/json", "Content-Type: application/json",
-                SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
+            SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
         QueryResponse query(@QueryMap Map<String, String> queryMap,
-                            @Param("serverValidation") Boolean serverValidation,
-                            @Param("homePlatformIds") Set<String> homePlatformIds);
+                @Param("serverValidation") Boolean serverValidation,
+                @Param("homePlatformIds") Set<String> homePlatformIds);
+
+        @RequestLine("POST " + SEARCH_BASE_URL_SPARQL)
+        @Headers({"Accept: application/json", "Content-Type: application/json",
+            SERVER_VALIDATION_HEADER + ": {serverValidation}", HOME_PLATFORM_IDS_HEADER + ": {homePlatformIds}"})
+        SparqlQueryResponse querySparql(SparqlQueryRequest request,
+                @Param("serverValidation") Boolean serverValidation,
+                @Param("homePlatformIds") Set<String> homePlatformIds);
     }
 }

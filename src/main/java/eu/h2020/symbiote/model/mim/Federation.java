@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -39,8 +40,7 @@ public class Federation {
 	private Boolean isPublic = true;
 
 	@JsonProperty("informationModel")
-	@Valid
-	@NotNull
+    @Valid
 	private InformationModel informationModel;
 
 	@JsonProperty("slaConstraints")

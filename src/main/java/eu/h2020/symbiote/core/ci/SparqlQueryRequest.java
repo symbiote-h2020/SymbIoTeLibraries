@@ -8,13 +8,23 @@ import java.util.Objects;
  * Class describing message for performing sparql getResourceUrls.
  */
 public class SparqlQueryRequest {
+    /** Contents of the sparql query  */
     private String sparqlQuery;
+    /** Output format results should be presented with */
     private SparqlQueryOutputFormat outputFormat;
+    /** Iri of the base model - specified only if you want to use sparql query rewritting functionality */
+    private String baseModel;
 
     public SparqlQueryRequest() {
         // Needed for Jackson serialization
     }
 
+    public SparqlQueryRequest(String sparqlQuery, SparqlQueryOutputFormat outputFormat, String baseModel) {
+        setSparqlQuery(sparqlQuery);
+        setOutputFormat(outputFormat);
+        setBaseModel(baseModel);
+    }
+    
     public SparqlQueryRequest(String sparqlQuery, SparqlQueryOutputFormat outputFormat) {
         setSparqlQuery(sparqlQuery);
         setOutputFormat(outputFormat);
@@ -64,5 +74,13 @@ public class SparqlQueryRequest {
         // field comparison
         return Objects.equals(this.getSparqlQuery(), request.getSparqlQuery())
                 && Objects.equals(this.getOutputFormat(), request.getOutputFormat());
+    }
+
+    public String getBaseModel() {
+        return baseModel;
+    }
+
+    public void setBaseModel(String baseModel) {
+        this.baseModel = baseModel;
     }
 }
