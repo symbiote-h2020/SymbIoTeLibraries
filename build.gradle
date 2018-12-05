@@ -50,12 +50,18 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    exclude group: 'org.slf4j', module : "slf4j-log4j12"
+}
+
 dependencies {
     // Symbiote Security section
     compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.5,27.999]'){ changing = true }
     // compile('com.github.symbiote-h2020:SymbIoTeSemantics:2.3+') { changing = true }
-    compile('com.github.symbiote-h2020:SymbIoTeSemantics:develop-SNAPSHOT') { changing = true }
-    compile('com.github.symbiote-h2020:SemanticMapping:1.0.0') { changing = true }
+    compile('com.github.symbiote-h2020:SymbIoTeSemantics:2.3+') { changing = true }
+    compile('com.github.symbiote-h2020:SemanticMapping:1.0+') { changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
     //compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.2,27.999]:sources'){ changing = true }
     //compile project(':SymbIoTeSecurity')
