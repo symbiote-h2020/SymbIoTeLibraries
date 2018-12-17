@@ -1,0 +1,45 @@
+BASE <http://iosb.fraunhofer.de/ilt/ontologies/educampus#>
+PREFIX kit: <http://cm.kit.edu/smartcampus/pim#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX core: <http://www.symbiote-h2020.eu/ontology/core#> 
+
+TRANSFORMATION getFloorName { "floor level " + parameters[0].substring(0,1); }
+
+RULE
+   CONDITION
+	  CLASS :BleBeacon
+		:beaconId TYPE xsd:string
+	AND :minor TYPE xsd:integer
+	AND :major TYPE xsd:integer
+   PRODUCTION 
+	  CLASS kit:Beacon
+		 kit:uuid VALUE REFERENCE :beaconId
+	 AND kit:minor VALUE REFERENCE :minor
+	 AND kit:major VALUE REFERENCE :major
+	 AND core:description VALUE "mapped beacon from IOSB EduCampus"
+		 
+		 
+RULE
+	CONDITION
+		CLASS :Room 
+			core:name TYPE xsd:string
+		AND core:description TYPE xsd:string
+		AND :capacity TYPE xsd:integer
+		AND :roomNo TYPE xsd:string
+	PRODUCTION 
+		 ( CLASS kit:Area
+			core:name VALUE REFERENCE core:name
+		AND core:description VALUE REFERENCE core:description
+		AND kit:roomNo VALUE REFERENCE :roomNo
+		AND kit:hasFeature TYPE ( CLASS kit:SeatingCapability
+				kit:capacity VALUE REFERENCE :capacity )
+		AND kit:isOnFloor TYPE CLASS kit:Floor
+				core:name VALUE getFloorName(REFERENCE :roomNo)
+			AND kit:isInBuilding TYPE CLASS kit:Building
+					core:name VALUE "Fraunhofer IOSB building Karlsruhe" )
+
+RULE
+	CONDITION CLASS :Room
+		:hasFeature VALUE :airConditioning
+	PRODUCTION CLASS kit:Area	
+		kit:hasFeature TYPE CLASS kit:AirConditioning

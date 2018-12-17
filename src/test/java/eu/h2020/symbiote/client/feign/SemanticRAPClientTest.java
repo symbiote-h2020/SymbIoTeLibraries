@@ -47,18 +47,18 @@ import static org.mockito.Mockito.when;
 public class SemanticRAPClientTest {
 
     private static final Log LOG = LogFactory.getLog(AbstractSemanticRAPClient.class);
-    private static final String CORE_ADDRESS = "https://symbiote-dev.man.poznan.pl";
-    private static final String MAPPING_A_TO_B_FILE = "AtoB.map";
-    private static final String MAPPING_B_TO_A_FILE = "BtoA.map";
-    private static final String PIM_ID_MODEL_A = "pimA";
-    private static final String PIM_ID_MODEL_B = "pimB";
+    protected static final String CORE_ADDRESS = "https://symbiote-dev.man.poznan.pl";
+    protected static final String MAPPING_A_TO_B_FILE = "AtoB.map";
+    protected static final String MAPPING_B_TO_A_FILE = "BtoA.map";
+    protected static final String PIM_ID_MODEL_A = "pimA";
+    protected static final String PIM_ID_MODEL_B = "pimB";
 
-    private static final String PLATFORM_ID_A = "platformA";
-    private static final String PLATFORM_ID_B = "platformB";
-    private static final String RESOURCE_ID_RESOURCE_A = "resourceA";
-    private static final String RESOURCE_ID_RESOURCE_B = "resourceB";
-    private static final String RESOURCE_ID_SERVICE_A = "serviceA";
-    private static final String RESOURCE_ID_SERVICE_B = "serviceB";
+    protected static final String PLATFORM_ID_A = "platformA";
+    protected static final String PLATFORM_ID_B = "platformB";
+    protected static final String RESOURCE_ID_RESOURCE_A = "resourceA";
+    protected static final String RESOURCE_ID_RESOURCE_B = "resourceB";
+    protected static final String RESOURCE_ID_SERVICE_A = "serviceA";
+    protected static final String RESOURCE_ID_SERVICE_B = "serviceB";
 
     @Before
     public void initialize() {
@@ -159,13 +159,6 @@ public class SemanticRAPClientTest {
     }
 
     @Test
-    public void testPerformance() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
-        for (int i = 0; i < 50; i++) {
-            testInvokeServiceWithMapping_Success();
-        }
-    }
-
-    @Test
     public void testInvokeServiceWithMapping_Success() throws JsonProcessingException, SecurityHandlerException, UnsupportedEncodingException {
         FeignRAPClient semanticRapClient = createSemanticRapClient();
         String name = UUID.randomUUID().toString();
@@ -197,16 +190,9 @@ public class SemanticRAPClientTest {
         LOG.info("###TIME###   total service with user A - " + (stopTime - startTime));
         LOG.info("\r\n");
         assertEquals(personA, serviceResultA);
-
-        // call service A with B data
-//        startTime = System.nanoTime();
-//        PersonB serviceResultB = semanticRapClient.invokeServiceWithMapping(RESOURCE_ID_SERVICE_A, personB, PersonB.class, true, Sets.newHashSet(PLATFORM_ID_B));
-//        stopTime = System.nanoTime();
-//        LOG.info("###TIME###   total service with user B - " + (stopTime - startTime));
-//        assertEquals(personB, serviceResultB);
     }
 
-    private SparqlQueryResponse SparqlIdResponse(String... values) {
+    protected SparqlQueryResponse SparqlIdResponse(String... values) {
         return new SparqlQueryResponse(200, null,
                 "{\n"
                 + "  \"head\": {\n"
@@ -214,7 +200,7 @@ public class SemanticRAPClientTest {
                 + "  } ,\n"
                 + "  \"results\": {\n"
                 + "    \"bindings\": [\n"
-                + Stream.of(values).collect(Collectors.joining(
+                + Stream.of(values).map(x -> x.replaceAll("\"", "|")).collect(Collectors.joining(
                         ",",
                         "      {\n        \"id\": { \"type\": \"literal\" , \"value\": \"",
                         "\" }\n      }\n"))
@@ -223,7 +209,7 @@ public class SemanticRAPClientTest {
                 + "}");
     }
 
-    private FeignRAPClient createSemanticRapClient() {
+    protected FeignRAPClient createSemanticRapClient() {
         AbstractSymbIoTeClientFactory factory;
         try {
             factory = getFactory(new AbstractSymbIoTeClientFactory.Config(CORE_ADDRESS, "testKeystore.jks", "testKeystore", AbstractSymbIoTeClientFactory.Type.FEIGN));
@@ -238,7 +224,7 @@ public class SemanticRAPClientTest {
         return result;
     }
 
-    private FeignSearchClient.SearchI getMockSearchClient(FeignRAPClient semanticRapClient) throws IllegalAccessException, NoSuchFieldException {
+    protected FeignSearchClient.SearchI getMockSearchClient(FeignRAPClient semanticRapClient) throws IllegalAccessException, NoSuchFieldException {
         Field searchClientField = semanticRapClient.getSearchClient().getClass().getDeclaredField("searchClient");
         searchClientField.setAccessible(true);
         FeignSearchClient.SearchI mockedClient = mock(FeignSearchClient.SearchI.class, Mockito.RETURNS_DEEP_STUBS);
@@ -246,7 +232,7 @@ public class SemanticRAPClientTest {
         return mockedClient;
     }
 
-    private FeignRAPClient.RAPI getRAPMockForResource(FeignRAPClient semanticRapClient, String resourceId) throws SecurityHandlerException {
+    protected FeignRAPClient.RAPI getRAPMockForResource(FeignRAPClient semanticRapClient, String resourceId) throws SecurityHandlerException {
         CRAMClient cramClient = semanticRapClient.getCramClient();
         FeignRAPClient.RAPI result = mock(FeignRAPClient.RAPI.class, Mockito.RETURNS_DEEP_STUBS);
         doReturn(new ResourceUrlsResponse(200, "ok", Maps.newHashMap(ImmutableMap.of(resourceId, resourceId))))
@@ -258,15 +244,15 @@ public class SemanticRAPClientTest {
         return result;
     }
 
-    private void mockResource(FeignRAPClient semanticRapClient, String resourceId, String result) throws SecurityHandlerException {
+    protected void mockResource(FeignRAPClient semanticRapClient, String resourceId, String result) throws SecurityHandlerException {
         when(getRAPMockForResource(semanticRapClient, resourceId).getResource(anyBoolean(), anySet())).thenReturn(result);
     }
 
-    private void mockService(FeignRAPClient semanticRapClient, String resourceId, String result) throws SecurityHandlerException {
+    protected void mockService(FeignRAPClient semanticRapClient, String resourceId, String result) throws SecurityHandlerException {
         when(getRAPMockForResource(semanticRapClient, resourceId).invokeService(anyString(), anyBoolean(), anySet())).thenReturn(result);
     }
 
-    private void mockSparqlResult(FeignRAPClient semanticRapClient, String query, String... results) {
+    protected void mockSparqlResult(FeignRAPClient semanticRapClient, String query, String... results) {
         SearchClient searchClient = semanticRapClient.getSearchClient();
         doReturn(SparqlIdResponse(results))
                 .when(searchClient).searchAsGuest(
@@ -274,13 +260,12 @@ public class SemanticRAPClientTest {
                 anyBoolean());
     }
 
-    private String readResourceFile(String filename) throws UnsupportedEncodingException {
-
+    protected String readResourceFile(String filename) throws UnsupportedEncodingException {
         return new BufferedReader(new InputStreamReader(
                 ClassLoader.getSystemClassLoader().getResourceAsStream("semanticmapping/" + filename), "UTF-8"))
                 .lines()
                 .parallel()
-                .collect(Collectors.joining());
+                .collect(Collectors.joining("&&&"));
     }
 
 }

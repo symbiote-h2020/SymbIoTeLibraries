@@ -1,0 +1,41 @@
+BASE <http://cm.kit.edu/smartcampus/pim#>
+PREFIX iosb: <http://iosb.fraunhofer.de/ilt/ontologies/educampus#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX core: <http://www.symbiote-h2020.eu/ontology/core#> 
+
+RULE
+   CONDITION
+	  CLASS :Beacon
+		:uuid TYPE xsd:string
+	AND :minor TYPE xsd:integer
+	AND :major TYPE xsd:integer
+   PRODUCTION 
+	  CLASS iosb:BleBeacon
+		 iosb:beaconId VALUE REFERENCE :uuid
+	 AND iosb:minor VALUE REFERENCE :minor
+	 AND iosb:major VALUE REFERENCE :major		 
+
+RULE
+	CONDITION
+		CLASS :Area
+			core:name TYPE xsd:string
+		AND core:description TYPE xsd:string
+		AND :roomNo TYPE xsd:string			
+	PRODUCTION
+		CLASS iosb:Room 
+			core:name VALUE REFERENCE core:name
+		AND core:description VALUE REFERENCE core:description
+		AND iosb:roomNo VALUE REFERENCE :roomNo
+
+RULE
+	CONDITION CLASS :Area
+		:hasFeature TYPE CLASS :SeatingCapability
+			:capacity TYPE xsd:integer
+	PRODUCTION CLASS iosb:Room
+		iosb:capacity VALUE REFERENCE :capacity	
+
+RULE
+	CONDITION CLASS :Area
+		:hasFeature TYPE CLASS :AirConditioning
+	PRODUCTION CLASS iosb:Room
+		iosb:hasFeature VALUE iosb:airConditioning

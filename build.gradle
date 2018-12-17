@@ -58,7 +58,8 @@ repositories {
 dependencies {
     // Symbiote Security section
     compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.5,27.999]'){ changing = true }
-    compile('com.github.symbiote-h2020:SymbIoTeSemantics:2.3+') { changing = true }
+//    compile('com.github.symbiote-h2020:SymbIoTeSemantics:2.3+') { changing = true }
+    compile('eu.h2020.symbiote:SymbIoTeSemantics:0.1.0-SNAPSHOT') { changing = true }
     compile('com.github.symbiote-h2020:SemanticMapping:1.0.0') { changing = true }
     // allows to select the downloaded matching sources in IntelliJ Idea as it fails to do so automatically from jitpack repo
     //compile('com.github.symbiote-h2020:SymbIoTeSecurity:[27.2,27.999]:sources'){ changing = true }

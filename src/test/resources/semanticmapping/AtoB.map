@@ -1,6 +1,6 @@
-BASE <http://example.org/A#>
-PREFIX b: <http://example.org/B#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+BASE <http://example.org/A#> 
+PREFIX b: <http://example.org/B#> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
 
 RULE
    CONDITION

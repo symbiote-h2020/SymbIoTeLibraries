@@ -38,6 +38,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -59,6 +60,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     private boolean includeTypesFromSuperclasses = DEFAULT_INCLUDE_TYPES_FROM_SUPERCLASSES;
     private RAPClient rapClient;
     private SearchClient searchClient;
+    private DataMapper mapper;
 
     protected AbstractSemanticRAPClient(RAPClient rapClient, CRAMClient cramClient, SearchClient searchClient) {
         this(cramClient, searchClient);
@@ -66,6 +68,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
     }
 
     protected AbstractSemanticRAPClient(CRAMClient cramClient, SearchClient searchClient) {
+        this.mapper = new DataMapper();
         this.cramClient = cramClient;
         this.searchClient = searchClient;
     }
@@ -259,7 +262,7 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
                 long stopTime = System.nanoTime();
                 LOG.info("###TIME###   mapping access - " + (stopTime - startTime));
                 startTime = System.nanoTime();
-                result = Mapping.parse(sparqlResult.get().getString());
+                result = Mapping.parse(sparqlResult.get().getString().replace("&&&", System.lineSeparator()).replace("|", "\""));
                 stopTime = System.nanoTime();
                 LOG.info("###TIME###   mapping parsing - " + (stopTime - startTime));
             }
@@ -369,12 +372,12 @@ public abstract class AbstractSemanticRAPClient implements SemanticRAPClient {
         return result;
     }
 
-    protected String map(String json, Mapping mapping) throws IOException, UnsupportedMappingException {
+    protected String map(String json, Mapping mapping) throws IOException, UnsupportedMappingException {        
+        Model input = JsonLDHelper.jsonLDToRdf(json);
         long startTime = System.nanoTime();
-        String result = ModelHelper.writeModel(
-                new DataMapper().map(JsonLDHelper.jsonLDToRdf(json), mapping),
-                RDFFormat.JSONLD);
+        Model output = mapper.map(input, mapping);
         long stopTime = System.nanoTime();
+        String result = ModelHelper.writeModel(output, RDFFormat.JSONLD);        
         LOG.info("###TIME###   mapping execution - " + (stopTime - startTime));
         return result;
     }
