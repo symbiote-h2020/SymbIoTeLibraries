@@ -140,4 +140,7 @@ target
 logs
 *.log
 
+# Keystores
+*.jks
+
 # just triggering a new jitpack build
