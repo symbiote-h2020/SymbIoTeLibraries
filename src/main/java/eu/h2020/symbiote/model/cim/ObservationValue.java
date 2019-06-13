@@ -63,6 +63,18 @@ public class ObservationValue {
         return uom;
     }
 
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setObsProperty(Property obsProperty) {
+        this.obsProperty = obsProperty;
+    }
+
+    public void setUom(UnitOfMeasurement uom) {
+        this.uom = uom;
+    }
+
     // Helper
     @Override
     public String toString() {

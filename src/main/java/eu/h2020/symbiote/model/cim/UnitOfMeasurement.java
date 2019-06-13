@@ -17,13 +17,17 @@ import java.util.List;
 public class UnitOfMeasurement {
 
     @JsonProperty("symbol")
-    private final String symbol;
+    private String symbol;
     @JsonProperty("name")
-    private final String name;
+    private String name;
     @JsonProperty("iri")
-    private final String iri;
+    private String iri;
     @JsonProperty("description")
-    private final List<String> description;
+    private List<String> description;
+
+    public UnitOfMeasurement() {
+
+    }
 
     @JsonCreator
     public UnitOfMeasurement(@JsonProperty("symbol") String symbol,
@@ -55,6 +59,22 @@ public class UnitOfMeasurement {
 
     public List<String> getDescription() {
         return description;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIri(String iri) {
+        this.iri = iri;
+    }
+
+    public void setDescription(List<String> description) {
+        this.description = description;
     }
 
     // Helper

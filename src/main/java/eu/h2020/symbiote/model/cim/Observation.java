@@ -83,6 +83,26 @@ public class Observation {
         return obsValues;
     }
 
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setResultTime(String resultTime) {
+        this.resultTime = resultTime;
+    }
+
+    public void setSamplingTime(String samplingTime) {
+        this.samplingTime = samplingTime;
+    }
+
+    public void setObsValues(List<ObservationValue> obsValues) {
+        this.obsValues = obsValues;
+    }
+
     // Helper
     @Override
     public String toString() {
