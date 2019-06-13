@@ -18,15 +18,19 @@ import java.util.Objects;
 public class Observation {
 
     @JsonProperty("resourceId")
-    private final String resourceId;
+    private String resourceId;
     @JsonProperty("location")
-    private final Location location;
+    private Location location;
     @JsonProperty("resultTime")
-    private final String resultTime;
+    private String resultTime;
     @JsonProperty("samplingTime")
-    private final String samplingTime;
+    private String samplingTime;
     @JsonProperty("obsValues")
-    private final List<ObservationValue> obsValues;
+    private List<ObservationValue> obsValues;
+
+    public Observation() {
+
+    }
 
     @JsonCreator
     public Observation(@JsonProperty("resourceId") String resourceId,

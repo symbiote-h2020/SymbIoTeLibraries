@@ -16,13 +16,17 @@ import java.util.Objects;
 public class ObservationValue {
 
     @JsonProperty("value")
-    private final String value;
+    private String value;
     @JsonProperty("obsProperty")
-    private final Property obsProperty;
+    private Property obsProperty;
     @JsonProperty("featureOfInterest")
     private FeatureOfInterest featureOfInterest;
     @JsonProperty("uom")
-    private final UnitOfMeasurement uom;
+    private UnitOfMeasurement uom;
+
+    public ObservationValue() {
+
+    }
 
     @JsonCreator
     public ObservationValue(@JsonProperty("value") String value,
