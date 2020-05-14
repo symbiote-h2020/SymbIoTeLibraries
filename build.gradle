@@ -2,7 +2,7 @@
 buildscript {
     ext {
         swaggerAnnotationsVersion = '1.5.16'
-        querydslVersion = '4.1.4'
+        querydslVersion = '4.2.2'
     }
     repositories {
         mavenCentral()
@@ -67,6 +67,9 @@ dependencies {
     // querydsl
     compile("com.querydsl:querydsl-mongodb:${querydslVersion}")
 
+	// Java 11
+    implementation('javax.annotation:javax.annotation-api:1.3.2') 
+	
     // common testing
     testCompile('junit:junit:[4.12,4.999]')
     testCompile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
