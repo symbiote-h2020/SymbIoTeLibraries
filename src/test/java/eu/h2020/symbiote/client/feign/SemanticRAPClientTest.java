@@ -1,18 +1,17 @@
 package eu.h2020.symbiote.client.feign;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
-import eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory;
 import static eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory.getFactory;
-import eu.h2020.symbiote.client.SparqlQueries;
-import eu.h2020.symbiote.client.interfaces.CRAMClient;
-import eu.h2020.symbiote.client.interfaces.SearchClient;
-import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
-import eu.h2020.symbiote.core.ci.SparqlQueryResponse;
-import eu.h2020.symbiote.core.internal.cram.ResourceUrlsResponse;
-import eu.h2020.symbiote.jsonld.JsonLDObjectMapper;
-import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -21,20 +20,25 @@ import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.apache.jena.ext.com.google.common.collect.Maps;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anySet;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
+
+import eu.h2020.symbiote.client.AbstractSymbIoTeClientFactory;
+import eu.h2020.symbiote.client.SparqlQueries;
+import eu.h2020.symbiote.client.interfaces.CRAMClient;
+import eu.h2020.symbiote.client.interfaces.SearchClient;
+import eu.h2020.symbiote.core.ci.SparqlQueryRequest;
+import eu.h2020.symbiote.core.ci.SparqlQueryResponse;
+import eu.h2020.symbiote.core.internal.cram.ResourceUrlsResponse;
+import eu.h2020.symbiote.jsonld.JsonLDObjectMapper;
+import eu.h2020.symbiote.security.commons.exceptions.custom.SecurityHandlerException;
 
 /**
  *
@@ -42,7 +46,7 @@ import static org.mockito.Mockito.when;
  */
 public class SemanticRAPClientTest {
 
-    private static final String CORE_ADDRESS = "https://symbiote-dev.man.poznan.pl";
+    private static final String CORE_ADDRESS = "https://symbiote-open.man.poznan.pl";
     private static final String MAPPING_A_TO_B_FILE = "AtoB.map";
     private static final String MAPPING_B_TO_A_FILE = "BtoA.map";
     private static final String PIM_ID_MODEL_A = "pimA";
